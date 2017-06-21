@@ -1,0 +1,15 @@
+com\afrAsia\entities\MsgHeader$Error.class
+com\afrAsia\entities\response\DailyTxnDataListResponse.class
+com\afrAsia\entities\AppVersion.class
+com\afrAsia\entities\listener\EntityListener.class
+com\afrAsia\entities\AppVersionId.class
+com\afrAsia\entities\DigitalTxnDaily.class
+com\afrAsia\entities\DeviceFootPrint.class
+com\afrAsia\entities\request\DeviceFootPrintReq.class
+com\afrAsia\entities\MsgHeader.class
+com\afrAsia\entities\User.class
+com\afrAsia\entities\request\DeviceFootPrintReq$Data.class
+com\afrAsia\entities\base\BaseEntity.class
+com\afrAsia\entities\response\DailyTxnDataResponse.class
+com\afrAsia\entities\response\DeviceFootPrintResponse$Data.class
+com\afrAsia\entities\response\DeviceFootPrintResponse.class

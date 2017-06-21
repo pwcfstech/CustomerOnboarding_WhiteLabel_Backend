@@ -1,0 +1,8 @@
+com\afrAsia\dao\jpa\UserJpaDAO.class
+com\afrAsia\dao\jpa\AppVersionJpaDAO.class
+com\afrAsia\dao\jpa\BaseJpaDAO.class
+com\afrAsia\dao\jpa\impl\AppVersionDaoImpl.class
+com\afrAsia\dao\jpa\DTDPSJpaDAO.class
+com\afrAsia\dao\jpa\impl\BaseJpaDAOImpl.class
+com\afrAsia\dao\jpa\impl\DTDPSJpaDAOImpl.class
+com\afrAsia\dao\jpa\impl\UserJpaDAOImpl.class
