@@ -1,7 +1,7 @@
 package com.afrAsia.service;
 
-import com.afrAsia.entities.AppVersion;
-import com.afrAsia.entities.DeviceFootPrint;
+import com.afrAsia.entities.jpa.AppVersion;
+import com.afrAsia.entities.jpa.DeviceFootPrint;
 
 public interface AppVersionService {
 	public AppVersion getAppVersionDetails(String platform,String appVersion);

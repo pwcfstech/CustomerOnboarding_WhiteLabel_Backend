@@ -3,8 +3,8 @@ package com.afrAsia.dao.jpa.impl;
 import javax.persistence.Query;
 
 import com.afrAsia.dao.jpa.AppVersionJpaDAO;
-import com.afrAsia.entities.AppVersion;
-import com.afrAsia.entities.DeviceFootPrint;
+import com.afrAsia.entities.jpa.AppVersion;
+import com.afrAsia.entities.jpa.DeviceFootPrint;
 
 public class AppVersionDaoImpl extends BaseJpaDAOImpl<String, AppVersion> implements AppVersionJpaDAO {
 

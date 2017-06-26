@@ -8,10 +8,10 @@
              <persistence-unit name="PROJECT" transaction-type="RESOURCE_LOCAL">
              	<provider>org.hibernate.ejb.HibernatePersistence</provider>
              	
-             	<class>com.afrAsia.entities.User</class>
-             	<class>com.afrAsia.entities.DigitalTxnDaily</class>
-             	<class>com.afrAsia.entities.AppVersion</class>
-             	<class>com.afrAsia.entities.DeviceFootPrint</class>
+             	<class>com.afrAsia.entities.jpa.User</class>
+             	<class>com.afrAsia.entities.jpa.DigitalTxnDaily</class>
+             	<class>com.afrAsia.entities.jpa.AppVersion</class>
+             	<class>com.afrAsia.entities.jpa.DeviceFootPrint</class>
              	
              	<properties>
              		<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>

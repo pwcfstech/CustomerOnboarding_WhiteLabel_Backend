@@ -5,7 +5,7 @@ import java.util.Collection;
 import javax.transaction.Transactional;
 
 import com.afrAsia.dao.UserDAO;
-import com.afrAsia.entities.User;
+import com.afrAsia.entities.jpa.User;
 import com.afrAsia.service.UserService;
 
 /**

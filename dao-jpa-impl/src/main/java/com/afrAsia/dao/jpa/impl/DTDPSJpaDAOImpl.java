@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.afrAsia.dao.jpa.DTDPSJpaDAO;
-import com.afrAsia.entities.DigitalTxnDaily;
+import com.afrAsia.entities.jpa.DigitalTxnDaily;
 
 /**
  * 

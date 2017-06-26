@@ -17,9 +17,9 @@ import javax.ws.rs.core.Response;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.CommonUtils;
-import com.afrAsia.entities.AppVersion;
-import com.afrAsia.entities.DeviceFootPrint;
-import com.afrAsia.entities.MsgHeader;
+import com.afrAsia.entities.jpa.AppVersion;
+import com.afrAsia.entities.jpa.DeviceFootPrint;
+import com.afrAsia.entities.jpa.MsgHeader;
 import com.afrAsia.entities.request.DeviceFootPrintReq;
 import com.afrAsia.entities.response.DeviceFootPrintResponse;
 import com.afrAsia.entities.response.DeviceFootPrintResponse.Data;

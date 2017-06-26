@@ -6,9 +6,8 @@ package com.afrAsia.service.impl;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.afrAsia.dao.jpa.AppVersionJpaDAO;
-
-import com.afrAsia.entities.AppVersion;
-import com.afrAsia.entities.DeviceFootPrint;
+import com.afrAsia.entities.jpa.AppVersion;
+import com.afrAsia.entities.jpa.DeviceFootPrint;
 import com.afrAsia.service.AppVersionService;
 
 public class AppVersionServiceImpl implements AppVersionService {

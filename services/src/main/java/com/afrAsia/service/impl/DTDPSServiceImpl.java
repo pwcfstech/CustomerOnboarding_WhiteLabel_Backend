@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import com.afrAsia.dao.jpa.DTDPSJpaDAO;
-import com.afrAsia.entities.DigitalTxnDaily;
+import com.afrAsia.entities.jpa.DigitalTxnDaily;
 import com.afrAsia.entities.response.DailyTxnDataResponse;
 import com.afrAsia.service.DTDPSService;
 

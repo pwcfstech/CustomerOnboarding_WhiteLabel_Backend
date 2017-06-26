@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.afrAsia.dao.DTDPSDAO;
-import com.afrAsia.entities.DigitalTxnDaily;
+import com.afrAsia.entities.jpa.DigitalTxnDaily;
 
 /**
  * 

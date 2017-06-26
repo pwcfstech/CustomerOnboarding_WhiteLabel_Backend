@@ -4,7 +4,7 @@ package com.afrAsia;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.afrAsia.entities.MsgHeader;
+import com.afrAsia.entities.jpa.MsgHeader;
 
 public class CommonUtils {
 	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -66,7 +66,7 @@ public class CommonUtils {
 	}
 	
 	public static void invalidReqErrorMsg(MsgHeader msgHeader) {
-		com.afrAsia.entities.MsgHeader.Error error = msgHeader.getError();
+		com.afrAsia.entities.jpa.MsgHeader.Error error = msgHeader.getError();
 		error.setCd("404");
 		error.setRsn("invaild Request");
 		

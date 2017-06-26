@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-import com.afrAsia.entities.DigitalTxnDaily;
+import com.afrAsia.entities.jpa.DigitalTxnDaily;
 
 import javax.xml.bind.annotation.XmlAccessOrder;
 

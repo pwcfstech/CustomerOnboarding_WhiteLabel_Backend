@@ -1,7 +1,7 @@
-com\afrAsia\additions\Log4JInitServlet.class
-com\afrAsia\rest\DTDPSRestService.class
-com\afrAsia\rest\UserRestService.class
-com\afrAsia\soap\IDTDPSSoapService.class
-com\afrAsia\rest\AppVersionRestService.class
-com\afrAsia\soap\DTDPSSoapService.class
-com\afrAsia\CommonUtils.class
+com/afrAsia/soap/IDTDPSSoapService.class
+com/afrAsia/additions/Log4JInitServlet.class
+com/afrAsia/CommonUtils.class
+com/afrAsia/rest/AppVersionRestService.class
+com/afrAsia/rest/UserRestService.class
+com/afrAsia/soap/DTDPSSoapService.class
+com/afrAsia/rest/DTDPSRestService.class

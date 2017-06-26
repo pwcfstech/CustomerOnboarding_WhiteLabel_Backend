@@ -2,7 +2,7 @@ package com.afrAsia.entities.response;
 
 import java.io.Serializable;
 
-import com.afrAsia.entities.MsgHeader;
+import com.afrAsia.entities.jpa.MsgHeader;
 
 public class DeviceFootPrintResponse implements Serializable {
 	

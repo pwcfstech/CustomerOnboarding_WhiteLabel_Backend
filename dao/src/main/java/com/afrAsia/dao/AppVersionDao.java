@@ -1,7 +1,7 @@
 package com.afrAsia.dao;
 
-import com.afrAsia.entities.AppVersion;
-import com.afrAsia.entities.DeviceFootPrint;
+import com.afrAsia.entities.jpa.AppVersion;
+import com.afrAsia.entities.jpa.DeviceFootPrint;
 
 public interface AppVersionDao {
 	

@@ -1,4 +1,4 @@
-package com.afrAsia.entities;
+package com.afrAsia.entities.jpa;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

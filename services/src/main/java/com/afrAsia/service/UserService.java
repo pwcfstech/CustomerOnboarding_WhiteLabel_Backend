@@ -2,7 +2,7 @@ package com.afrAsia.service;
 
 import java.util.Collection;
 
-import com.afrAsia.entities.User;
+import com.afrAsia.entities.jpa.User;
 
 /**
  * Service methods for the {@link User} entity.

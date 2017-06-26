@@ -1,4 +1,4 @@
-package com.afrAsia.entities;
+package com.afrAsia.entities.jpa;
 
 import java.io.Serializable;
 import java.sql.Date;

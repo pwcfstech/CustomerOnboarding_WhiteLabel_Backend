@@ -1,8 +1,8 @@
 package com.afrAsia.dao.jpa;
 
 import com.afrAsia.dao.AppVersionDao;
-import com.afrAsia.entities.AppVersion;
-import com.afrAsia.entities.DeviceFootPrint;
+import com.afrAsia.entities.jpa.AppVersion;
+import com.afrAsia.entities.jpa.DeviceFootPrint;
 
 public interface AppVersionJpaDAO extends AppVersionDao {
 	public AppVersion getAppVersionDetails(String platform,String appVersion);
