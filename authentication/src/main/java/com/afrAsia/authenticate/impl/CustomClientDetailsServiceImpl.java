@@ -7,8 +7,9 @@ import org.springframework.security.oauth2.provider.ClientRegistrationException;
 
 import com.afrAsia.authenticate.CustomClientDetailsService;
 import com.afrAsia.dao.OAuthAuthorizationDAO;
+import com.afrAsia.dao.UserDAO;
 import com.afrAsia.entities.jpa.OauthAuthorization;
-import com.mysql.fabric.xmlrpc.Client;
+import com.afrAsia.entities.jpa.User;
 
 /**
  * The Class <Code> CustomClientDetailsServiceImpl </Code> service is custom
@@ -22,6 +23,18 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 
     /** The o auth authorization dao. */
     private OAuthAuthorizationDAO oAuthAuthorizationDAO;
+    
+    private UserDAO userDAO;
+    
+    public UserDAO getUserDAO() 
+    {
+		return userDAO;
+	}
+    
+    public void setUserDAO(UserDAO userDAO) 
+    {
+		this.userDAO = userDAO;
+	}
 
     /**
      * Gets the o auth authorization dao.
@@ -48,26 +61,24 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
     public void saveClientDetail(String clientId, String resourceId, String clientSecret, String scope, String authorizedGrantTypes, String webServerRedirectUri, String authorities,
             int accessTokenValidity, int refreshTokenValidity, String additionalInformation, String autoApprove)
     {
-//        Client client = clientDAO.fetchClientById(clientId);
-//        OauthAuthorization oauthAuthorization = new OauthAuthorization();
-//        oauthAuthorization.setResourceIds(resourceId);
-//        oauthAuthorization.setAuthorizedGrantTypes(authorizedGrantTypes);
-//        oauthAuthorization.setAuthorities(authorities);
-//        oauthAuthorization.setScope(scope);
-//        oauthAuthorization.setClient(client);
-//        oauthAuthorization.setClientSecret(clientSecret);
-//        oauthAuthorization.setAccessTokenValidity(accessTokenValidity);
-//        // API-126
-//        oauthAuthorization.setCreatedBy(client.getAccount().getId());
-//        oAuthAuthorizationDAO.saveClientDetail(oauthAuthorization);
+        User client = userDAO.findById(Integer.valueOf(clientId));
+        OauthAuthorization oauthAuthorization = new OauthAuthorization();
+        oauthAuthorization.setResourceIds(resourceId);
+        oauthAuthorization.setAuthorizedGrantTypes(authorizedGrantTypes);
+        oauthAuthorization.setAuthorities(authorities);
+        oauthAuthorization.setScope(scope);
+        oauthAuthorization.setClient(client);
+        oauthAuthorization.setClientSecret(clientSecret);
+        oauthAuthorization.setAccessTokenValidity(accessTokenValidity);
+        oauthAuthorization.setCreatedBy(clientId);
+        oAuthAuthorizationDAO.saveClientDetail(oauthAuthorization);
     }
 
     public boolean isClientValid(String clientId)
     {
-//        clientDAO.getClass();
-//        OauthAuthorization acdobj = oAuthAuthorizationDAO.getClient(clientId);
-//        return acdobj != null;
-    	return true;
+
+        OauthAuthorization acdobj = oAuthAuthorizationDAO.getClient(clientId);
+        return acdobj != null;
     }
 
     @Transactional(rollbackOn = { Exception.class })
