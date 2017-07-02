@@ -57,7 +57,7 @@
 		<dependency>
 			<groupId>com.afrAsia</groupId>
 			<artifactId>dao</artifactId>
-			<version>${project.version}}</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>

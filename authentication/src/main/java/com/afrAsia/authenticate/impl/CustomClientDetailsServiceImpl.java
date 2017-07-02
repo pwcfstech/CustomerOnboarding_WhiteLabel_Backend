@@ -1,9 +1,14 @@
 package com.afrAsia.authenticate.impl;
 
+import javax.transaction.Transactional;
+
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
 
 import com.afrAsia.authenticate.CustomClientDetailsService;
+import com.afrAsia.dao.OAuthAuthorizationDAO;
+import com.afrAsia.entities.jpa.OauthAuthorization;
+import com.mysql.fabric.xmlrpc.Client;
 
 /**
  * The Class <Code> CustomClientDetailsServiceImpl </Code> service is custom
@@ -17,9 +22,6 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 
     /** The o auth authorization dao. */
     private OAuthAuthorizationDAO oAuthAuthorizationDAO;
-
-    /** The client dao. */
-    private UserDao clientDAO;
 
     /**
      * Gets the o auth authorization dao.
@@ -42,52 +44,51 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
         this.oAuthAuthorizationDAO = oAuthAuthorizationDAO;
     }
 
-    public void setClientDAO(ClientDAO clientDAO)
-    {
-        this.clientDAO = clientDAO;
-    }
-
-    public ClientDAO getClientDAO()
-    {
-        return clientDAO;
-    }
-
     @Transactional
     public void saveClientDetail(String clientId, String resourceId, String clientSecret, String scope, String authorizedGrantTypes, String webServerRedirectUri, String authorities,
             int accessTokenValidity, int refreshTokenValidity, String additionalInformation, String autoApprove)
     {
-        Client client = clientDAO.fetchClientById(clientId);
-        OauthAuthorization oauthAuthorization = new OauthAuthorization();
-        oauthAuthorization.setResourceIds(resourceId);
-        oauthAuthorization.setAuthorizedGrantTypes(authorizedGrantTypes);
-        oauthAuthorization.setAuthorities(authorities);
-        oauthAuthorization.setScope(scope);
-        oauthAuthorization.setClient(client);
-        oauthAuthorization.setClientSecret(clientSecret);
-        oauthAuthorization.setAccessTokenValidity(accessTokenValidity);
-        // API-126
-        oauthAuthorization.setCreatedBy(client.getAccount().getId());
-        oAuthAuthorizationDAO.saveClientDetail(oauthAuthorization);
+//        Client client = clientDAO.fetchClientById(clientId);
+//        OauthAuthorization oauthAuthorization = new OauthAuthorization();
+//        oauthAuthorization.setResourceIds(resourceId);
+//        oauthAuthorization.setAuthorizedGrantTypes(authorizedGrantTypes);
+//        oauthAuthorization.setAuthorities(authorities);
+//        oauthAuthorization.setScope(scope);
+//        oauthAuthorization.setClient(client);
+//        oauthAuthorization.setClientSecret(clientSecret);
+//        oauthAuthorization.setAccessTokenValidity(accessTokenValidity);
+//        // API-126
+//        oauthAuthorization.setCreatedBy(client.getAccount().getId());
+//        oAuthAuthorizationDAO.saveClientDetail(oauthAuthorization);
     }
 
     public boolean isClientValid(String clientId)
     {
-        clientDAO.getClass();
-        OauthAuthorization acdobj = oAuthAuthorizationDAO.getClient(clientId);
-        return acdobj != null;
+//        clientDAO.getClass();
+//        OauthAuthorization acdobj = oAuthAuthorizationDAO.getClient(clientId);
+//        return acdobj != null;
+    	return true;
     }
 
     @Transactional(rollbackOn = { Exception.class })
     public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException
     {
-        OauthAuthorization oauthAuthorization = oAuthAuthorizationDAO.loadClientByClientId(clientId);
-        CustomOauthAuthorization customOauthAuthorization = null;
-        if (oauthAuthorization != null)
+        try
         {
-            customOauthAuthorization = new CustomOauthAuthorization(oauthAuthorization.getClient().getIdAsString(), oauthAuthorization.getResourceIds(), oauthAuthorization.getClientSecret(),
-                    oauthAuthorization.getScope(), oauthAuthorization.getAuthorizedGrantTypes(), oauthAuthorization.getAuthorities(), oauthAuthorization.getAccessTokenValidity());
+        	OauthAuthorization oauthAuthorization = oAuthAuthorizationDAO.loadClientByClientId(clientId);
+        
+	        CustomOauthAuthorization customOauthAuthorization = null;
+	        if (oauthAuthorization != null)
+	        {
+	            customOauthAuthorization = new CustomOauthAuthorization(oauthAuthorization.getClient().getId()+"", oauthAuthorization.getResourceIds(), oauthAuthorization.getClientSecret(),
+	                    oauthAuthorization.getScope(), oauthAuthorization.getAuthorizedGrantTypes(), oauthAuthorization.getAuthorities(), oauthAuthorization.getAccessTokenValidity());
+	        }
+	        return customOauthAuthorization;
         }
-        return customOauthAuthorization;
+        catch (Exception e)
+        {
+        	throw new ClientRegistrationException("Exception while loading client by id.", e);
+        }
     }
 
 }

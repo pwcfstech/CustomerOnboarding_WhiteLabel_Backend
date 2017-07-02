@@ -45,68 +45,68 @@ public class CustomOAuth2ExceptionRenderer implements OAuth2ExceptionRenderer
             // flush headers
             outputMessage.getBody();
         }
-        else
-        {
-            ((ServerHttpResponse) outputMessage).getHeaders().setContentType(MediaType.APPLICATION_JSON);
-            OneGroupExceptionCode moveInExceptionCode = null;
-            if (responseEntity.getBody().toString().contains(OAuth2Exception.ACCESS_DENIED))
-            {
-                moveInExceptionCode = AuthorizationExceptionCode.USER_ACCESS_DENIED;
-            }
-            else if (responseEntity.getBody().toString().contains(OAuth2Exception.INVALID_TOKEN))
-            {
-                moveInExceptionCode = AuthorizationExceptionCode.INVALID_TOKEN;
-            }
-            else if (responseEntity.getBody().toString().contains(OAuth2Exception.INSUFFICIENT_SCOPE))
-            {
-                moveInExceptionCode = AuthorizationExceptionCode.INSUFFICIENT_SCOPE;
-            }
-            else if (responseEntity.getBody().toString().contains(OAuth2Exception.INVALID_CLIENT))
-            {
-                moveInExceptionCode = AuthorizationExceptionCode.INVALID_CLIENT;
-            }
-            else if (responseEntity.getBody().toString().contains(OAuth2Exception.INVALID_GRANT))
-            {
-                moveInExceptionCode = AuthorizationExceptionCode.INVALID_GRANT;
-            }
-            else if (responseEntity.getBody().toString().contains(OAuth2Exception.INVALID_REQUEST))
-            {
-                moveInExceptionCode = AuthorizationExceptionCode.INVALID_REQUEST;
-            }
-            else if (responseEntity.getBody().toString().contains(OAuth2Exception.INVALID_SCOPE))
-            {
-                moveInExceptionCode = AuthorizationExceptionCode.INVALID_SCOPE;
-            }
-            else if (responseEntity.getBody().toString().contains(OAuth2Exception.REDIRECT_URI_MISMATCH))
-            {
-                moveInExceptionCode = AuthorizationExceptionCode.REDIRECT_URI_MISMATCH;
-            }
-            else if (responseEntity.getBody().toString().contains(OAuth2Exception.UNAUTHORIZED_CLIENT))
-            {
-                moveInExceptionCode = AuthorizationExceptionCode.UNAUTHORIZED_CLIENT;
-            }
-            else if (responseEntity.getBody().toString().contains(OAuth2Exception.UNSUPPORTED_GRANT_TYPE))
-            {
-                moveInExceptionCode = AuthorizationExceptionCode.UNSUPPORTED_GRANT_TYPE;
-            }
-            else if (responseEntity.getBody().toString().contains(OAuth2Exception.UNSUPPORTED_RESPONSE_TYPE))
-            {
-                moveInExceptionCode = AuthorizationExceptionCode.UNSUPPORTED_RESPONSE_TYPE;
-            }
-            else if (responseEntity.getBody().toString().contains(UNAUTHORIZED))
-            {
-                moveInExceptionCode = AuthorizationExceptionCode.UNAUTHORIZED_CLIENT;
-            }
-            else if (responseEntity.getBody().toString().contains("authentication_unavailable"))
-            {
-                moveInExceptionCode = GeneralExceptionCode.SERVICE_UNAVAILABLE;
-            }
-            else
-            {
-                moveInExceptionCode = AuthorizationExceptionCode.AUTHORIZATION_ERROR;
-            }
-            generateOutputMessage(responseEntity, moveInExceptionCode, outputMessage);
-        }
+//        else
+//        {
+//            ((ServerHttpResponse) outputMessage).getHeaders().setContentType(MediaType.APPLICATION_JSON);
+//            OneGroupExceptionCode moveInExceptionCode = null;
+//            if (responseEntity.getBody().toString().contains(OAuth2Exception.ACCESS_DENIED))
+//            {
+//                moveInExceptionCode = AuthorizationExceptionCode.USER_ACCESS_DENIED;
+//            }
+//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.INVALID_TOKEN))
+//            {
+//                moveInExceptionCode = AuthorizationExceptionCode.INVALID_TOKEN;
+//            }
+//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.INSUFFICIENT_SCOPE))
+//            {
+//                moveInExceptionCode = AuthorizationExceptionCode.INSUFFICIENT_SCOPE;
+//            }
+//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.INVALID_CLIENT))
+//            {
+//                moveInExceptionCode = AuthorizationExceptionCode.INVALID_CLIENT;
+//            }
+//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.INVALID_GRANT))
+//            {
+//                moveInExceptionCode = AuthorizationExceptionCode.INVALID_GRANT;
+//            }
+//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.INVALID_REQUEST))
+//            {
+//                moveInExceptionCode = AuthorizationExceptionCode.INVALID_REQUEST;
+//            }
+//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.INVALID_SCOPE))
+//            {
+//                moveInExceptionCode = AuthorizationExceptionCode.INVALID_SCOPE;
+//            }
+//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.REDIRECT_URI_MISMATCH))
+//            {
+//                moveInExceptionCode = AuthorizationExceptionCode.REDIRECT_URI_MISMATCH;
+//            }
+//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.UNAUTHORIZED_CLIENT))
+//            {
+//                moveInExceptionCode = AuthorizationExceptionCode.UNAUTHORIZED_CLIENT;
+//            }
+//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.UNSUPPORTED_GRANT_TYPE))
+//            {
+//                moveInExceptionCode = AuthorizationExceptionCode.UNSUPPORTED_GRANT_TYPE;
+//            }
+//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.UNSUPPORTED_RESPONSE_TYPE))
+//            {
+//                moveInExceptionCode = AuthorizationExceptionCode.UNSUPPORTED_RESPONSE_TYPE;
+//            }
+//            else if (responseEntity.getBody().toString().contains(UNAUTHORIZED))
+//            {
+//                moveInExceptionCode = AuthorizationExceptionCode.UNAUTHORIZED_CLIENT;
+//            }
+//            else if (responseEntity.getBody().toString().contains("authentication_unavailable"))
+//            {
+//                moveInExceptionCode = GeneralExceptionCode.SERVICE_UNAVAILABLE;
+//            }
+//            else
+//            {
+//                moveInExceptionCode = AuthorizationExceptionCode.AUTHORIZATION_ERROR;
+//            }
+//            generateOutputMessage(responseEntity, moveInExceptionCode, outputMessage);
+//        }
 
     }
 
@@ -139,13 +139,13 @@ public class CustomOAuth2ExceptionRenderer implements OAuth2ExceptionRenderer
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
-    private void generateOutputMessage(HttpEntity<?> responseEntity, OneGroupExceptionCode moveInExceptionCode, HttpOutputMessage outputMessage) throws UnsupportedEncodingException, IOException
-    {
-        WSResult result = new WSResult(String.valueOf(moveInExceptionCode.getCode()), moveInExceptionCode.getExceptionMessage(), true);
-        WSResponse response = new WSResponse(result);
-        String jsonOutput = Utils.getJsonString(response);
-        ((ServerHttpResponse) outputMessage).setStatusCode(((ResponseEntity<?>) responseEntity).getStatusCode());
-        ((ServerHttpResponse) outputMessage).getBody().write(jsonOutput.getBytes("UTF8"));
-    }
+//    private void generateOutputMessage(HttpEntity<?> responseEntity, OneGroupExceptionCode moveInExceptionCode, HttpOutputMessage outputMessage) throws UnsupportedEncodingException, IOException
+//    {
+//        WSResult result = new WSResult(String.valueOf(moveInExceptionCode.getCode()), moveInExceptionCode.getExceptionMessage(), true);
+//        WSResponse response = new WSResponse(result);
+//        String jsonOutput = Utils.getJsonString(response);
+//        ((ServerHttpResponse) outputMessage).setStatusCode(((ResponseEntity<?>) responseEntity).getStatusCode());
+//        ((ServerHttpResponse) outputMessage).getBody().write(jsonOutput.getBytes("UTF8"));
+//    }
 
 }
