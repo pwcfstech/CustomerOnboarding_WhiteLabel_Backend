@@ -11,6 +11,8 @@
 						http://www.springframework.org/schema/context 			http://www.springframework.org/schema/context/spring-context.xsd
 						http://www.springframework.org/schema/ldap 				http://www.springframework.org/schema/ldap/spring-ldap.xsd">
 
+	<util:properties id="ldapProperties" location="file:ldap.properties" ignore-resource-not-found="false" />
+	
 	<!-- Create client details bean for manage client details from database 
 		.The JdbcClientDetailsService provide default implementation for fetching 
 		the data from oauth_client_details table .We have created custom class that 
@@ -275,10 +277,10 @@
 
 
 	<ldap:context-source
-          url="ldap://localhost:389"
-          base="dc=example,dc=com"
-          username="cn=Manager"
-          password="secret" />
+          url="#{ldapProperties[ldapUrl]}"
+          base="#{ldapProperties[dnBase]}"
+          username="#{ldapProperties[username]}"
+          password="#{ldapProperties[password]}" />
 
    <ldap:ldap-template id="ldapTemplate" />
 

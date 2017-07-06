@@ -1,18 +1,18 @@
-/Users/nyalfernandes/projects/pwc/afrasia/afrasia-platform/entities/src/main/java/com/afrAsia/entities/jpa/AuthRule.java
-/Users/nyalfernandes/projects/pwc/afrasia/afrasia-platform/entities/src/main/java/com/afrAsia/entities/base/BaseEntity.java
-/Users/nyalfernandes/projects/pwc/afrasia/afrasia-platform/entities/src/main/java/com/afrAsia/entities/jpa/AuthAssignment.java
-/Users/nyalfernandes/projects/pwc/afrasia/afrasia-platform/entities/src/main/java/com/afrAsia/entities/response/DailyTxnDataListResponse.java
-/Users/nyalfernandes/projects/pwc/afrasia/afrasia-platform/entities/src/main/java/com/afrAsia/entities/jpa/AuthItem.java
-/Users/nyalfernandes/projects/pwc/afrasia/afrasia-platform/entities/src/main/java/com/afrAsia/entities/jpa/User.java
-/Users/nyalfernandes/projects/pwc/afrasia/afrasia-platform/entities/src/main/java/com/afrAsia/entities/listener/EntityListener.java
-/Users/nyalfernandes/projects/pwc/afrasia/afrasia-platform/entities/src/main/java/com/afrAsia/entities/jpa/OAuthAccessToken.java
-/Users/nyalfernandes/projects/pwc/afrasia/afrasia-platform/entities/src/main/java/com/afrAsia/entities/jpa/AppVersion.java
-/Users/nyalfernandes/projects/pwc/afrasia/afrasia-platform/entities/src/main/java/com/afrAsia/entities/jpa/AppVersionId.java
-/Users/nyalfernandes/projects/pwc/afrasia/afrasia-platform/entities/src/main/java/com/afrAsia/entities/jpa/OauthAuthorization.java
-/Users/nyalfernandes/projects/pwc/afrasia/afrasia-platform/entities/src/main/java/com/afrAsia/entities/jpa/MsgHeader.java
-/Users/nyalfernandes/projects/pwc/afrasia/afrasia-platform/entities/src/main/java/com/afrAsia/entities/jpa/AuthItemChild.java
-/Users/nyalfernandes/projects/pwc/afrasia/afrasia-platform/entities/src/main/java/com/afrAsia/entities/jpa/DigitalTxnDaily.java
-/Users/nyalfernandes/projects/pwc/afrasia/afrasia-platform/entities/src/main/java/com/afrAsia/entities/request/DeviceFootPrintReq.java
-/Users/nyalfernandes/projects/pwc/afrasia/afrasia-platform/entities/src/main/java/com/afrAsia/entities/jpa/DeviceFootPrint.java
-/Users/nyalfernandes/projects/pwc/afrasia/afrasia-platform/entities/src/main/java/com/afrAsia/entities/response/DailyTxnDataResponse.java
-/Users/nyalfernandes/projects/pwc/afrasia/afrasia-platform/entities/src/main/java/com/afrAsia/entities/response/DeviceFootPrintResponse.java
+C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\MsgHeader.java
+C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\OAuthAccessToken.java
+C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\AuthItemChild.java
+C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\DigitalTxnDaily.java
+C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\AuthItem.java
+C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\User.java
+C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\entities\src\main\java\com\afrAsia\entities\base\BaseEntity.java
+C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\AppVersion.java
+C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\AuthAssignment.java
+C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\DeviceFootPrint.java
+C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\AuthRule.java
+C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\DailyTxnDataResponse.java
+C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\entities\src\main\java\com\afrAsia\entities\listener\EntityListener.java
+C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\OauthAuthorization.java
+C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\entities\src\main\java\com\afrAsia\entities\request\DeviceFootPrintReq.java
+C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\AppVersionId.java
+C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\DailyTxnDataListResponse.java
+C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\DeviceFootPrintResponse.java

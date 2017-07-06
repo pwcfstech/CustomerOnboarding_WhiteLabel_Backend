@@ -6,9 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint;
 
 /**
@@ -28,17 +26,17 @@ public class CustomOAuth2AuthenticationEntryPoint extends OAuth2AuthenticationEn
     /** The realm name. */
     private String realmName;
 
-    @Override
-    protected ResponseEntity<OAuth2Exception> enhanceResponse(ResponseEntity<OAuth2Exception> response, Exception exception)
-    {
-        super.setRealmName(realmName);
-        super.setTypeName(typeName);
-        if (exception != null)
-        {
-            setExceptionRenderer(customOAuth2ExceptionRenderer);
-        }
-        return super.enhanceResponse(response, exception);
-    }
+//    @Override
+//    protected ResponseEntity<OAuth2Exception> enhanceResponse(ResponseEntity<OAuth2Exception> response, Exception exception)
+//    {
+//        super.setRealmName(realmName);
+//        super.setTypeName(typeName);
+//        if (exception != null)
+//        {
+//            setExceptionRenderer(customOAuth2ExceptionRenderer);
+//        }
+//        return super.enhanceResponse(response, exception);
+//    }
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException
