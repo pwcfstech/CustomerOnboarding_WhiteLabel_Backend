@@ -20,6 +20,7 @@
 						http://jax-ws.dev.java.net/spring/servlet				http://jax-ws.dev.java.net/spring/servlet.xsd">
 
 	<import resource="classpath*:**/applicationContext-services.xml"/>
+	<import resource="classpath*:**/applicationContext-configuration-authentication.xml"/>
 	
 	<!-- <wss:binding url="/DigitalTransaction">
         <wss:service>

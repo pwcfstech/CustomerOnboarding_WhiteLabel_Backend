@@ -18,6 +18,12 @@
 			<artifactId>services</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.afrAsia</groupId>
+			<artifactId>authentication</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
@@ -143,7 +149,7 @@
 				<version>2.6</version>
 				<configuration>
 					<warName>ROOT</warName>
-					<outputDirectory>C:\Users\nyalf769\Documents\UBI\source\apache-tomcat-8.5.13 2\apache-tomcat-8.5.13\webapps\</outputDirectory>
+					<outputDirectory>/Users/nyalfernandes/projects/Installers/apache-tomcat-7.0.62/webapps/</outputDirectory>
 				</configuration>
 			</plugin>
 
@@ -160,6 +166,7 @@
 					</execution>
 				</executions> 
 			</plugin>
+			
 		</plugins>
 	</build>
 </project>
