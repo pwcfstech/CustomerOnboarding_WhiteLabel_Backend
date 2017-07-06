@@ -25,7 +25,7 @@
 	<bean id="clientDetails"
 		class="com.afrAsia.authenticate.impl.CustomClientDetailsServiceImpl">
 		<property name="oAuthAuthorizationDAO" ref="oAuthAuthorizationDAO" />
-		<property name="clientDAO" ref="clientDAO" />
+		<property name="userDAO" ref="userJpaDAO" />
 	</bean>
 
 	<!-- Configure Authentication manager -->
