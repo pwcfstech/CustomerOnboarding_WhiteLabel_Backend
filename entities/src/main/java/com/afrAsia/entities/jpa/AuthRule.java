@@ -2,12 +2,8 @@ package com.afrAsia.entities.jpa;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import com.afrAsia.entities.base.BaseEntity;
-import com.afrAsia.entities.listener.EntityListener;
 
 @Entity
 @Table(name = "auth_rule")

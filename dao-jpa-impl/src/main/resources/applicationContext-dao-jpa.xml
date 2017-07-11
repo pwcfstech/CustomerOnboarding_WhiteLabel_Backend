@@ -21,5 +21,7 @@
 	<bean id="dtdpsJpaDAO" class="com.afrAsia.dao.jpa.impl.DTDPSJpaDAOImpl" />
 	<bean id="appVersionJpaDAO" class="com.afrAsia.dao.jpa.impl.AppVersionDaoImpl" />
 	<bean id="oAuthAuthorizationDAO" class="com.afrAsia.dao.jpa.impl.OAuthAuthorizationJpaDAOImpl" />
-
+	<bean id="categoryJpaDAO" class="com.afrAsia.dao.jpa.impl.CategoryJpaDaoImpl" />
+	<bean id="productJpaDAO" class="com.afrAsia.dao.jpa.impl.ProductJpaDaoImpl" />
+	
 </beans>

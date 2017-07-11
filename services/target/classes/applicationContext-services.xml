@@ -30,4 +30,8 @@
 		<property name="appVersionDAO" ref="appVersionJpaDAO" />
 	</bean>
 
+	<bean id="productService" class="com.afrAsia.service.impl.ProductServiceImpl">
+		<property name="categoryDao" ref="categoryJpaDAO" />
+		<property name="productDao" ref="productJpaDAO" />
+	</bean>
 </beans>						
