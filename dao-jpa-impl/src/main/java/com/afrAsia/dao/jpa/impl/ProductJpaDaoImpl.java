@@ -12,9 +12,4 @@ public class ProductJpaDaoImpl extends BaseJpaDAOImpl<Long, Product> implements 
 		return findAll();
 	}
 
-	public Product getProductById(Long productID) 
-	{
-		return findById(productID);
-	}
-
 }

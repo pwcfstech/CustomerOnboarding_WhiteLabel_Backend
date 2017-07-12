@@ -1,9 +1,11 @@
 com\afrAsia\service\impl\DTDPSServiceImpl.class
 com\afrAsia\service\AppVersionService.class
-com\afrAsia\service\impl\DTDPSServiceImpl$1.class
 com\afrAsia\service\impl\Test.class
 com\afrAsia\service\impl\AppVersionServiceImpl.class
 com\afrAsia\service\ProductService.class
+com\afrAsia\service\MasterDataService.class
+com\afrAsia\service\impl\DTDPSServiceImpl$1.class
+com\afrAsia\service\impl\MasterDataServiceImpl.class
 com\afrAsia\service\impl\ProductServiceImpl.class
 com\afrAsia\service\UserService.class
 com\afrAsia\service\impl\UserServiceImpl.class

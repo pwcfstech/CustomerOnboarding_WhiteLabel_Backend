@@ -23,14 +23,20 @@ public class Product extends BaseEntity implements Serializable {
 	private String productDescription;
 	@Column(name = "IMAGE_URL")
 	private String productImageURL;
-	@Column(name = "SHORT_DESCRIPTION")
-	private String shortDescription;
-	@Column(name = "LONG_DESCRIPTION")
-	private String longDescription;
-	@Column(name = "INFO_LINK")
-	private String infoLink;
+	@Column(name = "DETAIL_IMAGE_URL")
+	private String productDetailImageURL;
+	@Column(name = "PRODUCT_LONG_DESCRIPTION")
+	private String productLongDesc;
+	@Column(name = "BROCHURE_LINK")
+	private String productBrochureLink;
 	@Column(name = "CATEGORY_ID")
 	private String categoryID;
+	@Column(name = "ADDN_FIELD1")
+	private String addnField1;
+	@Column(name = "ADDN_FIELD2")
+	private String addnField2;
+	@Column(name = "ADDN_FIELD3")
+	private String addnField3;
 
 	public String getProductName() {
 		return productName;
@@ -56,28 +62,28 @@ public class Product extends BaseEntity implements Serializable {
 		this.productImageURL = productImageURL;
 	}
 
-	public String getShortDescription() {
-		return shortDescription;
+	public String getProductDetailImageURL() {
+		return productDetailImageURL;
 	}
 
-	public void setShortDescription(String shortDescription) {
-		this.shortDescription = shortDescription;
+	public void setProductDetailImageURL(String productDetailImageURL) {
+		this.productDetailImageURL = productDetailImageURL;
 	}
 
-	public String getLongDescription() {
-		return longDescription;
+	public String getProductLongDesc() {
+		return productLongDesc;
 	}
 
-	public void setLongDescription(String longDescription) {
-		this.longDescription = longDescription;
+	public void setProductLongDesc(String productLongDesc) {
+		this.productLongDesc = productLongDesc;
 	}
 
-	public String getInfoLink() {
-		return infoLink;
+	public String getProductBrochureLink() {
+		return productBrochureLink;
 	}
 
-	public void setInfoLink(String infoLink) {
-		this.infoLink = infoLink;
+	public void setProductBrochureLink(String productBrochureLink) {
+		this.productBrochureLink = productBrochureLink;
 	}
 
 	public String getCategoryID() {
@@ -86,6 +92,39 @@ public class Product extends BaseEntity implements Serializable {
 
 	public void setCategoryID(String categoryID) {
 		this.categoryID = categoryID;
+	}
+
+	public String getAddnField1() {
+		return addnField1;
+	}
+
+	public void setAddnField1(String addnField1) {
+		this.addnField1 = addnField1;
+	}
+
+	public String getAddnField2() {
+		return addnField2;
+	}
+
+	public void setAddnField2(String addnField2) {
+		this.addnField2 = addnField2;
+	}
+
+	public String getAddnField3() {
+		return addnField3;
+	}
+
+	public void setAddnField3(String addnField3) {
+		this.addnField3 = addnField3;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [productName=" + productName + ", productDescription=" + productDescription
+				+ ", productImageURL=" + productImageURL + ", productDetailImageURL=" + productDetailImageURL
+				+ ", productLongDesc=" + productLongDesc + ", productBrochureLink=" + productBrochureLink
+				+ ", categoryID=" + categoryID + ", addnField1=" + addnField1 + ", addnField2=" + addnField2
+				+ ", addnField3=" + addnField3 + "]";
 	}
 
 }

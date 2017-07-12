@@ -15,7 +15,16 @@ public class Data implements Serializable {
 
 	private Set<CategoryResponse> categories;
 
+	private Set<ProductResponse> product;
+
 	private ProductDetailsResponse productdetails;
+
+	private ProductDetailsResponse productDetailsResponse;
+
+	public void addCategory(CategoryResponse categoryResponse) {
+		categories=new HashSet<CategoryResponse>();
+		categories.add(categoryResponse);
+	}
 
 	public Set<CategoryResponse> getCategories() {
 		return categories;
@@ -25,12 +34,12 @@ public class Data implements Serializable {
 		this.categories = categories;
 	}
 
-	public void addCategory(CategoryResponse categoryResponse) {
-		if (categories == null)
-		{
-			categories = new HashSet<CategoryResponse>();
-		}
-		categories.add(categoryResponse);
+	public Set<ProductResponse> getProduct() {
+		return product;
+	}
+
+	public void setProduct(Set<ProductResponse> product) {
+		this.product = product;
 	}
 
 	public ProductDetailsResponse getProductdetails() {
@@ -41,9 +50,18 @@ public class Data implements Serializable {
 		this.productdetails = productdetails;
 	}
 
+	public ProductDetailsResponse getProductDetailsResponse() {
+		return productDetailsResponse;
+	}
+
+	public void setProductDetailsResponse(ProductDetailsResponse productDetailsResponse) {
+		this.productDetailsResponse = productDetailsResponse;
+	}
+
 	@Override
 	public String toString() {
-		return "Data [categories=" + categories + "]";
+		return "Data [categories=" + categories + ", product=" + product + ", productdetails=" + productdetails
+				+ ", productDetailsResponse=" + productDetailsResponse + "]";
 	}
 
 }

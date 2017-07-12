@@ -9,5 +9,4 @@ public interface ProductJpaDao extends ProductDao, BaseJpaDAO<Long, Product> {
 
 	public Collection<Product> getProducts();
 	
-	public Product getProductById(Long productID);
 }

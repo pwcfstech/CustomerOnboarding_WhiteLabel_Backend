@@ -8,7 +8,5 @@ public interface ProductDao {
 	// for get Product List
 	public Collection<Product> getProducts();
 		
-	//for get Product Details id 
-	public Product getProductById(Long productID);
 }
 

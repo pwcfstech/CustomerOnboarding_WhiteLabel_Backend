@@ -45,6 +45,10 @@
 		<property name="productService" ref="productService" /> 
 	</bean>
 	
+	<bean id="masterDataRestService" class="com.afrAsia.rest.MasterDataRestService" >
+		<property name="masterDataService" ref="masterDataService" />
+	</bean>
+	
 	<!-- <bean id="dtdpsSoapService" class="com.afrAsia.soap.DTDPSSoapService" >
 		<property name="dtdpsService" ref="dtdpsService" />
 	</bean> -->

@@ -11,7 +11,7 @@ import com.afrAsia.entities.base.BaseEntity;
 import com.afrAsia.entities.listener.EntityListener;
 
 @Entity
-@Table(name = "MOB_FLEX_MASTER_CUST_CATEGORY")
+@Table(name = "MOB_PROD_CATEGORY_MASTER")
 @EntityListeners(value = { EntityListener.class })
 public class Category extends BaseEntity implements Serializable {
 
