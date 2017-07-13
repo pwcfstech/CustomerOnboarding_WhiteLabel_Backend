@@ -1,4 +1,5 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
+
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -21,6 +22,21 @@
 	<bean id="dtdpsJpaDAO" class="com.afrAsia.dao.jpa.impl.DTDPSJpaDAOImpl" />
 	<bean id="appVersionJpaDAO" class="com.afrAsia.dao.jpa.impl.AppVersionDaoImpl" />
 	<bean id="oAuthAuthorizationDAO" class="com.afrAsia.dao.jpa.impl.OAuthAuthorizationJpaDAOImpl" />
+<<<<<<< HEAD
 	<bean id="applicationDetailsJpaDAO" class="com.afrAsia.dao.jpa.impl.ApplicationDetailsDaoImpl" />
 
+=======
+	<bean id="categoryJpaDAO" class="com.afrAsia.dao.jpa.impl.CategoryJpaDaoImpl" />
+	<bean id="productJpaDAO" class="com.afrAsia.dao.jpa.impl.ProductJpaDaoImpl" />
+	<bean id="productDetailsJpaDao" class="com.afrAsia.dao.jpa.impl.ProductDetailsJpaDaoImpl" />
+	<bean id="accountClassJpaDAO" class="com.afrAsia.dao.jpa.impl.AccountClassJpaDaoImpl" />
+	<bean id="categoryMasterJpaDAO" class="com.afrAsia.dao.jpa.impl.CategoryMasterJpaDaoImpl" />
+	<bean id="countryJpaDAO" class="com.afrAsia.dao.jpa.impl.CountryJpaDaoImpl" />
+	<bean id="employmentJpaDAO" class="com.afrAsia.dao.jpa.impl.EmploymentJpaDaoImpl" />
+	<bean id="maritalStatusJpaDAO" class="com.afrAsia.dao.jpa.impl.MaritalStatusJpaDaoImpl" />
+	<bean id="prefixJpaDAO" class="com.afrAsia.dao.jpa.impl.PrefixJpaDaoImpl" />
+	<bean id="rmDetailsJpaDAO" class="com.afrAsia.dao.jpa.impl.RMDetailsJpaDaoImpl" />
+	<bean id="uidTypeJpaDAO" class="com.afrAsia.dao.jpa.impl.UIDTypeJpaDaoImpl" />
+	
+>>>>>>> c54bd75d5dd1fdec0841b607667570d470b32e30
 </beans>

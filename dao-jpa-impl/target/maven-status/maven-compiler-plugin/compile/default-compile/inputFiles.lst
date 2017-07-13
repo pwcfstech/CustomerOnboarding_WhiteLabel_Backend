@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\PwC_Projects\AfrAsia\Development\github\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\BaseJpaDAO.java
 C:\PwC_Projects\AfrAsia\Development\github\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\ApplicationDetailsDaoImpl.java
 C:\PwC_Projects\AfrAsia\Development\github\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\OAuthAuthorizationJpaDAO.java
@@ -10,3 +11,37 @@ C:\PwC_Projects\AfrAsia\Development\github\afrasia-platform\dao-jpa-impl\src\mai
 C:\PwC_Projects\AfrAsia\Development\github\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\UserJpaDAO.java
 C:\PwC_Projects\AfrAsia\Development\github\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\AppVersionJpaDAO.java
 C:\PwC_Projects\AfrAsia\Development\github\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\ApplicationDetailsJpaDAO.java
+=======
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\AccountClassJpaDaoImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\DTDPSJpaDAO.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\RMDetailsJpaDaoImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\UserJpaDAOImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\ProductJpaDao.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\RMDetailsJpaDAO.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\MaritalStatusJpaDAO.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\CategoryJpaDAO.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\BaseJpaDAOImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\DTDPSJpaDAOImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\OAuthAuthorizationJpaDAOImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\ProductDetailsJpaDao.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\EmploymentJpaDaoImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\EmploymentJpaDAO.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\OAuthAuthorizationJpaDAO.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\UIDTypeJpaDaoImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\BaseJpaDAO.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\PrefixJpaDAO.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\PrefixJpaDaoImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\CategoryJpaDaoImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\ProductJpaDaoImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\UIDTypeJpaDAO.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\CategoryMasterJpaDAO.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\MaritalStatusJpaDaoImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\AppVersionDaoImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\CountryJpaDAO.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\CountryJpaDaoImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\UserJpaDAO.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\CategoryMasterJpaDaoImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\ProductDetailsJpaDaoImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\AccountClassJpaDAO.java
+C:\workspaces\AfrAsia\git\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\AppVersionJpaDAO.java
+>>>>>>> c54bd75d5dd1fdec0841b607667570d470b32e30

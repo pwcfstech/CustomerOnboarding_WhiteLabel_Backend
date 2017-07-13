@@ -1,5 +1,13 @@
 package com.afrAsia.rest;
 
+<<<<<<< HEAD
+=======
+
+
+
+
+import java.io.InputStream;
+>>>>>>> c54bd75d5dd1fdec0841b607667570d470b32e30
 import java.util.Date;
 
 import javax.ws.rs.Consumes;
@@ -13,6 +21,7 @@ import javax.ws.rs.core.Response;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.CommonUtils;
+import com.afrAsia.Utils.AfrAsiaLogger;
 import com.afrAsia.entities.jpa.AppVersion;
 import com.afrAsia.entities.jpa.DeviceFootPrint;
 import com.afrAsia.entities.jpa.MsgHeader;
@@ -20,6 +29,7 @@ import com.afrAsia.entities.request.DeviceFootPrintReq;
 import com.afrAsia.entities.response.DeviceFootPrintResponse;
 import com.afrAsia.entities.response.DeviceFootPrintResponse.Data;
 import com.afrAsia.service.AppVersionService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 
@@ -39,17 +49,32 @@ public class AppVersionRestService {
 	@Path("/appversion")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAppversion(DeviceFootPrintReq deviceFootPrintReq) {
+	public Response getAppversion(InputStream request) {
+		DeviceFootPrintReq deviceFootPrintReq=null;
+		try{
+			 deviceFootPrintReq= new ObjectMapper().readValue(request, DeviceFootPrintReq.class);
+		
+		}catch(Exception e){
+			e.printStackTrace();
+			AfrAsiaLogger.errorLog("error :", e);
+		}
 		DeviceFootPrintResponse deviceFootPrintResponse= new DeviceFootPrintResponse();
 		MsgHeader msgHeader= new MsgHeader();
 		Data data= new DeviceFootPrintResponse().new Data();
+		AfrAsiaLogger.debugLog(""+deviceFootPrintReq.toString());
+		
 		System.out.println(deviceFootPrintReq.toString());
 		System.out.println("here in rest Service");
 		try{
 			if (validateRequest(deviceFootPrintReq)) {
 				
 				String deviceId = deviceFootPrintReq.getData().getDeviceId();
-				DeviceFootPrint deviceFootPrint = appVersionService.getDeviceFootPrint(deviceId);
+				DeviceFootPrint deviceFootPrint = null;
+				try{
+					deviceFootPrint = appVersionService.getDeviceFootPrint(deviceId);
+				}catch(Exception e){
+					
+				}
 				if (deviceFootPrint == null) {
 					deviceFootPrint = new DeviceFootPrint();
 					createDeviceFootPrintModel(deviceFootPrintReq, deviceFootPrint);
@@ -115,6 +140,7 @@ public class AppVersionRestService {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+			
 		}
 		//AppVersion appVersion = appVersionService.getLatestVersion("Android");
 		//System.out.println(appVersion.toString());
