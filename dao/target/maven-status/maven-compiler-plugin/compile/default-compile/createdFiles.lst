@@ -1,5 +1,6 @@
-com/afrAsia/dao/AppVersionDao.class
-com/afrAsia/dao/OAuthAuthorizationDAO.class
-com/afrAsia/dao/BaseDAO.class
-com/afrAsia/dao/DTDPSDAO.class
-com/afrAsia/dao/UserDAO.class
+com\afrAsia\dao\UserDAO.class
+com\afrAsia\dao\DTDPSDAO.class
+com\afrAsia\dao\OAuthAuthorizationDAO.class
+com\afrAsia\dao\AppVersionDao.class
+com\afrAsia\dao\ApplicationDetailsDao.class
+com\afrAsia\dao\BaseDAO.class

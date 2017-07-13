@@ -29,5 +29,9 @@
 	<bean id="appVersionService" class="com.afrAsia.service.impl.AppVersionServiceImpl">
 		<property name="appVersionDAO" ref="appVersionJpaDAO" />
 	</bean>
+	<bean id="applicationDetailsService" class="com.afrAsia.service.impl.ApplicationDetailsServiceImpl">
+		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" />
+	</bean>
+	
 
 </beans>						

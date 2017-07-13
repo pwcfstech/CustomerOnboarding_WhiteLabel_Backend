@@ -1,9 +1,5 @@
 package com.afrAsia.rest;
 
-
-
-
-
 import java.util.Date;
 
 import javax.ws.rs.Consumes;

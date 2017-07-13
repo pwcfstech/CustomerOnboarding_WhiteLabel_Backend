@@ -12,6 +12,7 @@
              	<class>com.afrAsia.entities.jpa.DigitalTxnDaily</class>
              	<class>com.afrAsia.entities.jpa.AppVersion</class>
              	<class>com.afrAsia.entities.jpa.DeviceFootPrint</class>
+             	<class>com.afrAsia.entities.jpa.RmApplication</class>
              	
              	<properties>
              		<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
