@@ -4,11 +4,8 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -17,6 +14,8 @@ import com.afrAsia.entities.listener.EntityListener;
 @Table(name = "MOB_APP_REF_RECORD_ID")
 @EntityListeners(value = { EntityListener.class })
 public class AppRefRecord implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@Column(name = "ID")
     private Integer applicationId;
