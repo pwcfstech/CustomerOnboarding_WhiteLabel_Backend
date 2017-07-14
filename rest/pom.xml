@@ -151,7 +151,7 @@
 				<configuration>
 					<warName>ROOT</warName>
 					<!-- <outputDirectory>/Users/nyalfernandes/projects/Installers/apache-tomcat-7.0.62/webapps/</outputDirectory> -->
-					<outputDirectory>C:/apache-tomcat-8.0.32/webapps/</outputDirectory>
+					<outputDirectory>C:\AfroAsia\apache-tomcat-9.0.0.M19-windows-x64\apache-tomcat-9.0.0.M19\webapps</outputDirectory>
 				</configuration>
 			</plugin>
 

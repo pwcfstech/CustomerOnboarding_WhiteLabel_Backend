@@ -10,9 +10,12 @@ com\afrAsia\dao\jpa\impl\EmploymentJpaDaoImpl.class
 com\afrAsia\dao\jpa\DTDPSJpaDAO.class
 com\afrAsia\dao\jpa\RMDetailsJpaDAO.class
 com\afrAsia\dao\jpa\UIDTypeJpaDAO.class
+com\afrAsia\dao\jpa\impl\AccountCreateJpaDaoImpl.class
 com\afrAsia\dao\jpa\CountryJpaDAO.class
+com\afrAsia\dao\jpa\impl\MobRmAppRefIdJpaDaoImpl.class
 com\afrAsia\dao\jpa\impl\CategoryMasterJpaDaoImpl.class
 com\afrAsia\dao\jpa\impl\MaritalStatusJpaDaoImpl.class
+com\afrAsia\dao\jpa\AccountCreateJpaDao.class
 com\afrAsia\dao\jpa\OAuthAuthorizationJpaDAO.class
 com\afrAsia\dao\jpa\impl\AccountClassJpaDaoImpl.class
 com\afrAsia\dao\jpa\impl\DTDPSJpaDAOImpl.class
@@ -27,6 +30,7 @@ com\afrAsia\dao\jpa\impl\RMDetailsJpaDaoImpl.class
 com\afrAsia\dao\jpa\impl\CategoryJpaDaoImpl.class
 com\afrAsia\dao\jpa\PrefixJpaDAO.class
 com\afrAsia\dao\jpa\UserJpaDAO.class
+com\afrAsia\dao\jpa\MobRmAppRefIdJpaDao.class
 com\afrAsia\dao\jpa\ProductDetailsJpaDao.class
 com\afrAsia\dao\jpa\EmploymentJpaDAO.class
 com\afrAsia\dao\jpa\impl\BaseJpaDAOImpl.class

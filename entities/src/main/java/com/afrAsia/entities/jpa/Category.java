@@ -16,13 +16,11 @@ import com.afrAsia.entities.listener.EntityListener;
 public class Category extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Column(name = "CATEGORY_NAME")
 	private String categoryName;
-	@Column(name = "CUST_CAT")
-	private String custCat;
-	@Column(name = "CUST_CAT_DESC")
-	private String custCatDesc;
+	@Column(name = "CATEGORY_DESCRIPTION")
+	private String categoryDescription;
 
 	public String getCategoryName() {
 		return categoryName;
@@ -32,19 +30,17 @@ public class Category extends BaseEntity implements Serializable {
 		this.categoryName = categoryName;
 	}
 
-	public String getCustCatDesc() {
-		return custCatDesc;
+	public String getCategoryDescription() {
+		return categoryDescription;
 	}
 
-	public void setCustCatDesc(String custCatDesc) {
-		this.custCatDesc = custCatDesc;
+	public void setCategoryDescription(String categoryDescription) {
+		this.categoryDescription = categoryDescription;
 	}
 
-	public String getCustCat() {
-		return custCat;
+	@Override
+	public String toString() {
+		return "Category [categoryName=" + categoryName + ", categoryDescription=" + categoryDescription + "]";
 	}
 
-	public void setCustCat(String custCat) {
-		this.custCat = custCat;
-	}
 }

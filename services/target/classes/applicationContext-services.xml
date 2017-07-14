@@ -45,4 +45,7 @@
 		<property name="rmDetailsDAO" ref="rmDetailsJpaDAO" />
 		<property name="uidTypeDAO" ref="uidTypeJpaDAO" />
 	</bean>
+	<bean id="accountCreationService" class="com.afrAsia.service.impl.AccountCreationServiceImpl">
+		<property name="accountCreateDao" ref="accountCreateJpaDao" />
+	</bean>
 </beans>						
