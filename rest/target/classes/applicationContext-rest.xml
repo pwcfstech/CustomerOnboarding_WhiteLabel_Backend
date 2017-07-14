@@ -41,17 +41,18 @@
 		<property name="appVersionService" ref="appVersionService" />
 	</bean>
 	
-<<<<<<< HEAD
+
 	<bean id="applicationDetailsRestService" class="com.afrAsia.rest.ApplicationDetailsRestService" >
 		<property name="applicationDetailsService" ref="applicationDetailsService" />
-=======
+	</bean>
+	
 	<bean id="productRestService" class="com.afrAsia.rest.ProductRestService" >
 		<property name="productService" ref="productService" /> 
 	</bean>
 	
 	<bean id="masterDataRestService" class="com.afrAsia.rest.MasterDataRestService" >
 		<property name="masterDataService" ref="masterDataService" />
->>>>>>> c54bd75d5dd1fdec0841b607667570d470b32e30
+
 	</bean>
 	
 	<!-- <bean id="dtdpsSoapService" class="com.afrAsia.soap.DTDPSSoapService" >
@@ -63,7 +64,7 @@
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
 		<property name="username" value="SYSTEM" />
-		<property name="password" value="sameer" />
+		<property name="password" value="kabir" />
 		<property name="initialSize" value="2" />
 		<property name="maxTotal" value="5" />
 		<property name="maxIdle" value="1" />

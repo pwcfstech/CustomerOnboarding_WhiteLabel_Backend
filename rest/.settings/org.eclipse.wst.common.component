@@ -13,9 +13,6 @@
         <dependent-module archiveName="entities-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/entities/entities">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="dao-jpa-impl-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/dao-jpa-impl/dao-jpa-impl">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <property name="context-root" value="ROOT"/>
         <property name="java-output-path" value="/rest/target/classes"/>
     </wb-module>

@@ -1,13 +1,6 @@
 package com.afrAsia.rest;
 
-<<<<<<< HEAD
-=======
-
-
-
-
 import java.io.InputStream;
->>>>>>> c54bd75d5dd1fdec0841b607667570d470b32e30
 import java.util.Date;
 
 import javax.ws.rs.Consumes;

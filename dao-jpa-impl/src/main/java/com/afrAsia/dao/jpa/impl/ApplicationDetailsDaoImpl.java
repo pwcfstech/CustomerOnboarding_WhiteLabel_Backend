@@ -11,7 +11,7 @@ public class ApplicationDetailsDaoImpl extends BaseJpaDAOImpl<Integer, RmApplica
 	public RmApplication getApplicationDetails(Integer appRefId){
 		String queryString = "SELECT s FROM RmApplication s where s.applicationId = :appRefId";
 		Query query = getEntityManager().createQuery(queryString);
-		query.setParameter("applicationId", appRefId);
+		query.setParameter("appRefId", appRefId);
 		return (RmApplication) query.getSingleResult();
 	}
 }

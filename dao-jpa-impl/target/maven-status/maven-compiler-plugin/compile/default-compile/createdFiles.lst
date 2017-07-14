@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-com\afrAsia\dao\jpa\AppVersionJpaDAO.class
-com\afrAsia\dao\jpa\BaseJpaDAO.class
-com\afrAsia\dao\jpa\impl\OAuthAuthorizationJpaDAOImpl.class
-com\afrAsia\dao\jpa\impl\AppVersionDaoImpl.class
-com\afrAsia\dao\jpa\ApplicationDetailsJpaDAO.class
-com\afrAsia\dao\jpa\DTDPSJpaDAO.class
-com\afrAsia\dao\jpa\UserJpaDAO.class
-com\afrAsia\dao\jpa\impl\BaseJpaDAOImpl.class
-com\afrAsia\dao\jpa\OAuthAuthorizationJpaDAO.class
-com\afrAsia\dao\jpa\impl\DTDPSJpaDAOImpl.class
-com\afrAsia\dao\jpa\impl\ApplicationDetailsDaoImpl.class
-com\afrAsia\dao\jpa\impl\UserJpaDAOImpl.class
-=======
 com\afrAsia\dao\jpa\AccountClassJpaDAO.class
 com\afrAsia\dao\jpa\impl\CountryJpaDaoImpl.class
 com\afrAsia\dao\jpa\impl\PrefixJpaDaoImpl.class
@@ -31,11 +17,13 @@ com\afrAsia\dao\jpa\OAuthAuthorizationJpaDAO.class
 com\afrAsia\dao\jpa\impl\AccountClassJpaDaoImpl.class
 com\afrAsia\dao\jpa\impl\DTDPSJpaDAOImpl.class
 com\afrAsia\dao\jpa\impl\ProductJpaDaoImpl.class
+com\afrAsia\dao\jpa\impl\ApplicationDetailsDaoImpl.class
 com\afrAsia\dao\jpa\impl\UserJpaDAOImpl.class
 com\afrAsia\dao\jpa\ProductJpaDao.class
 com\afrAsia\dao\jpa\AppVersionJpaDAO.class
 com\afrAsia\dao\jpa\CategoryMasterJpaDAO.class
 com\afrAsia\dao\jpa\impl\AppVersionDaoImpl.class
+com\afrAsia\dao\jpa\ApplicationDetailsJpaDAO.class
 com\afrAsia\dao\jpa\MaritalStatusJpaDAO.class
 com\afrAsia\dao\jpa\impl\RMDetailsJpaDaoImpl.class
 com\afrAsia\dao\jpa\impl\CategoryJpaDaoImpl.class
@@ -44,4 +32,3 @@ com\afrAsia\dao\jpa\UserJpaDAO.class
 com\afrAsia\dao\jpa\ProductDetailsJpaDao.class
 com\afrAsia\dao\jpa\EmploymentJpaDAO.class
 com\afrAsia\dao\jpa\impl\BaseJpaDAOImpl.class
->>>>>>> c54bd75d5dd1fdec0841b607667570d470b32e30

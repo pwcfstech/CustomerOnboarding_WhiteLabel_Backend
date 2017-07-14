@@ -1,31 +1,3 @@
-<<<<<<< HEAD
-com\afrAsia\entities\listener\EntityListener.class
-com\afrAsia\entities\jpa\AppVersion.class
-com\afrAsia\entities\jpa\AppVersionId.class
-com\afrAsia\entities\jpa\DeviceFootPrint.class
-com\afrAsia\entities\request\DeviceFootPrintReq.class
-com\afrAsia\entities\jpa\MsgHeader.class
-com\afrAsia\entities\request\DeviceFootPrintReq$Data.class
-com\afrAsia\entities\base\BaseEntity.class
-com\afrAsia\entities\jpa\OAuthAccessToken.class
-com\afrAsia\entities\response\DailyTxnDataResponse.class
-com\afrAsia\entities\response\ApplicationDetailsResponse$Data.class
-com\afrAsia\entities\jpa\AuthRule.class
-com\afrAsia\entities\jpa\MsgHeader$Error.class
-com\afrAsia\entities\response\DeviceFootPrintResponse$Data.class
-com\afrAsia\entities\response\DeviceFootPrintResponse.class
-com\afrAsia\entities\response\DailyTxnDataListResponse.class
-com\afrAsia\entities\jpa\DigitalTxnDaily.class
-com\afrAsia\entities\request\ApplicationDetailsReq$Data.class
-com\afrAsia\entities\jpa\AuthAssignment.class
-com\afrAsia\entities\jpa\AuthItemChild.class
-com\afrAsia\entities\jpa\AuthItem.class
-com\afrAsia\entities\jpa\OauthAuthorization.class
-com\afrAsia\entities\response\ApplicationDetailsResponse.class
-com\afrAsia\entities\request\ApplicationDetailsReq.class
-com\afrAsia\entities\jpa\RmApplication.class
-com\afrAsia\entities\jpa\User.class
-=======
 com\afrAsia\entities\response\MastersResponse$AccountClass.class
 com\afrAsia\entities\response\MessageHeader$Error.class
 com\afrAsia\entities\listener\EntityListener.class
@@ -53,12 +25,14 @@ com\afrAsia\entities\response\DailyTxnDataListResponse.class
 com\afrAsia\entities\response\ProductDetailsResponse.class
 com\afrAsia\entities\request\GenericRequest.class
 com\afrAsia\entities\masters\BaseMaster.class
+com\afrAsia\entities\request\ApplicationDetailsReq$Data.class
 com\afrAsia\entities\jpa\AuthAssignment.class
 com\afrAsia\entities\response\MastersDataResponse$Data$RMDetails.class
 com\afrAsia\entities\jpa\AuthItem.class
 com\afrAsia\entities\request\ProductDetailsReq.class
 com\afrAsia\entities\response\MastersResponse$RMDetails.class
 com\afrAsia\entities\response\MastersDataResponse$Data$AccountClass.class
+com\afrAsia\entities\request\ApplicationDetailsReq.class
 com\afrAsia\entities\masters\Employment.class
 com\afrAsia\entities\masters\RMDetails.class
 com\afrAsia\entities\response\MastersResponse$Prefix.class
@@ -77,6 +51,7 @@ com\afrAsia\entities\response\MastersResponse$Category.class
 com\afrAsia\entities\request\ProdCatListReq.class
 com\afrAsia\entities\jpa\DeviceFootPrint.class
 com\afrAsia\entities\response\Data.class
+com\afrAsia\entities\response\ApplicationDetailsResponse$Data.class
 com\afrAsia\entities\response\CategoryResponse.class
 com\afrAsia\entities\jpa\AuthRule.class
 com\afrAsia\entities\response\DeviceFootPrintResponse$Data.class
@@ -94,9 +69,10 @@ com\afrAsia\entities\response\MastersResponse$Employment.class
 com\afrAsia\entities\jpa\OauthAuthorization.class
 com\afrAsia\entities\request\MessageHeader.class
 com\afrAsia\entities\jpa\Product.class
+com\afrAsia\entities\response\ApplicationDetailsResponse.class
 com\afrAsia\entities\response\MessageHeader.class
+com\afrAsia\entities\jpa\RmApplication.class
 com\afrAsia\entities\response\MastersDataResponse$Data$MaritalStatus.class
 com\afrAsia\entities\jpa\DashBoard.class
 com\afrAsia\entities\response\GenericResponse.class
 com\afrAsia\entities\request\RequestError.class
->>>>>>> c54bd75d5dd1fdec0841b607667570d470b32e30

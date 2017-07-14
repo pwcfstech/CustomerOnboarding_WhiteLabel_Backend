@@ -66,12 +66,18 @@ public class ApplicationDetailsRestService {
 					data.setAppStatus(rmApplication.getAppStatus());
 					data.setAppSubDate(rmApplication.getCreatedDate());
 					data.setPendingRMSince(rmApplication.getModifiedDate());
+					System.out.println(data.toString());
+					
+					applicationDetailsResponse.setData(data);
+					
+					return Response.ok(applicationDetailsResponse, MediaType.APPLICATION_JSON).build();
 				}
 				else{
 					System.out.println("No data from rmApplication ");
 				}
 			}
 			else{
+				System.out.println("Invalid request");
 				/*MsgHeader msgHeader= new MsgHeader();
 				com.afrAsia.entities.MsgHeader.Error error = new MsgHeader().new Error();
 				error.setCd("404");
