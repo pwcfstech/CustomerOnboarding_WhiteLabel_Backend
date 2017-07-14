@@ -1,9 +1,5 @@
 package com.afrAsia.rest;
 
-
-
-
-
 import java.io.InputStream;
 import java.util.Date;
 
