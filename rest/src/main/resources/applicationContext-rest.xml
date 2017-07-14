@@ -41,12 +41,18 @@
 		<property name="appVersionService" ref="appVersionService" />
 	</bean>
 	
+
+	<bean id="applicationDetailsRestService" class="com.afrAsia.rest.ApplicationDetailsRestService" >
+		<property name="applicationDetailsService" ref="applicationDetailsService" />
+	</bean>
+	
 	<bean id="productRestService" class="com.afrAsia.rest.ProductRestService" >
 		<property name="productService" ref="productService" /> 
 	</bean>
 	
 	<bean id="masterDataRestService" class="com.afrAsia.rest.MasterDataRestService" >
 		<property name="masterDataService" ref="masterDataService" />
+
 	</bean>
 	
 	<!-- <bean id="dtdpsSoapService" class="com.afrAsia.soap.DTDPSSoapService" >

@@ -14,6 +14,7 @@ com\afrAsia\dao\ProductDao.class
 com\afrAsia\dao\CategoryMasterDao.class
 com\afrAsia\dao\OAuthAuthorizationDAO.class
 com\afrAsia\dao\AppVersionDao.class
+com\afrAsia\dao\ApplicationDetailsDao.class
 com\afrAsia\dao\BaseDAO.class
 com\afrAsia\dao\ProductDetailsDao.class
 com\afrAsia\dao\MaritalStatusDao.class

@@ -12,6 +12,9 @@
              	<class>com.afrAsia.entities.jpa.DigitalTxnDaily</class>
              	<class>com.afrAsia.entities.jpa.AppVersion</class>
              	<class>com.afrAsia.entities.jpa.DeviceFootPrint</class>
+
+             	<class>com.afrAsia.entities.jpa.RmApplication</class>
+
              	<class>com.afrAsia.entities.masters.AccountClass</class>
              	<class>com.afrAsia.entities.masters.CategoryMaster</class>
              	<class>com.afrAsia.entities.masters.Country</class>
@@ -19,7 +22,7 @@
              	<class>com.afrAsia.entities.masters.MaritalStatus</class>
              	<class>com.afrAsia.entities.masters.Prefix</class>
              	<class>com.afrAsia.entities.masters.RMDetails</class>
-             	<class>com.afrAsia.entities.masters.UIDType</class>
+
              	<class>com.afrAsia.entities.transactions.MobRmAppRefId</class>
              	<class>com.afrAsia.entities.transactions.MobAccountAdditionalDetail</class>
              	<class>com.afrAsia.entities.transactions.MobAccountAddnDetailsHist</class>
@@ -36,6 +39,7 @@
              	<class>com.afrAsia.entities.transactions.MobApplicantRecordIdHist</class>
              	<class>com.afrAsia.entities.transactions.MobApplPersonalDetailsHist</class>
              	<class>com.afrAsia.entities.transactions.MobAppRefRecordId</class>
+
              	
              	<properties>
              		<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
