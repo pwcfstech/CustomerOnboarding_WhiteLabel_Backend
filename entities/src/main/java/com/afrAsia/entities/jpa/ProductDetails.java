@@ -18,7 +18,7 @@ public class ProductDetails extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "PRODUCT_SHORT_DESC")
-	private String shortDescription;
+	private String feature;
 	@Column(name = "PRODUCT_LONG_DESC")
 	private String longDescription;
 	@Column(name = "INFO_LINK")
@@ -26,12 +26,12 @@ public class ProductDetails extends BaseEntity implements Serializable {
 	@Column(name = "IMAGE_URL")
 	private String imageURL;
 
-	public String getShortDescription() {
-		return shortDescription;
+	public String getFeature() {
+		return feature;
 	}
 
-	public void setShortDescription(String shortDescription) {
-		this.shortDescription = shortDescription;
+	public void setFeature(String feature) {
+		this.feature = feature;
 	}
 
 	public String getLongDescription() {
@@ -60,8 +60,8 @@ public class ProductDetails extends BaseEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ProductDetails [shortDescription=" + shortDescription + ", longDescription=" + longDescription
-				+ ", infoLink=" + infoLink + ", imageURL=" + imageURL + "]";
+		return "ProductDetails [feature=" + feature + ", longDescription=" + longDescription + ", infoLink=" + infoLink
+				+ ", imageURL=" + imageURL + "]";
 	}
 
 }

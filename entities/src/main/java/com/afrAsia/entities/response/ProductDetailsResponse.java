@@ -1,21 +1,25 @@
 package com.afrAsia.entities.response;
 
-public class ProductDetailsResponse {
-	
-	private String shortDescription;
-	
+import java.io.Serializable;
+
+public class ProductDetailsResponse implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private String feature;
+
 	private String longDescription;
-	
+
 	private String imageURL;
-	
+
 	private String InfoLink;
 
-	public String getShortDescription() {
-		return shortDescription;
+	public String getFeature() {
+		return feature;
 	}
 
-	public void setShortDescription(String shortDescription) {
-		this.shortDescription = shortDescription;
+	public void setFeature(String feature) {
+		this.feature = feature;
 	}
 
 	public String getLongDescription() {
@@ -41,5 +45,11 @@ public class ProductDetailsResponse {
 	public void setInfoLink(String infoLink) {
 		InfoLink = infoLink;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "ProductDetailsResponse [feature=" + feature + ", longDescription=" + longDescription + ", imageURL="
+				+ imageURL + ", InfoLink=" + InfoLink + "]";
+	}
+
 }

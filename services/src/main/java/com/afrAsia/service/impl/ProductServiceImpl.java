@@ -1,5 +1,6 @@
 package com.afrAsia.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import com.afrAsia.dao.jpa.CategoryJpaDAO;
 import com.afrAsia.dao.jpa.ProductDetailsJpaDao;
 import com.afrAsia.dao.jpa.ProductJpaDao;
-import com.afrAsia.entities.base.BaseEntity;
 import com.afrAsia.entities.jpa.Category;
 import com.afrAsia.entities.jpa.Product;
 import com.afrAsia.entities.jpa.ProductDetails;
@@ -69,8 +69,8 @@ public class ProductServiceImpl implements ProductService {
 
 			String categoryID = product.getCategoryID();
 			ProductResponse productResponse = new ProductResponse();
-			Long id=product.getId();
-			
+			Long id = product.getId();
+
 			productResponse.setProductId(id);
 			productResponse.setProductName(product.getProductName());
 			productResponse.setProductDescription(product.getProductDescription());
@@ -101,7 +101,7 @@ public class ProductServiceImpl implements ProductService {
 		for (Category category : categoryList) {
 			CategoryResponse categoryResponse = new CategoryResponse();
 			categoryResponse.setCategoryName(category.getCategoryName());
-			categoryResponse.setCategoryDescription(category.getCustCatDesc());
+			categoryResponse.setCategoryDescription(category.getCategoryDescription());
 
 			categoryResponse.setProducts(categoryVsProductsMap.get(category.getId() + ""));
 
@@ -126,14 +126,29 @@ public class ProductServiceImpl implements ProductService {
 
 		GenericResponse response = new GenericResponse();
 		Data dataResponse = new Data();
-		ProductDetailsResponse productDetailsResponse = new ProductDetailsResponse();
-		ProductDetails productDetails = productDetailsDao.getProductById(productID);
-		productDetailsResponse.setImageURL(productDetails.getImageURL());
-		productDetailsResponse.setInfoLink(productDetails.getInfoLink());
-		productDetailsResponse.setLongDescription(productDetails.getLongDescription());
-		productDetailsResponse.setShortDescription(productDetails.getShortDescription());
 
-		dataResponse.setProductdetails(productDetailsResponse);
+		List<ProductDetailsResponse> listProductDetailsResponse = new ArrayList<ProductDetailsResponse>();
+		//ProductDetailsResponse productDetailsResponse=new ProductDetailsResponse();
+		List<ProductDetails> productDetails = productDetailsDao.getProductById(productID);
+		
+		for (ProductDetails productdetail : productDetails) {
+			System.out.println("#####	inside service "+productdetail.toString());
+
+			ProductDetailsResponse productdetailsResponse = new ProductDetailsResponse();
+
+			productdetailsResponse.setFeature(productdetail.getFeature());
+			productdetailsResponse.setImageURL(productdetail.getImageURL());
+			productdetailsResponse.setInfoLink(productdetail.getInfoLink());
+			productdetailsResponse.setLongDescription(productdetail.getLongDescription());
+			System.out.println("ONLY RESPONSE : "+productdetailsResponse.toString());
+			listProductDetailsResponse.add(productdetailsResponse);
+			System.out.println("#####inside for "+listProductDetailsResponse);
+		}
+		
+		System.out.println("#####final list :"+listProductDetailsResponse.toString());
+		
+		
+		dataResponse.setProductdetails(listProductDetailsResponse);
 		response.setData(dataResponse);
 		return response;
 	}

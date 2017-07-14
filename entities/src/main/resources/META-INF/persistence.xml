@@ -22,7 +22,23 @@
              	<class>com.afrAsia.entities.masters.MaritalStatus</class>
              	<class>com.afrAsia.entities.masters.Prefix</class>
              	<class>com.afrAsia.entities.masters.RMDetails</class>
-             	<class>com.afrAsia.entities.masters.UIDType</class>
+
+             	<class>com.afrAsia.entities.transactions.MobRmAppRefId</class>
+             	<class>com.afrAsia.entities.transactions.MobAccountAdditionalDetail</class>
+             	<class>com.afrAsia.entities.transactions.MobAccountAddnDetailsHist</class>
+             	<class>com.afrAsia.entities.transactions.MobAccountDetail</class>
+             	<class>com.afrAsia.entities.transactions.MobAccountDetailsHist</class>
+             	<class>com.afrAsia.entities.transactions.MobApplAdditionalDtlsHist</class>
+             	<class>com.afrAsia.entities.transactions.MobApplCommDetailsHist</class>
+             	<class>com.afrAsia.entities.transactions.MobApplEmploymentDtlsHist</class>
+             	<class>com.afrAsia.entities.transactions.MobApplicantAdditionalDtl</class>
+             	<class>com.afrAsia.entities.transactions.MobApplicantCommDetail</class>
+             	<class>com.afrAsia.entities.transactions.MobApplicantEmploymentDtl</class>
+             	<class>com.afrAsia.entities.transactions.MobApplicantPersonalDetail</class>
+             	<class>com.afrAsia.entities.transactions.MobApplicantRecordId</class>
+             	<class>com.afrAsia.entities.transactions.MobApplicantRecordIdHist</class>
+             	<class>com.afrAsia.entities.transactions.MobApplPersonalDetailsHist</class>
+             	<class>com.afrAsia.entities.transactions.MobAppRefRecordId</class>
 
              	
              	<properties>

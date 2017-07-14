@@ -1,3 +1,4 @@
+com\afrAsia\dao\MobRmAppRefIdDao.class
 com\afrAsia\dao\CategoryDao.class
 com\afrAsia\dao\UIDTypeDao.class
 com\afrAsia\dao\PrefixDao.class
@@ -6,6 +7,7 @@ com\afrAsia\dao\EmploymentDao.class
 com\afrAsia\dao\DashBoardDao.class
 com\afrAsia\dao\UserDAO.class
 com\afrAsia\dao\DTDPSDAO.class
+com\afrAsia\dao\AccountCreateDao.class
 com\afrAsia\dao\CountryDao.class
 com\afrAsia\dao\AccountClassDao.class
 com\afrAsia\dao\ProductDao.class
