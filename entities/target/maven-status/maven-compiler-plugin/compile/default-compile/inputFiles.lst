@@ -3,9 +3,11 @@ C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\en
 C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\request\DeviceFootPrintReq.java
 C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\masters\BaseMaster.java
 C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\OauthAuthorization.java
+C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\DashBoardApplicationDetails.java
 C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\AppLoggedSummary.java
 C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\GenericResponse.java
 C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\AuthRule.java
+C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\DashBoardApplicationReferenceID.java
 C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\DeviceFootPrint.java
 C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\CategoryResponse.java
 C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\Data.java
@@ -43,8 +45,8 @@ C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\en
 C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\ProductDetails.java
 C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\masters\Country.java
 C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\AuthItem.java
-C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\DashBoard.java
 C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\masters\Employment.java
 C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\masters\AccountClass.java
+C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\DashBoardApplicantPersonalDetails.java
 C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\request\ProductDetailsReq.java
 C:\workspaces\AfrAsia\git\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\ProductDetailsResponse.java

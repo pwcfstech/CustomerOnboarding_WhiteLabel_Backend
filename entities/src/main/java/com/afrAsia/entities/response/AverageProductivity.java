@@ -2,54 +2,54 @@ package com.afrAsia.entities.response;
 
 import java.io.Serializable;
 
-public class AverageProductivity implements Serializable{
-	
+public class AverageProductivity implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
-	private float avgMonthly;
-	
-	private float avgQuarterly;
-	
-	private float avgHalfYear;
-	
-	private float avgYearly;
+	private double avgMonthly;
 
-	public float getAvgMonthly() {
+	private double avgQuarterly;
+
+	private double avgHalfYearly;
+
+	private double avgYearly;
+
+	public double getAvgMonthly() {
 		return avgMonthly;
 	}
 
-	public void setAvgMonthly(float avgMonthly) {
+	public void setAvgMonthly(double avgMonthly) {
 		this.avgMonthly = avgMonthly;
 	}
 
-	public float getAvgQuarterly() {
+	public double getAvgQuarterly() {
 		return avgQuarterly;
 	}
 
-	public void setAvgQuarterly(float avgQuarterly) {
+	public void setAvgQuarterly(double avgQuarterly) {
 		this.avgQuarterly = avgQuarterly;
 	}
 
-	public float getAvgHalfYear() {
-		return avgHalfYear;
+	public double getAvgHalfYearly() {
+		return avgHalfYearly;
 	}
 
-	public void setAvgHalfYear(float avgHalfYear) {
-		this.avgHalfYear = avgHalfYear;
+	public void setAvgHalfYearly(double avgHalfYearly) {
+		this.avgHalfYearly = avgHalfYearly;
 	}
 
-	public float getAvgYearly() {
+	public double getAvgYearly() {
 		return avgYearly;
 	}
 
-	public void setAvgYearly(float avgYearly) {
+	public void setAvgYearly(double avgYearly) {
 		this.avgYearly = avgYearly;
 	}
 
 	@Override
 	public String toString() {
-		return "AverageProductivity [avgMonthly=" + avgMonthly + ", avgQuarterly=" + avgQuarterly + ", avgHalfYear="
-				+ avgHalfYear + ", avgYearly=" + avgYearly + "]";
+		return "AverageProductivity [avgMonthly=" + avgMonthly + ", avgQuarterly=" + avgQuarterly + ", avgHalfYearly="
+				+ avgHalfYearly + ", avgYearly=" + avgYearly + "]";
 	}
-	
+
 }

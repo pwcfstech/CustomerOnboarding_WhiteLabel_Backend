@@ -34,4 +34,8 @@
 	<bean id="rmDetailsJpaDAO" class="com.afrAsia.dao.jpa.impl.RMDetailsJpaDaoImpl" />
 	<bean id="uidTypeJpaDAO" class="com.afrAsia.dao.jpa.impl.UIDTypeJpaDaoImpl" />
 	
+	<!-- Dashboard related class -->
+	<bean id="dashBoardJpaDao" class="com.afrAsia.dao.jpa.impl.DashBoardJpaDaoImpl" />
+	
+	
 </beans>

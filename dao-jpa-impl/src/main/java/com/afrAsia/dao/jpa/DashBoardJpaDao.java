@@ -1,10 +1,12 @@
-package com.afrAsia.dao;
+package com.afrAsia.dao.jpa;
 
 import java.util.Collection;
+import java.util.List;
 
+import com.afrAsia.dao.DashBoardDao;
 import com.afrAsia.entities.jpa.DashBoardApplicationReferenceID;
 
-public interface DashBoardDao {
+public interface DashBoardJpaDao extends DashBoardDao {
 
 	public Collection<DashBoardApplicationReferenceID> getMonthly();
 
@@ -30,5 +32,5 @@ public interface DashBoardDao {
 
 	// get pending since status
 	public Collection<DashBoardApplicationReferenceID> getPendingSinceStatus();
-
+	
 }

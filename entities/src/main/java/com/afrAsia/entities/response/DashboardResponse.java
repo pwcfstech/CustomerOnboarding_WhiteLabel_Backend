@@ -1,6 +1,7 @@
 package com.afrAsia.entities.response;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class DashboardResponse implements Serializable {
 
@@ -8,11 +9,11 @@ public class DashboardResponse implements Serializable {
 
 	private MessageHeader messageHeader;
 
-	private AverageProductivity avgProductivity;
+	private List<AverageProductivity> avgProductivity;
 
-	private AppLoggedSummary appLoggedSummary;
+	private List<AppLoggedSummary> appLoggedSummary;
 
-	private PendingAction pendingAction;
+	private List<PendingAction> pendingAction;
 
 	public MessageHeader getMessageHeader() {
 		return messageHeader;
@@ -22,27 +23,27 @@ public class DashboardResponse implements Serializable {
 		this.messageHeader = messageHeader;
 	}
 
-	public AverageProductivity getAvgProductivity() {
+	public List<AverageProductivity> getAvgProductivity() {
 		return avgProductivity;
 	}
 
-	public void setAvgProductivity(AverageProductivity avgProductivity) {
+	public void setAvgProductivity(List<AverageProductivity> avgProductivity) {
 		this.avgProductivity = avgProductivity;
 	}
 
-	public AppLoggedSummary getAppLoggedSummary() {
+	public List<AppLoggedSummary> getAppLoggedSummary() {
 		return appLoggedSummary;
 	}
 
-	public void setAppLoggedSummary(AppLoggedSummary appLoggedSummary) {
+	public void setAppLoggedSummary(List<AppLoggedSummary> appLoggedSummary) {
 		this.appLoggedSummary = appLoggedSummary;
 	}
 
-	public PendingAction getPendingAction() {
+	public List<PendingAction> getPendingAction() {
 		return pendingAction;
 	}
 
-	public void setPendingAction(PendingAction pendingAction) {
+	public void setPendingAction(List<PendingAction> pendingAction) {
 		this.pendingAction = pendingAction;
 	}
 

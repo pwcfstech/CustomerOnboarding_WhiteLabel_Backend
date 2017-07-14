@@ -1,10 +1,11 @@
-com\afrAsia\rest\ProductRestService.class
 com\afrAsia\rest\DTDPSRestService.class
-com\afrAsia\rest\UserRestService.class
-com\afrAsia\rest\MasterDataRestService.class
 com\afrAsia\soap\IDTDPSSoapService.class
 com\afrAsia\rest\AppVersionRestService.class
 com\afrAsia\rest\CustomerRestService.class
-com\afrAsia\soap\DTDPSSoapService.class
 com\afrAsia\CommonUtils.class
 com\afrAsia\Utils\AfrAsiaLogger.class
+com\afrAsia\rest\DashBoardSummaryRestService.class
+com\afrAsia\rest\ProductRestService.class
+com\afrAsia\rest\UserRestService.class
+com\afrAsia\rest\MasterDataRestService.class
+com\afrAsia\soap\DTDPSSoapService.class

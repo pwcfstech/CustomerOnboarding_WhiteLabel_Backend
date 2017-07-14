@@ -45,4 +45,8 @@
 		<property name="rmDetailsDAO" ref="rmDetailsJpaDAO" />
 		<property name="uidTypeDAO" ref="uidTypeJpaDAO" />
 	</bean>
+
+	<bean id="dashBoardService" class="com.afrAsia.service.impl.DashBoardServiceImpl">
+		<property name="dashBoardDao" ref="dashBoardJpaDao" />
+	</bean>
 </beans>						

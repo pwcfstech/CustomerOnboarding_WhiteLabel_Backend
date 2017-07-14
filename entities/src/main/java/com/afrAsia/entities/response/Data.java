@@ -1,7 +1,10 @@
 package com.afrAsia.entities.response;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,14 +20,7 @@ public class Data implements Serializable {
 
 	private Set<ProductResponse> product;
 
-	private ProductDetailsResponse productdetails;
-
-	private ProductDetailsResponse productDetailsResponse;
-
-	public void addCategory(CategoryResponse categoryResponse) {
-		categories=new HashSet<CategoryResponse>();
-		categories.add(categoryResponse);
-	}
+	private List<ProductDetailsResponse> productdetails;
 
 	public Set<CategoryResponse> getCategories() {
 		return categories;
@@ -42,26 +38,23 @@ public class Data implements Serializable {
 		this.product = product;
 	}
 
-	public ProductDetailsResponse getProductdetails() {
+	public List<ProductDetailsResponse> getProductdetails() {
 		return productdetails;
 	}
 
-	public void setProductdetails(ProductDetailsResponse productdetails) {
+	public void setProductdetails(List<ProductDetailsResponse> productdetails) {
 		this.productdetails = productdetails;
-	}
-
-	public ProductDetailsResponse getProductDetailsResponse() {
-		return productDetailsResponse;
-	}
-
-	public void setProductDetailsResponse(ProductDetailsResponse productDetailsResponse) {
-		this.productDetailsResponse = productDetailsResponse;
 	}
 
 	@Override
 	public String toString() {
-		return "Data [categories=" + categories + ", product=" + product + ", productdetails=" + productdetails
-				+ ", productDetailsResponse=" + productDetailsResponse + "]";
+		return "Data [categories=" + categories + ", product=" + product + ", productdetails=" + productdetails + "]";
 	}
 
+	public void addCategory(CategoryResponse categoryResponse) {
+		categories=new HashSet<CategoryResponse>();
+		categories.add(categoryResponse);
+	}
+
+	
 }

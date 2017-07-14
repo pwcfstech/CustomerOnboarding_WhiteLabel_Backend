@@ -21,6 +21,16 @@
              	<class>com.afrAsia.entities.masters.RMDetails</class>
              	<class>com.afrAsia.entities.masters.UIDType</class>
              	
+             	<!-- product related classes -->
+             	
+             	<class>com.afrAsia.entities.jpa.Product</class>
+             	<class>com.afrAsia.entities.jpa.ProductDetails</class>
+             	
+             	<!-- Dashboard related classes -->
+             	<class>com.afrAsia.entities.jpa.DashBoardApplicationReferenceID</class>
+             	<class>com.afrAsia.entities.jpa.DashBoardApplicationDetails</class>
+             	<class>com.afrAsia.entities.jpa.DashBoardApplicantPersonalDetails</class>
+             	
              	<properties>
              		<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
 <!--              		<property name="javax.persistence.schema-generation.database.action" value="create"/> -->
