@@ -14,7 +14,7 @@ import com.afrAsia.entities.listener.EntityListener;
 @Entity
 @Table(name = "MOB_ACCOUNT_DETAILS")
 @EntityListeners(value = { EntityListener.class })
-public class DashBoardApplicationDetails extends BaseEntity implements Serializable {
+public class ApplicationDetails extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,7 +31,7 @@ public class DashBoardApplicationDetails extends BaseEntity implements Serializa
 	private String mop;
 
 	@Column(name = "INDV_APPLICANT_REF_NO")
-	private int indvApplicantRefNo;
+	private Long indvApplicantRefNo;
 
 	@Column(name = "INDV_GUARDIAN_REF_NO")
 	private int indvGuardianRefNo;
@@ -164,11 +164,11 @@ public class DashBoardApplicationDetails extends BaseEntity implements Serializa
 		this.mop = mop;
 	}
 
-	public int getIndvApplicantRefNo() {
+	public Long getIndvApplicantRefNo() {
 		return indvApplicantRefNo;
 	}
 
-	public void setIndvApplicantRefNo(int indvApplicantRefNo) {
+	public void setIndvApplicantRefNo(Long indvApplicantRefNo) {
 		this.indvApplicantRefNo = indvApplicantRefNo;
 	}
 
@@ -438,8 +438,8 @@ public class DashBoardApplicationDetails extends BaseEntity implements Serializa
 
 	@Override
 	public String toString() {
-		return "DashBoardApplicationDetails [recordId=" + recordId + ", accountType=" + accountType
-				+ ", accountCategory=" + accountCategory + ", mop=" + mop + ", indvApplicantRefNo=" + indvApplicantRefNo
+		return "ApplicationDetails [recordId=" + recordId + ", accountType=" + accountType + ", accountCategory="
+				+ accountCategory + ", mop=" + mop + ", indvApplicantRefNo=" + indvApplicantRefNo
 				+ ", indvGuardianRefNo=" + indvGuardianRefNo + ", joint1ApplicantRefNo=" + joint1ApplicantRefNo
 				+ ", joint1GuandianRefNo=" + joint1GuandianRefNo + ", joint2ApplicantRefNo=" + joint2ApplicantRefNo
 				+ ", joint2GuandianRefNo=" + joint2GuandianRefNo + ", joint3ApplicantRefNo=" + joint3ApplicantRefNo

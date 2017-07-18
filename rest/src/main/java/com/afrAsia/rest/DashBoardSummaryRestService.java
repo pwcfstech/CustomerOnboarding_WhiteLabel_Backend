@@ -15,11 +15,10 @@ import com.afrAsia.service.DashBoardService;
 
 @Component
 @Path("{version}")
-public class DashBoardSummaryRestService 
-{
+public class DashBoardSummaryRestService {
 
 	private static final Logger logger = LoggerFactory.getLogger(DashBoardSummaryRestService.class);
-	
+
 	private DashBoardService dashBoardService;
 
 	public DashBoardService getDashBoardService() {
@@ -33,15 +32,14 @@ public class DashBoardSummaryRestService
 	@GET
 	@Path("/getRmDashboardSummaryApp")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAppversion() 
-	{
-		DashboardResponse dashboardResponse=null;
-		if(dashBoardService.getDashBoardSummery()==null){
+	public Response getAppversion() {
+		DashboardResponse dashboardResponse = null;
 
-			dashboardResponse=null;
-		}
-		else{
-			dashboardResponse=dashBoardService.getDashBoardSummery();
+		if (dashBoardService.getDashBoardSummery() == null) {
+
+			dashboardResponse = null;
+		} else {
+			dashboardResponse = dashBoardService.getDashBoardSummery();
 		}
 		return Response.ok(dashboardResponse, MediaType.APPLICATION_JSON).build();
 

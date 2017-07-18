@@ -9,44 +9,77 @@ public class DashboardResponse implements Serializable {
 
 	private MessageHeader messageHeader;
 
-	private List<AverageProductivity> avgProductivity;
+	private AverageProductivity avgProductivity;
 
-	private List<AppLoggedSummary> appLoggedSummary;
+	private AppLoggedSummary appLoggedSummary;
 
 	private List<PendingAction> pendingAction;
 
+	/**
+	 * @return the messageHeader
+	 */
 	public MessageHeader getMessageHeader() {
 		return messageHeader;
 	}
 
+	/**
+	 * @param messageHeader
+	 *            the messageHeader to set
+	 */
 	public void setMessageHeader(MessageHeader messageHeader) {
 		this.messageHeader = messageHeader;
 	}
 
-	public List<AverageProductivity> getAvgProductivity() {
+	/**
+	 * @return the avgProductivity
+	 */
+	public AverageProductivity getAvgProductivity() {
 		return avgProductivity;
 	}
 
-	public void setAvgProductivity(List<AverageProductivity> avgProductivity) {
+	/**
+	 * @param avgProductivity
+	 *            the avgProductivity to set
+	 */
+	public void setAvgProductivity(AverageProductivity avgProductivity) {
 		this.avgProductivity = avgProductivity;
 	}
 
-	public List<AppLoggedSummary> getAppLoggedSummary() {
+	/**
+	 * @return the appLoggedSummary
+	 */
+	public AppLoggedSummary getAppLoggedSummary() {
 		return appLoggedSummary;
 	}
 
-	public void setAppLoggedSummary(List<AppLoggedSummary> appLoggedSummary) {
+	/**
+	 * @param appLoggedSummary
+	 *            the appLoggedSummary to set
+	 */
+	public void setAppLoggedSummary(AppLoggedSummary appLoggedSummary) {
 		this.appLoggedSummary = appLoggedSummary;
 	}
 
+	/**
+	 * @return the pendingAction
+	 */
 	public List<PendingAction> getPendingAction() {
 		return pendingAction;
 	}
 
+	/**
+	 * @param pendingAction
+	 *            the pendingAction to set
+	 */
 	public void setPendingAction(List<PendingAction> pendingAction) {
 		this.pendingAction = pendingAction;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "DashboardResponse [messageHeader=" + messageHeader + ", avgProductivity=" + avgProductivity

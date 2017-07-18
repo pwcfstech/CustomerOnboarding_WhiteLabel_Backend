@@ -1,141 +1,258 @@
 package com.afrAsia.dao.jpa.impl;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.hibernate.SQLQuery;
+import javax.persistence.Query;
 
 import com.afrAsia.dao.jpa.DashBoardJpaDao;
-import com.afrAsia.entities.jpa.DashBoardApplicationReferenceID;
+import com.afrAsia.entities.jpa.ApplicantPersonalDetails;
+import com.afrAsia.entities.jpa.ApplicationReference;
 
-public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, DashBoardApplicationReferenceID>implements DashBoardJpaDao {
+public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationReference>implements DashBoardJpaDao {
 
-	public Collection<DashBoardApplicationReferenceID> getMonthly() {
+	public Collection<ApplicationReference> getMonthly() {
 
-		String queryString = "select * from MOB_RM_APP_REF_ID where MOB_RM_APP_REF_ID.APP_STATUS='ACCOUNT OPENED' and MOB_RM_APP_REF_ID.UPDATED_TIME <= TRUNC(SYSDATE) - 30";
-		SQLQuery query = (SQLQuery) getEntityManager().createNamedQuery(queryString);
+		String queryString = "from ApplicationReference ar where ar.appStatus=:as "
+				+ "and ar.updatedTime between :stDate and :edDate ";
 
-		List<DashBoardApplicationReferenceID> listOfEntries = query.addEntity(DashBoardApplicationReferenceID.class).list();
+		Query query = getEntityManager().createQuery(queryString);
+
+		Date today = new Date();
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(today);
+		cal.add(Calendar.DAY_OF_MONTH, -30);
+		Date today30 = cal.getTime();
+
+		query.setParameter("as", "ACCOUNT OPENED");
 		
-		return listOfEntries;
-		
+		 query.setParameter("stDate", today30); 
+		 query.setParameter("edDate", today);
+		 
 
-	}
+		List<ApplicationReference> listOfEntries = query.getResultList();
 
-	public Collection<DashBoardApplicationReferenceID> getQuarterly() {
-		String queryString = "select * from MOB_RM_APP_REF_ID where appStatus='ACCOUNT OPENED' UPDATED_TIME <= TRUNC(SYSDATE) - 90";
-		SQLQuery query = (SQLQuery) getEntityManager().createNamedQuery(queryString);
-
-		List<DashBoardApplicationReferenceID> listOfEntries = query.addEntity(DashBoardApplicationReferenceID.class).list();
+		System.out.println("######## in JpaDaoImpl , listOfEntries for monthly datas" + listOfEntries);
 
 		return listOfEntries;
 
 	}
 
-	public Collection<DashBoardApplicationReferenceID> getHalfYeary() {
-		String queryString = "select * from MOB_RM_APP_REF_ID where appStatus='ACCOUNT OPENED' UPDATED_TIME <= TRUNC(SYSDATE) - 180";
-		SQLQuery query = (SQLQuery) getEntityManager().createNamedQuery(queryString);
+	public Collection<ApplicationReference> getQuarterly() {
+		String queryString = "From ApplicationReference ar where ar.appStatus=:as "
+				+ "and ar.updatedTime BETWEEN :stDate AND :edDate";
 
-		List<DashBoardApplicationReferenceID> listOfEntries = query.addEntity(DashBoardApplicationReferenceID.class).list();
+		Query query = getEntityManager().createQuery(queryString);
+		Date today = new Date();
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(today);
+		cal.add(Calendar.DAY_OF_MONTH, -90);
+		Date today90 = cal.getTime();
+		query.setParameter("as", "ACCOUNT OPENED");
+		query.setParameter("stDate", today90);
+		query.setParameter("edDate", today);
 
-		
-		return listOfEntries;
+		List<ApplicationReference> listOfEntries = query.getResultList();
 
-	}
-
-	public Collection<DashBoardApplicationReferenceID> getYearly() {
-		String queryString = "select * from MOB_RM_APP_REF_ID where appStatus='ACCOUNT OPENED' UPDATED_TIME <= TRUNC(SYSDATE) - 365";
-		SQLQuery query = (SQLQuery) getEntityManager().createNamedQuery(queryString);
-
-		List<DashBoardApplicationReferenceID> listOfEntries = query.addEntity(DashBoardApplicationReferenceID.class).list();
-
-		return listOfEntries;
-
-	}
-
-	public Collection<DashBoardApplicationReferenceID> getLogged() {
-		String queryString = "select * from MOB_RM_APP_REF_ID WHERE UPDATED_TIME <= TRUNC(SYSDATE) - 30";
-		SQLQuery query = (SQLQuery) getEntityManager().createNamedQuery(queryString);
-
-		List<DashBoardApplicationReferenceID> listOfEntries = query.addEntity(DashBoardApplicationReferenceID.class).list();
+		System.out.println("######## listOfEntries for quarterly datas" + listOfEntries);
 
 		return listOfEntries;
 
 	}
 
-	public Collection<DashBoardApplicationReferenceID> getOpened() {
-		String queryString = "select * from MOB_RM_APP_REF_ID WHERE appStatus='ACCOUNT OPENED' AND UPDATED_TIME <= TRUNC(SYSDATE) - 30";
-		SQLQuery query = (SQLQuery) getEntityManager().createNamedQuery(queryString);
+	public Collection<ApplicationReference> getHalfYeary() {
+		String queryString = "From ApplicationReference ar where ar.appStatus=:as "
+				+ "and ar.updatedTime BETWEEN :stDate AND :edDate";
 
-		List<DashBoardApplicationReferenceID> listOfEntries = query.addEntity(DashBoardApplicationReferenceID.class).list();
+		Query query = getEntityManager().createQuery(queryString);
+		Date today = new Date();
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(today);
+		cal.add(Calendar.DAY_OF_MONTH, -180);
+		Date today180 = cal.getTime();
+		query.setParameter("as", "ACCOUNT OPENED");
+		query.setParameter("stDate", today180);
+		query.setParameter("edDate", today);
+
+		List<ApplicationReference> listOfEntries = query.getResultList();
+
+		System.out.println("######## listOfEntries for half yearly datas" + listOfEntries);
 
 		return listOfEntries;
 
 	}
 
-	public Collection<DashBoardApplicationReferenceID> getUnderProcessing() {
-		String queryString = "select * from MOB_RM_APP_REF_ID where appStatus='Under Processing' AND UPDATED_TIME <= TRUNC(SYSDATE) - 30";
-		SQLQuery query = (SQLQuery) getEntityManager().createNamedQuery(queryString);
+	public Collection<ApplicationReference> getYearly() {
+		String queryString = "From ApplicationReference ar where ar.appStatus=:as "
+				+ "and ar.updatedTime BETWEEN :stDate AND :edDate";
 
-		List<DashBoardApplicationReferenceID> listOfEntries = query.addEntity(DashBoardApplicationReferenceID.class).list();
+		Query query = getEntityManager().createQuery(queryString);
+		Date today = new Date();
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(today);
+		cal.add(Calendar.DAY_OF_MONTH, -365);
+		Date today365 = cal.getTime();
+		query.setParameter("as", "ACCOUNT OPENED");
+		query.setParameter("stDate", today365);
+		query.setParameter("edDate", today);
+
+		List<ApplicationReference> listOfEntries = query.getResultList();
+
+		System.out.println("######## listOfEntries for yearly datas" + listOfEntries);
 
 		return listOfEntries;
 
 	}
 
-	public Collection<DashBoardApplicationReferenceID> getRejected() {
+	public Collection<ApplicationReference> getLogged() {
+		String queryString = "From ApplicationReference ar where ar.updatedTime BETWEEN :stDate AND :edDate";
 
-		String queryString = "select * from MOB_RM_APP_REF_ID where appStatus='Rejected' AND UPDATED_TIME <= TRUNC(SYSDATE) - 30";
-		SQLQuery query = (SQLQuery) getEntityManager().createNamedQuery(queryString);
+		Query query = getEntityManager().createQuery(queryString);
 
-		List<DashBoardApplicationReferenceID> listOfEntries = query.addEntity(DashBoardApplicationReferenceID.class).list();
+		Date today = new Date();
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(today);
+		cal.add(Calendar.DAY_OF_MONTH, -30);
+		Date today30 = cal.getTime();
+
+		query.setParameter("stDate", today30);
+		query.setParameter("edDate", today);
+
+		List<ApplicationReference> listOfEntries = query.getResultList();
+
+		System.out.println("######## listOfEntries for number of logged users data" + listOfEntries);
+
+		return listOfEntries;
+
+	}
+
+	public Collection<ApplicationReference> getOpened() {
+		String queryString = "From ApplicationReference ar where ar.appStatus=:as "
+				+ "and ar.updatedTime BETWEEN :stDate AND :edDate";
+
+		Query query = getEntityManager().createQuery(queryString);
+
+		Date today = new Date();
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(today);
+		cal.add(Calendar.DAY_OF_MONTH, -30);
+		Date today30 = cal.getTime();
+
+		query.setParameter("as", "ACCOUNT OPENED");
+		query.setParameter("stDate", today30);
+		query.setParameter("edDate", today);
+
+		List<ApplicationReference> listOfEntries = query.getResultList();
+
+		System.out.println("######## listOfEntries for no of acc opened" + listOfEntries);
+
+		return listOfEntries;
+
+	}
+
+	public Collection<ApplicationReference> getUnderProcessing() {
+
+		String queryString = "From ApplicationReference ar where ar.appStatus=:as "
+				+ "and ar.updatedTime BETWEEN :stDate AND :edDate";
+
+		Query query = getEntityManager().createQuery(queryString);
+		Date today = new Date();
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(today);
+		cal.add(Calendar.DAY_OF_MONTH, -30);
+		Date today30 = cal.getTime();
+
+		query.setParameter("as", "Under Processing");
+		query.setParameter("stDate", today30);
+		query.setParameter("edDate", today);
+
+		List<ApplicationReference> listOfEntries = query.getResultList();
+
+		System.out.println("######## listOfEntries for under processing datas" + listOfEntries);
+
+		return listOfEntries;
+
+	}
+
+	public Collection<ApplicationReference> getRejected() {
+
+		String queryString = "From ApplicationReference ar where ar.appStatus=:as "
+				+ "and ar.updatedTime BETWEEN :stDate AND :edDate";
+
+		Query query = getEntityManager().createQuery(queryString);
+		Date today = new Date();
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(today);
+		cal.add(Calendar.DAY_OF_MONTH, -30);
+		Date today30 = cal.getTime();
+
+		query.setParameter("as", "Rejected Application");
+		query.setParameter("stDate", today30);
+		query.setParameter("edDate", today);
+
+		List<ApplicationReference> listOfEntries = query.getResultList();
+
+		System.out.println("######## listOfEntries for rejected datas" + listOfEntries);
 
 		return listOfEntries;
 
 	}
 
 	// get the details of reference number
-	public Collection<DashBoardApplicationReferenceID> getRefNo() {
+	public Collection<Long> getRefNo() {
 
-		String queryString = "select ID from MOB_RM_APP_REF_ID where appStatus='Require Attention'";
+		String queryString = "select ar.id From ApplicationReference ar where ar.appStatus=:as ";
 
-		SQLQuery query = (SQLQuery) getEntityManager().createNamedQuery(queryString);
+		Query query = getEntityManager().createQuery(queryString);
 
-		List<DashBoardApplicationReferenceID> listOfEntries = query.addEntity(DashBoardApplicationReferenceID.class).list();
+		query.setParameter("as", "Require Attention");
+
+		List<Long> listOfEntries = query.getResultList();
+
+		System.out.println("######## listOfEntries for all ids for Require Attention datas" + listOfEntries);
 
 		return listOfEntries;
 
 	}
 
 	// get the Custermer Name
-	public Collection<DashBoardApplicationReferenceID> getCustermerName() {
+	public Collection<Object> getCustermerName() {
 
-		String queryString = "SELECT pd.FIRST_NAME, pd.MIDDLE_NAME, pd.LAST_NAME FROM MOB_APPLICANT_PERSONAL_DETAILS pd "
-				+ "INNER JOIN MOB_ACCOUNT_DETAILS ad on pd.APPLICANT_ID = ad.INDV_APPLICANT_REF_NO "
-				+ "INNER JOIN MOB_RM_APP_REF_ID arf on ad.INDV_APPLICANT_REF_NO = arf.MOB_RM_APP_REF_ID"
-				+ "WHERE arf.APP_STATUS='Require Attention'";
+		String queryString1 ="SELECT apd.firstName,apd.middleName,apd.lastName FROM ApplicantPersonalDetails apd "
+		+ "WHERE apd.applicantId IN (SELECT ad.indvApplicantRefNo FROM ApplicationDetails ad "
+		+ "WHERE ad.indvApplicantRefNo IN (SELECT ar.id FROM ApplicationReference ar WHERE ar.appStatus = :as )) ";
+//		+ "WHERE apd.id=ar.id";
 
-		SQLQuery query = (SQLQuery) getEntityManager().createNamedQuery(queryString);
+		Query query1 = getEntityManager().createQuery(queryString1);
 
-		List<DashBoardApplicationReferenceID> listOfEntries = query.addEntity(DashBoardApplicationReferenceID.class).list();
+		query1.setParameter("as", "Require Attention");
 
-		return listOfEntries;
+		List<Object> listOfFirstName = query1.getResultList();
 
+		System.out.println("######## get all custermaer's first names ::: " + listOfFirstName);
+		
+		return listOfFirstName;
 	}
 
 	// get pending since status
-	public Collection<DashBoardApplicationReferenceID> getPendingSinceStatus() {
+	public Collection<Date> getPendingSinceStatus() {
 
-		String queryString = "select UPDATED_TIME from MOB_RM_APP_REF_ID where appStatus='Require Attention'";
+		String queryString = "select ar.updatedTime From ApplicationReference ar where ar.appStatus=:as ";
 
-		SQLQuery query = (SQLQuery) getEntityManager().createNamedQuery(queryString);
+		Query query = getEntityManager().createQuery(queryString);
 
-		List<DashBoardApplicationReferenceID> listOfEntries = query.addEntity(DashBoardApplicationReferenceID.class).list();
+		query.setParameter("as", "Require Attention");
+
+		List<Date> listOfEntries = query.getResultList();
+
+		System.out.println("####### pending status datas ::: " + listOfEntries);
 
 		return listOfEntries;
 
 	}
-
-	
 
 }

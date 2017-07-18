@@ -1,34 +1,36 @@
 package com.afrAsia.dao;
 
 import java.util.Collection;
+import java.util.Date;
 
-import com.afrAsia.entities.jpa.DashBoardApplicationReferenceID;
+import com.afrAsia.entities.jpa.ApplicantPersonalDetails;
+import com.afrAsia.entities.jpa.ApplicationReference;
 
 public interface DashBoardDao {
 
-	public Collection<DashBoardApplicationReferenceID> getMonthly();
+	public Collection<ApplicationReference> getMonthly();
 
-	public Collection<DashBoardApplicationReferenceID> getQuarterly();
+	public Collection<ApplicationReference> getQuarterly();
 
-	public Collection<DashBoardApplicationReferenceID> getHalfYeary();
+	public Collection<ApplicationReference> getHalfYeary();
 
-	public Collection<DashBoardApplicationReferenceID> getYearly();
+	public Collection<ApplicationReference> getYearly();
 
-	public Collection<DashBoardApplicationReferenceID> getLogged();
+	public Collection<ApplicationReference> getLogged();
 
-	public Collection<DashBoardApplicationReferenceID> getOpened();
+	public Collection<ApplicationReference> getOpened();
 
-	public Collection<DashBoardApplicationReferenceID> getUnderProcessing();
+	public Collection<ApplicationReference> getUnderProcessing();
 
-	public Collection<DashBoardApplicationReferenceID> getRejected();
+	public Collection<ApplicationReference> getRejected();
 
 	// get the details of reference number
-	public Collection<DashBoardApplicationReferenceID> getRefNo();
+	public Collection<Long> getRefNo();
 
 	// get the Custermer Name
-	public Collection<DashBoardApplicationReferenceID> getCustermerName();
+	public Collection<Object> getCustermerName();
 
 	// get pending since status
-	public Collection<DashBoardApplicationReferenceID> getPendingSinceStatus();
+	public Collection<Date> getPendingSinceStatus();
 
 }

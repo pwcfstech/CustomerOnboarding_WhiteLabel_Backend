@@ -14,7 +14,7 @@ import com.afrAsia.entities.listener.EntityListener;
 @Entity
 @Table(name = "MOB_APPLICANT_PERSONAL_DETAILS")
 @EntityListeners(value = { EntityListener.class })
-public class DashBoardApplicantPersonalDetails extends BaseEntity implements Serializable {
+public class ApplicantPersonalDetails extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,7 +22,7 @@ public class DashBoardApplicantPersonalDetails extends BaseEntity implements Ser
 	private int recordId;
 
 	@Column(name = "APPLICANT_ID")
-	private int applicantId;
+	private Long applicantId;
 
 	@Column(name = "RESIDENCY_STATUS")
 	private String recidencyStatus;
@@ -92,11 +92,11 @@ public class DashBoardApplicantPersonalDetails extends BaseEntity implements Ser
 		this.recordId = recordId;
 	}
 
-	public int getApplicantId() {
+	public Long getApplicantId() {
 		return applicantId;
 	}
 
-	public void setApplicantId(int applicantId) {
+	public void setApplicantId(Long applicantId) {
 		this.applicantId = applicantId;
 	}
 
@@ -262,14 +262,14 @@ public class DashBoardApplicantPersonalDetails extends BaseEntity implements Ser
 
 	@Override
 	public String toString() {
-		return "DashBoardApplicantPersonalDetails [recordId=" + recordId + ", applicantId=" + applicantId
-				+ ", recidencyStatus=" + recidencyStatus + ", otherBank1=" + otherBank1 + ", otherBank2=" + otherBank2
-				+ ", otherBank3=" + otherBank3 + ", isEmployee=" + isEmployee + ", title=" + title + ", firstName="
-				+ firstName + ", lastName=" + lastName + ", maidenName=" + maidenName + ", middleName=" + middleName
-				+ ", nic=" + nic + ", passportNo=" + passportNo + ", passportExpiryDate=" + passportExpiryDate
-				+ ", nationality=" + nationality + ", email=" + email + ", dob=" + dob + ", countryBirth="
-				+ countryBirth + ", existingCustomer=" + existingCustomer + ", custCif=" + custCif + ", maritalStatus="
-				+ maritalStatus + "]";
+		return "ApplicantPersonalDetails [recordId=" + recordId + ", applicantId=" + applicantId + ", recidencyStatus="
+				+ recidencyStatus + ", otherBank1=" + otherBank1 + ", otherBank2=" + otherBank2 + ", otherBank3="
+				+ otherBank3 + ", isEmployee=" + isEmployee + ", title=" + title + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", maidenName=" + maidenName + ", middleName=" + middleName + ", nic="
+				+ nic + ", passportNo=" + passportNo + ", passportExpiryDate=" + passportExpiryDate + ", nationality="
+				+ nationality + ", email=" + email + ", dob=" + dob + ", countryBirth=" + countryBirth
+				+ ", existingCustomer=" + existingCustomer + ", custCif=" + custCif + ", maritalStatus=" + maritalStatus
+				+ "]";
 	}
 
 }

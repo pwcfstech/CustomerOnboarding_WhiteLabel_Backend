@@ -13,7 +13,7 @@ import com.afrAsia.entities.listener.EntityListener;
 @Entity
 @Table(name = "MOB_RM_APP_REF_ID")
 @EntityListeners(value = { EntityListener.class })
-public class DashBoardApplicationReferenceID extends BaseEntity implements Serializable {
+public class ApplicationReference extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Column(name = "RM_USED_ID")

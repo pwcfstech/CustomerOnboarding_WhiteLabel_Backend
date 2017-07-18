@@ -1,3 +1,4 @@
+com\afrAsia\rest\ApplicationDetailsRestService.class
 com\afrAsia\rest\DTDPSRestService.class
 com\afrAsia\soap\IDTDPSSoapService.class
 com\afrAsia\rest\AppVersionRestService.class
