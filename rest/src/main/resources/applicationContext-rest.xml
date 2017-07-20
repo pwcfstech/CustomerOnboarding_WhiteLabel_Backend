@@ -53,6 +53,10 @@
 		<property name="dashBoardService" ref="dashBoardService" />
 	</bean>
 	
+	<!-- <bean id="myTrackerRestService" class="com.afrAsia.rest.MyTrackerRestService" >
+		<property name="myTrackerService" ref="myTrackerService" />
+	</bean> -->
+	
 	<!-- <bean id="dtdpsSoapService" class="com.afrAsia.soap.DTDPSSoapService" >
 		<property name="dtdpsService" ref="dtdpsService" />
 	</bean> -->

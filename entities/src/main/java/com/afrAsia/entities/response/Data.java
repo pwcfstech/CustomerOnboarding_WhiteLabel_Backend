@@ -20,7 +20,7 @@ public class Data implements Serializable {
 
 	private Set<ProductResponse> product;
 
-	private List<ProductDetailsResponse> productdetails;
+	private List<ProductDetailsResponse> productDetails;
 
 	public Set<CategoryResponse> getCategories() {
 		return categories;
@@ -38,23 +38,22 @@ public class Data implements Serializable {
 		this.product = product;
 	}
 
-	public List<ProductDetailsResponse> getProductdetails() {
-		return productdetails;
+	public List<ProductDetailsResponse> getProductDetails() {
+		return productDetails;
 	}
 
-	public void setProductdetails(List<ProductDetailsResponse> productdetails) {
-		this.productdetails = productdetails;
+	public void setProductDetails(List<ProductDetailsResponse> productDetails) {
+		this.productDetails = productDetails;
 	}
 
 	@Override
 	public String toString() {
-		return "Data [categories=" + categories + ", product=" + product + ", productdetails=" + productdetails + "]";
+		return "Data [categories=" + categories + ", product=" + product + ", productDetails=" + productDetails + "]";
 	}
 
 	public void addCategory(CategoryResponse categoryResponse) {
-		categories=new HashSet<CategoryResponse>();
+		categories = new HashSet<CategoryResponse>();
 		categories.add(categoryResponse);
 	}
 
-	
 }

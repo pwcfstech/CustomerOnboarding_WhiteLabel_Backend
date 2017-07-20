@@ -26,17 +26,17 @@ public class BaseEntity implements Serializable {
 	private Long id;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "CREATED_TIME", nullable = false)
+	@Column(name = "CREATED_DATE", nullable = false)
 	private Date createdTime;
 
 	@Column(name = "CREATED_BY", nullable = false)
 	private String createdBy;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "UPDATED_TIME", nullable = true)
+	@Column(name = "MODIFIED_DATE", nullable = true)
 	private Date updatedTime;
 
-	@Column(name = "UPDATED_BY", nullable = true)
+	@Column(name = "MODIFIED_BY", nullable = true)
 	private String updatedBy;
 
 	public Long getId() {

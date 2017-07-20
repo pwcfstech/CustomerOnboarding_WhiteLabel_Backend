@@ -1,6 +1,5 @@
 package com.afrAsia.dao.jpa.impl;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -10,8 +9,8 @@ import java.util.List;
 import javax.persistence.Query;
 
 import com.afrAsia.dao.jpa.DashBoardJpaDao;
-import com.afrAsia.entities.jpa.ApplicantPersonalDetails;
 import com.afrAsia.entities.jpa.ApplicationReference;
+import com.afrAsia.entities.response.Apps;
 
 public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationReference>implements DashBoardJpaDao {
 
@@ -222,20 +221,19 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 	// get the Custermer Name
 	public Collection<Object> getCustermerName() {
 
-		String queryString1 ="SELECT apd.firstName,apd.middleName,apd.lastName FROM ApplicantPersonalDetails apd "
+		String queryString ="SELECT apd.firstName,apd.middleName,apd.lastName FROM ApplicantPersonalDetails apd "
 		+ "WHERE apd.applicantId IN (SELECT ad.indvApplicantRefNo FROM ApplicationDetails ad "
 		+ "WHERE ad.indvApplicantRefNo IN (SELECT ar.id FROM ApplicationReference ar WHERE ar.appStatus = :as )) ";
-//		+ "WHERE apd.id=ar.id";
-
-		Query query1 = getEntityManager().createQuery(queryString1);
+		
+		Query query1 = getEntityManager().createQuery(queryString);
 
 		query1.setParameter("as", "Require Attention");
-
-		List<Object> listOfFirstName = query1.getResultList();
-
-		System.out.println("######## get all custermaer's first names ::: " + listOfFirstName);
 		
-		return listOfFirstName;
+		List<Object> listOfNames = query1.getResultList();
+		
+		System.out.println("####### customer names ::: " + listOfNames);
+
+		return listOfNames;
 	}
 
 	// get pending since status

@@ -17,7 +17,9 @@ com\afrAsia\dao\jpa\DashBoardJpaDao.class
 com\afrAsia\dao\jpa\impl\CategoryMasterJpaDaoImpl.class
 com\afrAsia\dao\jpa\impl\MaritalStatusJpaDaoImpl.class
 com\afrAsia\dao\jpa\impl\DashBoardJpaDaoImpl.class
+com\afrAsia\dao\jpa\RmApplicationsAppJpaDAO.class
 com\afrAsia\dao\jpa\AccountCreateJpaDao.class
+com\afrAsia\dao\jpa\impl\RmApplicationsAppJpaDAOImpl.class
 com\afrAsia\dao\jpa\OAuthAuthorizationJpaDAO.class
 com\afrAsia\dao\jpa\impl\AccountClassJpaDaoImpl.class
 com\afrAsia\dao\jpa\impl\DTDPSJpaDAOImpl.class

@@ -22,7 +22,7 @@ public class DashBoardSummaryRestService {
 	private DashBoardService dashBoardService;
 
 	public DashBoardService getDashBoardService() {
-		return dashBoardService;
+		return dashBoardService; 
 	}
 
 	public void setDashBoardService(DashBoardService dashBoardService) {

@@ -9,6 +9,7 @@ C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\transactions\MobApplicantEmploymentDtl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\jpa\ApplicationDetails.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\jpa\MsgHeader.java
+C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\response\RmApplicationAppResponse.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\transactions\MobApplPersonalDetailsHist.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\request\GenericRequest.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\request\ProdCatListReq.java
@@ -28,6 +29,7 @@ C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\masters\MaritalStatus.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\response\PendingAction.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\transactions\MobApplAdditionalDtlsHist.java
+C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\request\RmApplicationAppReq.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\request\AccountCreationRequest.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\request\Data.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\request\DeviceFootPrintReq.java
@@ -50,6 +52,7 @@ C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\transactions\MobApplicantPersonalDetail.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\request\ProductDetailsReq.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\transactions\MobApplicantCommDetail.java
+C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\request\SearchParameter.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\response\ProductResponse.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\jpa\AppVersionId.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\response\MessageHeader.java

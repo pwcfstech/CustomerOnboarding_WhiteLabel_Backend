@@ -2,10 +2,11 @@ package com.afrAsia.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.afrAsia.dao.jpa.DashBoardJpaDao;
-import com.afrAsia.entities.jpa.ApplicantPersonalDetails;
 import com.afrAsia.entities.jpa.ApplicationReference;
 import com.afrAsia.entities.response.AppLoggedSummary;
 import com.afrAsia.entities.response.Apps;
@@ -45,7 +46,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 
 		listMonthlyRecords = (List<ApplicationReference>) dashBoardDao.getMonthly();
 
-		double avgMonthly = ((listMonthlyRecords.size()) / 30.0);
+		double avgMonthly = ((listMonthlyRecords.size()) /*/ 30.0*/);
 		System.out.println("#########avgMonthly " + avgMonthly);
 
 		if (avgMonthly < 0.1) {
@@ -60,7 +61,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 
 		listQuarterlyRecords = (List<ApplicationReference>) dashBoardDao.getQuarterly();
 
-		double avgQuarterly = ((listQuarterlyRecords.size()) / 30.0) / 3;
+		double avgQuarterly = ((listQuarterlyRecords.size()) /*/ 30.0*/) / 3;
 		System.out.println("#########avgQuarterly " + avgQuarterly);
 
 		if (avgQuarterly < 0.1) {
@@ -75,7 +76,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 
 		listHalfYearlyRecords = (List<ApplicationReference>) dashBoardDao.getHalfYeary();
 
-		double avgHalfYearly = ((listHalfYearlyRecords.size()) / 30.0) / 6;
+		double avgHalfYearly = ((listHalfYearlyRecords.size()) /*/ 30.0*/) / 6;
 		System.out.println("#########avgHalfYearly " + avgHalfYearly);
 
 		if (avgHalfYearly < 0.1) {
@@ -90,7 +91,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 
 		listYearlyRecords = (List<ApplicationReference>) dashBoardDao.getYearly();
 
-		double avgYearly = ((listYearlyRecords.size()) / 30.0) / 12;
+		double avgYearly = ((listYearlyRecords.size()) /*/ 30.0*/) / 12;
 		System.out.println("#########avgYearly " + avgYearly);
 
 		if (avgYearly < 0.1) {
@@ -184,13 +185,13 @@ public class DashBoardServiceImpl implements DashBoardService {
 		return appLoggedSummary;
 	}
 
-	public List<PendingAction> getPendingAction() {
+	public PendingAction getPendingAction() {
 
 		PendingAction pendingAction = new PendingAction();
 
-		List<PendingAction> listOfPendingActions = new ArrayList<PendingAction>();
-
 		List<Apps> listApps = new ArrayList<Apps>();
+		
+		Set<Apps> setOfApps = new HashSet<Apps>(listApps);
 
 		// Apps apps=new Apps();
 
@@ -210,6 +211,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 			apps.setRefNo(id + "");
 			System.out.println("##################### apps " + apps.getRefNo());
 			listApps.add(apps);
+			setOfApps.add(apps);
 		}
 
 		// get all the customer names --------------- pending
@@ -223,25 +225,25 @@ public class DashBoardServiceImpl implements DashBoardService {
 			apps.setCustomerName(outputs[0].toString() + " " + outputs[1].toString() + " " + outputs[1].toString());
 			System.out.println("############### CustomerName :: " + apps.getCustomerName());
 			listApps.add(i, apps);
-			
+			setOfApps.add(apps);   
 			i++;
 		}
 
 		// get number of pending dates
 
 		listOfPendingSinceStatus = (List<Date>) dashBoardDao.getPendingSinceStatus();
-		System.out.println("######### listOfPendingSinceStatus " + listOfPendingSinceStatus);
+		System.out.println("######### listOfPendingSinceStatus " + listOfPendingSinceStatus); 
 		for (Date date : listOfPendingSinceStatus) {
 			Apps apps = listApps.get(i);
 			apps.setPendingSince(date);
 			System.out.println("########### date :: " + apps.getPendingSince());
 			listApps.add(i, apps);
+			setOfApps.add(apps);
 			i++;
 		}
-		pendingAction.setApps(listApps);
-		listOfPendingActions.add(pendingAction);
+		pendingAction.setApps(setOfApps);
 
-		return listOfPendingActions;
+		return pendingAction;
 	}
 
 	public DashboardResponse getDashBoardSummery() {

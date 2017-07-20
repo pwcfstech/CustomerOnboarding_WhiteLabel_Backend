@@ -4,10 +4,10 @@ import com.afrAsia.entities.response.GenericResponse;
 
 public interface ProductService {
 	
-		// for get Product List
+		// to get Product List
 		public GenericResponse getProducts();
 			
-		//for get Product Details id 
+		//to get Product Details id 
 		public GenericResponse getProductById(Long productID);
-
+		
 }

@@ -7,6 +7,7 @@ com\afrAsia\dao\EmploymentDao.class
 com\afrAsia\dao\DashBoardDao.class
 com\afrAsia\dao\UserDAO.class
 com\afrAsia\dao\DTDPSDAO.class
+com\afrAsia\dao\RmApplicationsAppDao.class
 com\afrAsia\dao\AccountCreateDao.class
 com\afrAsia\dao\CountryDao.class
 com\afrAsia\dao\AccountClassDao.class

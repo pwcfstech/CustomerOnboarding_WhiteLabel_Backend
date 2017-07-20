@@ -2,17 +2,19 @@ package com.afrAsia.entities.response;
 
 import java.io.Serializable;
 
+import com.afrAsia.entities.request.RequestError;
+
 public class MessageHeader implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Error error;
+	private RequestError error;
 
-	public Error getError() {
+	public RequestError getError() {
 		return error;
 	}
 
-	public void setError(Error error) {
+	public void setError(RequestError error) {
 		this.error = error;
 	}
 
@@ -20,41 +22,4 @@ public class MessageHeader implements Serializable {
 	public String toString() {
 		return "MsgHeader [error=" + error + "]";
 	}
-
-	public class Error implements Serializable {
-		private String cd;
-		private String rsn;
-		private String customCode;
-
-		public String getCd() {
-			return cd;
-		}
-
-		public void setCd(String cd) {
-			this.cd = cd;
-		}
-
-		public String getRsn() {
-			return rsn;
-		}
-
-		public void setRsn(String rsn) {
-			this.rsn = rsn;
-		}
-
-		public String getCustomCode() {
-			return customCode;
-		}
-
-		public void setCustomCode(String customCode) {
-			this.customCode = customCode;
-		}
-
-		@Override
-		public String toString() {
-			return "Error [cd=" + cd + ", rsn=" + rsn + ", customCode=" + customCode + "]";
-		}
-
-	}
-
 }

@@ -148,7 +148,7 @@ public class ProductServiceImpl implements ProductService {
 		System.out.println("#####final list :"+listProductDetailsResponse.toString());
 		
 		
-		dataResponse.setProductdetails(listProductDetailsResponse);
+		dataResponse.setProductDetails(listProductDetailsResponse);
 		response.setData(dataResponse);
 		return response;
 	}

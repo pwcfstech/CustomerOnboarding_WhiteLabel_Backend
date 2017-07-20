@@ -53,4 +53,51 @@ public class ApplicationReference extends BaseEntity implements Serializable {
 				+ appStatus + "]";
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((appStatus == null) ? 0 : appStatus.hashCode());
+		result = prime * result + ((rmName == null) ? 0 : rmName.hashCode());
+		result = prime * result + ((rmUsedId == null) ? 0 : rmUsedId.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ApplicationReference other = (ApplicationReference) obj;
+		if (appStatus == null) {
+			if (other.appStatus != null)
+				return false;
+		} else if (!appStatus.equals(other.appStatus))
+			return false;
+		if (rmName == null) {
+			if (other.rmName != null)
+				return false;
+		} else if (!rmName.equals(other.rmName))
+			return false;
+		if (rmUsedId == null) {
+			if (other.rmUsedId != null)
+				return false;
+		} else if (!rmUsedId.equals(other.rmUsedId))
+			return false;
+		return true;
+	}
+
 }

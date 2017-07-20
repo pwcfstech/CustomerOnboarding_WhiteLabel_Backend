@@ -1,4 +1,3 @@
-com\afrAsia\entities\response\MessageHeader$Error.class
 com\afrAsia\entities\listener\EntityListener.class
 com\afrAsia\entities\response\ProductResponse.class
 com\afrAsia\entities\transactions\MobApplicantRecordId.class
@@ -11,6 +10,7 @@ com\afrAsia\entities\base\BaseEntity.class
 com\afrAsia\entities\jpa\OAuthAccessToken.class
 com\afrAsia\entities\response\DailyTxnDataResponse.class
 com\afrAsia\entities\jpa\MsgHeader$Error.class
+com\afrAsia\entities\response\RmApplicationAppResponse.class
 com\afrAsia\entities\response\DeviceFootPrintResponse.class
 com\afrAsia\entities\masters\BaseMaster.class
 com\afrAsia\entities\transactions\HistTableCompositePK.class
@@ -27,6 +27,7 @@ com\afrAsia\entities\response\PendingAction.class
 com\afrAsia\entities\request\ProdCatListReq.class
 com\afrAsia\entities\jpa\DeviceFootPrint.class
 com\afrAsia\entities\transactions\MobApplicantAdditionalDtl.class
+com\afrAsia\entities\request\SearchParameter.class
 com\afrAsia\entities\transactions\MobApplicantCommDetail.class
 com\afrAsia\entities\response\Data.class
 com\afrAsia\entities\transactions\MobApplPersonalDetailsHist.class
@@ -44,6 +45,7 @@ com\afrAsia\entities\jpa\RmApplication.class
 com\afrAsia\entities\response\MastersDataResponse$Data$MaritalStatus.class
 com\afrAsia\entities\response\MastersResponse$AccountClass.class
 com\afrAsia\entities\response\MastersResponse$Data.class
+com\afrAsia\entities\request\RmApplicationAppReq.class
 com\afrAsia\entities\response\AverageProductivity.class
 com\afrAsia\entities\jpa\ApplicationDetails.class
 com\afrAsia\entities\request\DeviceFootPrintReq.class
