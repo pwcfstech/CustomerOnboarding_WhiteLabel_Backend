@@ -20,7 +20,7 @@ public class RmApplication implements Serializable {
 	@Id
 	@Column(name = "ID")
     private Integer applicationId;
-	@Column(name = "RM_USED_ID")
+	@Column(name = "RM_USER_ID")
 	private String rmUserId;
 	@Column(name = "RM_NAME")
 	private String rmName;

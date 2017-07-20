@@ -16,7 +16,7 @@ import com.afrAsia.entities.listener.EntityListener;
 public class ApplicationReference extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Column(name = "RM_USED_ID")
+	@Column(name = "RM_USER_ID")
 	private String rmUsedId;
 	@Column(name = "RM_NAME")
 	private String rmName;

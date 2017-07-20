@@ -184,6 +184,8 @@ public class DashBoardServiceImpl implements DashBoardService {
 
 		return appLoggedSummary;
 	}
+	
+	
 
 	public PendingAction getPendingAction() {
 
@@ -193,7 +195,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 		
 		Set<Apps> setOfApps = new HashSet<Apps>(listApps);
 
-		// Apps apps=new Apps();
+		//Apps apps=new Apps();
 
 		List<Long> listOfReferenceNumber = new ArrayList<Long>();
 
@@ -207,11 +209,11 @@ public class DashBoardServiceImpl implements DashBoardService {
 		System.out.println("#########listOfReferenceNumber " + listOfReferenceNumber);
 
 		for (Long id : listOfReferenceNumber) {
-			Apps apps = new Apps();
+			Apps apps=new Apps();
 			apps.setRefNo(id + "");
 			System.out.println("##################### apps " + apps.getRefNo());
 			listApps.add(apps);
-			setOfApps.add(apps);
+			//setOfApps.add(apps);
 		}
 
 		// get all the customer names --------------- pending
@@ -222,10 +224,11 @@ public class DashBoardServiceImpl implements DashBoardService {
 		for (Object object : listOfCustormerName) {
 			Apps apps = listApps.get(i);
 			Object[] outputs = (Object[]) object;
-			apps.setCustomerName(outputs[0].toString() + " " + outputs[1].toString() + " " + outputs[1].toString());
-			System.out.println("############### CustomerName :: " + apps.getCustomerName());
-			listApps.add(i, apps);
-			setOfApps.add(apps);   
+			apps.setCustomerName(outputs[0].toString() + " " + outputs[1].toString() + " " + outputs[2].toString());
+			//System.out.println("############### CustomerName :: " + apps.getCustomerName());
+			//listApps.add(i, apps);
+			listApps.add(apps);   
+			//setOfApps.add(apps);
 			i++;
 		}
 
@@ -237,10 +240,12 @@ public class DashBoardServiceImpl implements DashBoardService {
 			Apps apps = listApps.get(i);
 			apps.setPendingSince(date);
 			System.out.println("########### date :: " + apps.getPendingSince());
-			listApps.add(i, apps);
-			setOfApps.add(apps);
+			//listApps.add(i, apps);
+			listApps.add(apps);
+			//setOfApps.add(apps);
 			i++;
 		}
+		setOfApps.addAll(listApps);
 		pendingAction.setApps(setOfApps);
 
 		return pendingAction;
