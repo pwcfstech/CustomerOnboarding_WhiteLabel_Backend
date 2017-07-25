@@ -12,44 +12,36 @@ import com.afrAsia.entities.base.BaseEntity;
  * @author nyalfernandes
  *
  */
-public class EntityListener
-{
+public class EntityListener {
 
-    public String getUser()
-    {
-        return "PLATFORM";
-    }
+	public String getUser() {
+		return "PLATFORM";
+	}
 
-    @PrePersist
-    public void prePersist(final BaseEntity entity)
-    {
-        if (entity == null)
-            return;
+	@PrePersist
+	public void prePersist(final BaseEntity entity) {
+		if (entity == null)
+			return;
 
-        if (entity.getCreatedBy() == null)
-        {
-            entity.setCreatedBy(getUser());
-        }
-        
-        if (entity.getCreatedTime() == null)
-        {
-            entity.setCreatedTime(new Date());
-        }
-    }
-    
-    public void preUpate(final BaseEntity entity)
-    {
-        if (entity == null)
-            return;
+		if (entity.getCreatedBy() == null) {
+			entity.setCreatedBy(getUser());
+		}
 
-        if (entity.getUpdatedBy() == null)
-        {
-            entity.setUpdatedBy(getUser());
-        }
-        
-        if (entity.getUpdatedTime() == null)
-        {
-            entity.setUpdatedTime(new Date());
-        }
-    }
+		if (entity.getCreatedTime() == null) {
+			entity.setCreatedTime(new Date());
+		}
+	}
+
+	public void preUpate(final BaseEntity entity) {
+		if (entity == null)
+			return;
+
+		if (entity.getUpdatedBy() == null) {
+			entity.setUpdatedBy(getUser());
+		}
+
+		if (entity.getUpdatedTime() == null) {
+			entity.setUpdatedTime(new Date());
+		}
+	}
 }

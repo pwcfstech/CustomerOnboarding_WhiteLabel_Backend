@@ -27,6 +27,7 @@ public class AuthenticationRestService
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(String loginStringRequest)
 	{
+		
 		return Response.ok().build();
 	}
 	

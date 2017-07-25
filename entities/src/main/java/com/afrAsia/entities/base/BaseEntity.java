@@ -18,104 +18,71 @@ import javax.persistence.TemporalType;
  *
  */
 @MappedSuperclass
-public class BaseEntity implements Serializable
-{
-    private static final long serialVersionUID = 1L;
+public class BaseEntity implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_time", nullable = false)
-    private Date createdTime;
-    
-    @Column(name = "created_by", nullable = false)
-    private String createdBy;
-    
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_time", nullable = true)
-    private Date updatedTime;
-    
-    @Column(name = "updated_by", nullable = true)
-    private String updatedBy;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    public Long getId()
-    {
-        return id;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "CREATED_DATE", nullable = false)
+	private Date createdTime;
 
-    public void setId(long id)
-    {
-        this.id = id;
-    }
+	@Column(name = "CREATED_BY", nullable = false)
+	private String createdBy;
 
-    public Date getCreatedTime()
-    {
-        return createdTime;
-    }
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "MODIFIED_DATE", nullable = true)
+	private Date updatedTime;
 
-    public void setCreatedTime(Date createdTime)
-    {
-        this.createdTime = createdTime;
-    }
+	@Column(name = "MODIFIED_BY", nullable = true)
+	private String updatedBy;
 
-    public String getCreatedBy()
-    {
-        return createdBy;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setCreatedBy(String createdBy)
-    {
-        this.createdBy = createdBy;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Date getUpdatedTime()
-    {
-        return updatedTime;
-    }
+	public Date getCreatedTime() {
+		return createdTime;
+	}
 
-    public void setUpdatedTime(Date updatedTime)
-    {
-        this.updatedTime = updatedTime;
-    }
+	public void setCreatedTime(Date createdTime) {
+		this.createdTime = createdTime;
+	}
 
-    public String getUpdatedBy()
-    {
-        return updatedBy;
-    }
+	public String getCreatedBy() {
+		return createdBy;
+	}
 
-    public void setUpdatedBy(String updatedBy)
-    {
-        this.updatedBy = updatedBy;
-    }
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
 
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
-    }
+	public Date getUpdatedTime() {
+		return updatedTime;
+	}
 
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        BaseEntity other = (BaseEntity) obj;
-        if (id == null)
-        {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
-    }
+	public void setUpdatedTime(Date updatedTime) {
+		this.updatedTime = updatedTime;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	@Override
+	public String toString() {
+		return "BaseEntity [id=" + id + ", createdTime=" + createdTime + ", createdBy=" + createdBy + ", updatedTime="
+				+ updatedTime + ", updatedBy=" + updatedBy + "]";
+	}
 
 }

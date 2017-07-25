@@ -1,25 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
-             version="2.1">
-             
-             <persistence-unit name="PROJECT" transaction-type="RESOURCE_LOCAL">
-             	<provider>org.hibernate.ejb.HibernatePersistence</provider>
-             	
-             	<class>com.afrAsia.entities.jpa.User</class>
-             	<class>com.afrAsia.entities.jpa.DigitalTxnDaily</class>
-             	<class>com.afrAsia.entities.jpa.AppVersion</class>
-             	<class>com.afrAsia.entities.jpa.DeviceFootPrint</class>
-             	
-             	<properties>
-             		<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
-<!--              		<property name="javax.persistence.schema-generation.database.action" value="create"/> -->
-             	</properties>
-             </persistence-unit>
-             
-             
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+	version="2.1">
+
+	<persistence-unit name="PROJECT" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+		<class>com.afrAsia.entities.jpa.User</class>
+		<class>com.afrAsia.entities.jpa.DigitalTxnDaily</class>
+		<class>com.afrAsia.entities.jpa.AppVersion</class>
+		<class>com.afrAsia.entities.jpa.DeviceFootPrint</class>
+
+		<class>com.afrAsia.entities.jpa.RmApplication</class>
+
+		<class>com.afrAsia.entities.masters.AccountClass</class>
+		<class>com.afrAsia.entities.masters.CategoryMaster</class>
+		<class>com.afrAsia.entities.masters.Country</class>
+		<class>com.afrAsia.entities.masters.Employment</class>
+		<class>com.afrAsia.entities.masters.MaritalStatus</class>
+		<class>com.afrAsia.entities.masters.Prefix</class>
+		<class>com.afrAsia.entities.masters.RMDetails</class>
+
+		<class>com.afrAsia.entities.transactions.MobRmAppRefId</class>
+		<class>com.afrAsia.entities.transactions.MobAccountAdditionalDetail</class>
+		<class>com.afrAsia.entities.transactions.MobAccountAddnDetailsHist</class>
+		<class>com.afrAsia.entities.transactions.MobAccountDetail</class>
+		<class>com.afrAsia.entities.transactions.MobAccountDetailsHist</class>
+		<class>com.afrAsia.entities.transactions.MobApplAdditionalDtlsHist</class>
+		<class>com.afrAsia.entities.transactions.MobApplCommDetailsHist</class>
+		<class>com.afrAsia.entities.transactions.MobApplEmploymentDtlsHist</class>
+		<class>com.afrAsia.entities.transactions.MobApplicantAdditionalDtl</class>
+		<class>com.afrAsia.entities.transactions.MobApplicantCommDetail</class>
+		<class>com.afrAsia.entities.transactions.MobApplicantEmploymentDtl</class>
+		<class>com.afrAsia.entities.transactions.MobApplicantPersonalDetail</class>
+		<class>com.afrAsia.entities.transactions.MobApplicantRecordId</class>
+		<class>com.afrAsia.entities.transactions.MobApplicantRecordIdHist</class>
+		<class>com.afrAsia.entities.transactions.MobApplPersonalDetailsHist</class>
+		<class>com.afrAsia.entities.transactions.MobAppRefRecordId</class>
+
+
+		<!-- product related classes -->
+
+		<class>com.afrAsia.entities.jpa.Product</class>
+		<class>com.afrAsia.entities.jpa.ProductDetails</class>
+
+		<!-- Dashboard related classes -->
+		<class>com.afrAsia.entities.jpa.ApplicantPersonalDetails</class>
+		<class>com.afrAsia.entities.jpa.ApplicationDetails</class>
+		<class>com.afrAsia.entities.jpa.ApplicationReference</class>
+
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
+			<!-- <property name="javax.persistence.schema-generation.database.action" 
+				value="create"/> -->
+		</properties>
+	</persistence-unit>
+
+
 
 </persistence>
 

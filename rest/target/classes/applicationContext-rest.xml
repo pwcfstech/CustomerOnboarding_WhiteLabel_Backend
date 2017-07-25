@@ -41,7 +41,36 @@
 		<property name="appVersionService" ref="appVersionService" />
 	</bean>
 	
+	<bean id="productRestService" class="com.afrAsia.rest.ProductRestService" >
+		<property name="productService" ref="productService" /> 
+	</bean>
+	
+	<bean id="masterDataRestService" class="com.afrAsia.rest.MasterDataRestService" >
+		<property name="masterDataService" ref="masterDataService" />
+	</bean>
+	
+	<bean id="dashBoardSummaryRestService" class="com.afrAsia.rest.DashBoardSummaryRestService" >
+		<property name="dashBoardService" ref="dashBoardService" />
+	</bean>
+	
+	<!-- <bean id="myTrackerRestService" class="com.afrAsia.rest.MyTrackerRestService" >
+		<property name="myTrackerService" ref="myTrackerService" />
+	</bean> -->
+	
 	<!-- <bean id="dtdpsSoapService" class="com.afrAsia.soap.DTDPSSoapService" >
 		<property name="dtdpsService" ref="dtdpsService" />
 	</bean> -->
+	
+<!-- 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="SYSTEM" />
+		<property name="password" value="sameer" />
+		<property name="password" value="sameer" />			
+		<property name="initialSize" value="2" />
+		<property name="maxTotal" value="5" />
+		<property name="maxIdle" value="1" />
+		<property name="minIdle" value="1" />
+	</bean>  -->
 </beans>

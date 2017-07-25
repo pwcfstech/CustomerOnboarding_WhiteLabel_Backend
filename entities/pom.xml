@@ -38,5 +38,11 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.afrAsia</groupId>
+			<artifactId>entities</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 </project>

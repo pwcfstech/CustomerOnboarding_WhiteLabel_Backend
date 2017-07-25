@@ -30,11 +30,11 @@
 		<property name="maxTotal" value="#{dbProperties[maxConnections]}" />
 		<property name="maxIdle" value="#{dbProperties[maxIdle]}"/>
 		<property name="minIdle" value="#{dbProperties[minIdle]}"/>
-		<property name="connectionInitSqls">
+		<!-- <property name="connectionInitSqls">
 			<list>
 				<value>SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;</value>
 			</list>
-		</property>
+		</property> -->
 	</bean>
 
 	<bean id="entityManagerFactory"

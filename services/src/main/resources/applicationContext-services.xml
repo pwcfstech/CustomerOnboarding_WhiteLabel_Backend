@@ -30,4 +30,26 @@
 		<property name="appVersionDAO" ref="appVersionJpaDAO" />
 	</bean>
 
+	<bean id="productService" class="com.afrAsia.service.impl.ProductServiceImpl">
+		<property name="categoryDao" ref="categoryJpaDAO" />
+		<property name="productDao" ref="productJpaDAO" />
+		<property name="productDetailsDao" ref="productDetailsJpaDao" />
+	</bean>
+	<bean id="masterDataService" class="com.afrAsia.service.impl.MasterDataServiceImpl">
+		<property name="accountClassDAO" ref="accountClassJpaDAO" />
+		<property name="categoryMasterDAO" ref="categoryMasterJpaDAO" />
+		<property name="countryDAO" ref="countryJpaDAO" />
+		<property name="employmentDAO" ref="employmentJpaDAO" />
+		<property name="maritalStatusDAO" ref="maritalStatusJpaDAO" />
+		<property name="prefixDAO" ref="prefixJpaDAO" />
+		<property name="rmDetailsDAO" ref="rmDetailsJpaDAO" />
+		<property name="uidTypeDAO" ref="uidTypeJpaDAO" />
+	</bean>
+
+	<bean id="dashBoardService" class="com.afrAsia.service.impl.DashBoardServiceImpl">
+		<property name="dashBoardDao" ref="dashBoardJpaDao" />
+	</bean>
+	<bean id="accountCreationService" class="com.afrAsia.service.impl.AccountCreationServiceImpl">
+		
+	</bean>
 </beans>						

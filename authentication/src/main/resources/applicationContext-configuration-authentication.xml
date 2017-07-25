@@ -14,8 +14,9 @@
 						http://www.springframework.org/schema/ldap 				http://www.springframework.org/schema/ldap/spring-ldap.xsd
 						http://www.springframework.org/schema/util 				http://www.springframework.org/schema/util/spring-util-4.1.xsd">
 
-	<util:properties id="ldapProperties" location="file:ldap.properties" ignore-resource-not-found="false" />
 	
+	<util:properties id="ldapProperties" location="file:ldap.properties" ignore-resource-not-found="false" />
+	<!-- <util:properties id="ldapProperties" location="file:C:///workspaces/AfrAsia/git/afrasia-platform/authentication/src/main/java/ldap.properties" ignore-resource-not-found="false" /> -->
 	<!-- Create client details bean for manage client details from database 
 		.The JdbcClientDetailsService provide default implementation for fetching 
 		the data from oauth_client_details table .We have created custom class that 
@@ -256,25 +257,25 @@
 		<sec:access-denied-handler ref="oauthAccessDeniedHandler" />
 	</sec:http> -->
 	
-	<sec:http pattern="/v*/request_otp" security="none"></sec:http>
-	
-	<sec:http pattern="/v*/sign_in" security="none"></sec:http>
+	<sec:http pattern="/v*/**" security="none"></sec:http>
+		
+	<!-- sec:http pattern="/v*/sign_in" security="none"></sec:http>
 
 	<sec:http pattern="/**/add_user_admin_role" security="none"></sec:http>
 	
 	<sec:http pattern="/v*/accounts/count" security="none"></sec:http>
 		
-	<sec:http pattern="/v*/property_listings/count" security="none"></sec:http>
+	<sec:http pattern="/v*/property_listings/count" security="none"></sec:http-->
 		
-	<sec:http pattern="/**" create-session="never"
-	authentication-manager-ref="authenticationManager">
+	<!--  sec:http pattern="/**" create-session="never"
+		authentication-manager-ref="authenticationManager">
 		<sec:anonymous enabled="false" />
 		<sec:intercept-url pattern="/v*/**" access="ROLE_USER,ROLE_ADMIN" />
 		<sec:intercept-url pattern="/admin/**" access="ROLE_ADMIN" />
 		<sec:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" /> 
 		<sec:http-basic entry-point-ref="oauthAuthenticationEntryPoint" />
 		<sec:access-denied-handler ref="oauthAccessDeniedHandler" />
-	</sec:http>
+	</sec:http-->
 
 	<bean id="customOAuth2ExceptionRenderer" class="com.afrAsia.authenticate.impl.CustomOAuth2ExceptionRenderer" />
 

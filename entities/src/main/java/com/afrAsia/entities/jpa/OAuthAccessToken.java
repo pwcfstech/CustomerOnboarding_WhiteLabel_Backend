@@ -11,7 +11,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.afrAsia.entities.listener.EntityListener;
-import com.mysql.fabric.xmlrpc.Client;
 
 
 @Entity
@@ -19,7 +18,9 @@ import com.mysql.fabric.xmlrpc.Client;
 @Table(name = "oauth_access_token")
 public class OAuthAccessToken implements Serializable
 {
-    @Id
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @Column(name = "token_id")
     private String tokenId;
 
