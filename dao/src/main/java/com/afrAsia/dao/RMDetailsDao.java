@@ -10,4 +10,6 @@ public interface RMDetailsDao
 	public List<RMDetails> getRMDetails();
 	
 	public RMDetails getRMDetailById(String rmId);
+	
+	public void saveRmDetails(RMDetails obj);
 }

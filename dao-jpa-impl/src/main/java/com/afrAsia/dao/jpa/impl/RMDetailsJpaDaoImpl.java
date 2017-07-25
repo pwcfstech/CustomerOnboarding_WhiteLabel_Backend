@@ -25,4 +25,12 @@ public class RMDetailsJpaDaoImpl extends BaseJpaDAOImpl<String, RMDetails>implem
 		}
 		return findById(rmId);
 	}
+
+	public void saveRmDetails(RMDetails obj) 
+	{
+		if (obj != null)
+		{
+			persist(obj);
+		}
+	}
 }
