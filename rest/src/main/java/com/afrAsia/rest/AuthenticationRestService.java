@@ -10,6 +10,15 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Component;
 
+import com.afrAsia.CommonUtils;
+import com.afrAsia.entities.request.LoginRequest;
+import com.afrAsia.entities.request.LogoutRequest;
+import com.afrAsia.entities.request.RequestError;
+import com.afrAsia.entities.response.LoginResponse;
+import com.afrAsia.entities.response.LogoutResponse;
+import com.afrAsia.entities.response.MessageHeader;
+import com.afrAsia.service.AuthenticationService;
+
 /**
  * Defines the skeleton for login, logout and session management service
  * 
@@ -20,6 +29,18 @@ import org.springframework.stereotype.Component;
 @Path("{version}")
 public class AuthenticationRestService 
 {
+	
+	private AuthenticationService authenticationService;
+	
+	public AuthenticationService getAuthenticationService() 
+	{
+		return authenticationService;
+	}
+	
+	public void setAuthenticationService(AuthenticationService authenticationService) 
+	{
+		this.authenticationService = authenticationService;
+	}
 
 	@POST
 	@Path("/login")
@@ -27,8 +48,27 @@ public class AuthenticationRestService
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(String loginStringRequest)
 	{
+		LoginResponse response = null;
+		try
+		{
+			LoginRequest loginRequest = CommonUtils.jsonStringToObject(loginStringRequest, LoginRequest.class);
+			response = authenticationService.login(loginRequest);
+		}
+		catch (Exception e)
+		{
+			MessageHeader msgHeader = new MessageHeader();
+			RequestError error = new RequestError();
+			error.setCd("401");
+			error.setCustomCode("ERR401");
+			error.setRsn("Login failed.");
+			msgHeader.setError(error);
+			
+			response = new LoginResponse();
+			response.setMsgHeader(msgHeader);
+			response.setData(null);
+		}
 		
-		return Response.ok().build();
+		return Response.ok(response).build();
 	}
 	
 	@POST
@@ -37,7 +77,27 @@ public class AuthenticationRestService
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response logout(String logoutStringRequest)
 	{
-		return Response.ok().build();
+		LogoutResponse response = null;
+		try
+		{
+			LogoutRequest logoutRequest = CommonUtils.jsonStringToObject(logoutStringRequest, LogoutRequest.class);
+			response = authenticationService.logout(logoutRequest);
+		}
+		catch (Exception e)
+		{
+			MessageHeader msgHeader = new MessageHeader();
+			RequestError error = new RequestError();
+			error.setCd("401");
+			error.setCustomCode("ERR401");
+			error.setRsn("Logout failed.");
+			msgHeader.setError(error);
+			
+			response = new LogoutResponse();
+			response.setMsgHeader(msgHeader);
+			response.setData(null);
+		}
+		
+		return Response.ok(response).build();
 	}
 	
 	@GET
@@ -45,6 +105,15 @@ public class AuthenticationRestService
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response checkSession()
 	{
+		try
+		{
+			
+		}
+		catch (Exception e)
+		{
+			
+		}
+		
 		return Response.ok().build();
 	}
 }

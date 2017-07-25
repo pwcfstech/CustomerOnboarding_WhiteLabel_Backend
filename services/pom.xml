@@ -29,6 +29,12 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>com.afrAsia</groupId>
+			<artifactId>authentication</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 		</dependency>

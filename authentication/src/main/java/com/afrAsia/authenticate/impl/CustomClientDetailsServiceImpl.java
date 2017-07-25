@@ -7,9 +7,10 @@ import org.springframework.security.oauth2.provider.ClientRegistrationException;
 
 import com.afrAsia.authenticate.CustomClientDetailsService;
 import com.afrAsia.dao.OAuthAuthorizationDAO;
+import com.afrAsia.dao.RMDetailsDao;
 import com.afrAsia.dao.UserDAO;
 import com.afrAsia.entities.jpa.OauthAuthorization;
-import com.afrAsia.entities.jpa.User;
+import com.afrAsia.entities.masters.RMDetails;
 
 /**
  * The Class <Code> CustomClientDetailsServiceImpl </Code> service is custom
@@ -25,6 +26,18 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
     private OAuthAuthorizationDAO oAuthAuthorizationDAO;
     
     private UserDAO userDAO;
+    
+    private RMDetailsDao rmDetailsDAO;
+    
+    public RMDetailsDao getRmDetailsDAO() 
+    {
+		return rmDetailsDAO;
+	}
+    
+    public void setRmDetailsDAO(RMDetailsDao rmDetailsDAO) 
+    {
+		this.rmDetailsDAO = rmDetailsDAO;
+	}
     
     public UserDAO getUserDAO() 
     {
@@ -61,13 +74,15 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
     public void saveClientDetail(String clientId, String resourceId, String clientSecret, String scope, String authorizedGrantTypes, String webServerRedirectUri, String authorities,
             int accessTokenValidity, int refreshTokenValidity, String additionalInformation, String autoApprove)
     {
-        User client = userDAO.findById(Integer.valueOf(clientId));
+    	
+    	RMDetails rmDetails = rmDetailsDAO.getRMDetailById(clientId);
+//        User client = userDAO.findById(Integer.valueOf(clientId));
         OauthAuthorization oauthAuthorization = new OauthAuthorization();
         oauthAuthorization.setResourceIds(resourceId);
         oauthAuthorization.setAuthorizedGrantTypes(authorizedGrantTypes);
         oauthAuthorization.setAuthorities(authorities);
         oauthAuthorization.setScope(scope);
-        oauthAuthorization.setClient(client);
+        oauthAuthorization.setClient(rmDetails);
         oauthAuthorization.setClientSecret(clientSecret);
         oauthAuthorization.setAccessTokenValidity(accessTokenValidity);
         oauthAuthorization.setCreatedBy(clientId);
@@ -91,7 +106,7 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 	        CustomOauthAuthorization customOauthAuthorization = null;
 	        if (oauthAuthorization != null)
 	        {
-	            customOauthAuthorization = new CustomOauthAuthorization(oauthAuthorization.getClient().getId()+"", oauthAuthorization.getResourceIds(), oauthAuthorization.getClientSecret(),
+	            customOauthAuthorization = new CustomOauthAuthorization(oauthAuthorization.getClient().getRmId()+"", oauthAuthorization.getResourceIds(), oauthAuthorization.getClientSecret(),
 	                    oauthAuthorization.getScope(), oauthAuthorization.getAuthorizedGrantTypes(), oauthAuthorization.getAuthorities(), oauthAuthorization.getAccessTokenValidity());
 	        }
 	        return customOauthAuthorization;

@@ -1,15 +1,22 @@
 package com.afrAsia;
 
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
 import com.afrAsia.entities.jpa.MsgHeader;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class CommonUtils {
+public class CommonUtils 
+{
+	
 	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-
+	private static ObjectMapper mapper = new ObjectMapper();
+	
 	/**
 	 * Adjust Database Equivalent of boolean value
 	 * @param value
@@ -68,9 +75,42 @@ public class CommonUtils {
 	public static void invalidReqErrorMsg(MsgHeader msgHeader) {
 		com.afrAsia.entities.jpa.MsgHeader.Error error = msgHeader.getError();
 		error.setCd("404");
-		error.setRsn("invaild Request");
-		
-		
+		error.setRsn("invaild Request");	
+	}
+	
+	/**
+	 * Method that deserialises a json string into it's corresponding object.
+	 * 
+	 * @param jsonString
+	 * @param classType
+	 * @return
+	 * @throws JsonParseException
+	 * @throws IOException
+	 * @throws JsonMappingException
+	 */
+	public static <T> T jsonStringToObject(String jsonString, Class<T> classType) throws JsonParseException, IOException, JsonMappingException
+	{
+		if (jsonString == null || classType == null)
+		{
+			return null;
+		}
+		return mapper.readValue(jsonString, classType);
+	}
+	
+	/**
+	 * Method that serialises an object into a json string.
+	 * 
+	 * @param o
+	 * @return
+	 * @throws JsonProcessingException
+	 */
+	public static String objectToJsonString(Object o) throws JsonProcessingException
+	{
+		if (o == null)
+		{
+			return null;
+		}
+		return mapper.writeValueAsString(o);
 	}
 
 }

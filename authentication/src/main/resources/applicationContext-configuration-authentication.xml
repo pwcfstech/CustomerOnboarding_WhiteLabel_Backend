@@ -27,6 +27,7 @@
 		class="com.afrAsia.authenticate.impl.CustomClientDetailsServiceImpl">
 		<property name="oAuthAuthorizationDAO" ref="oAuthAuthorizationDAO" />
 		<property name="userDAO" ref="userJpaDAO" />
+		<property name="rmDetailsDAO" ref="rmDetailsJpaDAO" />
 	</bean>
 
 	<!-- Configure Authentication manager -->
@@ -217,7 +218,7 @@
 		<sec:custom-filter ref="clientCredentialsTokenEndpointFilter"
 			before="BASIC_AUTH_FILTER" />
 		<sec:custom-filter ref="oAuth2ClientContextFilter"
-			after="EXCEPTION_TRANSLATION_FILTER " />
+			after="EXCEPTION_TRANSLATION_FILTER" />
 		<sec:access-denied-handler ref="oauthAccessDeniedHandler" />
 	</sec:http>
 	
@@ -257,7 +258,7 @@
 		<sec:access-denied-handler ref="oauthAccessDeniedHandler" />
 	</sec:http> -->
 	
-	<sec:http pattern="/v*/**" security="none"></sec:http>
+	<sec:http pattern="/v*/login" security="none"></sec:http>
 		
 	<!-- sec:http pattern="/v*/sign_in" security="none"></sec:http>
 
@@ -267,7 +268,7 @@
 		
 	<sec:http pattern="/v*/property_listings/count" security="none"></sec:http-->
 		
-	<!--  sec:http pattern="/**" create-session="never"
+	<sec:http pattern="/**" create-session="never"
 		authentication-manager-ref="authenticationManager">
 		<sec:anonymous enabled="false" />
 		<sec:intercept-url pattern="/v*/**" access="ROLE_USER,ROLE_ADMIN" />
@@ -275,10 +276,9 @@
 		<sec:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" /> 
 		<sec:http-basic entry-point-ref="oauthAuthenticationEntryPoint" />
 		<sec:access-denied-handler ref="oauthAccessDeniedHandler" />
-	</sec:http-->
+	</sec:http>
 
 	<bean id="customOAuth2ExceptionRenderer" class="com.afrAsia.authenticate.impl.CustomOAuth2ExceptionRenderer" />
-
 
 	<ldap:context-source
           url="#{ldapProperties[ldapUrl]}"

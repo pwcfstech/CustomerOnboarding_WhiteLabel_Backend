@@ -1,7 +1,5 @@
 package com.afrAsia.entities.response;
 
-import com.afrAsia.entities.jpa.MsgHeader;
-
 /**
  * Structure for Login Response
  * @author nyalfernandes
@@ -9,15 +7,15 @@ import com.afrAsia.entities.jpa.MsgHeader;
  */
 public class LogoutResponse 
 {
-	private MsgHeader msgHeader;
+	private MessageHeader msgHeader;
 
 	private LogoutResponse data;
 
-	public MsgHeader getMsgHeader() {
+	public MessageHeader getMsgHeader() {
 		return msgHeader;
 	}
 
-	public void setMsgHeader(MsgHeader msgHeader) {
+	public void setMsgHeader(MessageHeader msgHeader) {
 		this.msgHeader = msgHeader;
 	}
 
