@@ -155,7 +155,7 @@
 
 					<!-- <outputDirectory>/Users/nyalfernandes/projects/Installers/apache-tomcat-7.0.62/webapps/</outputDirectory> -->
 
-					<outputDirectory>C:\apache-tomcat-8.0.32\webapps</outputDirectory>
+					<outputDirectory>C:\Users\nyalf769\Documents\UBI\source\apache-tomcat-8.5.13 2\apache-tomcat-8.5.13\webapps\</outputDirectory>
 
 				</configuration>
 			</plugin>

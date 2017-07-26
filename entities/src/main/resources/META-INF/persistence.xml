@@ -52,7 +52,11 @@
 		<class>com.afrAsia.entities.jpa.ApplicationReference</class>
 
 		<properties>
-			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+			<!-- Automatically drop then create table -->
+			<property name="hibernate.hbm2ddl.auto" value="create" />
+			<!-- print out sql -->
+			<property name="hibernate.show_sql" value="true" />
 			<!-- <property name="javax.persistence.schema-generation.database.action" 
 				value="create"/> -->
 		</properties>
