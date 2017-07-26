@@ -40,7 +40,12 @@
 		<class>com.afrAsia.entities.transactions.MobApplPersonalDetailsHist</class>
 		<class>com.afrAsia.entities.transactions.MobAppRefRecordId</class>
 
-
+		<class>com.afrAsia.entities.jpa.AuthAssignment</class>
+		<class>com.afrAsia.entities.jpa.AuthItem</class>
+		<class>com.afrAsia.entities.jpa.AuthItemChild</class>
+		<class>com.afrAsia.entities.jpa.AuthRule</class>
+		<class>com.afrAsia.entities.jpa.OAuthAccessToken</class>
+		<class>com.afrAsia.entities.jpa.OauthAuthorization</class>
 		<!-- product related classes -->
 
 		<class>com.afrAsia.entities.jpa.Product</class>
@@ -52,7 +57,11 @@
 		<class>com.afrAsia.entities.jpa.ApplicationReference</class>
 
 		<properties>
-			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+			<!-- Automatically drop then create table -->
+			<property name="hibernate.hbm2ddl.auto" value="create" />
+			<!-- print out sql -->
+			<property name="hibernate.show_sql" value="true" />
 			<!-- <property name="javax.persistence.schema-generation.database.action" 
 				value="create"/> -->
 		</properties>

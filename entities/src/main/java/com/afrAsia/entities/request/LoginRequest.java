@@ -23,5 +23,4 @@ public class LoginRequest
 		this.data = data;
 	}
 	
-	
 }

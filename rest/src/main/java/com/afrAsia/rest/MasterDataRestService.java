@@ -125,7 +125,7 @@ public class MasterDataRestService {
 		for( RMDetails rmDetails : rmDetailsList){
 			System.out.println(rmDetails);
 			com.afrAsia.entities.response.MastersDataResponse.Data.RMDetails rmDetailsRes= new MastersDataResponse().new Data().new RMDetails();
-			rmDetailsRes.setRmId(rmDetails.getRmId());
+			rmDetailsRes.setRmId(rmDetails.getId());
 			rmDetailsRes.setRmName(rmDetails.getRmName());
 			rmDetailsResList.add(rmDetailsRes);
 			

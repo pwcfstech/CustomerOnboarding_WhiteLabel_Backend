@@ -44,6 +44,10 @@ public class AuthenticationServiceImpl implements AuthenticationService
 	
 	private DefaultOAuth2RequestFactory oAuth2RequestFactory;
 	
+	public void setTokenServices(DefaultTokenServices tokenServices) {
+		this.tokenServices = tokenServices;
+	}
+	
 	public void setoAuth2RequestFactory(DefaultOAuth2RequestFactory oAuth2RequestFactory) {
 		this.oAuth2RequestFactory = oAuth2RequestFactory;
 	}
@@ -104,6 +108,9 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		OAuth2AccessToken token = getTokenDetails(userId, clientSecret, "client_credentials");
 		
 		responseData.setoAuthToken(token.getValue());
+		responseData.setRmName(userId);
+		responseData.setSuccess("true");
+		response.setData(responseData);
 		
 		return response;
 	}
@@ -111,7 +118,10 @@ public class AuthenticationServiceImpl implements AuthenticationService
 	public LogoutResponse logout(LogoutRequest logoutRequest) 
 	{
 		
-		return null;
+		LogoutResponse response = new LogoutResponse();
+		
+		String userId = logoutRequest.getData().getUserId();
+		return response;
 	}
 
 	public GenericResponse checkSession() 

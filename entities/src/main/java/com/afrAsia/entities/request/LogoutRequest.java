@@ -8,7 +8,7 @@ package com.afrAsia.entities.request;
 public class LogoutRequest 
 {
 	private MessageHeader msgHeader;
-	private LogoutRequest data;
+	private LogoutDataRequest data;
 	
 	public MessageHeader getMsgHeader() {
 		return msgHeader;
@@ -16,10 +16,10 @@ public class LogoutRequest
 	public void setMsgHeader(MessageHeader msgHeader) {
 		this.msgHeader = msgHeader;
 	}
-	public LogoutRequest getData() {
+	public LogoutDataRequest getData() {
 		return data;
 	}
-	public void setData(LogoutRequest data) {
+	public void setData(LogoutDataRequest data) {
 		this.data = data;
 	}
 	

@@ -21,7 +21,7 @@ import com.afrAsia.entities.masters.RMDetails;
 @Entity
 @EntityListeners(EntityListener.class)
 @Table(name = "oauth_authorization")
-@NamedQueries({ @NamedQuery(name = OauthAuthorization.QUERY_FIND_BY_CLIENT_ID, query = "SELECT oaa FROM OauthAuthorization oaa where oaa.client.rmId = :clientId") })
+@NamedQueries({ @NamedQuery(name = OauthAuthorization.QUERY_FIND_BY_CLIENT_ID, query = "SELECT oaa FROM OauthAuthorization oaa where oaa.client.id = :clientId") })
 public class OauthAuthorization extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

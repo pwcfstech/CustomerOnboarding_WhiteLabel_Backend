@@ -13,6 +13,13 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.196</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>com.afrAsia</groupId>
 			<artifactId>dao</artifactId>
 			<version>${project.version}</version>

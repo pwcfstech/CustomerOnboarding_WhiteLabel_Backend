@@ -7,8 +7,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.afrAsia.CommonUtils;
 import com.afrAsia.entities.request.LoginRequest;
@@ -56,6 +58,7 @@ public class AuthenticationRestService
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
 			MessageHeader msgHeader = new MessageHeader();
 			RequestError error = new RequestError();
 			error.setCd("401");
@@ -66,6 +69,7 @@ public class AuthenticationRestService
 			response = new LoginResponse();
 			response.setMsgHeader(msgHeader);
 			response.setData(null);
+			return Response.status(Status.FORBIDDEN).entity(response).build();
 		}
 		
 		return Response.ok(response).build();
@@ -85,6 +89,7 @@ public class AuthenticationRestService
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
 			MessageHeader msgHeader = new MessageHeader();
 			RequestError error = new RequestError();
 			error.setCd("401");
@@ -95,6 +100,7 @@ public class AuthenticationRestService
 			response = new LogoutResponse();
 			response.setMsgHeader(msgHeader);
 			response.setData(null);
+			return Response.status(Status.FORBIDDEN).entity(response).build();
 		}
 		
 		return Response.ok(response).build();

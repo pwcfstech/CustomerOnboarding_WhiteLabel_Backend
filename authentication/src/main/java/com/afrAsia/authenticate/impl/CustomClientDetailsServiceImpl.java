@@ -106,7 +106,7 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 	        CustomOauthAuthorization customOauthAuthorization = null;
 	        if (oauthAuthorization != null)
 	        {
-	            customOauthAuthorization = new CustomOauthAuthorization(oauthAuthorization.getClient().getRmId()+"", oauthAuthorization.getResourceIds(), oauthAuthorization.getClientSecret(),
+	            customOauthAuthorization = new CustomOauthAuthorization(oauthAuthorization.getClient().getId()+"", oauthAuthorization.getResourceIds(), oauthAuthorization.getClientSecret(),
 	                    oauthAuthorization.getScope(), oauthAuthorization.getAuthorizedGrantTypes(), oauthAuthorization.getAuthorities(), oauthAuthorization.getAccessTokenValidity());
 	        }
 	        return customOauthAuthorization;

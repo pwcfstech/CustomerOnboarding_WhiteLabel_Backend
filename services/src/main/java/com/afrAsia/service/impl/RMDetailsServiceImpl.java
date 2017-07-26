@@ -24,7 +24,7 @@ public class RMDetailsServiceImpl implements RMDetailsService
 	public RMDetails saveRMDetails(String rmName, String rmId) 
 	{
 		RMDetails rmDetails =  new RMDetails();
-		rmDetails.setRmId(rmId);
+		rmDetails.setId(rmId);
 		rmDetails.setRmName(rmName);
 		rmDetails.setCreatedBy(rmId);
 		rmDetails.setCreatedDate(new Date());
