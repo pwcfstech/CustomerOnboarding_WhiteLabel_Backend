@@ -11,6 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.afrAsia.entities.listener.EntityListener;
+import com.afrAsia.entities.masters.RMDetails;
 
 
 @Entity
@@ -24,18 +25,18 @@ public class OAuthAccessToken implements Serializable
     @Column(name = "token_id")
     private String tokenId;
 
-    @Column(name = "token")
+    @Column(name = "token", length=6000)
     private byte[] token;
 
     @Column(name = "authentication_id")
     private String authenticationId;
 
-    @Column(name = "authentication")
+    @Column(name = "authentication", length=6000)
     private byte[] authentication;
 
     @Id
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    private User client;
+    private RMDetails client;
 
     @Column(name = "user_name")
     private String userName;
@@ -87,12 +88,12 @@ public class OAuthAccessToken implements Serializable
         this.authentication = authentication;
     }
 
-    public User getClient()
+    public RMDetails getClient()
     {
         return client;
     }
 
-    public void setClient(User client)
+    public void setClient(RMDetails client)
     {
         this.client = client;
     }

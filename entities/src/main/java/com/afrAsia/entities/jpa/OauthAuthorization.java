@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 import com.afrAsia.entities.base.BaseEntity;
 import com.afrAsia.entities.listener.EntityListener;
+import com.afrAsia.entities.masters.RMDetails;
 
 
 /**
@@ -28,7 +29,7 @@ public class OauthAuthorization extends BaseEntity
     public static final String QUERY_FIND_BY_CLIENT_ID = "findOauthAuthorizationDetailsByClientId";
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    private User client;
+    private RMDetails client;
 
     @Column(name = "access_token_validity")
     private Integer accessTokenValidity;
@@ -55,12 +56,12 @@ public class OauthAuthorization extends BaseEntity
     {
     }
 
-    public User getClient()
+    public RMDetails getClient()
     {
         return client;
     }
 
-    public void setClient(User client)
+    public void setClient(RMDetails client)
     {
         this.client = client;
     }

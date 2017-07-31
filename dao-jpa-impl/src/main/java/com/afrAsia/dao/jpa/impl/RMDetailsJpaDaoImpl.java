@@ -16,4 +16,21 @@ public class RMDetailsJpaDaoImpl extends BaseJpaDAOImpl<String, RMDetails>implem
 		Query query = getEntityManager().createQuery(queryString);
 		return (List<RMDetails>) query.getResultList();
 	}
+
+	public RMDetails getRMDetailById(String rmId) 
+	{
+		if (rmId == null || rmId.trim().isEmpty())
+		{
+			return null;
+		}
+		return findById(rmId);
+	}
+
+	public void saveRmDetails(RMDetails obj) 
+	{
+		if (obj != null)
+		{
+			persist(obj);
+		}
+	}
 }

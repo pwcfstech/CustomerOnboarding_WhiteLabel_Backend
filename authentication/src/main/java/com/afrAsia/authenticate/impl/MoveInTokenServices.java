@@ -29,6 +29,7 @@ public class MoveInTokenServices extends DefaultTokenServices
         }
         catch (Exception e)
         {
+        	e.printStackTrace();
             throw new MoveInOAuth2Exception("Error creating auth token!");
         }
     }
