@@ -26,23 +26,4 @@ public class ProductDetailsReq implements Serializable {
 		this.data = data;
 	}
 
-	public class Data {
-
-		private String productID;
-
-		public String getProductID() {
-			return productID;
-		}
-
-		public void setProductID(String productID) {
-			this.productID = productID;
-		}
-
-		@Override
-		public String toString() {
-			return "Data [productID=" + productID + "]";
-		}
-
-	}
-
 }

@@ -31,6 +31,7 @@ com\afrAsia\entities\request\SearchParameter.class
 com\afrAsia\entities\transactions\MobApplicantCommDetail.class
 com\afrAsia\entities\response\Data.class
 com\afrAsia\entities\transactions\MobApplPersonalDetailsHist.class
+com\afrAsia\entities\request\DashboardRequest.class
 com\afrAsia\entities\response\CategoryResponse.class
 com\afrAsia\entities\transactions\MobApplEmploymentDtlsHist.class
 com\afrAsia\entities\masters\UIDType.class

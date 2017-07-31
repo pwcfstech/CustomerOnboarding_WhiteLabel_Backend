@@ -38,5 +38,6 @@
 	<!-- Dashboard related class -->
 	<bean id="dashBoardJpaDao" class="com.afrAsia.dao.jpa.impl.DashBoardJpaDaoImpl" />
 	
-	
+	<!-- My tracker for RM -->
+	<bean id="rmApplicationsAppJpaDAO" class="com.afrAsia.dao.jpa.impl.RmApplicationsAppJpaDAOImpl" />
 </beans>

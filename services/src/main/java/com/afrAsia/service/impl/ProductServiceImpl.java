@@ -58,11 +58,24 @@ public class ProductServiceImpl implements ProductService {
 	public GenericResponse getProducts() {
 
 		GenericResponse response = new GenericResponse();
+		
 		Data data = new Data();
+		
+		List<CategoryResponse> listOfCategoryResponse = new ArrayList<CategoryResponse>();
 
 		// fetch from DB
 		List<Product> listOfProducts = (List<Product>) productDao.getProducts();
+		
+		System.out.println("#### listOfProducts in service ::: "+listOfProducts);
+		
+		List<Category> listOfCategoriesFromDB = (List<Category>) categoryDao.getCategories();
+		
+		System.out.println("#### listOfCategories in service ::: "+listOfCategoriesFromDB);
+		
 		List<Category> categoryList = categoryDao.getCategory();
+		
+		System.out.println("#### categoryList in service ::: "+categoryList);
+		
 		Map<String, Set<ProductResponse>> categoryVsProductsMap = new HashMap<String, Set<ProductResponse>>();
 
 		for (Product product : listOfProducts) {
@@ -96,18 +109,24 @@ public class ProductServiceImpl implements ProductService {
 			}
 		}
 
-		// populate data from DB
-
-		for (Category category : categoryList) {
+		for (Category category : listOfCategoriesFromDB) {
+			
+			System.out.println("category ids are ::: "+category.getId());
+			
+			
 			CategoryResponse categoryResponse = new CategoryResponse();
 			categoryResponse.setCategoryName(category.getCategoryName());
 			categoryResponse.setCategoryDescription(category.getCategoryDescription());
 
 			categoryResponse.setProducts(categoryVsProductsMap.get(category.getId() + ""));
+			
+			System.out.println("categoryResponse.getProducts ====== "+categoryResponse.getProducts());
 
-			data.addCategory(categoryResponse);
+			listOfCategoryResponse.add(categoryResponse);     
+			
+			data.addCategory(listOfCategoryResponse);
+			
 		}
-
 		response.setData(data);
 		return response;
 

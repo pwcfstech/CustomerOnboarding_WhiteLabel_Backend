@@ -7,4 +7,5 @@
   </parent>
   <artifactId>exception-management</artifactId>
   <name>Exception Management</name>
+	<description>All necessary Exceptions.</description>
 </project>

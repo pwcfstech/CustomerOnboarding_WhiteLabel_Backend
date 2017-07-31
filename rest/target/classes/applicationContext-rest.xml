@@ -21,6 +21,7 @@
 
 	<import resource="classpath*:**/applicationContext-services.xml"/>
 	<import resource="classpath*:**/applicationContext-configuration-authentication.xml"/>
+	<import resource="classpath*:**/applicationContext-exception-management.xml"/>
 	
 	<!-- <wss:binding url="/DigitalTransaction">
         <wss:service>
@@ -28,6 +29,13 @@
         </wss:service>
     </wss:binding> -->
 	
+	<bean id="dateDifferenceException" class="com.afrAsia.customexception.DateDifferenceException">
+		<!-- <property name="dateDifferenceException" ref="dateDifferenceException" /> -->
+	</bean>
+	
+	<bean id="idNotFoundException" class="com.afrAsia.customexception.IdNotFoundException">
+		<!-- <property name="idNotFoundException" ref="idNotFoundException" /> -->
+	</bean>
 	
 	<bean id="UserRestService" class="com.afrAsia.rest.UserRestService" >
 		<property name="userService" ref="userService" />
@@ -51,6 +59,10 @@
 	
 	<bean id="dashBoardSummaryRestService" class="com.afrAsia.rest.DashBoardSummaryRestService" >
 		<property name="dashBoardService" ref="dashBoardService" />
+	</bean>
+	
+	<bean id="myTrackerRestService" class="com.afrAsia.rest.MyTrackerRestService" >
+		<property name="rmApplicationsAppService" ref="rmApplicationsAppService" />
 	</bean>
 	
 	<!-- <bean id="myTrackerRestService" class="com.afrAsia.rest.MyTrackerRestService" >

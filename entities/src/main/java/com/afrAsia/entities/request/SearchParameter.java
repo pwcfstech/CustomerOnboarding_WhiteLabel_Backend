@@ -7,7 +7,7 @@ public class SearchParameter implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	private String rmId;
 
 	private String custName;
 
@@ -17,12 +17,12 @@ public class SearchParameter implements Serializable {
 
 	private String appStatus;
 
-	public Long getId() {
-		return id;
+	public String getRmId() {
+		return rmId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setRmId(String rmId) {
+		this.rmId = rmId;
 	}
 
 	public String getCustName() {
@@ -59,7 +59,7 @@ public class SearchParameter implements Serializable {
 
 	@Override
 	public String toString() {
-		return "SearchParameter [id=" + id + ", custName=" + custName + ", startDate=" + startDate + ", endDate="
+		return "SearchParameter [rmId=" + rmId + ", custName=" + custName + ", startDate=" + startDate + ", endDate="
 				+ endDate + ", appStatus=" + appStatus + "]";
 	}
 
@@ -67,11 +67,7 @@ public class SearchParameter implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((appStatus == null) ? 0 : appStatus.hashCode());
-		result = prime * result + ((custName == null) ? 0 : custName.hashCode());
-		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+		result = prime * result + ((rmId == null) ? 0 : rmId.hashCode());
 		return result;
 	}
 
@@ -84,30 +80,10 @@ public class SearchParameter implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		SearchParameter other = (SearchParameter) obj;
-		if (appStatus == null) {
-			if (other.appStatus != null)
+		if (rmId == null) {
+			if (other.rmId != null)
 				return false;
-		} else if (!appStatus.equals(other.appStatus))
-			return false;
-		if (custName == null) {
-			if (other.custName != null)
-				return false;
-		} else if (!custName.equals(other.custName))
-			return false;
-		if (endDate == null) {
-			if (other.endDate != null)
-				return false;
-		} else if (!endDate.equals(other.endDate))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (startDate == null) {
-			if (other.startDate != null)
-				return false;
-		} else if (!startDate.equals(other.startDate))
+		} else if (!rmId.equals(other.rmId))
 			return false;
 		return true;
 	}

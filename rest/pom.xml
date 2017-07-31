@@ -13,6 +13,12 @@
 
 	<dependencies>
 
+	<dependency>
+			<groupId>com.afrAsia</groupId>
+			<artifactId>exception-management</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.afrAsia</groupId>
 			<artifactId>services</artifactId>

@@ -1,307 +1,208 @@
 package com.afrAsia.dao.jpa.impl;
 
-import java.util.Collection;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.Query;
 
 import com.afrAsia.dao.jpa.RmApplicationsAppJpaDAO;
-import com.afrAsia.entities.jpa.ApplicantPersonalDetails;
 import com.afrAsia.entities.jpa.ApplicationReference;
 
 public class RmApplicationsAppJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationReference>
 		implements RmApplicationsAppJpaDAO {
-
-	// search on the basis of customer name and RM id
-
-	public Collection<ApplicationReference> getRefNo(Long Id, String name) {
-
-		String queryString = "select ar.id From ApplicationReference ar "
-				+ "WHERE ar.id IN (SELECT ad.indvApplicantRefNo FROM ApplicationDetails ad "
-				+ "WHERE ad.indvApplicantRefNo IN (SELECT apd.applicantId FROM ApplicantPersonalDetails apd "
-				+ "WHERE apd.firstName LIKE :%FirstName% or apd.middleName LIKE :%MiddleName% or apd.lastName LIKE :%LastName%)) "
-				+ "WHERE ar.id=:Id";
-
-		Query query = getEntityManager().createQuery(queryString);
-
-		query.setParameter("FirstName", name);
-		query.setParameter("MiddleName", name);
-		query.setParameter("LastName", name);
-		query.setParameter("Id", Id);
-
-		List<ApplicationReference> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries for all ids for Require Attention datas" + listOfEntries);
-
-		return listOfEntries;
-	}
-
-	public List<Object> getCustomerName(Long Id, String name) {
-
-		String queryString = "SELECT apd.firstName,apd.middleName,apd.lastName FROM ApplicantPersonalDetails apd "
-				+ "WHERE apd.applicantId IN (SELECT ad.indvApplicantRefNo FROM ApplicationDetails ad "
-				+ "WHERE ad.indvApplicantRefNo IN (SELECT ar.id FROM ApplicationReference ar WHERE ar.id = :ID )) "
-				+ "WHERE apd.firstName LIKE :%FirstName% or apd.middleName LIKE :%MiddleName% or apd.lastName LIKE :%LastName%)) "
-				+ "WHERE ar.id=:Id";
-		;
-
-		Query query = getEntityManager().createQuery(queryString);
-
-		query.setParameter("FirstName", name);
-		query.setParameter("MiddleName", name);
-		query.setParameter("LastName", name);
-		query.setParameter("Id", Id);
-
-		List<Object> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries for all ids for Require Attention datas" + listOfEntries);
-
-		return listOfEntries;
-	}
-
-	public Collection<ApplicationReference> getAppSubmittedDate(Long Id, String name) {
-
-		String queryString = "select ar.createdTime From ApplicationReference ar "
-				+ "WHERE ar.id IN (SELECT ad.indvApplicantRefNo FROM ApplicationDetails ad "
-				+ "WHERE ad.indvApplicantRefNo IN (SELECT apd.applicantId FROM ApplicantPersonalDetails apd "
-				+ "WHERE apd.firstName LIKE :%FirstName% or apd.middleName LIKE :%MiddleName% or apd.lastName LIKE :%LastName%)) "
-				+ "WHERE ar.id=:Id";
-
-		Query query = getEntityManager().createQuery(queryString);
-
-		query.setParameter("FirstName", name);
-		query.setParameter("MiddleName", name);
-		query.setParameter("LastName", name);
-		query.setParameter("Id", Id);
-
-		List<ApplicationReference> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries for all ids for Require Attention datas" + listOfEntries);
-
-		return listOfEntries;
-	}
-
-	public Collection<ApplicationReference> getAppStatus(Long Id, String name) {
-
-		String queryString = "select ar.appStatus From ApplicationReference ar "
-				+ "WHERE ar.id IN (SELECT ad.indvApplicantRefNo FROM ApplicationDetails ad "
-				+ "WHERE ad.indvApplicantRefNo IN (SELECT apd.applicantId FROM ApplicantPersonalDetails apd "
-				+ "WHERE apd.firstName LIKE :%FirstName% or apd.middleName LIKE :%MiddleName% or apd.lastName LIKE :%LastName%)) "
-				+ "WHERE ar.id=:Id";
-
-		Query query = getEntityManager().createQuery(queryString);
-
-		query.setParameter("FirstName", name);
-		query.setParameter("MiddleName", name);
-		query.setParameter("LastName", name);
-		query.setParameter("Id", Id);
-
-		List<ApplicationReference> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries for all ids for Require Attention datas" + listOfEntries);
-
-		return listOfEntries;
-	}
-
-	public Collection<ApplicationReference> getRefNo(Date startdate, Date endDate) {
-
-		String queryString = "select ar.id From ApplicationReference ar where ar.createdTime BETWEEN :stDate AND :edDate ";
-
-		Query query = getEntityManager().createQuery(queryString);
-
-		query.setParameter("stDate", startdate);
-		query.setParameter("edDate", endDate);
-
-		List<ApplicationReference> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries with start and end dates" + listOfEntries);
-
-		return listOfEntries;
-	}
-
-	public List<Object> getCustomerName(Date startdate, Date endDate) {
-
-		String queryString = "SELECT apd.firstName,apd.middleName,apd.lastName FROM ApplicantPersonalDetails apd "
-				+ "WHERE apd.applicantId IN (SELECT ad.indvApplicantRefNo FROM ApplicationDetails ad "
-				+ "WHERE ad.indvApplicantRefNo IN (SELECT ar.id FROM ApplicationReference ar WHERE ar.createdTime BETWEEN :stDate AND :edDate )) ";
-
-		Query query = getEntityManager().createQuery(queryString);
-
-		query.setParameter("stDate", startdate);
-		query.setParameter("edDate", endDate);
-
-		List<Object> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries for all ids for Require Attention datas" + listOfEntries);
-
-		return listOfEntries;
-	}
-
-	public Collection<ApplicationReference> getAppSubmittedDate(Date startdate, Date endDate) {
-
-		String queryString = "select ar.createdTime From ApplicationReference ar where ar.createdTime BETWEEN :stDate AND :edDate ";
-
-		Query query = getEntityManager().createQuery(queryString);
-
-		query.setParameter("stDate", startdate);
-		query.setParameter("edDate", endDate);
-
-		List<ApplicationReference> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries with start and end dates" + listOfEntries);
-
-		return listOfEntries;
-	}
-
-	public Collection<ApplicationReference> getAppStatus(Date startdate, Date endDate) {
-
-		String queryString = "select ar.appStatus From ApplicationReference ar where ar.createdTime BETWEEN :stDate AND :edDate ";
-
-		Query query = getEntityManager().createQuery(queryString);
-
-		query.setParameter("stDate", startdate);
-		query.setParameter("edDate", endDate);
-
-		List<ApplicationReference> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries with start and end dates" + listOfEntries);
-
-		return listOfEntries;
-	}
-
-	public Collection<ApplicationReference> getRefNo(Long Id) {
-
-		String queryString = "select ar.id From ApplicationReference ar where ar.id=:ids ";
-
-		Query query = getEntityManager().createQuery(queryString);
-
-		query.setParameter("ids", Id);
-
-		List<ApplicationReference> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries for all ids for Require Attention datas" + listOfEntries);
-
-		return listOfEntries;
-	}
-
-	public List<Object> getCustomerName(Long id) {
-
-		String queryString = "SELECT apd.firstName,apd.middleName,apd.lastName FROM ApplicantPersonalDetails apd "
-				+ "WHERE apd.applicantId IN (SELECT ad.indvApplicantRefNo FROM ApplicationDetails ad "
-				+ "WHERE ad.indvApplicantRefNo IN (SELECT ar.id FROM ApplicationReference ar WHERE ar.id=:ID )) ";
-
-		Query query = getEntityManager().createQuery(queryString);
-
-		query.setParameter("ID", id);
-
-		List<Object> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries for all ids for Require Attention datas" + listOfEntries);
-
-		return listOfEntries;
-	}
-
-	public Collection<ApplicationReference> getAppSubmittedDate(Long id) {
-
-		String queryString = "select ar.createdTime From ApplicationReference ar where ar.id=:ID ";
-
-		Query query = getEntityManager().createQuery(queryString);
-
-		query.setParameter("ID", id);
-
-		List<ApplicationReference> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries for all ids for Require Attention datas" + listOfEntries);
-
-		return listOfEntries;
-	}
-
-	public Collection<ApplicationReference> getAppStatus(Long id) {
-
-		String queryString = "select ar.appStatus From ApplicationReference ar where ar.id=:ID ";
-
-		Query query = getEntityManager().createQuery(queryString);
-
-		query.setParameter("ID", id);
-
-		List<ApplicationReference> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries for all ids for Require Attention datas" + listOfEntries);
-
-		return listOfEntries;
-	}
-
-	public Collection<ApplicationReference> getRefNo(String appStatus) {
-		String queryString = "select ar.id From ApplicationReference ar where ar.appStatus=:as ";
-
-		Query query = getEntityManager().createQuery(queryString);
-
-		query.setParameter("as", appStatus);
-
-		List<ApplicationReference> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries for all ids for Require Attention datas" + listOfEntries);
-
-		return listOfEntries;
-	}
-
-	public List<Object> getCustomerName(String appStatus) {
-
-		String queryString = "SELECT apd.firstName,apd.middleName,apd.lastName FROM ApplicantPersonalDetails apd "
-				+ "WHERE apd.applicantId IN (SELECT ad.indvApplicantRefNo FROM ApplicationDetails ad "
-				+ "WHERE ad.indvApplicantRefNo IN (SELECT ar.id FROM ApplicationReference ar WHERE ar.appStatus=:appstatus )) ";
-
-		Query query = getEntityManager().createQuery(queryString);
-
-		query.setParameter("appstatus", appStatus);
-
-		List<Object> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries for all ids for Require Attention datas" + listOfEntries);
-
-		return listOfEntries;
-	}
-
-	public Collection<ApplicationReference> getAppSubmittedDate(String appStatus) {
-
-		String queryString = "select ar.createdTime From ApplicationReference ar where ar.appStatus=:as ";
-
-		Query query = getEntityManager().createQuery(queryString);
-
-		query.setParameter("as", appStatus);
-
-		List<ApplicationReference> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries for all ids for Require Attention datas" + listOfEntries);
-
-		return listOfEntries;
-	}
-
-	public Collection<ApplicationReference> getAppStatus(String appStatus) {
-
-		String queryString = "select ar.appStatus From ApplicationReference ar where ar.appStatus=:as ";
-
-		Query query = getEntityManager().createQuery(queryString);
-
-		query.setParameter("as", appStatus);
-
-		List<ApplicationReference> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries for all ids for Require Attention datas" + listOfEntries);
-
-		return listOfEntries;
-	}
 	
-	public Long getIdFromDB(Long id) {
-
-		ApplicationReference applicationReference=findById(id);
+	public List<String> getId(String id){
+		Query query = getEntityManager().createQuery("select ar.rmUserId from ApplicationReference ar "
+				+ "where ar.rmUserId=:rmid");
+		query.setParameter("rmid", id);
 		
-		applicationReference.getId();
-		
-		System.out.println("######## check whether id is present or not"+applicationReference.getId());
+		List<String> detailsByefault = query.getResultList();
+		return detailsByefault; 
+	}
 
-		return applicationReference.getId();
-	} 
+	public List<Object> getDetailsByefault(String rmId) {
+
+		Query query = getEntityManager().createQuery("select ar.id, ar.createdTime, ar.appStatus,"
+				+ "apd.firstName,apd.lastName from ApplicationReference ar, ApplicantPersonalDetails apd "
+				+ "where ar.id=apd.id AND ar.rmUserId=:rmid "
+				+ "AND apd.customerType = lower(:custType) "
+				+ "AND lower(ar.appStatus) in (lower(:as1),lower(:as2)) "
+				+ "order by ar.createdTime desc");
+
+		query.setParameter("rmid", rmId);
+		query.setParameter("custType", "primary");
+		query.setParameter("as1", "Require Attention");
+		query.setParameter("as2", "Under Processing");
+		query.setMaxResults(10);
+		
+		List<Object> detailsByefault = query.getResultList();
+		
+		for (Object object : detailsByefault) {
+			Object[] outputs = (Object[]) object;
+		System.out.println("rmid in dao =========== "+outputs[0].toString());
+		System.out.println("createdTime in dao =========== "+outputs[1].toString());
+		System.out.println("appStatus in dao =========== "+outputs[2].toString());
+		System.out.println("name in dao =========== "+outputs[3].toString()+" "+outputs[4].toString());
+		}
+
+		return detailsByefault; 
+
+	}
+
+	public List<Object> getDetailsByDates(Date startDate, Date endDate, String rmId) {
+		Query query = getEntityManager().createQuery("select ar.id, ar.createdTime, ar.appStatus,"
+				+ "apd.firstName,apd.lastName from ApplicationReference ar, ApplicantPersonalDetails apd "
+				+ "where ar.id=apd.id AND ar.rmUserId=:rmid "
+				+ "AND ar.updatedTime between :stDate and :edDate "
+				+ "AND apd.customerType like lower(:custType) "
+				+ "order by ar.createdTime desc");
+
+		query.setParameter("rmid", rmId);
+		query.setParameter("custType", "primary");
+		query.setParameter("stDate", startDate); 
+		query.setParameter("edDate", endDate);
+
+		List<Object> getDetailsByDates = query.getResultList();
+		
+		for (Object object : getDetailsByDates) {
+			Object[] outputs = (Object[]) object;
+			System.out.println("rmid in dao =========== "+outputs[0].toString());
+			System.out.println("createdTime in dao =========== "+outputs[1].toString());
+			System.out.println("appStatus in dao =========== "+outputs[2].toString());
+			System.out.println("name in dao =========== "+outputs[3].toString()+" "+outputs[4].toString());
+		}
+		return getDetailsByDates;
+	}
+
+	public List<Object> getDetailsByStatus(String status, String rmId) {
+		Query query = getEntityManager().createQuery("select ar.id, ar.createdTime, ar.appStatus,"
+				+ "apd.firstName,apd.lastName from ApplicationReference ar, ApplicantPersonalDetails apd "
+				+ "where ar.id=apd.id AND ar.rmUserId=:rmid "
+				+ "AND lower(ar.appStatus) =lower(:st) " //or lower(ar.appStatus) like lower(:st1)"
+				+ "AND ar.updatedTime between :stDate and :edDate "
+				+ "AND lower(apd.customerType) like lower(:custType) "
+				+ "order by ar.createdTime desc");
+
+		Date today = new Date();
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(today);
+		cal.add(Calendar.DAY_OF_MONTH, -30);
+		Date today30 = cal.getTime();
+		
+		query.setParameter("rmid", rmId);
+		query.setParameter("custType", "primary");
+		query.setParameter("st", status);
+		//query.setParameter("st1", "%"+status+"%");
+		query.setParameter("stDate", today30); 
+		query.setParameter("edDate", today);
+
+		List<Object> detailsStatus = query.getResultList();
+		
+		for (Object object : detailsStatus) {
+			Object[] outputs = (Object[]) object;
+			System.out.println("rmid in dao =========== "+outputs[0].toString());
+			System.out.println("createdTime in dao =========== "+outputs[1].toString());
+			System.out.println("appStatus in dao =========== "+outputs[2].toString());
+			System.out.println("name in dao =========== "+outputs[3].toString()+" "+outputs[4].toString());
+			}
+		
+		return detailsStatus;
+	}
+
+	public List<Object> getDetailsByAllCriteriaWithoutStatus(String name, Date startDate, Date endDate, String rmId) {
+
+		Query query = getEntityManager().createQuery("select ar.id, ar.createdTime, ar.appStatus,"
+				+ "apd.firstName,apd.lastName from ApplicationReference ar, ApplicantPersonalDetails apd "
+				+ "where ar.id=apd.id AND ar.rmUserId=:rmid "
+				+ "AND apd.customerType =:custType "
+				+ "AND ar.updatedTime between :stDate and :edDate "
+				+ "AND (lower(apd.firstName) || ' ' || lower(apd.lastName)) like lower(:nm) "
+				+ "order by ar.createdTime desc");
+
+		query.setParameter("rmid", rmId);
+		query.setParameter("custType", "primary");
+		query.setParameter("stDate", startDate);
+		query.setParameter("edDate", endDate);
+		query.setParameter("nm", "%"+name+"%");
+
+		
+		List<Object> detailsByAllCriteriaWithoutStatus = query.getResultList();
+		
+		for (Object object : detailsByAllCriteriaWithoutStatus) {
+			Object[] outputs = (Object[]) object;
+			System.out.println("rmid in dao =========== "+outputs[0].toString());
+			System.out.println("createdTime in dao =========== "+outputs[1].toString());
+			System.out.println("appStatus in dao =========== "+outputs[2].toString());
+			System.out.println("name in dao =========== "+outputs[3].toString()+" "+outputs[4].toString());
+			}
+		return detailsByAllCriteriaWithoutStatus; 
+
+	}
+
+	public List<Object> getDetailsByAllCriteriaWithStatus(String name, Date startDate, Date endDate, String status,
+			String rmId) {
+		Query query = getEntityManager().createQuery("select ar.id, ar.createdTime, ar.appStatus,"
+				+ "apd.firstName,apd.lastName from ApplicationReference ar, ApplicantPersonalDetails apd "
+				+ "where ar.id=apd.id AND ar.rmUserId=:rmid "
+				+ "AND lower(ar.appStatus) =lower(:as) "
+				+ "AND ar.updatedTime between :stDate and :edDate "
+				+ "AND lower(apd.customerType) like lower(:custType) "
+				+ "AND (lower(apd.firstName) || ' ' || lower(apd.lastName)) like lower(:nm) "
+				+ "order by ar.createdTime desc");
+
+		query.setParameter("rmid", rmId);
+		query.setParameter("custType", "primary");
+		query.setParameter("as", "status");
+		
+		query.setParameter("stDate", startDate); 
+		query.setParameter("edDate", endDate);
+		
+		query.setParameter("nm", "%"+name+"%");
+
+		List<Object> detailsByAllCriteriaWithStatus = query.getResultList();
+
+		for (Object object : detailsByAllCriteriaWithStatus) {
+			Object[] outputs = (Object[]) object;
+			System.out.println("rmid in dao =========== "+outputs[0].toString());
+			System.out.println("createdTime in dao =========== "+outputs[1].toString());
+			System.out.println("appStatus in dao =========== "+outputs[2].toString());
+			System.out.println("name in dao =========== "+outputs[3].toString()+" "+outputs[4].toString());
+			}
+
+		
+		return detailsByAllCriteriaWithStatus;
+	}
+
+	public List<Object> getDetailsByName(String name, String rmId) {
+
+		System.out.println("========== in dao , getDetailsByName ==============");
+		
+		Query query = getEntityManager().createQuery("select ar.id, ar.createdTime, ar.appStatus,"
+		+ "apd.firstName,apd.lastName from ApplicationReference ar, ApplicantPersonalDetails apd "
+		+ "where ar.id=apd.id AND ar.rmUserId=:rmid "
+		+ "AND apd.customerType like lower(:custType) "
+		+ "AND (lower(apd.firstName) || ' ' || lower(apd.lastName)) like lower(:nm) " 
+		+ "order by ar.createdTime desc");
+
+		query.setParameter("rmid", rmId);
+		
+		query.setParameter("nm", "%"+name+"%");
+		
+		query.setParameter("custType", "primary");
+
+		List<Object> detailsByName = query.getResultList();
+		
+		for (Object object : detailsByName) {
+			Object[] outputs = (Object[]) object;
+			System.out.println("rmid in dao =========== "+outputs[0].toString());
+			System.out.println("createdTime in dao =========== "+outputs[1].toString());
+			System.out.println("appStatus in dao =========== "+outputs[2].toString());
+			System.out.println("name in dao =========== "+outputs[3].toString()+" "+outputs[4].toString());
+		}
+		
+		return detailsByName;
+	}
 
 }

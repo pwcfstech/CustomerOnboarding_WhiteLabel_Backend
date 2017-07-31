@@ -5,6 +5,9 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.afrAsia.entities.base.BaseEntity;
@@ -17,18 +20,24 @@ public class ApplicationReference extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Column(name = "RM_USER_ID")
-	private String rmUsedId;
+	private String rmUserId;
+	
 	@Column(name = "RM_NAME")
 	private String rmName;
+	
 	@Column(name = "APP_STATUS")
 	private String appStatus;
-
-	public String getRmUsedId() {
-		return rmUsedId;
+	
+	/*@ManyToOne
+	@JoinColumn(name="ID")
+	private ApplicantPersonalDetails applicantPersonalDetails;*/
+	
+	public String getRmUserId() {
+		return rmUserId;
 	}
 
-	public void setRmUsedId(String rmUsedId) {
-		this.rmUsedId = rmUsedId;
+	public void setRmUserId(String rmUserId) {
+		this.rmUserId = rmUserId;
 	}
 
 	public String getRmName() {
@@ -49,30 +58,19 @@ public class ApplicationReference extends BaseEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DashBoardApplicationReferenceID [rmUsedId=" + rmUsedId + ", rmName=" + rmName + ", appStatus="
-				+ appStatus + "]";
+		return "ApplicationReference [rmUserId=" + rmUserId + ", rmName=" + rmName + ", appStatus=" + appStatus + "]";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((appStatus == null) ? 0 : appStatus.hashCode());
 		result = prime * result + ((rmName == null) ? 0 : rmName.hashCode());
-		result = prime * result + ((rmUsedId == null) ? 0 : rmUsedId.hashCode());
+		result = prime * result + ((rmUserId == null) ? 0 : rmUserId.hashCode());
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -92,10 +90,10 @@ public class ApplicationReference extends BaseEntity implements Serializable {
 				return false;
 		} else if (!rmName.equals(other.rmName))
 			return false;
-		if (rmUsedId == null) {
-			if (other.rmUsedId != null)
+		if (rmUserId == null) {
+			if (other.rmUserId != null)
 				return false;
-		} else if (!rmUsedId.equals(other.rmUsedId))
+		} else if (!rmUserId.equals(other.rmUserId))
 			return false;
 		return true;
 	}

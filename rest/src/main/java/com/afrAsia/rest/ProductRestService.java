@@ -27,6 +27,7 @@ public class ProductRestService
 {
 
 	private static final Logger logger = LoggerFactory.getLogger(ProductRestService.class);
+	
 	private ProductService productService;
 
 	public ProductService getProductService() {

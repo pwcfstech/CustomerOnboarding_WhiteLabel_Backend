@@ -10,6 +10,7 @@ public class RequestError implements Serializable{
 	private String cd;
 	private String rsn;
 	private String customCode;
+	
 	public String getCd() {
 		return cd;
 	}

@@ -6,6 +6,10 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.afrAsia.entities.base.BaseEntity;
@@ -84,6 +88,9 @@ public class ApplicantPersonalDetails extends BaseEntity implements Serializable
 	@Column(name = "MARITAL_STATUS")
 	private char maritalStatus;
 
+	@Column(name = "CUSTOMER_TYPE")
+	private String customerType;
+	
 	public int getRecordId() {
 		return recordId;
 	}
@@ -260,6 +267,14 @@ public class ApplicantPersonalDetails extends BaseEntity implements Serializable
 		this.maritalStatus = maritalStatus;
 	}
 
+	public String getCustomerType() {
+		return customerType;
+	}
+
+	public void setCustomerType(String customerType) {
+		this.customerType = customerType;
+	}
+
 	@Override
 	public String toString() {
 		return "ApplicantPersonalDetails [recordId=" + recordId + ", applicantId=" + applicantId + ", recidencyStatus="
@@ -269,7 +284,7 @@ public class ApplicantPersonalDetails extends BaseEntity implements Serializable
 				+ nic + ", passportNo=" + passportNo + ", passportExpiryDate=" + passportExpiryDate + ", nationality="
 				+ nationality + ", email=" + email + ", dob=" + dob + ", countryBirth=" + countryBirth
 				+ ", existingCustomer=" + existingCustomer + ", custCif=" + custCif + ", maritalStatus=" + maritalStatus
-				+ "]";
+				+ ", customerType=" + customerType + "]";
 	}
 
 }

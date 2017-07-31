@@ -4,6 +4,6 @@ import com.afrAsia.entities.response.DashboardResponse;
 
 public interface DashBoardService {
 	
-	public DashboardResponse getDashBoardSummery();
+	public DashboardResponse getDashBoardSummery(String rmId);
 	
 }

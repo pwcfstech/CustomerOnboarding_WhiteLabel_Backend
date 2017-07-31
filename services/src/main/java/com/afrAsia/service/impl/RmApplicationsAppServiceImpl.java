@@ -1,16 +1,23 @@
 package com.afrAsia.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.afrAsia.customexception.DateDifferenceException;
+import com.afrAsia.customexception.IdNotFoundException;
 import com.afrAsia.dao.jpa.RmApplicationsAppJpaDAO;
 import com.afrAsia.entities.jpa.ApplicationReference;
+import com.afrAsia.entities.request.RequestError;
 import com.afrAsia.entities.response.Apps;
+import com.afrAsia.entities.response.MessageHeader;
 import com.afrAsia.entities.response.RmApplicationAppResponse;
 import com.afrAsia.service.RmApplicationsAppService;
 
@@ -31,319 +38,570 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 	 * @param rmApplicationsAppDao
 	 *            the rmApplicationsAppDao to set
 	 */
-
+	
 	public void setRmApplicationsAppDao(RmApplicationsAppJpaDAO rmApplicationsAppDao) {
 		this.rmApplicationsAppDao = rmApplicationsAppDao;
 	}
-
-
 	
 	
-	
-	
-	public RmApplicationAppResponse getDetailsByNameAndID(Long id, String name) {
+	public RmApplicationAppResponse getDetailsByefault(String rmId) {
+		
+		System.out.println(" ################ in getDetailsByefault service impl ===== ");
 
 		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
 
 		List<Apps> listOfApps = new ArrayList<Apps>();
 
-		List<ApplicationReference> listOfReferenceNumber = new ArrayList<ApplicationReference>();
+		Set<Apps> setOfApps = new LinkedHashSet<Apps>(listOfApps);
 
-		List<Object> listOfCustormerName = new ArrayList<Object>();
+		List<Object> detailsByDefault = new ArrayList<Object>(listOfApps);
+		
+		//Long id=Long.parseLong(rmId);
 
-		Collection<ApplicationReference> listOfAppSubmittedDate = new ArrayList<ApplicationReference>();
-
-		Collection<ApplicationReference> listOfAppStstus = new ArrayList<ApplicationReference>();
-
-		if (id != null) {
-			Long idfromDB = ((RmApplicationsAppJpaDAO) rmApplicationsAppDao).getIdFromDB(id);
-			if (id == idfromDB) {
-				listOfReferenceNumber = (List<ApplicationReference>) rmApplicationsAppDao.getAppStatus(id,name);
-				System.out.println("######### listOfReferenceNumber in service impl by ID " + listOfReferenceNumber);
-
-				for (ApplicationReference applicationReference : listOfReferenceNumber) {
-					Apps apps = new Apps();
-					apps.setRefNo(String.valueOf(applicationReference.getId()));
-					System.out.println("##################### ref in service impl by ID" + apps.getRefNo());
-					listOfApps.add(apps);
-				}
-
-				listOfCustormerName = rmApplicationsAppDao.getCustomerName(id,name);
-				System.out.println("######### listOfCustormerName in service impl by ID " + listOfCustormerName);
-				int i = 0;
-				for (Object object : listOfCustormerName) {
-					Apps apps = listOfApps.get(i);
-					Object[] outputs = (Object[]) object;
-					apps.setCustomerName(
-							outputs[0].toString() + " " + outputs[1].toString() + " " + outputs[2].toString());
-					System.out.println(
-							"############### CustomerName in service impl by date :: " + apps.getCustomerName());
-					listOfApps.add(i, apps);
-					i++;
-				}
-
-				listOfAppSubmittedDate = rmApplicationsAppDao.getAppStatus(id,name);
-				System.out.println("######### listOfAppSubmiIDDate in service impl by ID " + listOfAppSubmittedDate);
-
-				for (ApplicationReference applicationReference : listOfAppSubmittedDate) {
-					Apps apps = listOfApps.get(i);
-					apps.setAppSubmittedDate(applicationReference.getCreatedTime());
-					System.out.println("##################### AppSubmittedDate in service impl by ID"
-							+ apps.getAppSubmittedDate());
-					listOfApps.add(i, apps);
-				}
-
-				listOfAppStstus = rmApplicationsAppDao.getAppStatus(id,name);
-				System.out.println("######### listOfAppStstus in service impl by ID " + listOfAppStstus);
-
-				for (ApplicationReference applicationReference : listOfAppStstus) {
-					Apps apps = listOfApps.get(i);
-					apps.setAppStatus(applicationReference.getAppStatus());
-					System.out.println("##################### App Status in service impl by ID" + apps.getAppStatus());
-					listOfApps.add(i, apps);
-				}
-
-				rmApplicationAppResponse.setMessageHeader(null);
-				rmApplicationAppResponse.setApps(listOfApps);
-				return rmApplicationAppResponse;
+		List<String> id= rmApplicationsAppDao.getId(rmId);
+		
+		int i=0;
+		
+		ApplicationReference applicationReference=new ApplicationReference();
+		for(String object:id){
+			applicationReference.setRmUserId(object);
+		}
+		
+		try{	
+			if(applicationReference.getRmUserId() !=null && applicationReference.getRmUserId().equals(rmId)){ 
+				/*System.out.println(" applicationReference.getRmUserId() ###########in if############# "+applicationReference.getRmUserId()); 
+				System.out.println(" rmId ###########in if############# "+ rmId);*/
+				detailsByDefault = rmApplicationsAppDao.getDetailsByefault(rmId);
+		    }
+			else{
+				MessageHeader messageHeader=new MessageHeader();
+				RequestError requestError=new RequestError();
+				/*System.out.println(" applicationReference.getRmUserId() ###########in else ############# "+applicationReference.getRmUserId());
+				System.out.println(" rmId ###########in else ############# "+ rmId);*/
+				requestError.setCustomCode("requested RM user is not present for the given id , please pass another RM userid");
+				messageHeader.setError(requestError);
+				rmApplicationAppResponse.setMessageHeader(messageHeader);
+				throw new IdNotFoundException("Provided Rm user id is not present, please pass another id");
 			}
-
-			else {
-				System.out.println("########### given id is not present in DB ----------------");
-				return null;
-			}
-
+		}catch(IdNotFoundException exceptionMessage){
+			System.out.println(" Exception got : "+exceptionMessage);
 		}
 
-		else {
-			System.out.println("########### please pass some id ---------------");
-			return null;
-		}
-
-	}
-	
-	
-	
-	
-
-	public RmApplicationAppResponse getDetailsByDates(Date startDate, Date endDate) {
-
-		int diffInDays = (int) ((startDate.getTime() - endDate.getTime()) / (1000 * 60 * 60 * 24));
-
-		if (diffInDays < 30) {
-
-			// get all the customer names --------------- by start and end dates
-
-			RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
-
-			List<Apps> listOfApps = new ArrayList<Apps>();
-
-			List<ApplicationReference> listOfReferenceNumber = new ArrayList<ApplicationReference>();
-
-			List<Object> listOfCustormerName = new ArrayList<Object>();
-
-			Collection<ApplicationReference> listOfAppSubmittedDate = new ArrayList<ApplicationReference>();
-
-			Collection<ApplicationReference> listOfAppStstus = new ArrayList<ApplicationReference>();
-
-			listOfReferenceNumber = (List<ApplicationReference>) rmApplicationsAppDao.getAppStatus(startDate, endDate);
-			System.out.println("######### listOfReferenceNumber in service impl by date " + listOfReferenceNumber);
-
-			for (ApplicationReference applicationReference : listOfReferenceNumber) {
-				Apps apps = new Apps();
-				apps.setRefNo(String.valueOf(applicationReference.getId()));
-				System.out.println("##################### ref in service impl by date" + apps.getRefNo());
-				listOfApps.add(apps);
-			}
-
-			listOfCustormerName = rmApplicationsAppDao.getCustomerName(startDate, endDate);
-			System.out.println("######### listOfCustormerName in service impl by date " + listOfCustormerName);
-			int i = 0;
-			for (Object object : listOfCustormerName) {
-				Apps apps = listOfApps.get(i);
-				Object[] outputs = (Object[]) object;
-				apps.setCustomerName(outputs[0].toString() + " " + outputs[1].toString() + " " + outputs[2].toString());
-				System.out.println("############### CustomerName in service impl by date :: " + apps.getCustomerName());
-				listOfApps.add(i, apps);
-				i++;
-			}
-
-			listOfAppSubmittedDate = rmApplicationsAppDao.getAppStatus(startDate, endDate);
-			System.out.println("######### listOfAppSubmittedDate in service impl by date " + listOfAppSubmittedDate);
-
-			for (ApplicationReference applicationReference : listOfAppSubmittedDate) {
-				Apps apps = listOfApps.get(i);
-				apps.setAppSubmittedDate(applicationReference.getCreatedTime());
-				System.out.println(
-						"##################### AppSubmittedDate in service impl by date" + apps.getAppSubmittedDate());
-				listOfApps.add(i, apps);
-			}
-
-			listOfAppStstus = rmApplicationsAppDao.getAppStatus(startDate, endDate);
-			System.out.println("######### listOfAppStstus in service impl by date " + listOfAppStstus);
-
-			for (ApplicationReference applicationReference : listOfAppStstus) {
-				Apps apps = listOfApps.get(i);
-				apps.setAppStatus(applicationReference.getAppStatus());
-				System.out.println("##################### App Status in service impl by date" + apps.getAppStatus());
-				listOfApps.add(i, apps);
-			}
-
-			rmApplicationAppResponse.setMessageHeader(null);
-			rmApplicationAppResponse.setApps(listOfApps);
-
-			return rmApplicationAppResponse;
-		}
-
-		else {
-			return null;
-		}
-
-	}
-	
-	
-	
-
-	public RmApplicationAppResponse getDetailsById(Long id) {
-
-		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
-
-		List<Apps> listOfApps = new ArrayList<Apps>();
-
-		List<ApplicationReference> listOfReferenceNumber = new ArrayList<ApplicationReference>();
-
-		List<Object> listOfCustormerName = new ArrayList<Object>();
-
-		Collection<ApplicationReference> listOfAppSubmittedDate = new ArrayList<ApplicationReference>();
-
-		Collection<ApplicationReference> listOfAppStstus = new ArrayList<ApplicationReference>();
-
-		if (id != null) {
-			Long idfromDB = ((RmApplicationsAppJpaDAO) rmApplicationsAppDao).getIdFromDB(id);
-			if (id == idfromDB) {
-				listOfReferenceNumber = (List<ApplicationReference>) rmApplicationsAppDao.getAppStatus(id);
-				System.out.println("######### listOfReferenceNumber in service impl by ID " + listOfReferenceNumber);
-
-				for (ApplicationReference applicationReference : listOfReferenceNumber) {
-					Apps apps = new Apps();
-					apps.setRefNo(String.valueOf(applicationReference.getId()));
-					System.out.println("##################### ref in service impl by ID" + apps.getRefNo());
-					listOfApps.add(apps);
-				}
-
-				listOfCustormerName = rmApplicationsAppDao.getCustomerName(id);
-				System.out.println("######### listOfCustormerName in service impl by ID " + listOfCustormerName);
-				int i = 0;
-				for (Object object : listOfCustormerName) {
-					Apps apps = listOfApps.get(i);
-					Object[] outputs = (Object[]) object;
-					apps.setCustomerName(
-							outputs[0].toString() + " " + outputs[1].toString() + " " + outputs[2].toString());
-					System.out.println(
-							"############### CustomerName in service impl by date :: " + apps.getCustomerName());
-					listOfApps.add(i, apps);
-					i++;
-				}
-
-				listOfAppSubmittedDate = rmApplicationsAppDao.getAppStatus(id);
-				System.out.println("######### listOfAppSubmiIDDate in service impl by ID " + listOfAppSubmittedDate);
-
-				for (ApplicationReference applicationReference : listOfAppSubmittedDate) {
-					Apps apps = listOfApps.get(i);
-					apps.setAppSubmittedDate(applicationReference.getCreatedTime());
-					System.out.println("##################### AppSubmittedDate in service impl by ID"
-							+ apps.getAppSubmittedDate());
-					listOfApps.add(i, apps);
-				}
-
-				listOfAppStstus = rmApplicationsAppDao.getAppStatus(id);
-				System.out.println("######### listOfAppStstus in service impl by ID " + listOfAppStstus);
-
-				for (ApplicationReference applicationReference : listOfAppStstus) {
-					Apps apps = listOfApps.get(i);
-					apps.setAppStatus(applicationReference.getAppStatus());
-					System.out.println("##################### App Status in service impl by ID" + apps.getAppStatus());
-					listOfApps.add(i, apps);
-				}
-
-				rmApplicationAppResponse.setMessageHeader(null);
-				rmApplicationAppResponse.setApps(listOfApps);
-				return rmApplicationAppResponse;
-			}
-
-			else {
-				System.out.println("########### given id is not present in DB ----------------");
-				return null;
-			}
-
-		}
-
-		else {
-			System.out.println("########### please pass some id ---------------");
-			return null;
-		}
-
-	}
-
-	public RmApplicationAppResponse getDetailsByStatus(String status) {
-
-		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
-
-		List<Apps> listOfApps = new ArrayList<Apps>();
-
-		List<ApplicationReference> listOfReferenceNumber = new ArrayList<ApplicationReference>();
-
-		List<Object> listOfCustormerName = new ArrayList<Object>();
-
-		Collection<ApplicationReference> listOfAppSubmittedDate = new ArrayList<ApplicationReference>();
-
-		Collection<ApplicationReference> listOfAppStstus = new ArrayList<ApplicationReference>();
-
-		listOfReferenceNumber = (List<ApplicationReference>) rmApplicationsAppDao.getAppStatus(status);
-		System.out.println("######### listOfReferenceNumber in service impl by status " + listOfReferenceNumber);
-
-		for (ApplicationReference applicationReference : listOfReferenceNumber) {
+		for (Object object : detailsByDefault) {
+			
 			Apps apps = new Apps();
-			apps.setRefNo(String.valueOf(applicationReference.getId()));
-			System.out.println("##################### ref in service impl by status" + apps.getRefNo());
-			listOfApps.add(apps);
-		}
-
-		listOfCustormerName = rmApplicationsAppDao.getCustomerName(status);
-		System.out.println("######### listOfCustormerName in service impl by status " + listOfCustormerName);
-		int i = 0;
-		for (Object object : listOfCustormerName) {
-			Apps apps = listOfApps.get(i);
+			
 			Object[] outputs = (Object[]) object;
-			apps.setCustomerName(outputs[0].toString() + " " + outputs[1].toString() + " " + outputs[2].toString());
-			System.out.println("############### CustomerName in service impl by date :: " + apps.getCustomerName());
+
+			apps.setRefNo(outputs[0].toString());
+			
+			//System.out.println(" ====== ref id service impl is ========= " + apps.getRefNo());
+
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+
+			String dateStr = outputs[1].toString();
+
+			Date date = new Date();
+			try {
+				date = dateFormat.parse(dateStr);
+			} catch (ParseException e) {
+				System.out.println(" ==================== date coud not be parsed =========== ");
+			}
+
+			apps.setPendingSince(date);
+
+			apps.setAppStatus(outputs[2].toString());
+
+			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
 			listOfApps.add(i, apps);
 			i++;
+
 		}
+		System.out.println("listOfApps=================" + listOfApps);
+		setOfApps.addAll(listOfApps);
+		System.out.println("setOfApps=================" + setOfApps);
 
-		listOfAppSubmittedDate = rmApplicationsAppDao.getAppStatus(status);
-		System.out.println("######### listOfAppSubmiIDDate in service impl by status " + listOfAppSubmittedDate);
-
-		for (ApplicationReference applicationReference : listOfAppSubmittedDate) {
-			Apps apps = listOfApps.get(i);
-			apps.setAppSubmittedDate(applicationReference.getCreatedTime());
-			System.out.println(
-					"##################### AppSubmittedDate in service impl by status" + apps.getAppSubmittedDate());
-			listOfApps.add(i, apps);
-		}
-
-		listOfAppStstus = rmApplicationsAppDao.getAppStatus(status);
-		System.out.println("######### listOfAppStstus in service impl by status " + listOfAppStstus);
-
-		for (ApplicationReference applicationReference : listOfAppStstus) {
-			Apps apps = listOfApps.get(i);
-			apps.setAppStatus(applicationReference.getAppStatus());
-			System.out.println("##################### App Status in service impl by status" + apps.getAppStatus());
-			listOfApps.add(i, apps);
-		}
-
-		rmApplicationAppResponse.setMessageHeader(null);
+		
 		rmApplicationAppResponse.setApps(listOfApps);
+
+		return rmApplicationAppResponse;
+	}
+
+	public RmApplicationAppResponse getDetailsByName(String name, String rmId) {
+		
+		System.out.println(" ################ in getDetailsByName service impl ===== ");
+		
+		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
+
+		List<Apps> listOfApps = new ArrayList<Apps>();
+
+		Set<Apps> setOfApps = new LinkedHashSet<Apps>(listOfApps);
+
+		List<Object> detailsByName = new ArrayList<Object>(listOfApps);
+
+		ApplicationReference applicationReference=new ApplicationReference();
+		
+		List<String> id= rmApplicationsAppDao.getId(rmId);
+		
+		for(String object:id){
+			applicationReference.setRmUserId(object);
+		}
+		
+		try{	
+			if(applicationReference.getRmUserId() !=null && applicationReference.getRmUserId().equals(rmId)){
+				/*System.out.println(" applicationReference.getRmUserId() ###########in if############# "+applicationReference.getRmUserId());
+				System.out.println(" rmId ###########in if############# "+ rmId);*/
+		detailsByName = (List<Object>) rmApplicationsAppDao.getDetailsByName(name, rmId);
+		    }  
+			else{
+				/*System.out.println(" applicationReference.getRmUserId() ###########in else ############# "+applicationReference.getRmUserId());
+				System.out.println(" rmId ###########in else ############# "+ rmId);*/
+				MessageHeader messageHeader=new MessageHeader();
+				RequestError requestError=new RequestError();
+				requestError.setCustomCode("requested RM user is not present , please pass another RM userid");
+				messageHeader.setError(requestError);
+				rmApplicationAppResponse.setMessageHeader(messageHeader);
+				System.out.println("rmApplicationAppResponse.getMessageHeader().getError().getCustomCode()========="
+						+ rmApplicationAppResponse.getMessageHeader().getError().getCustomCode());
+				throw new IdNotFoundException("Provided Rm user id is not present, please pass another id");
+			}
+		}catch(IdNotFoundException exceptionMessage){
+			System.out.println(" Exception got : "+exceptionMessage);
+		}
+		
+		int i = 0;
+		for (Object object : detailsByName) {
+
+			Apps apps = new Apps();
+			Object[] outputs = (Object[]) object;
+
+			apps.setRefNo(outputs[0].toString());
+			//System.out.println(" ====== ref id service impl is ========= " + apps.getRefNo());
+
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+
+			String dateStr = outputs[1].toString();
+
+			Date date = new Date();
+			try {
+				date = dateFormat.parse(dateStr);
+			} catch (ParseException e) {
+				// e.printStackTrace();
+				//System.out.println(" ==================== date coud not be parsed =========== ");
+			}
+
+			apps.setPendingSince(date);
+			//System.out.println(" ====== PendingSince service impl ========= " + apps.getPendingSince());
+
+			apps.setAppStatus(outputs[2].toString());
+			//System.out.println(" ====== app status service impl is ========= " + apps.getAppStatus());
+
+			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
+			//System.out.println("############### CustomerName in service impl by date :: " + apps.getCustomerName());
+			listOfApps.add(i, apps);
+			i++;
+
+		}
+		//System.out.println("listOfApps=================" + listOfApps);
+		setOfApps.addAll(listOfApps);
+		System.out.println("setOfApps=================" + setOfApps);
+		//rmApplicationAppResponse.setMessageHeader(null);
+		rmApplicationAppResponse.setApps(listOfApps);
+
+		return rmApplicationAppResponse;
+	}
+
+	public RmApplicationAppResponse getDetailsByDates(Date startDate, Date endDate, String rmId) {
+		
+		System.out.println(" ################ in getDetailsByDates service impl ===== ");
+		
+		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
+
+		List<Apps> listOfApps = new ArrayList<Apps>();
+
+		Set<Apps> setOfApps = new LinkedHashSet<Apps>(listOfApps);
+
+		List<Object> listOfCustormerName = new ArrayList<Object>(listOfApps);
+
+		
+		int diffInDays = (int) ((endDate.getTime()-(startDate.getTime())) / (1000 * 60 * 60 * 24));
+		System.out.println("==================== diffInDays ===================" +diffInDays);
+
+		
+		ApplicationReference applicationReference=new ApplicationReference();
+		
+		List<String> id= rmApplicationsAppDao.getId(rmId);
+		
+		for(String object:id){
+			applicationReference.setRmUserId(object);
+		}
+		
+		
+		
+		try{	
+			if(applicationReference.getRmUserId() !=null && applicationReference.getRmUserId().equals(rmId)){
+				/*System.out.println(" applicationReference.getRmUserId() ###########in if############# "+applicationReference.getRmUserId());
+				System.out.println(" rmId ###########in if############# "+ rmId);*/
+			if(diffInDays <= 30){
+				System.out.println(" diffInDays in if "+ diffInDays);
+				listOfCustormerName = (List<Object>) rmApplicationsAppDao.getDetailsByDates(startDate, endDate, rmId);
+				}
+				else{
+					//System.out.println(" diffInDays in else "+ diffInDays);
+					MessageHeader messageHeader=new MessageHeader();
+					RequestError requestError=new RequestError();
+					requestError.setCustomCode(" difference between start date and end date is more than 30 days,"
+						+ "please pass dates such that difference should not exceed 30");
+					messageHeader.setError(requestError); 
+					rmApplicationAppResponse.setMessageHeader(messageHeader);	
+					throw new DateDifferenceException("difference between start date and end date is more than 30 days,"
+						+ "please pass dates such that difference should not exceed 30");
+				}
+		}
+		else{
+			/*System.out.println(" applicationReference.getRmUserId() ###########in else ############# "+applicationReference.getRmUserId());
+			System.out.println(" rmId ###########in else ############# "+ rmId);*/
+			MessageHeader messageHeader=new MessageHeader();
+			RequestError requestError=new RequestError();
+			requestError.setCustomCode("requested RM user is not present , please pass another RM userid");
+			messageHeader.setError(requestError);
+			rmApplicationAppResponse.setMessageHeader(messageHeader);
+			throw new IdNotFoundException("Provided Rm user id is not present, please pass another id");
+		}
+		}catch(IdNotFoundException idNotFoundExceptionMessage){
+			System.out.println(" Exception got due to unavailability of id :: "+idNotFoundExceptionMessage);
+		}
+		catch(DateDifferenceException dateDifferenceExceptionMessage){
+			System.out.println(" Exception got due to larger difference betweenthe dates provided : "+dateDifferenceExceptionMessage);
+		}
+		
+		
+		int i = 0;
+		for (Object object : listOfCustormerName) {
+
+			Apps apps = new Apps();
+			Object[] outputs = (Object[]) object;
+
+			apps.setRefNo(outputs[0].toString());
+			//System.out.println(" ====== ref id service impl is ========= " + apps.getRefNo());
+
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+
+			String dateStr = outputs[1].toString();
+
+			Date date = new Date();
+			try {
+				date = dateFormat.parse(dateStr);
+			} catch (ParseException e) {
+				// e.printStackTrace();
+				System.out.println(" ==================== date coud not be parsed =========== ");
+			}
+
+			apps.setPendingSince(date);
+			//System.out.println(" ====== PendingSince service impl ========= " + apps.getPendingSince());
+
+			apps.setAppStatus(outputs[2].toString());
+			//System.out.println(" ====== app status service impl is ========= " + apps.getAppStatus());
+
+			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
+			//System.out.println("############### CustomerName in service impl by date :: " + apps.getCustomerName());
+			listOfApps.add(i, apps);
+			i++;
+
+		}
+		System.out.println("listOfApps=================" + listOfApps);
+		setOfApps.addAll(listOfApps);
+		System.out.println("setOfApps=================" + setOfApps);
+		////rmApplicationAppResponse.setMessageHeader(null);
+		rmApplicationAppResponse.setApps(listOfApps);
+
+		return rmApplicationAppResponse;
+	}
+
+	public RmApplicationAppResponse getDetailsByStatus(String status, String rmId) {
+		
+		System.out.println(" ################ in getDetailsByStatus service impl ===== ");
+		
+		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
+
+		List<Apps> listOfApps = new ArrayList<Apps>();
+
+		Set<Apps> setOfApps = new LinkedHashSet<Apps>(listOfApps);
+
+		List<Object> detailsByStatus = new ArrayList<Object>(listOfApps);
+
+		ApplicationReference applicationReference=new ApplicationReference();
+		
+		List<String> id= rmApplicationsAppDao.getId(rmId);
+		
+		for(String object:id){
+			applicationReference.setRmUserId(object);
+		}
+		
+		try{	
+			if(applicationReference.getRmUserId() !=null && applicationReference.getRmUserId().equals(rmId)){
+				/*System.out.println(" applicationReference.getRmUserId() ###########in if############# "+applicationReference.getRmUserId());
+				System.out.println(" rmId ###########in if############# "+ rmId);*/
+		detailsByStatus = (List<Object>) rmApplicationsAppDao.getDetailsByStatus(status, rmId);
+		    }
+			else{
+				/*System.out.println(" applicationReference.getRmUserId() ########### in else ############# "+applicationReference.getRmUserId());
+				System.out.println(" rmId ########### in else ############# "+ rmId);*/
+				MessageHeader messageHeader=new MessageHeader();
+				RequestError requestError=new RequestError();
+				requestError.setCustomCode("requested RM user is not present , please pass another RM userid");
+				messageHeader.setError(requestError);
+				rmApplicationAppResponse.setMessageHeader(messageHeader);
+				throw new IdNotFoundException("Provided Rm user id is not present, please pass another id");
+			}
+		}catch(IdNotFoundException exceptionMessage){
+			System.out.println(" Exception got : "+exceptionMessage);
+		}
+
+		
+		int i = 0;
+		for (Object object : detailsByStatus) {
+
+			Apps apps = new Apps();
+			Object[] outputs = (Object[]) object;
+
+			apps.setRefNo(outputs[0].toString());
+			//System.out.println(" ====== ref id service impl is ========= " + apps.getRefNo());
+
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+
+			String dateStr = outputs[1].toString();
+
+			Date date = new Date();
+			try {
+				date = dateFormat.parse(dateStr);
+			} catch (ParseException e) {
+				// e.printStackTrace();
+				//System.out.println(" ==================== date coud not be parsed =========== ");
+			}
+
+			apps.setPendingSince(date);
+			//System.out.println(" ====== PendingSince service impl ========= " + apps.getPendingSince());
+
+			apps.setAppStatus(outputs[2].toString());
+			//System.out.println(" ====== app status service impl is ========= " + apps.getAppStatus());
+
+			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
+			//System.out.println("############### CustomerName in service impl by date :: " + apps.getCustomerName());
+			listOfApps.add(i, apps);
+			i++;
+
+		}
+		//System.out.println("listOfApps=================" + listOfApps);
+		setOfApps.addAll(listOfApps);
+		System.out.println("setOfApps=================" + setOfApps);
+		//rmApplicationAppResponse.setMessageHeader(null);
+		rmApplicationAppResponse.setApps(listOfApps);
+
+		return rmApplicationAppResponse;
+
+	}
+
+	public RmApplicationAppResponse getDetailsByAllCriteriaWithoutStatus(String name, Date startDate, Date endDate,
+			String rmId) {
+		//System.out.println(" ################ in getDetailsByAllCriteriaWithoutStatus service impl ===== ");
+		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
+
+		List<Apps> listOfApps = new ArrayList<Apps>();
+
+		Set<Apps> setOfApps = new LinkedHashSet<Apps>(listOfApps);
+
+		List<Object> detailsByAllCriteriaWithoutStatus = new ArrayList<Object>(listOfApps);
+
+		ApplicationReference applicationReference=new ApplicationReference();
+		
+		List<String> id= rmApplicationsAppDao.getId(rmId);
+		
+		for(String object:id){
+			applicationReference.setRmUserId(object);
+		}
+		
+		int diffInDays = (int) ((endDate.getTime()-(startDate.getTime())) / (1000 * 60 * 60 * 24));
+		System.out.println("==================== diffInDays ====== before try =============" +diffInDays);
+		
+		try{	
+			if(applicationReference.getRmUserId() !=null && applicationReference.getRmUserId().equals(rmId)){
+				/*System.out.println(" applicationReference.getRmUserId() ###########in if############# "+applicationReference.getRmUserId());
+				System.out.println(" rmId ###########in if############# "+ rmId);*/				
+				if(diffInDays <= 30){
+					//System.out.println("==================== diffInDays ======in if =============" +diffInDays);
+					detailsByAllCriteriaWithoutStatus = (List<Object>) rmApplicationsAppDao.getDetailsByAllCriteriaWithoutStatus
+							(name, startDate,endDate, rmId);
+					}
+					else{
+						//System.out.println("==================== diffInDays ======in else =============" +diffInDays);
+						MessageHeader messageHeader=new MessageHeader();
+						RequestError requestError=new RequestError();
+						requestError.setCustomCode(" difference between start date and end date is more than 30 days,"
+							+ "please pass dates such that difference should not exceed 30");
+						messageHeader.setError(requestError);
+						rmApplicationAppResponse.setMessageHeader(messageHeader);	
+						throw new DateDifferenceException("difference between start date and end date is more than 30 days,"
+							+ "please pass dates such that difference should not exceed 30");
+					}
+		    }
+			else{
+				/*System.out.println(" applicationReference.getRmUserId() ###########in else ############# "+applicationReference.getRmUserId());
+				System.out.println(" rmId ###########in else ############# "+ rmId);*/
+				MessageHeader messageHeader=new MessageHeader();
+				RequestError requestError=new RequestError();
+				requestError.setCustomCode("requested RM user is not present , please pass another RM userid");
+				messageHeader.setError(requestError);
+				rmApplicationAppResponse.setMessageHeader(messageHeader);
+				throw new IdNotFoundException("Provided Rm user id is not present, please pass another id");
+			}
+		}catch(IdNotFoundException exceptionMessage){
+			System.out.println(" Exception got : "+exceptionMessage);
+		}
+		catch(DateDifferenceException exceptionMessage){
+			System.out.println(" Exception got : "+exceptionMessage);
+		}
+		
+		System.out.println("################ listOfCustormerName in service impl "+detailsByAllCriteriaWithoutStatus);
+		int i = 0;
+		for (Object object : detailsByAllCriteriaWithoutStatus) {
+
+			Apps apps = new Apps();
+			Object[] outputs = (Object[]) object;
+
+			apps.setRefNo(outputs[0].toString());
+			//System.out.println(" ====== ref id service impl is ========= " + apps.getRefNo());
+
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+
+			String dateStr = outputs[1].toString();
+
+			Date date = new Date();
+			try {
+				date = dateFormat.parse(dateStr);
+			} catch (ParseException e) {
+				//System.out.println(" ==================== date coud not be parsed =========== ");
+			}
+
+			apps.setPendingSince(date);
+			//System.out.println(" ====== PendingSince service impl ========= " + apps.getPendingSince());
+
+			apps.setAppStatus(outputs[2].toString());
+			//System.out.println(" ====== app status service impl is ========= " + apps.getAppStatus());
+
+			apps.setCustomerName(outputs[3].toString()+ " "+outputs[4].toString());
+			//System.out.println("############### CustomerName in service impl by date :: " + apps.getCustomerName());
+			listOfApps.add(i, apps);
+			i++;
+
+		}
+		//System.out.println("listOfApps=================" + listOfApps);
+		setOfApps.addAll(listOfApps);
+		System.out.println("setOfApps=================" + setOfApps);
+		//rmApplicationAppResponse.setMessageHeader(null);
+		rmApplicationAppResponse.setApps(listOfApps);
+
+		return rmApplicationAppResponse;
+	}
+
+	public RmApplicationAppResponse getDetailsByAllCriteriaWithStatus(String name, Date startDate, Date endDate, String status,
+			String rmId) {
+		
+		//System.out.println(" ################ in getDetailsByAllCriteriaWithStatus service impl ===== ");
+		
+		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
+
+		List<Apps> listOfApps = new ArrayList<Apps>();
+
+		Set<Apps> setOfApps = new LinkedHashSet<Apps>(listOfApps);
+
+		List<Object> detailsByAllCriteriaWithStatus = new ArrayList<Object>(listOfApps);
+
+		ApplicationReference applicationReference=new ApplicationReference();
+		
+		List<String> id= rmApplicationsAppDao.getId(rmId);
+		
+		for(String object:id){
+			applicationReference.setRmUserId(object);
+		}
+		
+		int diffInDays = (int) ((endDate.getTime()-(startDate.getTime())) / (1000 * 60 * 60 * 24));
+		System.out.println("==================== diffInDays ====== before try =============" +diffInDays);
+		
+		try{	
+			if(applicationReference.getRmUserId() !=null && applicationReference.getRmUserId().equals(rmId)){
+				if(diffInDays <= 30){
+					//System.out.println("==================== diffInDays ======in if =============" +diffInDays);
+					detailsByAllCriteriaWithStatus = (List<Object>) rmApplicationsAppDao.getDetailsByAllCriteriaWithStatus(name, startDate,endDate, status, rmId);
+					}
+					else{
+						//System.out.println("==================== diffInDays ======in else =============" +diffInDays);
+						MessageHeader messageHeader=new MessageHeader();
+						RequestError requestError=new RequestError();
+						requestError.setCustomCode(" difference between start date and end date is more than 30 days,"
+							+ "please pass dates such that difference should not exceed 30");
+						messageHeader.setError(requestError);
+						rmApplicationAppResponse.setMessageHeader(messageHeader);	
+						throw new DateDifferenceException("difference between start date and end date is more than 30 days,"
+							+ "please pass dates such that difference should not exceed 30");
+					}
+				/*System.out.println(" applicationReference.getRmUserId() ###########in if############# "+applicationReference.getRmUserId());
+				System.out.println(" rmId ###########in if############# "+ rmId);*/
+			
+		    }
+			else{
+				/*System.out.println(" applicationReference.getRmUserId() ###########in else ############# "+applicationReference.getRmUserId());
+				System.out.println(" rmId ###########in else ############# "+ rmId);*/
+				MessageHeader messageHeader=new MessageHeader();
+				RequestError requestError=new RequestError();
+
+				requestError.setCustomCode("requested RM user is not present , please pass another RM userid");
+				messageHeader.setError(requestError);
+				rmApplicationAppResponse.setMessageHeader(messageHeader);
+				throw new IdNotFoundException("Provided Rm user id is not present, please pass another id");
+			}
+		}catch(IdNotFoundException exceptionMessage){
+			System.out.println(" Exception got : "+exceptionMessage);
+		}
+		catch(DateDifferenceException exceptionMessage){
+			System.out.println(" Exception got : "+exceptionMessage);
+		}
+		
+		int i = 0;
+		for (Object object : detailsByAllCriteriaWithStatus) {
+
+			Apps apps = new Apps();
+			Object[] outputs = (Object[]) object;
+
+			apps.setRefNo(outputs[0].toString());
+			//System.out.println(" ====== ref id service impl is ========= " + apps.getRefNo());
+
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+
+			String dateStr = outputs[1].toString();
+
+			Date date = new Date();
+			try {
+				date = dateFormat.parse(dateStr);
+			} catch (ParseException e) {
+				System.out.println(" ==================== date coud not be parsed =========== ");
+			}
+
+			apps.setPendingSince(date);
+
+			apps.setAppStatus(outputs[2].toString());
+
+			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
+			listOfApps.add(i, apps);
+			i++;
+
+		}
+		//System.out.println("listOfApps=================" + listOfApps);
+		setOfApps.addAll(listOfApps);
+		System.out.println("setOfApps=================" + setOfApps);
+		//rmApplicationAppResponse.setMessageHeader(null);
+		rmApplicationAppResponse.setApps(listOfApps);
+
 		return rmApplicationAppResponse;
 	}
 

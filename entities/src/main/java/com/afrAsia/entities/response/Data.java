@@ -1,6 +1,7 @@
 package com.afrAsia.entities.response;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -16,17 +17,17 @@ public class Data implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Set<CategoryResponse> categories;
+	private List<CategoryResponse> categories;
 
 	private Set<ProductResponse> product;
 
 	private List<ProductDetailsResponse> productDetails;
 
-	public Set<CategoryResponse> getCategories() {
+	public List<CategoryResponse> getCategories() {
 		return categories;
 	}
 
-	public void setCategories(Set<CategoryResponse> categories) {
+	public void setCategories(List<CategoryResponse> categories) {
 		this.categories = categories;
 	}
 
@@ -51,9 +52,9 @@ public class Data implements Serializable {
 		return "Data [categories=" + categories + ", product=" + product + ", productDetails=" + productDetails + "]";
 	}
 
-	public void addCategory(CategoryResponse categoryResponse) {
-		categories = new HashSet<CategoryResponse>();
-		categories.add(categoryResponse);
+	public void addCategory(List<CategoryResponse> listOfCategoryResponse) {
+		this.categories = new ArrayList<CategoryResponse>();
+		this.categories.addAll(listOfCategoryResponse);
 	}
 
 }

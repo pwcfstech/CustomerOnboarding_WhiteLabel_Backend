@@ -1,7 +1,6 @@
 package com.afrAsia.entities.response;
 
 import java.io.Serializable;
-import java.util.Set;
 
 public class DashboardResponse implements Serializable {
 
