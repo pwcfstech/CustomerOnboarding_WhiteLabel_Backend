@@ -1,6 +1,8 @@
 package com.afrAsia.dao.jpa.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Query;
 
@@ -23,7 +25,12 @@ public class RMDetailsJpaDaoImpl extends BaseJpaDAOImpl<String, RMDetails>implem
 		{
 			return null;
 		}
-		return findById(rmId);
+		String query = "FROM RMDetails rm WHERE rm.id = :rmId";
+		Query q = getEntityManager().createQuery(query);
+		q.setParameter("rmId", rmId);
+		
+		return (RMDetails) q.getSingleResult();
+		
 	}
 
 	public void saveRmDetails(RMDetails obj) 
@@ -31,6 +38,7 @@ public class RMDetailsJpaDaoImpl extends BaseJpaDAOImpl<String, RMDetails>implem
 		if (obj != null)
 		{
 			persist(obj);
+			flush();
 		}
 	}
 }

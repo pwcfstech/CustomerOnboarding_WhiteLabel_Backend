@@ -17,10 +17,12 @@ import com.afrAsia.authenticate.CustomClientDetailsService;
 import com.afrAsia.dao.OAuthAuthorizationDAO;
 import com.afrAsia.entities.request.LoginDataRequest;
 import com.afrAsia.entities.request.LoginRequest;
+import com.afrAsia.entities.request.LogoutDataRequest;
 import com.afrAsia.entities.request.LogoutRequest;
 import com.afrAsia.entities.response.GenericResponse;
 import com.afrAsia.entities.response.LoginDataResponse;
 import com.afrAsia.entities.response.LoginResponse;
+import com.afrAsia.entities.response.LogoutDataResponse;
 import com.afrAsia.entities.response.LogoutResponse;
 import com.afrAsia.service.AuthenticationService;
 import com.afrAsia.service.RMDetailsService;
@@ -99,11 +101,16 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		String userId = loginDataRequest.getUserId();
 		String clientSecret = passwordEncoder.encode(loginDataRequest.getPassword());
 		
-		rmDetailsService.saveRMDetails("ID" + userId, userId);
+		//rmDetailsService.saveRMDetails("ID" + userId, userId);
 		
-		customClientDetailsService.saveClientDetail(userId, "rest_api", clientSecret, 
+		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(userId);
+		
+		if (clientDetails == null)
+		{
+			customClientDetailsService.saveClientDetail(userId, "rest_api", clientSecret, 
 				"standard_client", "client_credentials", null, "ROLE_USER", 
 				2147483600, 2147483600, null, null);
+		}
 		
 		OAuth2AccessToken token = getTokenDetails(userId, clientSecret, "client_credentials");
 		
@@ -115,12 +122,16 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		return response;
 	}
 
-	public LogoutResponse logout(LogoutRequest logoutRequest) 
+	public LogoutResponse logout(LogoutRequest logoutRequest, String oauthToken) 
 	{
-		
+		oauthToken = oauthToken.replace("bearer ", "");
 		LogoutResponse response = new LogoutResponse();
+		Boolean check = tokenServices.revokeToken(oauthToken);
+		LogoutDataResponse data = new LogoutDataResponse();
+		data.setSuccess(check + "");
 		
-		String userId = logoutRequest.getData().getUserId();
+		response.setData(data);
+		
 		return response;
 	}
 
