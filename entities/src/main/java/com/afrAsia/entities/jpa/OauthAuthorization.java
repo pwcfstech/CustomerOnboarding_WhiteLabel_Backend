@@ -31,25 +31,25 @@ public class OauthAuthorization extends BaseEntity
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     private RMDetails client;
 
-    @Column(name = "access_token_validity")
+    @Column(name = "ACCESS_TOKEN_VALIDITY")
     private Integer accessTokenValidity;
 
-    @Column(name = "additional_information")
+    @Column(name = "ADDITIONAL_INFORMATION")
     private String additionalInformation;
 
-    @Column(name = "authorities")
+    @Column(name = "AUTHORITIES")
     private String authorities;
 
-    @Column(name = "authorized_grant_types")
+    @Column(name = "AUTHORIZED_GRANT_TYPES")
     private String authorizedGrantTypes;
 
-    @Column(name = "client_secret")
+    @Column(name = "CLIENT_SECRET")
     private String clientSecret;
 
-    @Column(name = "resource_ids")
+    @Column(name = "RESOURCE_IDS")
     private String resourceIds;
 
-    @Column(name = "scope")
+    @Column(name = "SCOPE")
     private String scope;
 
     public OauthAuthorization()

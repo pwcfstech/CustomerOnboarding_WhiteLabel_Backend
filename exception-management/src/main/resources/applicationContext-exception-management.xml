@@ -22,4 +22,8 @@
 	
 	<bean id="idNotFoundException" class="com.afrAsia.customexception.IdNotFoundException" />
 	
+	<bean id="rmIdNotFoundException" class="com.afrAsia.customexception.RMIdNotFoundException" />
+	
+	<bean id="startDateSmallerException" class="com.afrAsia.customexception.StartDateSmallerException" />
+	
 </beans>						

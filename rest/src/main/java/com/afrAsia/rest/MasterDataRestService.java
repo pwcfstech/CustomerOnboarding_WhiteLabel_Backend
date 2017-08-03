@@ -73,6 +73,8 @@ public class MasterDataRestService {
 			com.afrAsia.entities.response.MastersDataResponse.Data.Country countryRes= new MastersDataResponse().new Data().new Country();
 			countryRes.setCountryCode(country.getCountryCode());
 			countryRes.setDescription(country.getDescription());
+			countryRes.setCallingCode(country.getCallingCode());
+			countryRes.setDialingCode(country.getDialingCode());
 			countryResList.add(countryRes);
 			
 			}
@@ -111,6 +113,7 @@ public class MasterDataRestService {
 			maritalStatusResList.add(maritalStatusRes);
 			}
 		data.setMaritalStatus(maritalStatusResList);
+		
 		for( Prefix prefix : prefixList){
 			System.out.println(prefix);
 			com.afrAsia.entities.response.MastersDataResponse.Data.Title titleRes= new MastersDataResponse().new Data().new Title();
@@ -119,7 +122,6 @@ public class MasterDataRestService {
 			titleRes.setPrefix2(prefix.getPrefix2());
 			titleRes.setPrefix3(prefix.getPrefix3());
 			titlesResList.add(titleRes);
-			
 			}
 		data.setTitle(titlesResList);
 		for( RMDetails rmDetails : rmDetailsList){

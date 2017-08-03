@@ -2,13 +2,14 @@ package com.afrAsia.entities.response;
 
 import java.io.Serializable;
 
-import com.afrAsia.entities.request.RequestError;
 
 public class MessageHeader implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private RequestError error;
+	
+	private RequestSuccess success;
 
 	public RequestError getError() {
 		return error;
@@ -18,8 +19,17 @@ public class MessageHeader implements Serializable {
 		this.error = error;
 	}
 
+	public RequestSuccess getSuccess() {
+		return success;
+	}
+
+	public void setSuccess(RequestSuccess success) {
+		this.success = success;
+	}
+
 	@Override
 	public String toString() {
-		return "MsgHeader [error=" + error + "]";
+		return "MessageHeader [error=" + error + ", success=" + success + "]";
 	}
+
 }

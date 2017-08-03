@@ -12,10 +12,12 @@ import com.afrAsia.entities.listener.EntityListener;
 
 @Entity
 @Table(name = "MOB_FLEX_MASTER_PREFIX")
-public class Prefix extends BaseMaster  implements Serializable{
-	 
+public class Prefix extends BaseMaster implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	@Id
+	@Column(name = "ID")
+	private String id;
 	@Column(name = "BRANCH_CODE")
 	private String branchCode;
 	@Column(name = "PREFIX1")
@@ -24,6 +26,14 @@ public class Prefix extends BaseMaster  implements Serializable{
 	private String prefix2;
 	@Column(name = "PREFIX3")
 	private String prefix3;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getBranchCode() {
 		return branchCode;
@@ -59,10 +69,8 @@ public class Prefix extends BaseMaster  implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Prefix [branchCode=" + branchCode + ", prefix1=" + prefix1 + ", prefix2=" + prefix2 + ", prefix3="
-				+ prefix3 + "]";
+		return "Prefix [id=" + id + ", branchCode=" + branchCode + ", prefix1=" + prefix1 + ", prefix2=" + prefix2
+				+ ", prefix3=" + prefix3 + "]";
 	}
-	
 
 }
-

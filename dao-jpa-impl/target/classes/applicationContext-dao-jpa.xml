@@ -34,12 +34,18 @@
 	<bean id="rmDetailsJpaDAO" class="com.afrAsia.dao.jpa.impl.RMDetailsJpaDaoImpl" />
 	<bean id="uidTypeJpaDAO" class="com.afrAsia.dao.jpa.impl.UIDTypeJpaDaoImpl" />
 	<bean id="accountCreateJpaDao" class="com.afrAsia.dao.jpa.impl.AccountCreateJpaDaoImpl"/>
+	<bean id="accountTypeJpaDao" class="com.afrAsia.dao.jpa.impl.AccountTypeJpaDaoImpl"/>
+	<bean id="afrAsiaFirstJpaDao" class="com.afrAsia.dao.jpa.impl.AfrAsiaFirstJpaDaoImpl"/>
 	
-	<bean id="rmDetailsDAO" class="com.afrAsia.dao.jpa.impl.RMDetailsJpaDaoImpl" />
+	<!-- <bean id="rmDetailsDAO" class="com.afrAsia.dao.jpa.impl.RMDetailsJpaDaoImpl" /> -->
 	
 	<!-- Dashboard related class -->
 	<bean id="dashBoardJpaDao" class="com.afrAsia.dao.jpa.impl.DashBoardJpaDaoImpl" />
 	
 	<!-- My tracker for RM -->
 	<bean id="rmApplicationsAppJpaDAO" class="com.afrAsia.dao.jpa.impl.RmApplicationsAppJpaDAOImpl" />
+	
+	<!-- Add comments service -->
+	<bean id="addCommentJpaDao" class="com.afrAsia.dao.jpa.impl.AddCommentJpaDaoImpl"/>
+	
 </beans>

@@ -2,6 +2,8 @@ package com.afrAsia.service.impl;
 
 import java.util.List;
 
+import com.afrAsia.dao.AccountTypeDao;
+import com.afrAsia.dao.AfrAsiaFirstDao;
 import com.afrAsia.dao.jpa.AccountClassJpaDAO;
 import com.afrAsia.dao.jpa.CategoryMasterJpaDAO;
 import com.afrAsia.dao.jpa.CountryJpaDAO;
@@ -30,6 +32,8 @@ public class MasterDataServiceImpl implements MasterDataService {
 	private PrefixJpaDAO prefixDAO;
 	private RMDetailsJpaDAO rmDetailsDAO;
 	private UIDTypeJpaDAO uidTypeDAO;
+	private AccountTypeDao accountTypeDAO;
+	private AfrAsiaFirstDao afrAsiaFirstDAO;
 
 	public AccountClassJpaDAO getAccountClassDAO() {
 		return accountClassDAO;
@@ -134,5 +138,23 @@ public class MasterDataServiceImpl implements MasterDataService {
 
 		return uidTypeDAO.getUIDType();
 	}
+
+	public AccountTypeDao getAccountTypeDAO() {
+		return accountTypeDAO;
+	}
+
+	public void setAccountTypeDAO(AccountTypeDao accountTypeDAO) {
+		this.accountTypeDAO = accountTypeDAO;
+	}
+
+	public AfrAsiaFirstDao getAfrAsiaFirstDAO() {
+		return afrAsiaFirstDAO;
+	}
+
+	public void setAfrAsiaFirstDAO(AfrAsiaFirstDao afrAsiaFirstDAO) {
+		this.afrAsiaFirstDAO = afrAsiaFirstDAO;
+	}
+	
+	
 
 }

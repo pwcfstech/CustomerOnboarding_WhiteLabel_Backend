@@ -22,7 +22,9 @@
 		<class>com.afrAsia.entities.masters.MaritalStatus</class>
 		<class>com.afrAsia.entities.masters.Prefix</class>
 		<class>com.afrAsia.entities.masters.RMDetails</class>
-
+		<class>com.afrAsia.entities.masters.AccountType</class>
+		<class>com.afrAsia.entities.masters.AfrAsiaFirst</class>
+		
 		<class>com.afrAsia.entities.transactions.MobRmAppRefId</class>
 		<class>com.afrAsia.entities.transactions.MobAccountAdditionalDetail</class>
 		<class>com.afrAsia.entities.transactions.MobAccountAddnDetailsHist</class>
@@ -56,8 +58,10 @@
 		<class>com.afrAsia.entities.jpa.ApplicationDetails</class>
 		<class>com.afrAsia.entities.jpa.ApplicationReference</class>
 
+		<class>com.afrAsia.entities.transactions.MobComments</class>
 		<properties>
-			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+			<!-- <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" /> -->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
 			<!-- Automatically drop then create table -->
 <!-- 			<property name="hibernate.hbm2ddl.auto" value="create" /> -->
 			<!-- print out sql -->

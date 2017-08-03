@@ -20,7 +20,7 @@
 						http://jax-ws.dev.java.net/spring/servlet				http://jax-ws.dev.java.net/spring/servlet.xsd">
 
 	<import resource="classpath*:**/applicationContext-services.xml"/>
-	<import resource="classpath*:**/applicationContext-configuration-authentication.xml"/>
+	<!-- <import resource="classpath*:**/applicationContext-configuration-authentication.xml"/> -->
 	<import resource="classpath*:**/applicationContext-exception-management.xml"/>
 	
 	<!-- <wss:binding url="/DigitalTransaction">
@@ -64,9 +64,14 @@
 	<bean id="myTrackerRestService" class="com.afrAsia.rest.MyTrackerRestService" >
 		<property name="rmApplicationsAppService" ref="rmApplicationsAppService" />
 	</bean>
-	<bean id="authenticationRestService" class="com.afrAsia.rest.AuthenticationRestService" >
-		<property name="authenticationService" ref="authenticationService" />
+	
+	<bean id="addCommentRestService" class="com.afrAsia.rest.AddCommentRestService" >
+		<property name="addCommentService" ref="addCommentService" />
 	</bean>
+	
+	<!-- <bean id="authenticationRestService" class="com.afrAsia.rest.AuthenticationRestService" >
+		<property name="authenticationService" ref="authenticationService" />
+	</bean> -->
 	
 	<!-- <bean id="myTrackerRestService" class="com.afrAsia.rest.MyTrackerRestService" >
 		<property name="myTrackerService" ref="myTrackerService" />

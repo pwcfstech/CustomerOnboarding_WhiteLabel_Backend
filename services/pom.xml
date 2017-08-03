@@ -92,11 +92,11 @@
 			<version>${project.version}</version>
 		</dependency>
 		
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.afrAsia</groupId>
 			<artifactId>authentication</artifactId>
 			<version>${project.version}</version>
-		</dependency>
+		</dependency> -->
 		
 		<dependency>
 			<groupId>org.springframework</groupId>

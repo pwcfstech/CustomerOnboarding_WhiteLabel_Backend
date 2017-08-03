@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.afrAsia.entities.jpa.MsgHeader;
+import com.afrAsia.entities.masters.BaseMaster;
 
 public class MastersDataResponse implements Serializable {
 
@@ -54,15 +55,17 @@ public class MastersDataResponse implements Serializable {
 
 		private List<RMDetails> rmDetails;
 		
+		private List<AccountType> accountType;
+		
+		private List<AfrAsiaFirst> afrAsiaFirst;
 		
 		
-
-
 		@Override
 		public String toString() {
 			return "Data [country=" + country + ", category=" + category + ", accountClass=" + accountClass + ", title="
 					+ title + ", uidType=" + uidType + ", maritalStatus=" + maritalStatus + ", employment=" + employment
-					+ ", rmDetails=" + rmDetails + "]";
+					+ ", rmDetails=" + rmDetails + ", accountType=" + accountType + ", afrAsiaFirst=" + afrAsiaFirst
+					+ "]";
 		}
 
 		public List<Country> getCountry() {
@@ -129,14 +132,30 @@ public class MastersDataResponse implements Serializable {
 			this.rmDetails = rmDetails;
 		}
 
-	
+		public List<AccountType> getAccountType() {
+			return accountType;
+		}
+
+		public void setAccountType(List<AccountType> accountType) {
+			this.accountType = accountType;
+		}
+
+		public List<AfrAsiaFirst> getAfrAsiaFirst() {
+			return afrAsiaFirst;
+		}
+
+		public void setAfrAsiaFirst(List<AfrAsiaFirst> afrAsiaFirst) {
+			this.afrAsiaFirst = afrAsiaFirst;
+		}
 
 		public class Country implements Serializable {
 
 			private static final long serialVersionUID = 1L;
 			private String countryCode;
 			private String description;
-
+			private String callingCode;
+			private String dialingCode;
+			
 			public String getCountryCode() {
 				return countryCode;
 			}
@@ -153,9 +172,26 @@ public class MastersDataResponse implements Serializable {
 				this.description = description;
 			}
 
+			public String getCallingCode() {
+				return callingCode;
+			}
+
+			public void setCallingCode(String callingCode) {
+				this.callingCode = callingCode;
+			}
+
+			public String getDialingCode() {
+				return dialingCode;
+			}
+
+			public void setDialingCode(String dialingCode) {
+				this.dialingCode = dialingCode;
+			}
+
 			@Override
 			public String toString() {
-				return "Country [countryCode=" + countryCode + ", description=" + description + "]";
+				return "Country [countryCode=" + countryCode + ", description=" + description + ", callingCode=" + callingCode
+						+ ", dialingCode=" + dialingCode + "]";
 			}
 			
 		}
@@ -385,6 +421,97 @@ public class MastersDataResponse implements Serializable {
 				return "RMDetails [rmId=" + rmId + ", rmName=" + rmName + "]";
 			}
 			
+		}
+		
+		public class AccountType extends BaseMaster implements Serializable {
+
+			private static final long serialVersionUID = 1L;
+
+			private String id;
+			
+			private String name;
+			
+			private String nonResident;
+			
+			private String resident;
+
+			public String getId() {
+				return id;
+			}
+
+			public void setId(String id) {
+				this.id = id;
+			}
+
+			public String getName() {
+				return name;
+			}
+
+			public void setName(String name) {
+				this.name = name;
+			}
+
+			public String getNonResident() {
+				return nonResident;
+			}
+
+			public void setNonResident(String nonResident) {
+				this.nonResident = nonResident;
+			}
+
+			public String getResident() {
+				return resident;
+			}
+
+			public void setResident(String resident) {
+				this.resident = resident;
+			}
+
+			@Override
+			public String toString() {
+				return "AccountType [id=" + id + ", name=" + name + ", nonResident=" + nonResident + ", resident=" + resident
+						+ "]";
+			}
+			}
+		public class AfrAsiaFirst extends BaseMaster implements Serializable {
+
+			private static final long serialVersionUID = 1L;
+
+			private String id;
+
+			private String description;
+
+			private String additionalField;
+
+			public String getId() {
+				return id;
+			}
+
+			public void setId(String id) {
+				this.id = id;
+			}
+
+			public String getDescription() {
+				return description;
+			}
+
+			public void setDescription(String description) {
+				this.description = description;
+			}
+
+			public String getAdditionalField() {
+				return additionalField;
+			}
+
+			public void setAdditionalField(String additionalField) {
+				this.additionalField = additionalField;
+			}
+
+			@Override
+			public String toString() {
+				return "AfrAsiaFirst [id=" + id + ", description=" + description + ", additionalField=" + additionalField + "]";
+			}
+
 		}
 
 	}

@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.afrAsia.CommonUtils;
 import com.afrAsia.entities.request.LoginRequest;
 import com.afrAsia.entities.request.LogoutRequest;
-import com.afrAsia.entities.request.RequestError;
 import com.afrAsia.entities.response.LoginResponse;
 import com.afrAsia.entities.response.LogoutResponse;
 import com.afrAsia.entities.response.MessageHeader;
+import com.afrAsia.entities.response.RequestError;
 import com.afrAsia.service.AuthenticationService;
 
 /**
