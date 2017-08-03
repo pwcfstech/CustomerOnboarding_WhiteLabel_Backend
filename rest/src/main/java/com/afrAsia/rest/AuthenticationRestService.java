@@ -56,11 +56,13 @@ public class AuthenticationRestService
 		LoginResponse response = null;
 		try
 		{
+			System.out.println("try of rest ====== "+loginStringRequest);
 			LoginRequest loginRequest = CommonUtils.jsonStringToObject(loginStringRequest, LoginRequest.class);
 			response = authenticationService.login(loginRequest);
 		}
 		catch (Exception e)
 		{
+			System.out.println("in catch of rest ====== ");
 			e.printStackTrace();
 			MessageHeader msgHeader = new MessageHeader();
 			RequestError error = new RequestError();

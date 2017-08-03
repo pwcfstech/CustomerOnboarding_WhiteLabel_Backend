@@ -13,6 +13,8 @@ import com.afrAsia.dao.jpa.PrefixJpaDAO;
 import com.afrAsia.dao.jpa.RMDetailsJpaDAO;
 import com.afrAsia.dao.jpa.UIDTypeJpaDAO;
 import com.afrAsia.entities.masters.AccountClass;
+import com.afrAsia.entities.masters.AccountType;
+import com.afrAsia.entities.masters.AfrAsiaFirst;
 import com.afrAsia.entities.masters.CategoryMaster;
 import com.afrAsia.entities.masters.Country;
 import com.afrAsia.entities.masters.Employment;
@@ -155,6 +157,12 @@ public class MasterDataServiceImpl implements MasterDataService {
 		this.afrAsiaFirstDAO = afrAsiaFirstDAO;
 	}
 	
-	
+	public List<AccountType> getAccountType() {
+		return accountTypeDAO.getAccountType();
+	}
+
+	public List<AfrAsiaFirst> getAfrAsiaFirst() {
+		return afrAsiaFirstDAO.getAfrAsiaFirst();	
+	}
 
 }
