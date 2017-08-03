@@ -83,6 +83,12 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
         OauthAuthorization oauthAuthorization = new OauthAuthorization();
         oauthAuthorization.setId(1L); 
         System.out.println("######## id in service impl ================ "+oauthAuthorization.getId());
+    	
+    	System.out.println("Client id : " + clientId);
+    	RMDetails rmDetails1 = rmDetailsDAO.getRMDetailById(clientId);
+    	System.out.println("rmDetails: " + rmDetails1);
+//        User client = userDAO.findById(Integer.valueOf(clientId));
+        oauthAuthorization.setId(System.currentTimeMillis());
         oauthAuthorization.setResourceIds(resourceId);
         System.out.println("oauthAuthorization.getResourceIds() ========================== "+oauthAuthorization.getResourceIds());
         oauthAuthorization.setAuthorizedGrantTypes(authorizedGrantTypes);
@@ -119,7 +125,7 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 	        CustomOauthAuthorization customOauthAuthorization = null;
 	        if (oauthAuthorization != null)
 	        {
-	            customOauthAuthorization = new CustomOauthAuthorization(oauthAuthorization.getClient().getId()+"", oauthAuthorization.getResourceIds(), oauthAuthorization.getClientSecret(),
+	            customOauthAuthorization = new CustomOauthAuthorization(oauthAuthorization.getClient().getId(), oauthAuthorization.getResourceIds(), oauthAuthorization.getClientSecret(),
 	                    oauthAuthorization.getScope(), oauthAuthorization.getAuthorizedGrantTypes(), oauthAuthorization.getAuthorities(), oauthAuthorization.getAccessTokenValidity());
 	        }
 	        return customOauthAuthorization;
