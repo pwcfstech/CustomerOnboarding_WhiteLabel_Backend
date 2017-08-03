@@ -9,6 +9,7 @@ com\afrAsia\entities\jpa\MsgHeader.class
 com\afrAsia\entities\request\DeviceFootPrintReq$Data.class
 com\afrAsia\entities\base\BaseEntity.class
 com\afrAsia\entities\jpa\OAuthAccessToken.class
+com\afrAsia\entities\response\MastersDataResponse$Data$AccountType.class
 com\afrAsia\entities\response\DailyTxnDataResponse.class
 com\afrAsia\entities\jpa\MsgHeader$Error.class
 com\afrAsia\entities\response\RmApplicationAppResponse.class
@@ -49,6 +50,7 @@ com\afrAsia\entities\transactions\MobAccountAdditionalDetail.class
 com\afrAsia\entities\transactions\MobAppRefRecordId.class
 com\afrAsia\entities\response\MessageHeader.class
 com\afrAsia\entities\response\MastersDataResponse$Data$MaritalStatus.class
+com\afrAsia\entities\request\MobCommentsRequest.class
 com\afrAsia\entities\response\MastersResponse$AccountClass.class
 com\afrAsia\entities\response\MastersResponse$Data.class
 com\afrAsia\entities\request\RmApplicationAppReq.class
@@ -85,6 +87,7 @@ com\afrAsia\entities\response\MastersResponse$Prefix.class
 com\afrAsia\entities\response\MastersResponse$UIDType.class
 com\afrAsia\entities\transactions\MobAccountDetail.class
 com\afrAsia\entities\jpa\User.class
+com\afrAsia\entities\response\MastersDataResponse$Data$AfrAsiaFirst.class
 com\afrAsia\entities\jpa\AppVersion.class
 com\afrAsia\entities\response\MastersDataResponse$Data$Category.class
 com\afrAsia\entities\masters\AccountClass.class
@@ -92,8 +95,8 @@ com\afrAsia\entities\response\Apps.class
 com\afrAsia\entities\response\MastersResponse$MaritalStatus.class
 com\afrAsia\entities\response\MastersDataResponse$Data$Title.class
 com\afrAsia\entities\response\MastersResponse$Category.class
-com\afrAsia\entities\request\NomineeInfo.class
 com\afrAsia\entities\masters\AfrAsiaFirst.class
+com\afrAsia\entities\request\NomineeInfo.class
 com\afrAsia\entities\transactions\MobApplAdditionalDtlsHist.class
 com\afrAsia\entities\request\JointApplicants.class
 com\afrAsia\entities\transactions\MobApplCommDetailsHist.class

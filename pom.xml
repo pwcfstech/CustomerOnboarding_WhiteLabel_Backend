@@ -423,6 +423,6 @@
 		<module>services</module>
 		<module>rest</module>
 		<module>web-socket</module>
-	<!-- 	<module>authentication</module>  -->
+		<module>authentication</module>  
 	</modules>
 </project>

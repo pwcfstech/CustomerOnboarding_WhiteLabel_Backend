@@ -66,13 +66,10 @@
 		<property name="rmApplicationsAppDao" ref="rmApplicationsAppJpaDAO" />
 	</bean>
 	
-<<<<<<< HEAD
-=======
 	<!-- <bean id="accountCreationService" class="com.afrAsia.service.impl.AccountCreationServiceImpl">
 		<property name="accountCreateDao" ref="accountCreateJpaDao" />
 	</bean> -->
 	
->>>>>>> 35c5fe826baadb4f93aa88ac44524cfc7e3b9b34
 	<bean id="rmDetailsService" class="com.afrAsia.service.impl.RMDetailsServiceImpl">
 		<property name="rmDetailsDao" ref="rmDetailsDAO" />
 	</bean> 
