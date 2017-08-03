@@ -37,7 +37,7 @@
 	<bean id="accountTypeJpaDao" class="com.afrAsia.dao.jpa.impl.AccountTypeJpaDaoImpl"/>
 	<bean id="afrAsiaFirstJpaDao" class="com.afrAsia.dao.jpa.impl.AfrAsiaFirstJpaDaoImpl"/>
 	
-	<!-- <bean id="rmDetailsDAO" class="com.afrAsia.dao.jpa.impl.RMDetailsJpaDaoImpl" /> -->
+	<bean id="rmDetailsDAO" class="com.afrAsia.dao.jpa.impl.RMDetailsJpaDaoImpl" />
 	
 	<!-- Dashboard related class -->
 	<bean id="dashBoardJpaDao" class="com.afrAsia.dao.jpa.impl.DashBoardJpaDaoImpl" />
