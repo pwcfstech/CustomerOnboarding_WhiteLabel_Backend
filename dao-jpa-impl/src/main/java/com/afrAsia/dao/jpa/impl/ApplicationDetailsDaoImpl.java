@@ -53,6 +53,8 @@ public class ApplicationDetailsDaoImpl extends BaseJpaDAOImpl<Long, MobRmAppRefI
 	}
 	public MobApplicantCommDetail getMobApplicantCommDetails(Long appRefId, Long applicantId){
 		String queryString = "SELECT s FROM MobApplicantCommDetail s where s.id.id = :appRefId and s.id.applicantId = :applicantId";
+		Query query = getEntityManager().createQuery(queryString);
+		query.setParameter("appRefId", appRefId);
 		query.setParameter("applicantId", applicantId);
 		return (MobApplicantCommDetail) query.getSingleResult();
 	}
