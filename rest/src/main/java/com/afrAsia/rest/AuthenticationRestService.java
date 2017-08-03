@@ -16,10 +16,10 @@ import com.afrAsia.CommonUtils;
 import com.afrAsia.entities.request.LoginDataRequest;
 import com.afrAsia.entities.request.LoginRequest;
 import com.afrAsia.entities.request.LogoutRequest;
-import com.afrAsia.entities.request.RequestError;
 import com.afrAsia.entities.response.LoginResponse;
 import com.afrAsia.entities.response.LogoutResponse;
 import com.afrAsia.entities.response.MessageHeader;
+import com.afrAsia.entities.response.RequestError;
 import com.afrAsia.service.AuthenticationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,11 +56,13 @@ public class AuthenticationRestService
 		LoginResponse response = null;
 		try
 		{
+			System.out.println("try of rest ====== "+loginStringRequest);
 			LoginRequest loginRequest = CommonUtils.jsonStringToObject(loginStringRequest, LoginRequest.class);
 			response = authenticationService.login(loginRequest);
 		}
 		catch (Exception e)
 		{
+			System.out.println("in catch of rest ====== ");
 			e.printStackTrace();
 			MessageHeader msgHeader = new MessageHeader();
 			RequestError error = new RequestError();

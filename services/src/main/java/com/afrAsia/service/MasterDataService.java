@@ -3,6 +3,8 @@ package com.afrAsia.service;
 import java.util.List;
 
 import com.afrAsia.entities.masters.AccountClass;
+import com.afrAsia.entities.masters.AccountType;
+import com.afrAsia.entities.masters.AfrAsiaFirst;
 import com.afrAsia.entities.masters.CategoryMaster;
 import com.afrAsia.entities.masters.Country;
 import com.afrAsia.entities.masters.Employment;
@@ -20,7 +22,9 @@ public interface MasterDataService {
 	public List<Prefix> getPrefix();
 	public List<RMDetails> getRMDetails();
 	public List<UIDType> getUIDType();
-	
+	public List<AccountType> getAccountType();
+
+	public List<AfrAsiaFirst> getAfrAsiaFirst();
 	
 	
 

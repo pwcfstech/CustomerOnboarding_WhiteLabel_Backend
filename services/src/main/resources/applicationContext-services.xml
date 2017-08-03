@@ -54,6 +54,8 @@
 		<property name="prefixDAO" ref="prefixJpaDAO" />
 		<property name="rmDetailsDAO" ref="rmDetailsJpaDAO" />
 		<property name="uidTypeDAO" ref="uidTypeJpaDAO" />
+		<property name="accountTypeDAO" ref="accountTypeJpaDao" />
+		<property name="afrAsiaFirstDAO" ref="afrAsiaFirstJpaDao" />
 	</bean>
 
 	<bean id="dashBoardService" class="com.afrAsia.service.impl.DashBoardServiceImpl">
@@ -64,8 +66,19 @@
 		<property name="rmApplicationsAppDao" ref="rmApplicationsAppJpaDAO" />
 	</bean>
 	
+<<<<<<< HEAD
+=======
+	<!-- <bean id="accountCreationService" class="com.afrAsia.service.impl.AccountCreationServiceImpl">
+		<property name="accountCreateDao" ref="accountCreateJpaDao" />
+	</bean> -->
+	
+>>>>>>> 35c5fe826baadb4f93aa88ac44524cfc7e3b9b34
 	<bean id="rmDetailsService" class="com.afrAsia.service.impl.RMDetailsServiceImpl">
 		<property name="rmDetailsDao" ref="rmDetailsDAO" />
+	</bean> 
+	
+	<bean id="addCommentService" class="com.afrAsia.service.impl.AddCommentServiceImpl">
+		<property name="addCommentDao" ref="addCommentJpaDao" />
 	</bean>
 	
 	<bean id="authenticationService" class="com.afrAsia.service.impl.AuthenticationServiceImpl" >

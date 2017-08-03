@@ -15,9 +15,9 @@ import com.afrAsia.customexception.DateDifferenceException;
 import com.afrAsia.customexception.IdNotFoundException;
 import com.afrAsia.dao.jpa.RmApplicationsAppJpaDAO;
 import com.afrAsia.entities.jpa.ApplicationReference;
-import com.afrAsia.entities.request.RequestError;
 import com.afrAsia.entities.response.Apps;
 import com.afrAsia.entities.response.MessageHeader;
+import com.afrAsia.entities.response.RequestError;
 import com.afrAsia.entities.response.RmApplicationAppResponse;
 import com.afrAsia.service.RmApplicationsAppService;
 
@@ -108,7 +108,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 
-			apps.setPendingSince(date);
+			apps.setAppSubmittedDate(date);
 
 			apps.setAppStatus(outputs[2].toString());
 
@@ -190,7 +190,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				//System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 
-			apps.setPendingSince(date);
+			apps.setAppSubmittedDate(date);
 			//System.out.println(" ====== PendingSince service impl ========= " + apps.getPendingSince());
 
 			apps.setAppStatus(outputs[2].toString());
@@ -297,7 +297,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 
-			apps.setPendingSince(date);
+			apps.setAppSubmittedDate(date);
 			//System.out.println(" ====== PendingSince service impl ========= " + apps.getPendingSince());
 
 			apps.setAppStatus(outputs[2].toString());
@@ -380,7 +380,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				//System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 
-			apps.setPendingSince(date);
+			apps.setAppSubmittedDate(date);
 			//System.out.println(" ====== PendingSince service impl ========= " + apps.getPendingSince());
 
 			apps.setAppStatus(outputs[2].toString());
@@ -483,7 +483,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				//System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 
-			apps.setPendingSince(date);
+			apps.setAppSubmittedDate(date);
 			//System.out.println(" ====== PendingSince service impl ========= " + apps.getPendingSince());
 
 			apps.setAppStatus(outputs[2].toString());
@@ -587,7 +587,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 
-			apps.setPendingSince(date);
+			apps.setAppSubmittedDate(date);
 
 			apps.setAppStatus(outputs[2].toString());
 

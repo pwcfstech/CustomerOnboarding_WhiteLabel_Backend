@@ -11,7 +11,7 @@ import com.afrAsia.entities.masters.Country;
 public class CountryJpaDaoImpl extends BaseJpaDAOImpl<String, Country>implements CountryJpaDAO {
 	public Collection<Country> getCountry() {
 		// public List<Country> getCountryList() {
-		String queryString = " from Country";
+		String queryString = "from Country con order by con.description ASC";
 		Query query = getEntityManager().createQuery(queryString);
 		return (List<Country>) query.getResultList();
 		// }

@@ -2,6 +2,8 @@ package com.afrAsia.service.impl;
 
 import java.util.List;
 
+import com.afrAsia.dao.AccountTypeDao;
+import com.afrAsia.dao.AfrAsiaFirstDao;
 import com.afrAsia.dao.jpa.AccountClassJpaDAO;
 import com.afrAsia.dao.jpa.CategoryMasterJpaDAO;
 import com.afrAsia.dao.jpa.CountryJpaDAO;
@@ -11,6 +13,8 @@ import com.afrAsia.dao.jpa.PrefixJpaDAO;
 import com.afrAsia.dao.jpa.RMDetailsJpaDAO;
 import com.afrAsia.dao.jpa.UIDTypeJpaDAO;
 import com.afrAsia.entities.masters.AccountClass;
+import com.afrAsia.entities.masters.AccountType;
+import com.afrAsia.entities.masters.AfrAsiaFirst;
 import com.afrAsia.entities.masters.CategoryMaster;
 import com.afrAsia.entities.masters.Country;
 import com.afrAsia.entities.masters.Employment;
@@ -30,6 +34,8 @@ public class MasterDataServiceImpl implements MasterDataService {
 	private PrefixJpaDAO prefixDAO;
 	private RMDetailsJpaDAO rmDetailsDAO;
 	private UIDTypeJpaDAO uidTypeDAO;
+	private AccountTypeDao accountTypeDAO;
+	private AfrAsiaFirstDao afrAsiaFirstDAO;
 
 	public AccountClassJpaDAO getAccountClassDAO() {
 		return accountClassDAO;
@@ -133,6 +139,30 @@ public class MasterDataServiceImpl implements MasterDataService {
 	public List<UIDType> getUIDType() {
 
 		return uidTypeDAO.getUIDType();
+	}
+
+	public AccountTypeDao getAccountTypeDAO() {
+		return accountTypeDAO;
+	}
+
+	public void setAccountTypeDAO(AccountTypeDao accountTypeDAO) {
+		this.accountTypeDAO = accountTypeDAO;
+	}
+
+	public AfrAsiaFirstDao getAfrAsiaFirstDAO() {
+		return afrAsiaFirstDAO;
+	}
+
+	public void setAfrAsiaFirstDAO(AfrAsiaFirstDao afrAsiaFirstDAO) {
+		this.afrAsiaFirstDAO = afrAsiaFirstDAO;
+	}
+	
+	public List<AccountType> getAccountType() {
+		return accountTypeDAO.getAccountType();
+	}
+
+	public List<AfrAsiaFirst> getAfrAsiaFirst() {
+		return afrAsiaFirstDAO.getAfrAsiaFirst();	
 	}
 
 }

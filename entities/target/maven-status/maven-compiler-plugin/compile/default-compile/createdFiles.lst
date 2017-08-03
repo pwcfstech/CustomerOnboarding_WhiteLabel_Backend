@@ -19,6 +19,7 @@ com\afrAsia\entities\jpa\AuthAssignment.class
 com\afrAsia\entities\response\MastersDataResponse$Data$RMDetails.class
 com\afrAsia\entities\jpa\AuthItem.class
 com\afrAsia\entities\response\AccountCreateResponse$Data.class
+com\afrAsia\entities\response\RequestSuccess.class
 com\afrAsia\entities\transactions\MobRmAppRefId.class
 com\afrAsia\entities\transactions\MobComments.class
 com\afrAsia\entities\request\AccountCreationRequest.class
@@ -28,6 +29,7 @@ com\afrAsia\entities\response\AccountCreateResponse.class
 com\afrAsia\entities\response\LoginResponse.class
 com\afrAsia\entities\response\MastersDataResponse.class
 com\afrAsia\entities\response\PendingAction.class
+com\afrAsia\entities\response\RequestError.class
 com\afrAsia\entities\response\LogoutResponse.class
 com\afrAsia\entities\request\ProdCatListReq.class
 com\afrAsia\entities\jpa\DeviceFootPrint.class
@@ -60,6 +62,7 @@ com\afrAsia\entities\jpa\ProductDetails.class
 com\afrAsia\entities\response\MastersResponse.class
 com\afrAsia\entities\response\ApplicationDetailsResponse$Data$AccountDetails.class
 com\afrAsia\entities\jpa\Category.class
+com\afrAsia\entities\masters\AccountType.class
 com\afrAsia\entities\response\MastersDataResponse$Data$Employment.class
 com\afrAsia\entities\transactions\MobApplicantEmploymentDtl.class
 com\afrAsia\entities\jpa\ApplicantPersonalDetails.class
@@ -90,6 +93,7 @@ com\afrAsia\entities\response\MastersResponse$MaritalStatus.class
 com\afrAsia\entities\response\MastersDataResponse$Data$Title.class
 com\afrAsia\entities\response\MastersResponse$Category.class
 com\afrAsia\entities\request\NomineeInfo.class
+com\afrAsia\entities\masters\AfrAsiaFirst.class
 com\afrAsia\entities\transactions\MobApplAdditionalDtlsHist.class
 com\afrAsia\entities\request\JointApplicants.class
 com\afrAsia\entities\transactions\MobApplCommDetailsHist.class

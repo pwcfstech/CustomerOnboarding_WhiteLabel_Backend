@@ -17,7 +17,6 @@ import com.afrAsia.authenticate.CustomClientDetailsService;
 import com.afrAsia.dao.OAuthAuthorizationDAO;
 import com.afrAsia.entities.request.LoginDataRequest;
 import com.afrAsia.entities.request.LoginRequest;
-import com.afrAsia.entities.request.LogoutDataRequest;
 import com.afrAsia.entities.request.LogoutRequest;
 import com.afrAsia.entities.response.GenericResponse;
 import com.afrAsia.entities.response.LoginDataResponse;
@@ -94,16 +93,22 @@ public class AuthenticationServiceImpl implements AuthenticationService
 
 	public LoginResponse login(LoginRequest loginRequest) 
 	{
+		System.out.println("in login ============ ");
 		LoginResponse response = new LoginResponse();
 		LoginDataResponse responseData = new LoginDataResponse();
 		
+		System.out.println("before loginDataRequest ============ ");
 		LoginDataRequest loginDataRequest = loginRequest.getData();
 		String userId = loginDataRequest.getUserId();
+		System.out.println("user id ==== "+userId);
+		System.out.println("password ==== "+loginDataRequest.getPassword());
 		String clientSecret = passwordEncoder.encode(loginDataRequest.getPassword());
+		System.out.println("clientSecret ==== "+clientSecret);
 		
 		//rmDetailsService.saveRMDetails("ID" + userId, userId);
 		
-		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(userId);
+		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(userId); 
+		System.out.println("clientDetails =========== "+clientDetails);
 		
 		if (clientDetails == null)
 		{

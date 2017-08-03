@@ -15,7 +15,8 @@ public class RMDetails extends BaseMaster  implements Serializable{
 	@Id
 	@Column(name = "ID")
 	private String id;
-	@Column(name = "RM_Name")
+	
+	@Column(name = "RM_NAME")
 	private String rmName;
 
 	public String getId() {

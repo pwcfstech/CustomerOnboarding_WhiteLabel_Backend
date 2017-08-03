@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 import com.afrAsia.Utils.AfrAsiaLogger;
 import com.afrAsia.entities.jpa.MsgHeader;
 import com.afrAsia.entities.masters.AccountClass;
+import com.afrAsia.entities.masters.AccountType;
+import com.afrAsia.entities.masters.AfrAsiaFirst;
 import com.afrAsia.entities.masters.CategoryMaster;
 import com.afrAsia.entities.masters.Country;
 import com.afrAsia.entities.masters.Employment;
@@ -57,6 +59,8 @@ public class MasterDataRestService {
 		List<MastersDataResponse.Data.RMDetails> rmDetailsResList =new ArrayList<>() ;
 		List<MastersDataResponse.Data.Title> titlesResList =new ArrayList<>() ;
 		List<MastersDataResponse.Data.UIDType> uidTypeResList =new ArrayList<>() ;
+		List<MastersDataResponse.Data.AccountType> accountTypeList =new ArrayList<>() ;
+		List<MastersDataResponse.Data.AfrAsiaFirst> afrAsiaFirstList =new ArrayList<>() ;
 		
 		try{
 		
@@ -68,11 +72,38 @@ public class MasterDataRestService {
 		List<Prefix> prefixList=masterDataService.getPrefix();
 		List<RMDetails> rmDetailsList=masterDataService.getRMDetails();
 		List<UIDType> uidTypeList=masterDataService.getUIDType();
+		List<AccountType> accTypeList=masterDataService.getAccountType();
+		List<AfrAsiaFirst> afrAsiaFstList=masterDataService.getAfrAsiaFirst();
+		
+		for( AfrAsiaFirst afrAsiaFirst : afrAsiaFstList){
+			//System.out.println(rmDetails);
+			com.afrAsia.entities.response.MastersDataResponse.Data.AfrAsiaFirst afrAsiaFrst= new MastersDataResponse().new Data().new AfrAsiaFirst(); 
+			afrAsiaFrst.setId(afrAsiaFirst.getId());
+			afrAsiaFrst.setDescription(afrAsiaFirst.getDescription());
+			afrAsiaFrst.setAdditionalField(afrAsiaFirst.getAdditionalField());
+			afrAsiaFirstList.add(afrAsiaFrst);
+			
+			}
+		data.setAfrAsiaFirst(afrAsiaFirstList);
+		
+		for( AccountType accountType : accTypeList){
+			//System.out.println(rmDetails);
+			com.afrAsia.entities.response.MastersDataResponse.Data.AccountType accTypeRes= new MastersDataResponse().new Data().new AccountType();
+			accTypeRes.setName(accountType.getName());
+			accTypeRes.setResident(accountType.getResident());
+			accTypeRes.setNonResident(accountType.getNonResident());
+			accountTypeList.add(accTypeRes);
+			
+			}
+		data.setAccountType(accountTypeList);
+		
 		for( Country country : countryList){
 			System.out.println(country);
 			com.afrAsia.entities.response.MastersDataResponse.Data.Country countryRes= new MastersDataResponse().new Data().new Country();
 			countryRes.setCountryCode(country.getCountryCode());
 			countryRes.setDescription(country.getDescription());
+			countryRes.setCallingCode(country.getCallingCode());
+			countryRes.setDialingCode(country.getDialingCode());
 			countryResList.add(countryRes);
 			
 			}
@@ -111,6 +142,7 @@ public class MasterDataRestService {
 			maritalStatusResList.add(maritalStatusRes);
 			}
 		data.setMaritalStatus(maritalStatusResList);
+		
 		for( Prefix prefix : prefixList){
 			System.out.println(prefix);
 			com.afrAsia.entities.response.MastersDataResponse.Data.Title titleRes= new MastersDataResponse().new Data().new Title();
@@ -119,7 +151,6 @@ public class MasterDataRestService {
 			titleRes.setPrefix2(prefix.getPrefix2());
 			titleRes.setPrefix3(prefix.getPrefix3());
 			titlesResList.add(titleRes);
-			
 			}
 		data.setTitle(titlesResList);
 		for( RMDetails rmDetails : rmDetailsList){

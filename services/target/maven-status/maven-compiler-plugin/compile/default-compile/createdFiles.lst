@@ -2,6 +2,10 @@ com\afrAsia\service\impl\DTDPSServiceImpl.class
 com\afrAsia\service\impl\ApplicationDetailsServiceImpl.class
 com\afrAsia\service\impl\Test.class
 com\afrAsia\service\AccountCreationService.class
+<<<<<<< HEAD
+=======
+com\afrAsia\service\AddCommentService.class
+>>>>>>> 35c5fe826baadb4f93aa88ac44524cfc7e3b9b34
 com\afrAsia\service\MasterDataService.class
 com\afrAsia\service\impl\AuthenticationServiceImpl.class
 com\afrAsia\service\ApplicationDetailsService.class
@@ -19,6 +23,10 @@ com\afrAsia\service\impl\DashBoardServiceImpl.class
 com\afrAsia\service\impl\RMDetailsServiceImpl.class
 com\afrAsia\service\RMDetailsService.class
 com\afrAsia\service\AuthenticationService.class
+<<<<<<< HEAD
+=======
+com\afrAsia\service\impl\AddCommentServiceImpl.class
+>>>>>>> 35c5fe826baadb4f93aa88ac44524cfc7e3b9b34
 com\afrAsia\service\impl\MasterDataServiceImpl.class
 com\afrAsia\service\impl\RmApplicationsAppServiceImpl.class
 com\afrAsia\service\impl\UserServiceImpl.class

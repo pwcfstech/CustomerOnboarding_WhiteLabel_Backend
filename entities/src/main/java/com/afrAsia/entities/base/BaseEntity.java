@@ -26,10 +26,10 @@ public class BaseEntity implements Serializable {
 	private Long id;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "CREATED_DATE", nullable = false)
+	@Column(name = "CREATED_DATE", nullable = true)
 	private Date createdTime;
 
-	@Column(name = "CREATED_BY", nullable = false)
+	@Column(name = "CREATED_BY", nullable = true)
 	private String createdBy;
 
 	@Temporal(TemporalType.TIMESTAMP)

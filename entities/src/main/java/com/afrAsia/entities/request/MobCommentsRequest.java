@@ -1,8 +1,8 @@
-package com.afrAsia.entities.response;
+package com.afrAsia.entities.request;
 
 import java.io.Serializable;
 
-public class GenericResponse implements Serializable {
+public class MobCommentsRequest implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,6 +24,11 @@ public class GenericResponse implements Serializable {
 
 	public void setData(Data data) {
 		this.data = data;
+	}
+
+	@Override
+	public String toString() {
+		return "MobCommentsRequest [msgHeader=" + msgHeader + ", data=" + data + "]";
 	}
 
 }
