@@ -38,6 +38,4 @@ public class RMDetails extends BaseMaster  implements Serializable{
 	public String toString() {
 		return "RMDetails [rmId=" + id + ", rmName=" + rmName + "]";
 	}
-	
-
 }

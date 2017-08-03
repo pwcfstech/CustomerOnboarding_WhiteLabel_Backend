@@ -24,10 +24,10 @@ public class MobApplicantRecordId implements Serializable {
 	private long applicantId;
 	
 	@Column(name="RECORD_ID")
-	private java.math.BigDecimal recordId;
+	private Long recordId;
 	
 	@Column(name="ID")
-	private long Id;
+	private long id;
 	
 	@Column(name="CREATED_BY")
 	private String createdBy;
@@ -36,7 +36,6 @@ public class MobApplicantRecordId implements Serializable {
 	@Column(name="CREATED_DATE")
 	private Date createdDate;
 
-	private java.math.BigDecimal id;
 
 	@Column(name="MODIFIED_BY")
 	private String modifiedBy;
@@ -74,11 +73,11 @@ public class MobApplicantRecordId implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public java.math.BigDecimal getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(java.math.BigDecimal id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -98,21 +97,17 @@ public class MobApplicantRecordId implements Serializable {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public java.math.BigDecimal getRecordId() {
+	public Long getRecordId() {
 		return this.recordId;
 	}
 
-	public void setRecordId(java.math.BigDecimal recordId) {
+	public void setRecordId(Long recordId) {
 		this.recordId = recordId;
-	}
-
-	public void setId(long id) {
-		Id = id;
 	}
 
 	@Override
 	public String toString() {
-		return "MobApplicantRecordId [applicantId=" + applicantId + ", recordId=" + recordId + ", Id=" + Id
+		return "MobApplicantRecordId [applicantId=" + applicantId + ", recordId=" + recordId + ", Id=" + id
 				+ ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", id=" + id + ", modifiedBy="
 				+ modifiedBy + ", modifiedDate=" + modifiedDate + "]";
 	}

@@ -22,6 +22,7 @@ import com.afrAsia.entities.transactions.MobRmAppRefId;
 public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRecordId> implements AccountCreateJpaDao {
 
 	public MobRmAppRefId storeMobRmAppRefId(MobRmAppRefId mobRmAppRefId) {
+		System.out.println("Value for RM Id table : " + mobRmAppRefId.toString());
 		getEntityManager().persist(mobRmAppRefId);
 		getEntityManager().flush();
 		return mobRmAppRefId;
@@ -123,17 +124,10 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		return mobApplPersonalDetailsHist;
 	}
 
-	
-
 	public MobApplEmploymentDtlsHist storeMobApplEmploymentDtlsHist(
 			MobApplEmploymentDtlsHist mobApplEmploymentDtlsHist) {
 		getEntityManager().persist(mobApplEmploymentDtlsHist);
 		getEntityManager().flush();
 		return mobApplEmploymentDtlsHist;
 	}
-
-
-
-	
-
 }

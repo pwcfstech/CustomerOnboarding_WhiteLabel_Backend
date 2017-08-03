@@ -85,12 +85,15 @@ public class MobApplicantPersonalDetail implements Serializable {
 	private String passportNo;
 
 	@Column(name="RECORD_ID")
-	private java.math.BigDecimal recordId;
+	private Long recordId;
 
 	@Column(name="RESIDENCY_STATUS")
 	private String residencyStatus;
 	@Column(name="TITLE")
 	private String title;
+	
+	@Column(name="CUSTOMER_TYPE")
+	private String customerType;
 
 	public MobApplicantPersonalDetail() {
 	}
@@ -279,11 +282,11 @@ public class MobApplicantPersonalDetail implements Serializable {
 		this.passportNo = passportNo;
 	}
 
-	public java.math.BigDecimal getRecordId() {
+	public Long getRecordId() {
 		return this.recordId;
 	}
 
-	public void setRecordId(java.math.BigDecimal recordId) {
+	public void setRecordId(Long recordId) {
 		this.recordId = recordId;
 	}
 
@@ -302,6 +305,14 @@ public class MobApplicantPersonalDetail implements Serializable {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
+	public void setCustomerType(String customerType){
+		this.customerType = customerType;
+	}
+	
+	public String getCustomerType(){
+		return customerType;
+	}
 
 	@Override
 	public String toString() {
@@ -313,7 +324,6 @@ public class MobApplicantPersonalDetail implements Serializable {
 				+ ", nationality=" + nationality + ", nic=" + nic + ", otherBank1=" + otherBank1 + ", otherBank2="
 				+ otherBank2 + ", otherBank3=" + otherBank3 + ", passportExpiryDate=" + passportExpiryDate
 				+ ", passportNo=" + passportNo + ", recordId=" + recordId + ", residencyStatus=" + residencyStatus
-				+ ", title=" + title + "]";
+				+ ", title=" + title + ", customerType=" + customerType + "]";
 	}
-	
 }

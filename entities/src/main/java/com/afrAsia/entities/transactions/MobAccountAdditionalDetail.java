@@ -2,7 +2,6 @@ package com.afrAsia.entities.transactions;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -16,8 +15,9 @@ import java.util.Date;
 public class MobAccountAdditionalDetail implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private MainTableCompositePK id;
+	@Id
+	@Column(name="ID")
+	private Long id;
 
 	@Column(name="AUTH_EMAIL_1")
 	private String authEmail1;
@@ -29,10 +29,10 @@ public class MobAccountAdditionalDetail implements Serializable {
 	private String authEmail3;
 
 	@Column(name="COMM_EMAIL")
-	private String commEmail;
+	private Boolean commEmail;
 
 	@Column(name="COMM_SMS")
-	private String commSms;
+	private Boolean commSms;
 
 	@Column(name="CREATED_BY")
 	private String createdBy;
@@ -42,13 +42,13 @@ public class MobAccountAdditionalDetail implements Serializable {
 	private Date createdDate;
 
 	@Column(name="CREDIT_CARD")
-	private String creditCard;
+	private Boolean creditCard;
 
 	@Column(name="FOREX_BANKING")
-	private String forexBanking;
+	private Boolean forexBanking;
 
 	@Column(name="GLOBAL_CUSTODY")
-	private String globalCustody;
+	private Boolean globalCustody;
 
 	@Column(name="HEAR_ABOUT_AFRASIA")
 	private String hearAboutAfrasia;
@@ -57,7 +57,7 @@ public class MobAccountAdditionalDetail implements Serializable {
 	private String ibUsername;
 
 	@Column(name="INTERNET_BANKING")
-	private String internetBanking;
+	private Boolean internetBanking;
 
 	@Column(name="MODIFIED_BY")
 	private String modifiedBy;
@@ -67,13 +67,13 @@ public class MobAccountAdditionalDetail implements Serializable {
 	private Date modifiedDate;
 
 	@Column(name="NOMINEE_CALLBK_NUM")
-	private BigDecimal nomineeCallbkNum;
+	private Long nomineeCallbkNum;
 
 	@Column(name="NOMINEE_CALLBK_NUM1")
-	private BigDecimal nomineeCallbkNum1;
+	private Long nomineeCallbkNum1;
 
 	@Column(name="NOMINEE_CALLBK_NUM2")
-	private BigDecimal nomineeCallbkNum2;
+	private Long nomineeCallbkNum2;
 
 	@Column(name="NOMINEE_ID")
 	private String nomineeId;
@@ -94,31 +94,31 @@ public class MobAccountAdditionalDetail implements Serializable {
 	private String nomineeName2;
 
 	@Column(name="OPT_CALLBK_SERVICES")
-	private String optCallbkServices;
+	private Boolean optCallbkServices;
 
 	@Column(name="OPT_TRAN_EMAIL")
-	private String optTranEmail;
+	private Boolean optTranEmail;
 
 	@Column(name="OTP_EMAIL")
-	private String otpEmail;
+	private Boolean otpEmail;
 
 	@Column(name="OTP_SMS")
-	private String otpSms;
+	private Boolean otpSms;
 
 	@Column(name="PIN_VIA_POST")
-	private String pinViaPost;
+	private Boolean pinViaPost;
 
 	@Column(name="PIN_VIA_SMS")
-	private String pinViaSms;
+	private Boolean pinViaSms;
 
 	@Column(name="PREF_COMM_MODE")
 	private String prefCommMode;
 
 	@Column(name="PREPAID_CARDS")
-	private String prepaidCards;
+	private Boolean prepaidCards;
 
 	@Column(name="RECORD_ID")
-	private BigDecimal recordId;
+	private Long recordId;
 
 	@Column(name="STMT_ADDR_1")
 	private String stmtAddr1;
@@ -140,20 +140,17 @@ public class MobAccountAdditionalDetail implements Serializable {
 
 	public MobAccountAdditionalDetail() {
 	}
-	
-	
-	public MainTableCompositePK getId() {
+
+	public Long getId() {
 		return id;
 	}
 
-
-	public void setId(MainTableCompositePK id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-
 	public String getAuthEmail1() {
-		return this.authEmail1;
+		return authEmail1;
 	}
 
 	public void setAuthEmail1(String authEmail1) {
@@ -161,7 +158,7 @@ public class MobAccountAdditionalDetail implements Serializable {
 	}
 
 	public String getAuthEmail2() {
-		return this.authEmail2;
+		return authEmail2;
 	}
 
 	public void setAuthEmail2(String authEmail2) {
@@ -169,31 +166,31 @@ public class MobAccountAdditionalDetail implements Serializable {
 	}
 
 	public String getAuthEmail3() {
-		return this.authEmail3;
+		return authEmail3;
 	}
 
 	public void setAuthEmail3(String authEmail3) {
 		this.authEmail3 = authEmail3;
 	}
 
-	public String getCommEmail() {
-		return this.commEmail;
+	public Boolean getCommEmail() {
+		return commEmail;
 	}
 
-	public void setCommEmail(String commEmail) {
+	public void setCommEmail(Boolean commEmail) {
 		this.commEmail = commEmail;
 	}
 
-	public String getCommSms() {
-		return this.commSms;
+	public Boolean getCommSms() {
+		return commSms;
 	}
 
-	public void setCommSms(String commSms) {
+	public void setCommSms(Boolean commSms) {
 		this.commSms = commSms;
 	}
 
 	public String getCreatedBy() {
-		return this.createdBy;
+		return createdBy;
 	}
 
 	public void setCreatedBy(String createdBy) {
@@ -201,39 +198,39 @@ public class MobAccountAdditionalDetail implements Serializable {
 	}
 
 	public Date getCreatedDate() {
-		return this.createdDate;
+		return createdDate;
 	}
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	public String getCreditCard() {
-		return this.creditCard;
+	public Boolean getCreditCard() {
+		return creditCard;
 	}
 
-	public void setCreditCard(String creditCard) {
+	public void setCreditCard(Boolean creditCard) {
 		this.creditCard = creditCard;
 	}
 
-	public String getForexBanking() {
-		return this.forexBanking;
+	public Boolean getForexBanking() {
+		return forexBanking;
 	}
 
-	public void setForexBanking(String forexBanking) {
+	public void setForexBanking(Boolean forexBanking) {
 		this.forexBanking = forexBanking;
 	}
 
-	public String getGlobalCustody() {
-		return this.globalCustody;
+	public Boolean getGlobalCustody() {
+		return globalCustody;
 	}
 
-	public void setGlobalCustody(String globalCustody) {
+	public void setGlobalCustody(Boolean globalCustody) {
 		this.globalCustody = globalCustody;
 	}
 
 	public String getHearAboutAfrasia() {
-		return this.hearAboutAfrasia;
+		return hearAboutAfrasia;
 	}
 
 	public void setHearAboutAfrasia(String hearAboutAfrasia) {
@@ -241,23 +238,23 @@ public class MobAccountAdditionalDetail implements Serializable {
 	}
 
 	public String getIbUsername() {
-		return this.ibUsername;
+		return ibUsername;
 	}
 
 	public void setIbUsername(String ibUsername) {
 		this.ibUsername = ibUsername;
 	}
 
-	public String getInternetBanking() {
-		return this.internetBanking;
+	public Boolean getInternetBanking() {
+		return internetBanking;
 	}
 
-	public void setInternetBanking(String internetBanking) {
+	public void setInternetBanking(Boolean internetBanking) {
 		this.internetBanking = internetBanking;
 	}
 
 	public String getModifiedBy() {
-		return this.modifiedBy;
+		return modifiedBy;
 	}
 
 	public void setModifiedBy(String modifiedBy) {
@@ -265,39 +262,39 @@ public class MobAccountAdditionalDetail implements Serializable {
 	}
 
 	public Date getModifiedDate() {
-		return this.modifiedDate;
+		return modifiedDate;
 	}
 
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public BigDecimal getNomineeCallbkNum() {
-		return this.nomineeCallbkNum;
+	public Long getNomineeCallbkNum() {
+		return nomineeCallbkNum;
 	}
 
-	public void setNomineeCallbkNum(BigDecimal nomineeCallbkNum) {
+	public void setNomineeCallbkNum(Long nomineeCallbkNum) {
 		this.nomineeCallbkNum = nomineeCallbkNum;
 	}
 
-	public BigDecimal getNomineeCallbkNum1() {
-		return this.nomineeCallbkNum1;
+	public Long getNomineeCallbkNum1() {
+		return nomineeCallbkNum1;
 	}
 
-	public void setNomineeCallbkNum1(BigDecimal nomineeCallbkNum1) {
+	public void setNomineeCallbkNum1(Long nomineeCallbkNum1) {
 		this.nomineeCallbkNum1 = nomineeCallbkNum1;
 	}
 
-	public BigDecimal getNomineeCallbkNum2() {
-		return this.nomineeCallbkNum2;
+	public Long getNomineeCallbkNum2() {
+		return nomineeCallbkNum2;
 	}
 
-	public void setNomineeCallbkNum2(BigDecimal nomineeCallbkNum2) {
+	public void setNomineeCallbkNum2(Long nomineeCallbkNum2) {
 		this.nomineeCallbkNum2 = nomineeCallbkNum2;
 	}
 
 	public String getNomineeId() {
-		return this.nomineeId;
+		return nomineeId;
 	}
 
 	public void setNomineeId(String nomineeId) {
@@ -305,7 +302,7 @@ public class MobAccountAdditionalDetail implements Serializable {
 	}
 
 	public String getNomineeId1() {
-		return this.nomineeId1;
+		return nomineeId1;
 	}
 
 	public void setNomineeId1(String nomineeId1) {
@@ -313,7 +310,7 @@ public class MobAccountAdditionalDetail implements Serializable {
 	}
 
 	public String getNomineeId2() {
-		return this.nomineeId2;
+		return nomineeId2;
 	}
 
 	public void setNomineeId2(String nomineeId2) {
@@ -321,7 +318,7 @@ public class MobAccountAdditionalDetail implements Serializable {
 	}
 
 	public String getNomineeName() {
-		return this.nomineeName;
+		return nomineeName;
 	}
 
 	public void setNomineeName(String nomineeName) {
@@ -329,7 +326,7 @@ public class MobAccountAdditionalDetail implements Serializable {
 	}
 
 	public String getNomineeName1() {
-		return this.nomineeName1;
+		return nomineeName1;
 	}
 
 	public void setNomineeName1(String nomineeName1) {
@@ -337,87 +334,87 @@ public class MobAccountAdditionalDetail implements Serializable {
 	}
 
 	public String getNomineeName2() {
-		return this.nomineeName2;
+		return nomineeName2;
 	}
 
 	public void setNomineeName2(String nomineeName2) {
 		this.nomineeName2 = nomineeName2;
 	}
 
-	public String getOptCallbkServices() {
-		return this.optCallbkServices;
+	public Boolean getOptCallbkServices() {
+		return optCallbkServices;
 	}
 
-	public void setOptCallbkServices(String optCallbkServices) {
+	public void setOptCallbkServices(Boolean optCallbkServices) {
 		this.optCallbkServices = optCallbkServices;
 	}
 
-	public String getOptTranEmail() {
-		return this.optTranEmail;
+	public boolean getOptTranEmail() {
+		return optTranEmail;
 	}
 
-	public void setOptTranEmail(String optTranEmail) {
+	public void setOptTranEmail(boolean optTranEmail) {
 		this.optTranEmail = optTranEmail;
 	}
 
-	public String getOtpEmail() {
-		return this.otpEmail;
+	public Boolean getOtpEmail() {
+		return otpEmail;
 	}
 
-	public void setOtpEmail(String otpEmail) {
+	public void setOtpEmail(Boolean otpEmail) {
 		this.otpEmail = otpEmail;
 	}
 
-	public String getOtpSms() {
-		return this.otpSms;
+	public Boolean getOtpSms() {
+		return otpSms;
 	}
 
-	public void setOtpSms(String otpSms) {
+	public void setOtpSms(Boolean otpSms) {
 		this.otpSms = otpSms;
 	}
 
-	public String getPinViaPost() {
-		return this.pinViaPost;
+	public Boolean getPinViaPost() {
+		return pinViaPost;
 	}
 
-	public void setPinViaPost(String pinViaPost) {
+	public void setPinViaPost(Boolean pinViaPost) {
 		this.pinViaPost = pinViaPost;
 	}
 
-	public String getPinViaSms() {
-		return this.pinViaSms;
+	public Boolean getPinViaSms() {
+		return pinViaSms;
 	}
 
-	public void setPinViaSms(String pinViaSms) {
+	public void setPinViaSms(Boolean pinViaSms) {
 		this.pinViaSms = pinViaSms;
 	}
 
 	public String getPrefCommMode() {
-		return this.prefCommMode;
+		return prefCommMode;
 	}
 
 	public void setPrefCommMode(String prefCommMode) {
 		this.prefCommMode = prefCommMode;
 	}
 
-	public String getPrepaidCards() {
-		return this.prepaidCards;
+	public Boolean getPrepaidCards() {
+		return prepaidCards;
 	}
 
-	public void setPrepaidCards(String prepaidCards) {
+	public void setPrepaidCards(Boolean prepaidCards) {
 		this.prepaidCards = prepaidCards;
 	}
 
-	public BigDecimal getRecordId() {
-		return this.recordId;
+	public Long getRecordId() {
+		return recordId;
 	}
 
-	public void setRecordId(BigDecimal recordId) {
+	public void setRecordId(Long recordId) {
 		this.recordId = recordId;
 	}
 
 	public String getStmtAddr1() {
-		return this.stmtAddr1;
+		return stmtAddr1;
 	}
 
 	public void setStmtAddr1(String stmtAddr1) {
@@ -425,7 +422,7 @@ public class MobAccountAdditionalDetail implements Serializable {
 	}
 
 	public String getStmtAddr2() {
-		return this.stmtAddr2;
+		return stmtAddr2;
 	}
 
 	public void setStmtAddr2(String stmtAddr2) {
@@ -433,7 +430,7 @@ public class MobAccountAdditionalDetail implements Serializable {
 	}
 
 	public String getStmtAddr3() {
-		return this.stmtAddr3;
+		return stmtAddr3;
 	}
 
 	public void setStmtAddr3(String stmtAddr3) {
@@ -441,7 +438,7 @@ public class MobAccountAdditionalDetail implements Serializable {
 	}
 
 	public String getStmtCity() {
-		return this.stmtCity;
+		return stmtCity;
 	}
 
 	public void setStmtCity(String stmtCity) {
@@ -449,7 +446,7 @@ public class MobAccountAdditionalDetail implements Serializable {
 	}
 
 	public String getStmtCountry() {
-		return this.stmtCountry;
+		return stmtCountry;
 	}
 
 	public void setStmtCountry(String stmtCountry) {
@@ -457,13 +454,16 @@ public class MobAccountAdditionalDetail implements Serializable {
 	}
 
 	public String getStmtDelivery() {
-		return this.stmtDelivery;
+		return stmtDelivery;
 	}
 
 	public void setStmtDelivery(String stmtDelivery) {
 		this.stmtDelivery = stmtDelivery;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	@Override
 	public String toString() {
@@ -482,6 +482,4 @@ public class MobAccountAdditionalDetail implements Serializable {
 				+ ", stmtAddr2=" + stmtAddr2 + ", stmtAddr3=" + stmtAddr3 + ", stmtCity=" + stmtCity + ", stmtCountry="
 				+ stmtCountry + ", stmtDelivery=" + stmtDelivery + "]";
 	}
-	
-
 }

@@ -2,7 +2,6 @@ package com.afrAsia.entities.transactions;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -27,10 +26,10 @@ public class MobApplicantCommDetail implements Serializable {
 	private Date createdDate;
 
 	@Column(name="FAX_NO")
-	private BigDecimal faxNo;
+	private Long faxNo;
 
 	@Column(name="FAX_NO_CC")
-	private BigDecimal faxNoCc;
+	private Long faxNoCc;
 
 	@Column(name="MAIL_ADDR_1")
 	private String mailAddr1;
@@ -48,10 +47,10 @@ public class MobApplicantCommDetail implements Serializable {
 	private String mailCountry;
 
 	@Column(name="MOB_NO")
-	private BigDecimal mobNo;
+	private Long mobNo;
 
 	@Column(name="MOB_NO_CC")
-	private BigDecimal mobNoCc;
+	private Long mobNoCc;
 
 	@Column(name="MODIFIED_BY")
 	private String modifiedBy;
@@ -76,19 +75,19 @@ public class MobApplicantCommDetail implements Serializable {
 	private String permCountry;
 
 	@Column(name="RECORD_ID")
-	private BigDecimal recordId;
+	private Long recordId;
 
 	@Column(name="TEL_NO_HOME")
-	private BigDecimal telNoHome;
+	private Long telNoHome;
 
 	@Column(name="TEL_NO_HOME_CC")
-	private BigDecimal telNoHomeCc;
+	private Long telNoHomeCc;
 
 	@Column(name="TEL_NO_OFF")
-	private BigDecimal telNoOff;
+	private Long telNoOff;
 
 	@Column(name="TEL_NO_OFF_CC")
-	private BigDecimal telNoOffCc;
+	private Long telNoOffCc;
 
 	public MobApplicantCommDetail() {
 	}
@@ -117,19 +116,19 @@ public class MobApplicantCommDetail implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public BigDecimal getFaxNo() {
+	public Long getFaxNo() {
 		return this.faxNo;
 	}
 
-	public void setFaxNo(BigDecimal faxNo) {
+	public void setFaxNo(Long faxNo) {
 		this.faxNo = faxNo;
 	}
 
-	public BigDecimal getFaxNoCc() {
+	public Long getFaxNoCc() {
 		return this.faxNoCc;
 	}
 
-	public void setFaxNoCc(BigDecimal faxNoCc) {
+	public void setFaxNoCc(Long faxNoCc) {
 		this.faxNoCc = faxNoCc;
 	}
 
@@ -173,19 +172,19 @@ public class MobApplicantCommDetail implements Serializable {
 		this.mailCountry = mailCountry;
 	}
 
-	public BigDecimal getMobNo() {
+	public Long getMobNo() {
 		return this.mobNo;
 	}
 
-	public void setMobNo(BigDecimal mobNo) {
+	public void setMobNo(Long mobNo) {
 		this.mobNo = mobNo;
 	}
 
-	public BigDecimal getMobNoCc() {
+	public Long getMobNoCc() {
 		return this.mobNoCc;
 	}
 
-	public void setMobNoCc(BigDecimal mobNoCc) {
+	public void setMobNoCc(Long mobNoCc) {
 		this.mobNoCc = mobNoCc;
 	}
 
@@ -245,43 +244,43 @@ public class MobApplicantCommDetail implements Serializable {
 		this.permCountry = permCountry;
 	}
 
-	public BigDecimal getRecordId() {
+	public Long getRecordId() {
 		return this.recordId;
 	}
 
-	public void setRecordId(BigDecimal recordId) {
+	public void setRecordId(Long recordId) {
 		this.recordId = recordId;
 	}
 
-	public BigDecimal getTelNoHome() {
+	public Long getTelNoHome() {
 		return this.telNoHome;
 	}
 
-	public void setTelNoHome(BigDecimal telNoHome) {
+	public void setTelNoHome(Long telNoHome) {
 		this.telNoHome = telNoHome;
 	}
 
-	public BigDecimal getTelNoHomeCc() {
+	public Long getTelNoHomeCc() {
 		return this.telNoHomeCc;
 	}
 
-	public void setTelNoHomeCc(BigDecimal telNoHomeCc) {
+	public void setTelNoHomeCc(Long telNoHomeCc) {
 		this.telNoHomeCc = telNoHomeCc;
 	}
 
-	public BigDecimal getTelNoOff() {
+	public Long getTelNoOff() {
 		return this.telNoOff;
 	}
 
-	public void setTelNoOff(BigDecimal telNoOff) {
+	public void setTelNoOff(Long telNoOff) {
 		this.telNoOff = telNoOff;
 	}
 
-	public BigDecimal getTelNoOffCc() {
+	public Long getTelNoOffCc() {
 		return this.telNoOffCc;
 	}
 
-	public void setTelNoOffCc(BigDecimal telNoOffCc) {
+	public void setTelNoOffCc(Long telNoOffCc) {
 		this.telNoOffCc = telNoOffCc;
 	}
 

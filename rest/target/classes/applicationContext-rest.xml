@@ -64,8 +64,17 @@
 	<bean id="myTrackerRestService" class="com.afrAsia.rest.MyTrackerRestService" >
 		<property name="rmApplicationsAppService" ref="rmApplicationsAppService" />
 	</bean>
+	
 	<bean id="authenticationRestService" class="com.afrAsia.rest.AuthenticationRestService" >
 		<property name="authenticationService" ref="authenticationService" />
+	</bean>
+	
+	<bean id="applicationDetailsRestService" class="com.afrAsia.rest.ApplicationDetailsRestService" >
+		<property name="applicationDetailsService" ref="applicationDetailsService" />
+	</bean>
+	
+	<bean id="accountCreationRestService" class="com.afrAsia.rest.AccountCreationRestService" >
+		<property name="accountCreationService" ref="accountCreationService" />
 	</bean>
 	
 	<!-- <bean id="myTrackerRestService" class="com.afrAsia.rest.MyTrackerRestService" >

@@ -64,10 +64,6 @@
 		<property name="rmApplicationsAppDao" ref="rmApplicationsAppJpaDAO" />
 	</bean>
 	
-	<bean id="accountCreationService" class="com.afrAsia.service.impl.AccountCreationServiceImpl">
-		
-	</bean>
-	
 	<bean id="rmDetailsService" class="com.afrAsia.service.impl.RMDetailsServiceImpl">
 		<property name="rmDetailsDao" ref="rmDetailsDAO" />
 	</bean>
@@ -104,5 +100,13 @@
 		class="org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory">
 		<property name="checkUserScopes" value="true" />
 		<constructor-arg ref="clientDetails" />
+	</bean>
+	
+	<bean id="accountCreationService" class="com.afrAsia.service.impl.AccountCreationServiceImpl">
+		<property name="accountCreateDao" ref="accountCreateJpaDao" /> 
+	</bean>
+	
+	<bean id="applicationDetailsService" class="com.afrAsia.service.impl.ApplicationDetailsServiceImpl">
+		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" />
 	</bean>
 </beans>						

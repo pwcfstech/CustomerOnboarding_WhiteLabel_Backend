@@ -35,10 +35,10 @@ public class MobApplicantAdditionalDtl implements Serializable {
 	private Date createdDate;
 
 	@Column(name="INCOME_OTHER_COUNTRY_TAX")
-	private String incomeOtherCountryTax;
+	private Boolean incomeOtherCountryTax;
 
 	@Column(name="INCOME_US_TAXABLE")
-	private String incomeUsTaxable;
+	private Boolean incomeUsTaxable;
 
 	@Column(name="MODIFIED_BY")
 	private String modifiedBy;
@@ -63,7 +63,7 @@ public class MobApplicantAdditionalDtl implements Serializable {
 	private String oseasCountry;
 
 	@Column(name="RECORD_ID")
-	private java.math.BigDecimal recordId;
+	private Long recordId;
 
 	@Column(name="TIN_1")
 	private String tin1;
@@ -75,7 +75,7 @@ public class MobApplicantAdditionalDtl implements Serializable {
 	private String tin3;
 
 	@Column(name="US_CITIZEN")
-	private String usCitizen;
+	private Boolean usCitizen;
 
 	@Column(name="US_SSN")
 	private String usSsn;
@@ -135,19 +135,19 @@ public class MobApplicantAdditionalDtl implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public String getIncomeOtherCountryTax() {
+	public Boolean getIncomeOtherCountryTax() {
 		return this.incomeOtherCountryTax;
 	}
 
-	public void setIncomeOtherCountryTax(String incomeOtherCountryTax) {
+	public void setIncomeOtherCountryTax(Boolean incomeOtherCountryTax) {
 		this.incomeOtherCountryTax = incomeOtherCountryTax;
 	}
 
-	public String getIncomeUsTaxable() {
+	public Boolean getIncomeUsTaxable() {
 		return this.incomeUsTaxable;
 	}
 
-	public void setIncomeUsTaxable(String incomeUsTaxable) {
+	public void setIncomeUsTaxable(Boolean incomeUsTaxable) {
 		this.incomeUsTaxable = incomeUsTaxable;
 	}
 
@@ -207,11 +207,11 @@ public class MobApplicantAdditionalDtl implements Serializable {
 		this.oseasCountry = oseasCountry;
 	}
 
-	public java.math.BigDecimal getRecordId() {
+	public Long getRecordId() {
 		return this.recordId;
 	}
 
-	public void setRecordId(java.math.BigDecimal recordId) {
+	public void setRecordId(Long recordId) {
 		this.recordId = recordId;
 	}
 
@@ -239,11 +239,11 @@ public class MobApplicantAdditionalDtl implements Serializable {
 		this.tin3 = tin3;
 	}
 
-	public String getUsCitizen() {
+	public Boolean getUsCitizen() {
 		return this.usCitizen;
 	}
 
-	public void setUsCitizen(String usCitizen) {
+	public void setUsCitizen(Boolean usCitizen) {
 		this.usCitizen = usCitizen;
 	}
 

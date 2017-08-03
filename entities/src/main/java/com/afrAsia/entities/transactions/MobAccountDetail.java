@@ -14,8 +14,9 @@ import java.util.Date;
 @NamedQuery(name="MobAccountDetail.findAll", query="SELECT m FROM MobAccountDetail m")
 public class MobAccountDetail implements Serializable {
 	private static final long serialVersionUID = 1L;
-	@EmbeddedId
-	MainTableCompositePK id;
+	@Id
+	@Column(name="ID")
+	private Long id;
 
 	@Column(name="ACCOUNT_CATEGORY")
 	private String accountCategory;
@@ -31,34 +32,34 @@ public class MobAccountDetail implements Serializable {
 	private Date createdDate;
 
 	@Column(name="INDV_APPLICANT_REF_NO")
-	private java.math.BigDecimal indvApplicantRefNo;
+	private Long indvApplicantRefNo;
 
 	@Column(name="INDV_GUARDIAN_REF_NO")
-	private java.math.BigDecimal indvGuardianRefNo;
+	private Long indvGuardianRefNo;
 
 	@Column(name="JOINT1_APPLICANT_REF_NO")
-	private java.math.BigDecimal joint1ApplicantRefNo;
+	private Long joint1ApplicantRefNo;
 
 	@Column(name="JOINT1_GUARDIAN_REF_NO")
-	private java.math.BigDecimal joint1GuardianRefNo;
+	private Long joint1GuardianRefNo;
 
 	@Column(name="JOINT2_APPLICANT_REF_NO")
-	private java.math.BigDecimal joint2ApplicantRefNo;
+	private Long joint2ApplicantRefNo;
 
 	@Column(name="JOINT2_GUARDIAN_REF_NO")
-	private java.math.BigDecimal joint2GuardianRefNo;
+	private Long joint2GuardianRefNo;
 
 	@Column(name="JOINT3_APPLICANT_REF_NO")
-	private java.math.BigDecimal joint3ApplicantRefNo;
+	private Long joint3ApplicantRefNo;
 
 	@Column(name="JOINT3_GUARDIAN_REF_NO")
-	private java.math.BigDecimal joint3GuardianRefNo;
+	private Long joint3GuardianRefNo;
 
 	@Column(name="JOINT4_APPLICANT_REF_NO")
-	private java.math.BigDecimal joint4ApplicantRefNo;
+	private Long joint4ApplicantRefNo;
 
 	@Column(name="JOINT4_GUARDIAN_REF_NO")
-	private java.math.BigDecimal joint4GuardianRefNo;
+	private Long joint4GuardianRefNo;
 
 	@Column(name="MODIFIED_BY")
 	private String modifiedBy;
@@ -67,6 +68,7 @@ public class MobAccountDetail implements Serializable {
 	@Column(name="MODIFIED_DATE")
 	private Date modifiedDate;
 
+	@Column(name="MOP")
 	private String mop;
 
 	@Column(name="MOP_1")
@@ -134,7 +136,7 @@ public class MobAccountDetail implements Serializable {
 	private boolean powerAttnUs4;
 
 	@Column(name="RECORD_ID")
-	private java.math.BigDecimal recordId;
+	private Long recordId;
 
 	@Column(name="RELATIONSHIP_MINOR_1")
 	private String relationshipMinor1;
@@ -151,19 +153,13 @@ public class MobAccountDetail implements Serializable {
 	public MobAccountDetail() {
 	}
 
-	
-
-	public MainTableCompositePK getId() {
+	public Long getId() {
 		return id;
 	}
 
-
-
-	public void setId(MainTableCompositePK id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
-
-
 
 	public String getAccountCategory() {
 		return this.accountCategory;
@@ -197,83 +193,83 @@ public class MobAccountDetail implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public java.math.BigDecimal getIndvApplicantRefNo() {
+	public Long getIndvApplicantRefNo() {
 		return this.indvApplicantRefNo;
 	}
 
-	public void setIndvApplicantRefNo(java.math.BigDecimal indvApplicantRefNo) {
+	public void setIndvApplicantRefNo(Long indvApplicantRefNo) {
 		this.indvApplicantRefNo = indvApplicantRefNo;
 	}
 
-	public java.math.BigDecimal getIndvGuardianRefNo() {
+	public Long getIndvGuardianRefNo() {
 		return this.indvGuardianRefNo;
 	}
 
-	public void setIndvGuardianRefNo(java.math.BigDecimal indvGuardianRefNo) {
+	public void setIndvGuardianRefNo(Long indvGuardianRefNo) {
 		this.indvGuardianRefNo = indvGuardianRefNo;
 	}
 
-	public java.math.BigDecimal getJoint1ApplicantRefNo() {
+	public Long getJoint1ApplicantRefNo() {
 		return this.joint1ApplicantRefNo;
 	}
 
-	public void setJoint1ApplicantRefNo(java.math.BigDecimal joint1ApplicantRefNo) {
+	public void setJoint1ApplicantRefNo(Long joint1ApplicantRefNo) {
 		this.joint1ApplicantRefNo = joint1ApplicantRefNo;
 	}
 
-	public java.math.BigDecimal getJoint1GuardianRefNo() {
+	public Long getJoint1GuardianRefNo() {
 		return this.joint1GuardianRefNo;
 	}
 
-	public void setJoint1GuardianRefNo(java.math.BigDecimal joint1GuardianRefNo) {
+	public void setJoint1GuardianRefNo(Long joint1GuardianRefNo) {
 		this.joint1GuardianRefNo = joint1GuardianRefNo;
 	}
 
-	public java.math.BigDecimal getJoint2ApplicantRefNo() {
+	public Long getJoint2ApplicantRefNo() {
 		return this.joint2ApplicantRefNo;
 	}
 
-	public void setJoint2ApplicantRefNo(java.math.BigDecimal joint2ApplicantRefNo) {
+	public void setJoint2ApplicantRefNo(Long joint2ApplicantRefNo) {
 		this.joint2ApplicantRefNo = joint2ApplicantRefNo;
 	}
 
-	public java.math.BigDecimal getJoint2GuardianRefNo() {
+	public Long getJoint2GuardianRefNo() {
 		return this.joint2GuardianRefNo;
 	}
 
-	public void setJoint2GuardianRefNo(java.math.BigDecimal joint2GuardianRefNo) {
+	public void setJoint2GuardianRefNo(Long joint2GuardianRefNo) {
 		this.joint2GuardianRefNo = joint2GuardianRefNo;
 	}
 
-	public java.math.BigDecimal getJoint3ApplicantRefNo() {
+	public Long getJoint3ApplicantRefNo() {
 		return this.joint3ApplicantRefNo;
 	}
 
-	public void setJoint3ApplicantRefNo(java.math.BigDecimal joint3ApplicantRefNo) {
+	public void setJoint3ApplicantRefNo(Long joint3ApplicantRefNo) {
 		this.joint3ApplicantRefNo = joint3ApplicantRefNo;
 	}
 
-	public java.math.BigDecimal getJoint3GuardianRefNo() {
+	public Long getJoint3GuardianRefNo() {
 		return this.joint3GuardianRefNo;
 	}
 
-	public void setJoint3GuardianRefNo(java.math.BigDecimal joint3GuardianRefNo) {
+	public void setJoint3GuardianRefNo(Long joint3GuardianRefNo) {
 		this.joint3GuardianRefNo = joint3GuardianRefNo;
 	}
 
-	public java.math.BigDecimal getJoint4ApplicantRefNo() {
+	public Long getJoint4ApplicantRefNo() {
 		return this.joint4ApplicantRefNo;
 	}
 
-	public void setJoint4ApplicantRefNo(java.math.BigDecimal joint4ApplicantRefNo) {
+	public void setJoint4ApplicantRefNo(Long joint4ApplicantRefNo) {
 		this.joint4ApplicantRefNo = joint4ApplicantRefNo;
 	}
 
-	public java.math.BigDecimal getJoint4GuardianRefNo() {
+	public Long getJoint4GuardianRefNo() {
 		return this.joint4GuardianRefNo;
 	}
 
-	public void setJoint4GuardianRefNo(java.math.BigDecimal joint4GuardianRefNo) {
+	public void setJoint4GuardianRefNo(Long joint4GuardianRefNo) {
 		this.joint4GuardianRefNo = joint4GuardianRefNo;
 	}
 
@@ -461,11 +457,11 @@ public class MobAccountDetail implements Serializable {
 		this.powerAttnUs4 = powerAttnUs4;
 	}
 
-	public java.math.BigDecimal getRecordId() {
+	public Long getRecordId() {
 		return this.recordId;
 	}
 
-	public void setRecordId(java.math.BigDecimal recordId) {
+	public void setRecordId(Long recordId) {
 		this.recordId = recordId;
 	}
 

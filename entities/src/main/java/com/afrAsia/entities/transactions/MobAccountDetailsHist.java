@@ -17,8 +17,8 @@ public class MobAccountDetailsHist implements Serializable {
 
 	@EmbeddedId
 	private HistTableCompositePK id;
-	/*@Column(name="RECORD_ID")
-	private long recordId;*/
+//	@Column(name="RECORD_ID")
+//	private long recordId;
 
 	@Column(name="ACCOUNT_CATEGORY")
 	private String accountCategory;
@@ -159,14 +159,14 @@ public class MobAccountDetailsHist implements Serializable {
 		this.id = id;
 	}
 
-	/*public long getRecordId() {
-		return this.recordId;
-	}
+//	public long getRecordId() {
+//		return this.recordId;
+//	}
+//
+//	public void setRecordId(long recordId) {
+//		this.recordId = recordId;
+//	}
 
-	public void setRecordId(long recordId) {
-		this.recordId = recordId;
-	}
-*/
 	public String getAccountCategory() {
 		return this.accountCategory;
 	}
@@ -497,26 +497,25 @@ public class MobAccountDetailsHist implements Serializable {
 
 	@Override
 	public String toString() {
-		return "MobAccountDetailsHist [id=" + id + ", accountCategory=" + accountCategory + ", accountType="
-				+ accountType + ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", indvApplicantRefNo="
-				+ indvApplicantRefNo + ", indvGuardianRefNo=" + indvGuardianRefNo + ", joint1ApplicantRefNo="
-				+ joint1ApplicantRefNo + ", joint1GuardianRefNo=" + joint1GuardianRefNo + ", joint2ApplicantRefNo="
-				+ joint2ApplicantRefNo + ", joint2GuardianRefNo=" + joint2GuardianRefNo + ", joint3ApplicantRefNo="
-				+ joint3ApplicantRefNo + ", joint3GuardianRefNo=" + joint3GuardianRefNo + ", joint4ApplicantRefNo="
-				+ joint4ApplicantRefNo + ", joint4GuardianRefNo=" + joint4GuardianRefNo + ", modifiedBy=" + modifiedBy
-				+ ", modifiedDate=" + modifiedDate + ", mop=" + mop + ", mop1=" + mop1 + ", mop2=" + mop2 + ", mop3="
-				+ mop3 + ", mop4=" + mop4 + ", mopInstruction1=" + mopInstruction1 + ", mopInstruction2="
-				+ mopInstruction2 + ", mopInstruction3=" + mopInstruction3 + ", mopInstruction4=" + mopInstruction4
-				+ ", powerAttnGovCountry1=" + powerAttnGovCountry1 + ", powerAttnGovCountry2=" + powerAttnGovCountry2
-				+ ", powerAttnGovCountry3=" + powerAttnGovCountry3 + ", powerAttnGovCountry4=" + powerAttnGovCountry4
-				+ ", powerAttnIssueDate1=" + powerAttnIssueDate1 + ", powerAttnIssueDate2=" + powerAttnIssueDate2
-				+ ", powerAttnIssueDate3=" + powerAttnIssueDate3 + ", powerAttnIssueDate4=" + powerAttnIssueDate4
-				+ ", powerAttnUs1=" + powerAttnUs1 + ", powerAttnUs2=" + powerAttnUs2 + ", powerAttnUs3=" + powerAttnUs3
-				+ ", powerAttnUs4=" + powerAttnUs4 + ", relationshipMinor1=" + relationshipMinor1
-				+ ", relationshipMinor2=" + relationshipMinor2 + ", relationshipMinor3=" + relationshipMinor3
-				+ ", relationshipMinor4=" + relationshipMinor4 + "]";
+		return "MobAccountDetailsHist [id=" + id + ", accountCategory=" + accountCategory
+				+ ", accountType=" + accountType + ", createdBy=" + createdBy + ", createdDate=" + createdDate
+				+ ", indvApplicantRefNo=" + indvApplicantRefNo + ", indvGuardianRefNo=" + indvGuardianRefNo
+				+ ", joint1ApplicantRefNo=" + joint1ApplicantRefNo + ", joint1GuardianRefNo=" + joint1GuardianRefNo
+				+ ", joint2ApplicantRefNo=" + joint2ApplicantRefNo + ", joint2GuardianRefNo=" + joint2GuardianRefNo
+				+ ", joint3ApplicantRefNo=" + joint3ApplicantRefNo + ", joint3GuardianRefNo=" + joint3GuardianRefNo
+				+ ", joint4ApplicantRefNo=" + joint4ApplicantRefNo + ", joint4GuardianRefNo=" + joint4GuardianRefNo
+				+ ", modifiedBy=" + modifiedBy + ", modifiedDate=" + modifiedDate + ", mop=" + mop + ", mop1=" + mop1
+				+ ", mop2=" + mop2 + ", mop3=" + mop3 + ", mop4=" + mop4 + ", mopInstruction1=" + mopInstruction1
+				+ ", mopInstruction2=" + mopInstruction2 + ", mopInstruction3=" + mopInstruction3 + ", mopInstruction4="
+				+ mopInstruction4 + ", powerAttnGovCountry1=" + powerAttnGovCountry1 + ", powerAttnGovCountry2="
+				+ powerAttnGovCountry2 + ", powerAttnGovCountry3=" + powerAttnGovCountry3 + ", powerAttnGovCountry4="
+				+ powerAttnGovCountry4 + ", powerAttnIssueDate1=" + powerAttnIssueDate1 + ", powerAttnIssueDate2="
+				+ powerAttnIssueDate2 + ", powerAttnIssueDate3=" + powerAttnIssueDate3 + ", powerAttnIssueDate4="
+				+ powerAttnIssueDate4 + ", powerAttnUs1=" + powerAttnUs1 + ", powerAttnUs2=" + powerAttnUs2
+				+ ", powerAttnUs3=" + powerAttnUs3 + ", powerAttnUs4=" + powerAttnUs4 + ", relationshipMinor1="
+				+ relationshipMinor1 + ", relationshipMinor2=" + relationshipMinor2 + ", relationshipMinor3="
+				+ relationshipMinor3 + ", relationshipMinor4=" + relationshipMinor4 + "]";
 	}
-
-		
+	
 
 }

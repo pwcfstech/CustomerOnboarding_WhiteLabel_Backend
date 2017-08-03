@@ -20,8 +20,9 @@ public class MobAppRefRecordId implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MOB_APP_REF_RECORD_ID_RECORDID_GENERATOR")
 	@Column(name="RECORD_ID")
 	private long recordId;
+	
 	@Column(name="ID")
-	private long Id;
+	private long id;
 
 	@Column(name="CREATED_BY")
 	private String createdBy;
@@ -80,16 +81,16 @@ public class MobAppRefRecordId implements Serializable {
 	}
 
 	public long getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(long id) {
-		Id = id;
+		this.id = id;
 	}
 
 	@Override
 	public String toString() {
-		return "MobAppRefRecordId [recordId=" + recordId + ", Id=" + Id + ", createdBy=" + createdBy + ", createdDate="
+		return "MobAppRefRecordId [recordId=" + recordId + ", id=" + id + ", createdBy=" + createdBy + ", createdDate="
 				+ createdDate + ", modifiedBy=" + modifiedBy + ", modifiedDate=" + modifiedDate + "]";
 	}
 	

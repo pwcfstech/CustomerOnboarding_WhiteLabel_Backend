@@ -22,13 +22,13 @@ public class ApplicationDetailsReq implements Serializable {
 		
 		private static final long serialVersionUID = -6145838904264249027L;
 
-		private Integer refNo;
+		private Long refNo;
 		
-		public Integer getRefNo() {
+		public Long getRefNo() {
 			return refNo;
 		}
 
-		public void setRefNo(Integer refNo) {
+		public void setRefNo(Long refNo) {
 			this.refNo = refNo;
 		}
 

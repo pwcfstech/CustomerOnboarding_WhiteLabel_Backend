@@ -36,3 +36,4 @@ public interface AccountCreateJpaDao extends AccountCreateDao {
 	public MobAppRefRecordId storeMobAppRefRecordId(MobAppRefRecordId mobAccountAddnDetailsHist);
 	public MobApplEmploymentDtlsHist storeMobApplEmploymentDtlsHist(MobApplEmploymentDtlsHist mobApplEmploymentDtlsHist);
 }
+

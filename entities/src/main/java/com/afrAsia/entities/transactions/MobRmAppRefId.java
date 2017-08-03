@@ -18,6 +18,7 @@ import java.util.Date;
 		@Id
 		@SequenceGenerator(name="MOB_RM_APP_REF_ID_ID_GENERATOR", sequenceName="AA_APPLICATION_ID_SEQUENCE")
 		@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MOB_RM_APP_REF_ID_ID_GENERATOR")
+		@Column(name="ID")
 		private long id;
 
 		@Column(name="APP_STATUS")

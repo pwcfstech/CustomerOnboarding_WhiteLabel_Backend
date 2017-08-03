@@ -28,9 +28,6 @@ public class ApplicationReference extends BaseEntity implements Serializable {
 	@Column(name = "APP_STATUS")
 	private String appStatus;
 	
-	/*@ManyToOne
-	@JoinColumn(name="ID")
-	private ApplicantPersonalDetails applicantPersonalDetails;*/
 	
 	public String getRmUserId() {
 		return rmUserId;

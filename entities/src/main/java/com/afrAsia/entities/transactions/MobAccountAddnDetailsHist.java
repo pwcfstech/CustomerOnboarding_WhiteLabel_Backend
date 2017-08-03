@@ -17,8 +17,8 @@ public class MobAccountAddnDetailsHist implements Serializable {
 
 	@EmbeddedId
 	private HistTableCompositePK id;
-	/*@Column(name="RECORD_ID")
-	private long recordId;*/
+//	@Column(name="RECORD_ID")
+//	private long recordId;
 
 	@Column(name="AUTH_EMAIL_1")
 	private String authEmail1;
@@ -150,13 +150,13 @@ public class MobAccountAddnDetailsHist implements Serializable {
 	}
 
 
-	/*public long getRecordId() {
-		return this.recordId;
-	}
-
-	public void setRecordId(long recordId) {
-		this.recordId = recordId;
-	}*/
+//	public long getRecordId() {
+//		return this.recordId;
+//	}
+//
+//	public void setRecordId(long recordId) {
+//		this.recordId = recordId;
+//	}
 
 	public String getAuthEmail1() {
 		return this.authEmail1;
@@ -465,23 +465,20 @@ public class MobAccountAddnDetailsHist implements Serializable {
 
 	@Override
 	public String toString() {
-		return "MobAccountAddnDetailsHist [id=" + id + ", authEmail1=" + authEmail1 + ", authEmail2=" + authEmail2
-				+ ", authEmail3=" + authEmail3 + ", commEmail=" + commEmail + ", commSms=" + commSms + ", createdBy="
-				+ createdBy + ", createdDate=" + createdDate + ", creditCard=" + creditCard + ", forexBanking="
-				+ forexBanking + ", globalCustody=" + globalCustody + ", hearAboutAfrasia=" + hearAboutAfrasia
-				+ ", ibUsername=" + ibUsername + ", internetBanking=" + internetBanking + ", modifiedBy=" + modifiedBy
-				+ ", modifiedDate=" + modifiedDate + ", nomineeCallbkNum=" + nomineeCallbkNum + ", nomineeCallbkNum1="
-				+ nomineeCallbkNum1 + ", nomineeCallbkNum2=" + nomineeCallbkNum2 + ", nomineeId=" + nomineeId
-				+ ", nomineeId1=" + nomineeId1 + ", nomineeId2=" + nomineeId2 + ", nomineeName=" + nomineeName
-				+ ", nomineeName1=" + nomineeName1 + ", nomineeName2=" + nomineeName2 + ", optCallbkServices="
-				+ optCallbkServices + ", optTranEmail=" + optTranEmail + ", otpEmail=" + otpEmail + ", otpSms=" + otpSms
-				+ ", pinViaPost=" + pinViaPost + ", pinViaSms=" + pinViaSms + ", prefCommMode=" + prefCommMode
-				+ ", prepaidCards=" + prepaidCards + ", stmtAddr1=" + stmtAddr1 + ", stmtAddr2=" + stmtAddr2
-				+ ", stmtAddr3=" + stmtAddr3 + ", stmtCity=" + stmtCity + ", stmtCountry=" + stmtCountry
-				+ ", stmtDelivery=" + stmtDelivery + "]";
+		return "MobAccountAddnDetailsHist [id=" + id + ", authEmail1=" + authEmail1
+				+ ", authEmail2=" + authEmail2 + ", authEmail3=" + authEmail3 + ", commEmail=" + commEmail
+				+ ", commSms=" + commSms + ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", creditCard="
+				+ creditCard + ", forexBanking=" + forexBanking + ", globalCustody=" + globalCustody
+				+ ", hearAboutAfrasia=" + hearAboutAfrasia + ", ibUsername=" + ibUsername + ", internetBanking="
+				+ internetBanking + ", modifiedBy=" + modifiedBy + ", modifiedDate=" + modifiedDate
+				+ ", nomineeCallbkNum=" + nomineeCallbkNum + ", nomineeCallbkNum1=" + nomineeCallbkNum1
+				+ ", nomineeCallbkNum2=" + nomineeCallbkNum2 + ", nomineeId=" + nomineeId + ", nomineeId1=" + nomineeId1
+				+ ", nomineeId2=" + nomineeId2 + ", nomineeName=" + nomineeName + ", nomineeName1=" + nomineeName1
+				+ ", nomineeName2=" + nomineeName2 + ", optCallbkServices=" + optCallbkServices + ", optTranEmail="
+				+ optTranEmail + ", otpEmail=" + otpEmail + ", otpSms=" + otpSms + ", pinViaPost=" + pinViaPost
+				+ ", pinViaSms=" + pinViaSms + ", prefCommMode=" + prefCommMode + ", prepaidCards=" + prepaidCards
+				+ ", stmtAddr1=" + stmtAddr1 + ", stmtAddr2=" + stmtAddr2 + ", stmtAddr3=" + stmtAddr3 + ", stmtCity="
+				+ stmtCity + ", stmtCountry=" + stmtCountry + ", stmtDelivery=" + stmtDelivery + "]";
 	}
-
-
-	
 	
 }
