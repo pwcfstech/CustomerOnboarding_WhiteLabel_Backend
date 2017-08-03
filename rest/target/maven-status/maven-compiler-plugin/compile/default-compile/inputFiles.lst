@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\rest\src\main\java\com\afrAsia\rest\MasterDataRestService.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\rest\src\main\java\com\afrAsia\rest\ApplicationDetailsRestService.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\rest\src\main\java\com\afrAsia\rest\DTDPSRestService.java
@@ -14,7 +13,6 @@ C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\rest\src\main\java\com\afrAsia\rest\MyTrackerRestService.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\rest\src\main\java\com\afrAsia\soap\DTDPSSoapService.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\rest\src\main\java\com\afrAsia\soap\IDTDPSSoapService.java
-=======
 C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\rest\DashBoardSummaryRestService.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\rest\MyTrackerRestService.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\CommonUtils.java
@@ -29,4 +27,3 @@ C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\rest
 C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\rest\ApplicationDetailsRestService.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\rest\UserRestService.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\Utils\AfrAsiaLogger.java
->>>>>>> 35c5fe826baadb4f93aa88ac44524cfc7e3b9b34

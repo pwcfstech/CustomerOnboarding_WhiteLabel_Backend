@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\CountryJpaDaoImpl.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\AccountTypeJpaDAO.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\ProductDetailsJpaDaoImpl.java
@@ -47,7 +46,6 @@ C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\DashBoardJpaDaoImpl.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\PrefixJpaDAO.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\CategoryMasterJpaDaoImpl.java
-=======
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\AccountTypeJpaDAO.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\AccountTypeJpaDaoImpl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\ApplicationDetailsJpaDAO.java
@@ -96,4 +94,3 @@ C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrA
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\MobRmAppRefIdJpaDao.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\AppVersionJpaDAO.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\EmploymentJpaDAO.java
->>>>>>> 35c5fe826baadb4f93aa88ac44524cfc7e3b9b34

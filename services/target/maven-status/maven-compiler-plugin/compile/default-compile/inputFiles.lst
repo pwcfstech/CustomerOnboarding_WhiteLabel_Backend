@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\RmApplicationsAppService.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\impl\AuthenticationServiceImpl.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\impl\Test.java
@@ -24,7 +23,6 @@ C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\DashBoardService.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\ProductService.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\impl\ProductServiceImpl.java
-=======
 C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\impl\AuthenticationServiceImpl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\impl\RmApplicationsAppServiceImpl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\MasterDataService.java
@@ -50,4 +48,3 @@ C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\
 C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\RmApplicationsAppService.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\impl\RMDetailsServiceImpl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\impl\ApplicationDetailsServiceImpl.java
->>>>>>> 35c5fe826baadb4f93aa88ac44524cfc7e3b9b34

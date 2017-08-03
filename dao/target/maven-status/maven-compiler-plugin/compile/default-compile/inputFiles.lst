@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao\src\main\java\com\afrAsia\dao\AccountTypeDao.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao\src\main\java\com\afrAsia\dao\EmploymentDao.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao\src\main\java\com\afrAsia\dao\RmApplicationsAppDao.java
@@ -25,7 +24,6 @@ C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao\src\main\java\com\afrAsia\dao\ApplicationDetailsDao.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao\src\main\java\com\afrAsia\dao\MobRmAppRefIdDao.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao\src\main\java\com\afrAsia\dao\UserDAO.java
-=======
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao\src\main\java\com\afrAsia\dao\CategoryDao.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao\src\main\java\com\afrAsia\dao\MaritalStatusDao.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao\src\main\java\com\afrAsia\dao\AppVersionDao.java
@@ -52,4 +50,3 @@ C:\workspaces\AfrAsia\git\afrasia-platform-1\dao\src\main\java\com\afrAsia\dao\M
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao\src\main\java\com\afrAsia\dao\AccountTypeDao.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao\src\main\java\com\afrAsia\dao\DashBoardDao.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao\src\main\java\com\afrAsia\dao\AfrAsiaFirstDao.java
->>>>>>> 35c5fe826baadb4f93aa88ac44524cfc7e3b9b34

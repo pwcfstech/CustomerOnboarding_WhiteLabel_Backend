@@ -65,24 +65,14 @@
 		<property name="rmApplicationsAppService" ref="rmApplicationsAppService" />
 	</bean>
 	
-<<<<<<< HEAD
-
-=======
->>>>>>> 35c5fe826baadb4f93aa88ac44524cfc7e3b9b34
 	<bean id="addCommentRestService" class="com.afrAsia.rest.AddCommentRestService" >
 		<property name="addCommentService" ref="addCommentService" />
 	</bean>
 	
-<<<<<<< HEAD
-
-=======
->>>>>>> 35c5fe826baadb4f93aa88ac44524cfc7e3b9b34
 	<bean id="authenticationRestService" class="com.afrAsia.rest.AuthenticationRestService" >
 		<property name="authenticationService" ref="authenticationService" />
 	</bean>
 	
-<<<<<<< HEAD
-
 	<bean id="applicationDetailsRestService" class="com.afrAsia.rest.ApplicationDetailsRestService" >
 		<property name="applicationDetailsService" ref="applicationDetailsService" />
 	</bean>
@@ -90,8 +80,6 @@
 	<bean id="accountCreationRestService" class="com.afrAsia.rest.AccountCreationRestService" >
 		<property name="accountCreationService" ref="accountCreationService" />
 	</bean>
-=======
->>>>>>> 35c5fe826baadb4f93aa88ac44524cfc7e3b9b34
 	<!-- <bean id="applicationDetailsRestService" class="com.afrAsia.rest.ApplicationDetailsRestService" >
 		<property name="applicationDetailsService" ref="applicationDetailsService" />
 	</bean> -->

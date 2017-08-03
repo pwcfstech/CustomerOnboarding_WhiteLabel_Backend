@@ -96,10 +96,7 @@ com\afrAsia\entities\response\MastersResponse$MaritalStatus.class
 com\afrAsia\entities\response\MastersDataResponse$Data$Title.class
 com\afrAsia\entities\response\MastersResponse$Category.class
 com\afrAsia\entities\masters\AfrAsiaFirst.class
-<<<<<<< HEAD
 com\afrAsia\entities\request\NomineeInfo.class
-=======
->>>>>>> 35c5fe826baadb4f93aa88ac44524cfc7e3b9b34
 com\afrAsia\entities\transactions\MobApplAdditionalDtlsHist.class
 com\afrAsia\entities\request\JointApplicants.class
 com\afrAsia\entities\transactions\MobApplCommDetailsHist.class

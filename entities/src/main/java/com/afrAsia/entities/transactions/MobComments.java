@@ -4,10 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 35c5fe826baadb4f93aa88ac44524cfc7e3b9b34
 /**
  * The persistent class for the MOB_COMMENTS database table.
  * 
