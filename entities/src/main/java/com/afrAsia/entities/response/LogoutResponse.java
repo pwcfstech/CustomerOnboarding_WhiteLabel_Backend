@@ -9,7 +9,7 @@ public class LogoutResponse
 {
 	private MessageHeader msgHeader;
 
-	private LogoutResponse data;
+	private LogoutDataResponse data;
 
 	public MessageHeader getMsgHeader() {
 		return msgHeader;
@@ -19,11 +19,11 @@ public class LogoutResponse
 		this.msgHeader = msgHeader;
 	}
 
-	public LogoutResponse getData() {
+	public LogoutDataResponse getData() {
 		return data;
 	}
 
-	public void setData(LogoutResponse data) {
+	public void setData(LogoutDataResponse data) {
 		this.data = data;
 	}
 	

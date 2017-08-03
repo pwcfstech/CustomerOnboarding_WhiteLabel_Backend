@@ -75,9 +75,12 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
             int accessTokenValidity, int refreshTokenValidity, String additionalInformation, String autoApprove)
     {
     	
+    	System.out.println("Client id : " + clientId);
     	RMDetails rmDetails = rmDetailsDAO.getRMDetailById(clientId);
+    	System.out.println("rmDetails: " + rmDetails);
 //        User client = userDAO.findById(Integer.valueOf(clientId));
         OauthAuthorization oauthAuthorization = new OauthAuthorization();
+        oauthAuthorization.setId(System.currentTimeMillis());
         oauthAuthorization.setResourceIds(resourceId);
         oauthAuthorization.setAuthorizedGrantTypes(authorizedGrantTypes);
         oauthAuthorization.setAuthorities(authorities);
@@ -106,7 +109,7 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 	        CustomOauthAuthorization customOauthAuthorization = null;
 	        if (oauthAuthorization != null)
 	        {
-	            customOauthAuthorization = new CustomOauthAuthorization(oauthAuthorization.getClient().getId()+"", oauthAuthorization.getResourceIds(), oauthAuthorization.getClientSecret(),
+	            customOauthAuthorization = new CustomOauthAuthorization(oauthAuthorization.getClient().getId(), oauthAuthorization.getResourceIds(), oauthAuthorization.getClientSecret(),
 	                    oauthAuthorization.getScope(), oauthAuthorization.getAuthorizedGrantTypes(), oauthAuthorization.getAuthorities(), oauthAuthorization.getAccessTokenValidity());
 	        }
 	        return customOauthAuthorization;

@@ -15,7 +15,7 @@ public interface AuthenticationService
 {
 	public LoginResponse login(LoginRequest loginRequest);
 	
-	public LogoutResponse logout(LogoutRequest logoutRequest);
+	public LogoutResponse logout(LogoutRequest logoutRequest, String oauthToken);
 	
 	public GenericResponse checkSession();
 }

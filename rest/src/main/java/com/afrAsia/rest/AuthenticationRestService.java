@@ -2,6 +2,7 @@ package com.afrAsia.rest;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -10,9 +11,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.afrAsia.CommonUtils;
+import com.afrAsia.entities.request.LoginDataRequest;
 import com.afrAsia.entities.request.LoginRequest;
 import com.afrAsia.entities.request.LogoutRequest;
 import com.afrAsia.entities.request.RequestError;
@@ -20,6 +21,8 @@ import com.afrAsia.entities.response.LoginResponse;
 import com.afrAsia.entities.response.LogoutResponse;
 import com.afrAsia.entities.response.MessageHeader;
 import com.afrAsia.service.AuthenticationService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Defines the skeleton for login, logout and session management service
@@ -79,13 +82,13 @@ public class AuthenticationRestService
 	@Path("/logout")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response logout(String logoutStringRequest)
+	public Response logout(String logoutStringRequest, @HeaderParam("Authorization") String authToken)
 	{
 		LogoutResponse response = null;
 		try
 		{
 			LogoutRequest logoutRequest = CommonUtils.jsonStringToObject(logoutStringRequest, LogoutRequest.class);
-			response = authenticationService.logout(logoutRequest);
+			response = authenticationService.logout(logoutRequest, authToken);
 		}
 		catch (Exception e)
 		{
@@ -121,5 +124,21 @@ public class AuthenticationRestService
 		}
 		
 		return Response.ok().build();
+	}
+	
+	public static void main(String[] args) throws JsonProcessingException
+	{
+		LoginRequest req = new LoginRequest();
+		LoginDataRequest data = new LoginDataRequest();
+		data.setDeviceId("DevA");
+		data.setIpAddress("10.1.1.1");
+		data.setPassword("pass");
+		data.setUserId("user");
+		data.setUserType("RM");
+		
+		req.setData(data);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		System.out.println(mapper.writeValueAsString(req));
 	}
 }
