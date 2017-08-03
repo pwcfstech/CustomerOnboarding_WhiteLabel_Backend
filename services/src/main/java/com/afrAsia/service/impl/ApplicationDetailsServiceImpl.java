@@ -13,12 +13,14 @@ import com.afrAsia.entities.request.JointApplicants;
 import com.afrAsia.entities.response.ApplicationDetailsResponse;
 import com.afrAsia.entities.response.ApplicationDetailsResponse.Data;
 import com.afrAsia.entities.response.ApplicationDetailsResponse.Data.AccountDetails;
+import com.afrAsia.entities.response.ApplicationDetailsResponse.Data.Comments;
 import com.afrAsia.entities.transactions.MobAccountAdditionalDetail;
 import com.afrAsia.entities.transactions.MobAccountDetail;
 import com.afrAsia.entities.transactions.MobApplicantAdditionalDtl;
 import com.afrAsia.entities.transactions.MobApplicantCommDetail;
 import com.afrAsia.entities.transactions.MobApplicantEmploymentDtl;
 import com.afrAsia.entities.transactions.MobApplicantPersonalDetail;
+import com.afrAsia.entities.transactions.MobComments;
 import com.afrAsia.entities.transactions.MobRmAppRefId;
 import com.afrAsia.service.ApplicationDetailsService;
 
@@ -78,26 +80,37 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			applicationDetailsResponse.setMsgHeader(msgHdr);
 			return applicationDetailsResponse;
 		}
-
-		//2. Get Basic account details
-
-		MobAccountDetail mobAccountDetail = applicationDetailsDAO.getMobAccountDetails(appRefNo);
-		if(mobAccountDetail != null){
-			System.out.println("Data received from Mob Account Table");
-			accountDetails.setAccount(mobAccountDetail.getAccountCategory());
-			accountDetails.setAccountType(mobAccountDetail.getAccountType());
-			accountDetails.setMop(mobAccountDetail.getMop());
-			System.out.println(mobAccountDetail.toString());
-		}
-		else{
-			System.out.println("No data from mobAccountDetail");
-		}
-
-
-
-		//3. Get account additional details
+		
+		
 		try{
-
+			//get comments
+			List<MobComments> mobComments = applicationDetailsDAO.getComments(appRefNo);
+			List<Comments> comments = new ArrayList<Comments>();
+			for(MobComments s : mobComments){
+				Comments comment = new ApplicationDetailsResponse().new Data().new Comments();
+				comment.setComment(s.getComment());
+				comment.setCommentAddedBy(s.getCommentedAddedBy());
+				comment.setCommentDate(s.getCommentDate());
+				comment.setUserCat(s.getUserCat());
+				
+				comments.add(comment);
+			}	
+			data.setComments(comments);
+			
+			//2. Get Basic account details
+			MobAccountDetail mobAccountDetail = applicationDetailsDAO.getMobAccountDetails(appRefNo);
+			if(mobAccountDetail != null){
+				System.out.println("Data received from Mob Account Table");
+				accountDetails.setAccount(mobAccountDetail.getAccountCategory());
+				accountDetails.setAccountType(mobAccountDetail.getAccountType());
+				accountDetails.setMop(mobAccountDetail.getMop());
+				System.out.println(mobAccountDetail.toString());
+			}
+			else{
+				System.out.println("No data from mobAccountDetail");
+			}
+			
+			//3. Get account additional details
 			MobAccountAdditionalDetail mobAccountAddnDetail = applicationDetailsDAO.getMobAccountAdditionalDetails(appRefNo);
 			if(mobAccountAddnDetail != null){
 				System.out.println("Data received from Mob Account Additional Detail Table");
@@ -213,6 +226,21 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				if(mobAccountDetail.getJoint4GuardianRefNo() != null){
 					System.out.println("Guardian Joint 4");
 					ApplicantDetails jointGuardian = getApplicantDetails(data, appRefNo, mobAccountDetail.getJoint4GuardianRefNo(),"forJointGuardian4");
+					jointApplicantsDetail.setGuardianDetail(jointGuardian);
+				}
+				jointApplicants.add(jointApplicantsDetail);
+			}
+			//Joint Applicant5 Details
+			if(mobAccountDetail.getJoint5ApplicantRefNo() != null){
+				JointApplicants jointApplicantsDetail = new JointApplicants();
+				System.out.println("Joint 5");
+				ApplicantDetails jointApplicant = getApplicantDetails(data, appRefNo, mobAccountDetail.getJoint5ApplicantRefNo(),"forJointApplicant5");
+				jointApplicantsDetail.setJointApplicantDetail(jointApplicant);
+
+				//Checking if joint applicant 1 has guardian
+				if(mobAccountDetail.getJoint5GuardianRefNo() != null){
+					System.out.println("Guardian Joint 5");
+					ApplicantDetails jointGuardian = getApplicantDetails(data, appRefNo, mobAccountDetail.getJoint5GuardianRefNo(),"forJointGuardian2");
 					jointApplicantsDetail.setGuardianDetail(jointGuardian);
 				}
 				jointApplicants.add(jointApplicantsDetail);

@@ -41,7 +41,7 @@ import java.util.Date;
 		@Column(name="RM_NAME")
 		private String rmName;
 
-		@Column(name="RM_USED_ID")
+		@Column(name="RM_USER_ID")
 		private String rmUsedId;
 
 		public MobRmAppRefId() {

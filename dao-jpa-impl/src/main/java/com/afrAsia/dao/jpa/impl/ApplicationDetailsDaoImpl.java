@@ -14,6 +14,7 @@ import com.afrAsia.entities.transactions.MobApplicantCommDetail;
 import com.afrAsia.entities.transactions.MobApplicantEmploymentDtl;
 import com.afrAsia.entities.transactions.MobApplicantPersonalDetail;
 import com.afrAsia.entities.transactions.MobApplicantRecordId;
+import com.afrAsia.entities.transactions.MobComments;
 import com.afrAsia.entities.transactions.MobRmAppRefId;
 import com.afrAsia.entities.transactions.MainTableCompositePK;
 
@@ -71,5 +72,11 @@ public class ApplicationDetailsDaoImpl extends BaseJpaDAOImpl<Long, MobRmAppRefI
 		query.setParameter("appRefId", appRefId);
 		query.setParameter("applicantId", applicantId);
 		return (MobApplicantAdditionalDtl) query.getSingleResult();
+	}
+	public List<MobComments> getComments(Long appRefId){
+		String queryString = "SELECT s FROM MobComments s where s.id = :appRefId";
+		Query query = getEntityManager().createQuery(queryString);
+		query.setParameter("appRefId", appRefId);
+		return (List<MobComments>) query.getResultList();
 	}
 }

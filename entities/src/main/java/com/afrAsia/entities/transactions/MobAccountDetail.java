@@ -60,6 +60,12 @@ public class MobAccountDetail implements Serializable {
 
 	@Column(name="JOINT4_GUARDIAN_REF_NO")
 	private Long joint4GuardianRefNo;
+	
+	@Column(name="JOINT5_APPLICANT_REF_NO")
+	private Long joint5ApplicantRefNo;
+
+	@Column(name="JOINT5_GUARDIAN_REF_NO")
+	private Long joint5GuardianRefNo;
 
 	@Column(name="MODIFIED_BY")
 	private String modifiedBy;
@@ -82,6 +88,9 @@ public class MobAccountDetail implements Serializable {
 
 	@Column(name="MOP_4")
 	private String mop4;
+	
+	@Column(name="MOP_5")
+	private String mop5;
 
 	@Column(name="MOP_INSTRUCTION_1")
 	private String mopInstruction1;
@@ -94,6 +103,9 @@ public class MobAccountDetail implements Serializable {
 
 	@Column(name="MOP_INSTRUCTION_4")
 	private String mopInstruction4;
+	
+	@Column(name="MOP_INSTRUCTION_5")
+	private String mopInstruction5;
 
 	@Column(name="POWER_ATTN_GOV_COUNTRY_1")
 	private String powerAttnGovCountry1;
@@ -106,6 +118,9 @@ public class MobAccountDetail implements Serializable {
 
 	@Column(name="POWER_ATTN_GOV_COUNTRY_4")
 	private String powerAttnGovCountry4;
+	
+	@Column(name="POWER_ATTN_GOV_COUNTRY_5")
+	private String powerAttnGovCountry5;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="POWER_ATTN_ISSUE_DATE_1")
@@ -122,6 +137,10 @@ public class MobAccountDetail implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name="POWER_ATTN_ISSUE_DATE_4")
 	private Date powerAttnIssueDate4;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="POWER_ATTN_ISSUE_DATE_5")
+	private Date powerAttnIssueDate5;
 
 	@Column(name="POWER_ATTN_US_1")
 	private boolean powerAttnUs1;
@@ -134,6 +153,9 @@ public class MobAccountDetail implements Serializable {
 
 	@Column(name="POWER_ATTN_US_4")
 	private boolean powerAttnUs4;
+	
+	@Column(name="POWER_ATTN_US_5")
+	private boolean powerAttnUs5;
 
 	@Column(name="RECORD_ID")
 	private Long recordId;
@@ -149,6 +171,9 @@ public class MobAccountDetail implements Serializable {
 
 	@Column(name="RELATIONSHIP_MINOR_4")
 	private String relationshipMinor4;
+	
+	@Column(name="RELATIONSHIP_MINOR_5")
+	private String relationshipMinor5;
 
 	public MobAccountDetail() {
 	}
@@ -162,7 +187,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public String getAccountCategory() {
-		return this.accountCategory;
+		return accountCategory;
 	}
 
 	public void setAccountCategory(String accountCategory) {
@@ -170,7 +195,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public String getAccountType() {
-		return this.accountType;
+		return accountType;
 	}
 
 	public void setAccountType(String accountType) {
@@ -178,7 +203,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public String getCreatedBy() {
-		return this.createdBy;
+		return createdBy;
 	}
 
 	public void setCreatedBy(String createdBy) {
@@ -186,7 +211,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public Date getCreatedDate() {
-		return this.createdDate;
+		return createdDate;
 	}
 
 	public void setCreatedDate(Date createdDate) {
@@ -194,7 +219,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public Long getIndvApplicantRefNo() {
-		return this.indvApplicantRefNo;
+		return indvApplicantRefNo;
 	}
 
 	public void setIndvApplicantRefNo(Long indvApplicantRefNo) {
@@ -202,7 +227,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public Long getIndvGuardianRefNo() {
-		return this.indvGuardianRefNo;
+		return indvGuardianRefNo;
 	}
 
 	public void setIndvGuardianRefNo(Long indvGuardianRefNo) {
@@ -210,7 +235,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public Long getJoint1ApplicantRefNo() {
-		return this.joint1ApplicantRefNo;
+		return joint1ApplicantRefNo;
 	}
 
 	public void setJoint1ApplicantRefNo(Long joint1ApplicantRefNo) {
@@ -218,7 +243,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public Long getJoint1GuardianRefNo() {
-		return this.joint1GuardianRefNo;
+		return joint1GuardianRefNo;
 	}
 
 	public void setJoint1GuardianRefNo(Long joint1GuardianRefNo) {
@@ -226,7 +251,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public Long getJoint2ApplicantRefNo() {
-		return this.joint2ApplicantRefNo;
+		return joint2ApplicantRefNo;
 	}
 
 	public void setJoint2ApplicantRefNo(Long joint2ApplicantRefNo) {
@@ -234,7 +259,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public Long getJoint2GuardianRefNo() {
-		return this.joint2GuardianRefNo;
+		return joint2GuardianRefNo;
 	}
 
 	public void setJoint2GuardianRefNo(Long joint2GuardianRefNo) {
@@ -242,7 +267,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public Long getJoint3ApplicantRefNo() {
-		return this.joint3ApplicantRefNo;
+		return joint3ApplicantRefNo;
 	}
 
 	public void setJoint3ApplicantRefNo(Long joint3ApplicantRefNo) {
@@ -250,7 +275,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public Long getJoint3GuardianRefNo() {
-		return this.joint3GuardianRefNo;
+		return joint3GuardianRefNo;
 	}
 
 	public void setJoint3GuardianRefNo(Long joint3GuardianRefNo) {
@@ -258,7 +283,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public Long getJoint4ApplicantRefNo() {
-		return this.joint4ApplicantRefNo;
+		return joint4ApplicantRefNo;
 	}
 
 	public void setJoint4ApplicantRefNo(Long joint4ApplicantRefNo) {
@@ -266,15 +291,31 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public Long getJoint4GuardianRefNo() {
-		return this.joint4GuardianRefNo;
+		return joint4GuardianRefNo;
 	}
 
 	public void setJoint4GuardianRefNo(Long joint4GuardianRefNo) {
 		this.joint4GuardianRefNo = joint4GuardianRefNo;
 	}
 
+	public Long getJoint5ApplicantRefNo() {
+		return joint5ApplicantRefNo;
+	}
+
+	public void setJoint5ApplicantRefNo(Long joint5ApplicantRefNo) {
+		this.joint5ApplicantRefNo = joint5ApplicantRefNo;
+	}
+
+	public Long getJoint5GuardianRefNo() {
+		return joint5GuardianRefNo;
+	}
+
+	public void setJoint5GuardianRefNo(Long joint5GuardianRefNo) {
+		this.joint5GuardianRefNo = joint5GuardianRefNo;
+	}
+
 	public String getModifiedBy() {
-		return this.modifiedBy;
+		return modifiedBy;
 	}
 
 	public void setModifiedBy(String modifiedBy) {
@@ -282,7 +323,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public Date getModifiedDate() {
-		return this.modifiedDate;
+		return modifiedDate;
 	}
 
 	public void setModifiedDate(Date modifiedDate) {
@@ -290,7 +331,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public String getMop() {
-		return this.mop;
+		return mop;
 	}
 
 	public void setMop(String mop) {
@@ -298,7 +339,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public String getMop1() {
-		return this.mop1;
+		return mop1;
 	}
 
 	public void setMop1(String mop1) {
@@ -306,7 +347,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public String getMop2() {
-		return this.mop2;
+		return mop2;
 	}
 
 	public void setMop2(String mop2) {
@@ -314,7 +355,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public String getMop3() {
-		return this.mop3;
+		return mop3;
 	}
 
 	public void setMop3(String mop3) {
@@ -322,15 +363,23 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public String getMop4() {
-		return this.mop4;
+		return mop4;
 	}
 
 	public void setMop4(String mop4) {
 		this.mop4 = mop4;
 	}
 
+	public String getMop5() {
+		return mop5;
+	}
+
+	public void setMop5(String mop5) {
+		this.mop5 = mop5;
+	}
+
 	public String getMopInstruction1() {
-		return this.mopInstruction1;
+		return mopInstruction1;
 	}
 
 	public void setMopInstruction1(String mopInstruction1) {
@@ -338,7 +387,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public String getMopInstruction2() {
-		return this.mopInstruction2;
+		return mopInstruction2;
 	}
 
 	public void setMopInstruction2(String mopInstruction2) {
@@ -346,7 +395,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public String getMopInstruction3() {
-		return this.mopInstruction3;
+		return mopInstruction3;
 	}
 
 	public void setMopInstruction3(String mopInstruction3) {
@@ -354,15 +403,23 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public String getMopInstruction4() {
-		return this.mopInstruction4;
+		return mopInstruction4;
 	}
 
 	public void setMopInstruction4(String mopInstruction4) {
 		this.mopInstruction4 = mopInstruction4;
 	}
 
+	public String getMopInstruction5() {
+		return mopInstruction5;
+	}
+
+	public void setMopInstruction5(String mopInstruction5) {
+		this.mopInstruction5 = mopInstruction5;
+	}
+
 	public String getPowerAttnGovCountry1() {
-		return this.powerAttnGovCountry1;
+		return powerAttnGovCountry1;
 	}
 
 	public void setPowerAttnGovCountry1(String powerAttnGovCountry1) {
@@ -370,7 +427,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public String getPowerAttnGovCountry2() {
-		return this.powerAttnGovCountry2;
+		return powerAttnGovCountry2;
 	}
 
 	public void setPowerAttnGovCountry2(String powerAttnGovCountry2) {
@@ -378,7 +435,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public String getPowerAttnGovCountry3() {
-		return this.powerAttnGovCountry3;
+		return powerAttnGovCountry3;
 	}
 
 	public void setPowerAttnGovCountry3(String powerAttnGovCountry3) {
@@ -386,15 +443,23 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public String getPowerAttnGovCountry4() {
-		return this.powerAttnGovCountry4;
+		return powerAttnGovCountry4;
 	}
 
 	public void setPowerAttnGovCountry4(String powerAttnGovCountry4) {
 		this.powerAttnGovCountry4 = powerAttnGovCountry4;
 	}
 
+	public String getPowerAttnGovCountry5() {
+		return powerAttnGovCountry5;
+	}
+
+	public void setPowerAttnGovCountry5(String powerAttnGovCountry5) {
+		this.powerAttnGovCountry5 = powerAttnGovCountry5;
+	}
+
 	public Date getPowerAttnIssueDate1() {
-		return this.powerAttnIssueDate1;
+		return powerAttnIssueDate1;
 	}
 
 	public void setPowerAttnIssueDate1(Date powerAttnIssueDate1) {
@@ -402,7 +467,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public Date getPowerAttnIssueDate2() {
-		return this.powerAttnIssueDate2;
+		return powerAttnIssueDate2;
 	}
 
 	public void setPowerAttnIssueDate2(Date powerAttnIssueDate2) {
@@ -410,7 +475,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public Date getPowerAttnIssueDate3() {
-		return this.powerAttnIssueDate3;
+		return powerAttnIssueDate3;
 	}
 
 	public void setPowerAttnIssueDate3(Date powerAttnIssueDate3) {
@@ -418,47 +483,63 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public Date getPowerAttnIssueDate4() {
-		return this.powerAttnIssueDate4;
+		return powerAttnIssueDate4;
 	}
 
 	public void setPowerAttnIssueDate4(Date powerAttnIssueDate4) {
 		this.powerAttnIssueDate4 = powerAttnIssueDate4;
 	}
 
-	public boolean getPowerAttnUs1() {
-		return this.powerAttnUs1;
+	public Date getPowerAttnIssueDate5() {
+		return powerAttnIssueDate5;
+	}
+
+	public void setPowerAttnIssueDate5(Date powerAttnIssueDate5) {
+		this.powerAttnIssueDate5 = powerAttnIssueDate5;
+	}
+
+	public boolean isPowerAttnUs1() {
+		return powerAttnUs1;
 	}
 
 	public void setPowerAttnUs1(boolean powerAttnUs1) {
 		this.powerAttnUs1 = powerAttnUs1;
 	}
 
-	public boolean getPowerAttnUs2() {
-		return this.powerAttnUs2;
+	public boolean isPowerAttnUs2() {
+		return powerAttnUs2;
 	}
 
 	public void setPowerAttnUs2(boolean powerAttnUs2) {
 		this.powerAttnUs2 = powerAttnUs2;
 	}
 
-	public boolean getPowerAttnUs3() {
-		return this.powerAttnUs3;
+	public boolean isPowerAttnUs3() {
+		return powerAttnUs3;
 	}
 
 	public void setPowerAttnUs3(boolean powerAttnUs3) {
 		this.powerAttnUs3 = powerAttnUs3;
 	}
 
-	public boolean getPowerAttnUs4() {
-		return this.powerAttnUs4;
+	public boolean isPowerAttnUs4() {
+		return powerAttnUs4;
 	}
 
 	public void setPowerAttnUs4(boolean powerAttnUs4) {
 		this.powerAttnUs4 = powerAttnUs4;
 	}
 
+	public boolean isPowerAttnUs5() {
+		return powerAttnUs5;
+	}
+
+	public void setPowerAttnUs5(boolean powerAttnUs5) {
+		this.powerAttnUs5 = powerAttnUs5;
+	}
+
 	public Long getRecordId() {
-		return this.recordId;
+		return recordId;
 	}
 
 	public void setRecordId(Long recordId) {
@@ -466,7 +547,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public String getRelationshipMinor1() {
-		return this.relationshipMinor1;
+		return relationshipMinor1;
 	}
 
 	public void setRelationshipMinor1(String relationshipMinor1) {
@@ -474,7 +555,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public String getRelationshipMinor2() {
-		return this.relationshipMinor2;
+		return relationshipMinor2;
 	}
 
 	public void setRelationshipMinor2(String relationshipMinor2) {
@@ -482,7 +563,7 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public String getRelationshipMinor3() {
-		return this.relationshipMinor3;
+		return relationshipMinor3;
 	}
 
 	public void setRelationshipMinor3(String relationshipMinor3) {
@@ -490,14 +571,20 @@ public class MobAccountDetail implements Serializable {
 	}
 
 	public String getRelationshipMinor4() {
-		return this.relationshipMinor4;
+		return relationshipMinor4;
 	}
 
 	public void setRelationshipMinor4(String relationshipMinor4) {
 		this.relationshipMinor4 = relationshipMinor4;
 	}
 
+	public String getRelationshipMinor5() {
+		return relationshipMinor5;
+	}
 
+	public void setRelationshipMinor5(String relationshipMinor5) {
+		this.relationshipMinor5 = relationshipMinor5;
+	}
 
 	@Override
 	public String toString() {
@@ -507,19 +594,24 @@ public class MobAccountDetail implements Serializable {
 				+ joint1ApplicantRefNo + ", joint1GuardianRefNo=" + joint1GuardianRefNo + ", joint2ApplicantRefNo="
 				+ joint2ApplicantRefNo + ", joint2GuardianRefNo=" + joint2GuardianRefNo + ", joint3ApplicantRefNo="
 				+ joint3ApplicantRefNo + ", joint3GuardianRefNo=" + joint3GuardianRefNo + ", joint4ApplicantRefNo="
-				+ joint4ApplicantRefNo + ", joint4GuardianRefNo=" + joint4GuardianRefNo + ", modifiedBy=" + modifiedBy
+				+ joint4ApplicantRefNo + ", joint4GuardianRefNo=" + joint4GuardianRefNo + ", joint5ApplicantRefNo="
+				+ joint5ApplicantRefNo + ", joint5GuardianRefNo=" + joint5GuardianRefNo + ", modifiedBy=" + modifiedBy
 				+ ", modifiedDate=" + modifiedDate + ", mop=" + mop + ", mop1=" + mop1 + ", mop2=" + mop2 + ", mop3="
-				+ mop3 + ", mop4=" + mop4 + ", mopInstruction1=" + mopInstruction1 + ", mopInstruction2="
-				+ mopInstruction2 + ", mopInstruction3=" + mopInstruction3 + ", mopInstruction4=" + mopInstruction4
-				+ ", powerAttnGovCountry1=" + powerAttnGovCountry1 + ", powerAttnGovCountry2=" + powerAttnGovCountry2
-				+ ", powerAttnGovCountry3=" + powerAttnGovCountry3 + ", powerAttnGovCountry4=" + powerAttnGovCountry4
-				+ ", powerAttnIssueDate1=" + powerAttnIssueDate1 + ", powerAttnIssueDate2=" + powerAttnIssueDate2
-				+ ", powerAttnIssueDate3=" + powerAttnIssueDate3 + ", powerAttnIssueDate4=" + powerAttnIssueDate4
-				+ ", powerAttnUs1=" + powerAttnUs1 + ", powerAttnUs2=" + powerAttnUs2 + ", powerAttnUs3=" + powerAttnUs3
-				+ ", powerAttnUs4=" + powerAttnUs4 + ", recordId=" + recordId + ", relationshipMinor1="
+				+ mop3 + ", mop4=" + mop4 + ", mop5=" + mop5 + ", mopInstruction1=" + mopInstruction1
+				+ ", mopInstruction2=" + mopInstruction2 + ", mopInstruction3=" + mopInstruction3 + ", mopInstruction4="
+				+ mopInstruction4 + ", mopInstruction5=" + mopInstruction5 + ", powerAttnGovCountry1="
+				+ powerAttnGovCountry1 + ", powerAttnGovCountry2=" + powerAttnGovCountry2 + ", powerAttnGovCountry3="
+				+ powerAttnGovCountry3 + ", powerAttnGovCountry4=" + powerAttnGovCountry4 + ", powerAttnGovCountry5="
+				+ powerAttnGovCountry5 + ", powerAttnIssueDate1=" + powerAttnIssueDate1 + ", powerAttnIssueDate2="
+				+ powerAttnIssueDate2 + ", powerAttnIssueDate3=" + powerAttnIssueDate3 + ", powerAttnIssueDate4="
+				+ powerAttnIssueDate4 + ", powerAttnIssueDate5=" + powerAttnIssueDate5 + ", powerAttnUs1="
+				+ powerAttnUs1 + ", powerAttnUs2=" + powerAttnUs2 + ", powerAttnUs3=" + powerAttnUs3 + ", powerAttnUs4="
+				+ powerAttnUs4 + ", powerAttnUs5=" + powerAttnUs5 + ", recordId=" + recordId + ", relationshipMinor1="
 				+ relationshipMinor1 + ", relationshipMinor2=" + relationshipMinor2 + ", relationshipMinor3="
-				+ relationshipMinor3 + ", relationshipMinor4=" + relationshipMinor4 + "]";
+				+ relationshipMinor3 + ", relationshipMinor4=" + relationshipMinor4 + ", relationshipMinor5="
+				+ relationshipMinor5 + "]";
 	}
+
 	
 
 }

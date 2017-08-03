@@ -80,8 +80,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		}
 		
 		
-		MobApplicantRecordId[] mobJoint = new MobApplicantRecordId[4];
-		MobApplicantRecordId[] mobGuardianJoint = new MobApplicantRecordId[4];
+		MobApplicantRecordId[] mobJoint = new MobApplicantRecordId[5];
+		MobApplicantRecordId[] mobGuardianJoint = new MobApplicantRecordId[5];
 		
 		int i = 0;
 		for (JointApplicants jointApplicantInfo : jointHolders){
@@ -153,6 +153,10 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			mobAccountDetail.setJoint4ApplicantRefNo(mobJoint[3].getApplicantId());
 		if(mobGuardianJoint[3] != null)
 			mobAccountDetail.setJoint4GuardianRefNo(mobGuardianJoint[3].getApplicantId());
+		if(mobJoint[4] != null)
+			mobAccountDetail.setJoint4ApplicantRefNo(mobJoint[4].getApplicantId());
+		if(mobGuardianJoint[4] != null)
+			mobAccountDetail.setJoint4GuardianRefNo(mobGuardianJoint[4].getApplicantId());
 		
 		mobAccountDetail.setRelationshipMinor1(null);
 		mobAccountDetail.setPowerAttnGovCountry1(null);
@@ -181,6 +185,13 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobAccountDetail.setPowerAttnUs4(false);
 		mobAccountDetail.setMop4(null);
 		mobAccountDetail.setMopInstruction4(null);
+		
+		mobAccountDetail.setRelationshipMinor5(null);
+		mobAccountDetail.setPowerAttnGovCountry5(null);
+		mobAccountDetail.setPowerAttnIssueDate5(null);
+		mobAccountDetail.setPowerAttnUs5(false);
+		mobAccountDetail.setMop5(null);
+		mobAccountDetail.setMopInstruction5(null);
 		
 		mobAccountDetail=accountCreateDao.storeMobAccountDetail(mobAccountDetail);
 		
@@ -417,8 +428,5 @@ public class AccountCreationServiceImpl implements AccountCreationService {
      	MobApplPersonalDetailsHist mobApplPersonalDetailsHist= new MobApplPersonalDetailsHist();
      	
 		return null;
-	}
-	
-	
-	
+	}	
 }

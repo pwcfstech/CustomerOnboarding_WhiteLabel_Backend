@@ -20,6 +20,7 @@ com\afrAsia\entities\response\MastersDataResponse$Data$RMDetails.class
 com\afrAsia\entities\jpa\AuthItem.class
 com\afrAsia\entities\response\AccountCreateResponse$Data.class
 com\afrAsia\entities\transactions\MobRmAppRefId.class
+com\afrAsia\entities\transactions\MobComments.class
 com\afrAsia\entities\request\AccountCreationRequest.class
 com\afrAsia\entities\response\LogoutDataResponse.class
 com\afrAsia\entities\response\MastersDataResponse$Data$UIDType.class
