@@ -33,8 +33,12 @@
 	<bean id="prefixJpaDAO" class="com.afrAsia.dao.jpa.impl.PrefixJpaDaoImpl" />
 	<bean id="rmDetailsJpaDAO" class="com.afrAsia.dao.jpa.impl.RMDetailsJpaDaoImpl" />
 	<bean id="uidTypeJpaDAO" class="com.afrAsia.dao.jpa.impl.UIDTypeJpaDaoImpl" />
+<<<<<<< HEAD
 	<bean id="accountCreateJpaDao" class="com.afrAsia.dao.jpa.impl.AccountCreateJpaDaoImpl" />
 	<bean id="applicationDetailsJpaDAO" class="com.afrAsia.dao.jpa.impl.ApplicationDetailsDaoImpl" />
+=======
+	<bean id="accountCreateJpaDao" class="com.afrAsia.dao.jpa.impl.AccountCreateJpaDaoImpl"/>
+>>>>>>> 35c5fe826baadb4f93aa88ac44524cfc7e3b9b34
 	<bean id="accountTypeJpaDao" class="com.afrAsia.dao.jpa.impl.AccountTypeJpaDaoImpl"/>
 	<bean id="afrAsiaFirstJpaDao" class="com.afrAsia.dao.jpa.impl.AfrAsiaFirstJpaDaoImpl"/>
 	

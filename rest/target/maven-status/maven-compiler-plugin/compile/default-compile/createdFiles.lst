@@ -1,6 +1,9 @@
 com\afrAsia\rest\ApplicationDetailsRestService.class
 com\afrAsia\rest\AuthenticationRestService.class
+<<<<<<< HEAD
 com\afrAsia\rest\AccountCreationRestService.class
+=======
+>>>>>>> 35c5fe826baadb4f93aa88ac44524cfc7e3b9b34
 com\afrAsia\rest\DTDPSRestService.class
 com\afrAsia\soap\IDTDPSSoapService.class
 com\afrAsia\rest\AddCommentRestService.class
