@@ -94,6 +94,9 @@ public class MobApplicantPersonalDetail implements Serializable {
 	
 	@Column(name="CUSTOMER_TYPE")
 	private String customerType;
+	
+	@Column(name="IS_MINOR")
+	private Boolean isMinor;
 
 	public MobApplicantPersonalDetail() {
 	}
@@ -313,6 +316,14 @@ public class MobApplicantPersonalDetail implements Serializable {
 	public String getCustomerType(){
 		return customerType;
 	}
+	
+	public Boolean getIsMinor(){
+		return isMinor;
+	}
+	
+	public void setIsMinor(boolean isMinor){
+		this.isMinor = isMinor;
+	}
 
 	@Override
 	public String toString() {
@@ -324,6 +335,6 @@ public class MobApplicantPersonalDetail implements Serializable {
 				+ ", nationality=" + nationality + ", nic=" + nic + ", otherBank1=" + otherBank1 + ", otherBank2="
 				+ otherBank2 + ", otherBank3=" + otherBank3 + ", passportExpiryDate=" + passportExpiryDate
 				+ ", passportNo=" + passportNo + ", recordId=" + recordId + ", residencyStatus=" + residencyStatus
-				+ ", title=" + title + ", customerType=" + customerType + "]";
+				+ ", title=" + title + ", customerType=" + customerType +  ", isMinor=" + isMinor + "]";
 	}
 }

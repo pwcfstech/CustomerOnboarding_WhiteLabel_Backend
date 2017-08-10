@@ -114,7 +114,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		{
 			customClientDetailsService.saveClientDetail(userId, "rest_api", clientSecret, 
 				"standard_client", "client_credentials", null, "ROLE_USER", 
-				2147483600, 2147483600, null, null);
+				180, 180, null, null);
 		}
 		
 		OAuth2AccessToken token = getTokenDetails(userId, clientSecret, "client_credentials");
@@ -142,7 +142,17 @@ public class AuthenticationServiceImpl implements AuthenticationService
 
 	public GenericResponse checkSession() 
 	{
-		// TODO Auto-generated method stub
+//		Map<String, String> requestParameters = new HashMap<String, String>();
+//		requestParameters.put("client_id", rmId);
+//		requestParameters.put("grant_type", grantType);
+//		requestParameters.put("client_secret", password);
+//		
+//		ClientCredentialsTokenGranter tokenGranter = new ClientCredentialsTokenGranter(tokenServices, customClientDetailsService, oAuth2RequestFactory);
+//		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(rmId);
+//		TokenRequest request  = oAuth2RequestFactory.createTokenRequest(requestParameters, clientDetails);
+//		
+//		tokenServices.refreshAccessToken(refreshTokenValue, request);\
+		
 		return null;
 	}
 	

@@ -118,6 +118,11 @@ public class AccountCreationRequest implements Serializable {
 			String authEmail2;
 			String authEmail3;
 			Boolean optCallBackServices;
+	        String afrasiaEventQues;
+	        String afrasiaEventAns;
+	        Boolean requireChequeBook;
+
+			
 			List<NomineeInfo> nomineeInfo;
 			
 			public String getAccount() {
@@ -294,9 +299,24 @@ public class AccountCreationRequest implements Serializable {
 			public void setNomineeInfo(List<NomineeInfo> nomineeInfo) {
 				this.nomineeInfo = nomineeInfo;
 			}
-			
-			
-
+			public String getAfrasiaEventQues() {
+				return afrasiaEventQues;
+			}
+			public void setAfrasiaEventQues(String afrasiaEventQues) {
+				this.afrasiaEventQues = afrasiaEventQues;
+			}
+			public String getAfrasiaEventAns() {
+				return afrasiaEventAns;
+			}
+			public void setAfrasiaEventAns(String afrasiaEventAns) {
+				this.afrasiaEventAns = afrasiaEventAns;
+			}
+			public Boolean getRequireChequeBook() {
+				return requireChequeBook;
+			}
+			public void setRequireChequeBook(Boolean requireChequeBook) {
+				this.requireChequeBook = requireChequeBook;
+			}
 			@Override
 			public String toString() {
 				return "AccountDetails [account=" + account + ", accountType=" + accountType + ", mop=" + mop
@@ -310,7 +330,9 @@ public class AccountCreationRequest implements Serializable {
 						+ whrDidYouHearAbtAfrAsia + ", agreeCommEmail=" + agreeCommEmail + ", agreeCommSMS="
 						+ agreeCommSMS + ", optTransactionsThruEmail=" + optTransactionsThruEmail + ", authEmail1="
 						+ authEmail1 + ", authEmail2=" + authEmail2 + ", authEmail3=" + authEmail3
-						+ ", optCallBackServices=" + optCallBackServices + ", nomineeInfo=" + nomineeInfo + "]";
+						+ ", optCallBackServices=" + optCallBackServices + ", afrasiaEventQues=" + afrasiaEventQues
+						+ ", afrasiaEventAns=" + afrasiaEventAns + ", requireChequeBook=" + requireChequeBook
+						+ ", nomineeInfo=" + nomineeInfo + "]";
 			}
 		}
 	}

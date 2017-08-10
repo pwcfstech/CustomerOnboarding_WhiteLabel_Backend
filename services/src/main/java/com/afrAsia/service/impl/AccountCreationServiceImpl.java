@@ -1,5 +1,6 @@
 package com.afrAsia.service.impl;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +36,7 @@ import com.afrAsia.service.AccountCreationService;
 
 public class AccountCreationServiceImpl implements AccountCreationService {
 	private AccountCreateJpaDao accountCreateDao = new AccountCreateJpaDaoImpl();
-	
+
 	public AccountCreateJpaDao getAccountCreateDao() {
 		return accountCreateDao;
 	}
@@ -53,19 +54,19 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 	public AccountCreateResponse createAccount(AccountCreationRequest accountCreationRequest) {
 		AccountCreateResponse accountCreationResponse = new AccountCreateResponse();
 		Data data= new AccountCreateResponse().new Data();
-		
+
 		// Create Application Reference id against Rm id
 		MobRmAppRefId mobRmAppRefId = createApplicationReferenceId(accountCreationRequest);
 		Long appRefNo = mobRmAppRefId.getId();
-		
+
 		// Create a record id for the application reference id.
 		MobAppRefRecordId mobAppRefRecordId = createRecordIdForApplication(accountCreationRequest,appRefNo);
 		Long recordId = mobAppRefRecordId.getRecordId(); 
-		
+
 		//Create applicant id
 		ApplicantDetails primaryApplicant = accountCreationRequest.getData().getPrimaryApplicantDetail();
 		MobApplicantRecordId mobApplicantPrimary = createApplicant(accountCreationRequest, primaryApplicant, appRefNo, recordId, "Primary");
-		
+
 		//Create Guardian
 		MobApplicantRecordId mobGuardianPrimary = null;
 		ApplicantDetails guardianPrimary = accountCreationRequest.getData().getGuardianDetail();
@@ -74,15 +75,15 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		}
 		//Create Joint holders
 		List<JointApplicants> jointHolders = accountCreationRequest.getData().getJointApplicants();
-//		
+		//		
 		for (JointApplicants s : jointHolders){
 			System.out.println("Joint applicant Info::" + s.toString());
 		}
-		
-		
+
+
 		MobApplicantRecordId[] mobJoint = new MobApplicantRecordId[5];
 		MobApplicantRecordId[] mobGuardianJoint = new MobApplicantRecordId[5];
-		
+
 		int i = 0;
 		for (JointApplicants jointApplicantInfo : jointHolders){
 			System.out.println("I am here");
@@ -103,35 +104,37 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			}
 			i++;
 		}
-		
+
 		//Create Account
 		AccountDetails accountDetails = accountCreationRequest.getData().getAccountDetails();
 		enterAccountDetails(accountCreationRequest,appRefNo, recordId, mobApplicantPrimary, mobGuardianPrimary, mobJoint, mobGuardianJoint, accountDetails);
 		//Trigger email and sms to customer
-		
-		
+
+
 		//Send application reference id to frontend
 		data.setRefNo(mobRmAppRefId.getId());
 		accountCreationResponse.setData(data);
 		return accountCreationResponse;
 	}
-	
+
 	@Transactional(readOnly = false, rollbackFor = {Exception.class})
 	public void enterAccountDetails(AccountCreationRequest accountCreationRequest ,long appRefNo, long recordId, MobApplicantRecordId mobApplicantPrimary, MobApplicantRecordId mobGuardianPrimary, MobApplicantRecordId[] mobJoint, MobApplicantRecordId[] mobGuardianJoint, AccountDetails accountDetails)
 	{
-		
+
 		System.out.println("Account Details::" + accountDetails);
-		
+
 		MobAccountDetail mobAccountDetail = new MobAccountDetail();
 		MobAccountAdditionalDetail mobAccountAdditionalDetail = new MobAccountAdditionalDetail();
-		
+
 		mobAccountDetail.setId(appRefNo);
 		mobAccountDetail.setRecordId(recordId);
 		mobAccountDetail.setAccountType(accountDetails.getAccount());
 		mobAccountDetail.setAccountCategory(accountDetails.getAccountType());
 		mobAccountDetail.setMop(accountDetails.getMop());
 		mobAccountDetail.setIndvApplicantRefNo(mobApplicantPrimary.getApplicantId());
-		mobAccountDetail.setIndvGuardianRefNo(mobGuardianPrimary.getApplicantId());
+		if(mobGuardianPrimary != null){
+			mobAccountDetail.setIndvGuardianRefNo(mobGuardianPrimary.getApplicantId());
+		}
 		mobAccountDetail.setCreatedBy(accountCreationRequest.getData().getRmId());
 		mobAccountDetail.setModifiedBy(accountCreationRequest.getData().getRmId());
 		mobAccountDetail.setCreatedDate(new Date());
@@ -157,44 +160,62 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			mobAccountDetail.setJoint4ApplicantRefNo(mobJoint[4].getApplicantId());
 		if(mobGuardianJoint[4] != null)
 			mobAccountDetail.setJoint4GuardianRefNo(mobGuardianJoint[4].getApplicantId());
+
 		
-		mobAccountDetail.setRelationshipMinor1(null);
-		mobAccountDetail.setPowerAttnGovCountry1(null);
-		mobAccountDetail.setPowerAttnIssueDate1(null);
-		mobAccountDetail.setPowerAttnUs1(false);
-		mobAccountDetail.setMop1(null);
-		mobAccountDetail.setMopInstruction1(null);
 		
-		mobAccountDetail.setRelationshipMinor2(null);
-		mobAccountDetail.setPowerAttnGovCountry2(null);
-		mobAccountDetail.setPowerAttnIssueDate2(null);
-		mobAccountDetail.setPowerAttnUs2(false);
-		mobAccountDetail.setMop2(null);
-		mobAccountDetail.setMopInstruction2(null);
 		
-		mobAccountDetail.setRelationshipMinor3(null);
-		mobAccountDetail.setPowerAttnGovCountry3(null);
-		mobAccountDetail.setPowerAttnIssueDate3(null);
-		mobAccountDetail.setPowerAttnUs3(false);
-		mobAccountDetail.setMop3(null);
-		mobAccountDetail.setMopInstruction3(null);
+		List<JointApplicants> jointHolders = accountCreationRequest.getData().getJointApplicants();		
 		
-		mobAccountDetail.setRelationshipMinor4(null);
-		mobAccountDetail.setPowerAttnGovCountry4(null);
-		mobAccountDetail.setPowerAttnIssueDate4(null);
-		mobAccountDetail.setPowerAttnUs4(false);
-		mobAccountDetail.setMop4(null);
-		mobAccountDetail.setMopInstruction4(null);
-		
-		mobAccountDetail.setRelationshipMinor5(null);
-		mobAccountDetail.setPowerAttnGovCountry5(null);
-		mobAccountDetail.setPowerAttnIssueDate5(null);
-		mobAccountDetail.setPowerAttnUs5(false);
-		mobAccountDetail.setMop5(null);
-		mobAccountDetail.setMopInstruction5(null);
+		int i = 0;
+		for (JointApplicants jointApplicantInfo : jointHolders){
+			
+//			if(i == 0){
+//				mobAccountDetail.setRelationshipMinor1(jointApplicantInfo.getJointApplicantDetail().getRelationshipMinor());
+//				mobAccountDetail.setPowerAttnGovCountry1(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGoverningCountry());
+//				mobAccountDetail.setPowerAttnIssueDate1(jointApplicantInfo.getJointApplicantDetail().getPowerAttnIssueDate());
+//				mobAccountDetail.setPowerAttnUs1(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGivenToUSPerson());
+//				mobAccountDetail.setMop1(jointApplicantInfo.getJointApplicantDetail().getMop());
+//				mobAccountDetail.setMopInstruction1(jointApplicantInfo.getJointApplicantDetail().getMopInstruction());
+//			}
+//			if(i == 1){
+//				mobAccountDetail.setRelationshipMinor2(jointApplicantInfo.getJointApplicantDetail().getRelationshipMinor());
+//				mobAccountDetail.setPowerAttnGovCountry2(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGoverningCountry());
+//				mobAccountDetail.setPowerAttnIssueDate2(jointApplicantInfo.getJointApplicantDetail().getPowerAttnIssueDate());
+//				mobAccountDetail.setPowerAttnUs2(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGivenToUSPerson());
+//				mobAccountDetail.setMop2(jointApplicantInfo.getJointApplicantDetail().getMop());
+//				mobAccountDetail.setMopInstruction2(jointApplicantInfo.getJointApplicantDetail().getMopInstruction());
+//			}
+//			if(i == 2){
+//				mobAccountDetail.setRelationshipMinor3(jointApplicantInfo.getJointApplicantDetail().getRelationshipMinor());
+//				mobAccountDetail.setPowerAttnGovCountry3(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGoverningCountry());
+//				mobAccountDetail.setPowerAttnIssueDate3(jointApplicantInfo.getJointApplicantDetail().getPowerAttnIssueDate());
+//				mobAccountDetail.setPowerAttnUs3(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGivenToUSPerson());
+//				mobAccountDetail.setMop3(jointApplicantInfo.getJointApplicantDetail().getMop());
+//				mobAccountDetail.setMopInstruction3(jointApplicantInfo.getJointApplicantDetail().getMopInstruction());
+//			}
+//			if(i == 3){
+//				mobAccountDetail.setRelationshipMinor4(jointApplicantInfo.getJointApplicantDetail().getRelationshipMinor());
+//				mobAccountDetail.setPowerAttnGovCountry4(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGoverningCountry());
+//				mobAccountDetail.setPowerAttnIssueDate4(jointApplicantInfo.getJointApplicantDetail().getPowerAttnIssueDate());
+//				mobAccountDetail.setPowerAttnUs4(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGivenToUSPerson());
+//				mobAccountDetail.setMop4(jointApplicantInfo.getJointApplicantDetail().getMop());
+//				mobAccountDetail.setMopInstruction4(jointApplicantInfo.getJointApplicantDetail().getMopInstruction());
+//			}
+//			if(i == 4){
+//				mobAccountDetail.setRelationshipMinor5(jointApplicantInfo.getJointApplicantDetail().getRelationshipMinor());
+//				mobAccountDetail.setPowerAttnGovCountry5(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGoverningCountry());
+//				mobAccountDetail.setPowerAttnIssueDate5(jointApplicantInfo.getJointApplicantDetail().getPowerAttnIssueDate());
+//				mobAccountDetail.setPowerAttnUs5(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGivenToUSPerson());
+//				mobAccountDetail.setMop5(jointApplicantInfo.getJointApplicantDetail().getMop());
+//				mobAccountDetail.setMopInstruction5(jointApplicantInfo.getJointApplicantDetail().getMopInstruction());
+//			}
+//			
+//			i++;
+		}
+
 		
 		mobAccountDetail=accountCreateDao.storeMobAccountDetail(mobAccountDetail);
-		
+
 		//Additional details to be stored for Account
 		mobAccountAdditionalDetail.setId(appRefNo);
 		mobAccountAdditionalDetail.setRecordId(recordId);
@@ -225,29 +246,39 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobAccountAdditionalDetail.setCommSms(accountDetails.getAgreeCommSMS());
 		mobAccountAdditionalDetail.setOptTranEmail(accountDetails.getOptTransactionsThruEmail());
 		mobAccountAdditionalDetail.setAuthEmail1(accountDetails.getAuthEmail1());
-		mobAccountAdditionalDetail.setAuthEmail1(accountDetails.getAuthEmail2());
-		mobAccountAdditionalDetail.setAuthEmail1(accountDetails.getAuthEmail3());
+		mobAccountAdditionalDetail.setAuthEmail2(accountDetails.getAuthEmail2());
+		mobAccountAdditionalDetail.setAuthEmail3(accountDetails.getAuthEmail3());
+		mobAccountAdditionalDetail.setAfrasiaEventQues(accountDetails.getAfrasiaEventQues());
+		mobAccountAdditionalDetail.setAfrasiaEventAns(accountDetails.getAfrasiaEventAns());
 		
+		if(accountDetails.getRequireChequeBook() == null){
+			mobAccountAdditionalDetail.setRequireChqBook(false);
+		}
+		else{
+			mobAccountAdditionalDetail.setRequireChqBook(accountDetails.getRequireChequeBook());
+		}
 		mobAccountAdditionalDetail.setOptCallbkServices(accountDetails.getOptCallBackServices());
-		
+
 		int cntr = 0;
 		for(NomineeInfo n : accountDetails.getNomineeInfo()){
 			if(cntr == 0){
 				mobAccountAdditionalDetail.setNomineeId1(n.getNomineeId());
 				mobAccountAdditionalDetail.setNomineeName1(n.getNomineeName());
-				mobAccountAdditionalDetail.setNomineeCallbkNum1(n.getNomineeCallbkNo());		
+				mobAccountAdditionalDetail.setNomineeCallbkNum1(n.getNomineeCallbkNo());	
+				mobAccountAdditionalDetail.setNomineeEmail1(n.getNomineeEmail());
 			}
 			if(cntr == 1){
 				mobAccountAdditionalDetail.setNomineeId2(n.getNomineeId());
 				mobAccountAdditionalDetail.setNomineeName2(n.getNomineeName());
-				mobAccountAdditionalDetail.setNomineeCallbkNum2(n.getNomineeCallbkNo());		
+				mobAccountAdditionalDetail.setNomineeCallbkNum2(n.getNomineeCallbkNo());
+				mobAccountAdditionalDetail.setNomineeEmail2(n.getNomineeEmail());
 			}
 			cntr++;
 		}
 		mobAccountAdditionalDetail=accountCreateDao.storeMobAccountAdditionalDetail(mobAccountAdditionalDetail);
-		
+
 	}
-	
+
 	@Transactional(readOnly = false, rollbackFor = {Exception.class})
 	public MobApplicantRecordId createApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails applicant, Long appRefNo, Long recordId, String customerType){
 		MobApplicantRecordId mobApplicantRecordId = new MobApplicantRecordId();
@@ -258,9 +289,21 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobApplicantRecordId.setCreatedDate(new Date());
 		mobApplicantRecordId.setModifiedDate(new Date());
 		mobApplicantRecordId=accountCreateDao.storeMobApplicantRecordId(mobApplicantRecordId);
-		
-		
-		
+
+
+		//calculate age of applicant
+		Date currentDate=new Date();
+		Calendar firstCalendar = Calendar.getInstance();
+		firstCalendar.setTime(applicant.getDob()); //set the time as the first java.util.Date
+		Calendar secondCalendar = Calendar.getInstance();
+		secondCalendar.setTime(currentDate); //set the time as the second java.util.Date
+		int year = Calendar.YEAR;
+		int month = Calendar.MONTH;
+		int age = secondCalendar.get(year) - firstCalendar.get(year);
+		if (age > 0 && (secondCalendar.get(month) < firstCalendar.get(month))) {
+			age--;
+		} 
+
 		//Enter personal details of applicant
 		MobApplicantPersonalDetail mobApplicantPersonalDetail = new MobApplicantPersonalDetail();
 		mobApplicantPersonalDetail.setId(new MainTableCompositePK());
@@ -275,7 +318,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobApplicantPersonalDetail.setOtherBank1(applicant.getOtherBank1());
 		mobApplicantPersonalDetail.setOtherBank2(applicant.getOtherBank2());
 		mobApplicantPersonalDetail.setOtherBank3(applicant.getOtherBank3());
-		
+
 		mobApplicantPersonalDetail.setIsEmployee(applicant.getIsEmployee());
 		mobApplicantPersonalDetail.setTitle(applicant.getTitle());
 		mobApplicantPersonalDetail.setFirstName(applicant.getFirstName());
@@ -294,6 +337,13 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobApplicantPersonalDetail.setCustomerType(customerType);
 		mobApplicantPersonalDetail=accountCreateDao.storeMobApplicantPersonalDetail(mobApplicantPersonalDetail);
 		
+		if(age > 18){
+			mobApplicantPersonalDetail.setIsMinor(false);
+		}
+		else{
+			mobApplicantPersonalDetail.setIsMinor(true);
+		}
+
 		//Enter communication details of applicant
 		MobApplicantCommDetail mobApplicantCommDetail = new MobApplicantCommDetail();
 		mobApplicantCommDetail.setId(new MainTableCompositePK());
@@ -323,7 +373,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobApplicantCommDetail.setFaxNo(applicant.getFaxNo());
 		mobApplicantCommDetail.setFaxNoCc(applicant.getFaxNoCallingCode());
 		mobApplicantCommDetail=accountCreateDao.storeMobApplicantCommDetail(mobApplicantCommDetail);
-		
+
 		//Enter employment details
 		MobApplicantEmploymentDtl mobApplicantEmploymentDtl = new MobApplicantEmploymentDtl();
 		mobApplicantEmploymentDtl.setId(new MainTableCompositePK());
@@ -352,7 +402,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobApplicantEmploymentDtl.setOtherSourcesIncome(applicant.getOtherIncomeSource());
 		mobApplicantEmploymentDtl.setFundSources(applicant.getFundSources());
 		mobApplicantEmploymentDtl=accountCreateDao.storeMobApplicantEmploymentDtl(mobApplicantEmploymentDtl);
-		
+
 		//enter applicant Additional information
 		MobApplicantAdditionalDtl mobApplicantAdditionalDtl = new MobApplicantAdditionalDtl();
 		mobApplicantAdditionalDtl.setId(new MainTableCompositePK());
@@ -382,7 +432,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobApplicantAdditionalDtl=accountCreateDao.storeMobApplicantAdditionalDtl(mobApplicantAdditionalDtl);
 		return mobApplicantRecordId;
 	}
-	
+
 	@Transactional(readOnly = false, rollbackFor = {Exception.class})
 	public MobAppRefRecordId createRecordIdForApplication(AccountCreationRequest accountCreationRequest, Long appRefNo){
 		MobAppRefRecordId mobAppRefRecordId = new MobAppRefRecordId();
@@ -394,7 +444,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobAppRefRecordId=accountCreateDao.storeMobAppRefRecordId(mobAppRefRecordId);
 		return mobAppRefRecordId;
 	}
-	
+
 	@Transactional(readOnly = false, rollbackFor = {Exception.class})
 	public MobRmAppRefId createApplicationReferenceId(AccountCreationRequest accountCreationRequest){
 		MobRmAppRefId mobRmAppRefId = new MobRmAppRefId();
@@ -410,23 +460,33 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 	}
 
 	public AccountCreateResponse updateAccount(AccountCreationRequest accountCreationRequest) {
-		MobRmAppRefId mobRmAppRefId=new MobRmAppRefId();
-		MobAppRefRecordId mobAppRefRecordId=new MobAppRefRecordId();
-     	MobAccountAdditionalDetail mobAccountAdditionalDetail=new MobAccountAdditionalDetail();
-     	MobAccountAddnDetailsHist mobAccountAddnDetailsHist=new MobAccountAddnDetailsHist();
-     	MobAccountDetail mobAccountDetail= new MobAccountDetail();
-     	MobAccountDetailsHist  mobAccountDetailsHist=new MobAccountDetailsHist();
-     	MobApplAdditionalDtlsHist mobApplAdditionalDtlsHist= new MobApplAdditionalDtlsHist();
-     	MobApplCommDetailsHist mobApplCommDetailsHist= new MobApplCommDetailsHist();
-     	MobApplEmploymentDtlsHist  mobApplEmploymentDtlsHist= new MobApplEmploymentDtlsHist();
-     	MobApplicantAdditionalDtl mobApplicantAdditionalDtl= new MobApplicantAdditionalDtl(); 
-     	MobApplicantCommDetail mobApplicantCommDetail= new MobApplicantCommDetail();
-     	MobApplicantEmploymentDtl mobApplicantEmploymentDtl= new MobApplicantEmploymentDtl();
-     	MobApplicantPersonalDetail  mobApplicantPersonalDetail= new MobApplicantPersonalDetail();
-     	MobApplicantRecordId mobApplicantRecordId= new MobApplicantRecordId();
-     	MobApplicantRecordIdHist mobApplicantRecordIdHist= new MobApplicantRecordIdHist();
-     	MobApplPersonalDetailsHist mobApplPersonalDetailsHist= new MobApplPersonalDetailsHist();
-     	
+		//		MobRmAppRefId mobRmAppRefId=new MobRmAppRefId();
+		//		MobAppRefRecordId mobAppRefRecordId=new MobAppRefRecordId();
+		//     	MobAccountAdditionalDetail mobAccountAdditionalDetail=new MobAccountAdditionalDetail();
+		//     	MobAccountAddnDetailsHist mobAccountAddnDetailsHist=new MobAccountAddnDetailsHist();
+		//     	MobAccountDetail mobAccountDetail= new MobAccountDetail();
+		//     	MobAccountDetailsHist  mobAccountDetailsHist=new MobAccountDetailsHist();
+		//     	MobApplAdditionalDtlsHist mobApplAdditionalDtlsHist= new MobApplAdditionalDtlsHist();
+		//     	MobApplCommDetailsHist mobApplCommDetailsHist= new MobApplCommDetailsHist();
+		//     	MobApplEmploymentDtlsHist  mobApplEmploymentDtlsHist= new MobApplEmploymentDtlsHist();
+		//     	MobApplicantAdditionalDtl mobApplicantAdditionalDtl= new MobApplicantAdditionalDtl(); 
+		//     	MobApplicantCommDetail mobApplicantCommDetail= new MobApplicantCommDetail();
+		//     	MobApplicantEmploymentDtl mobApplicantEmploymentDtl= new MobApplicantEmploymentDtl();
+		//     	MobApplicantPersonalDetail  mobApplicantPersonalDetail= new MobApplicantPersonalDetail();
+		//     	MobApplicantRecordId mobApplicantRecordId= new MobApplicantRecordId();
+		//     	MobApplicantRecordIdHist mobApplicantRecordIdHist= new MobApplicantRecordIdHist();
+		//     	MobApplPersonalDetailsHist mobApplPersonalDetailsHist= new MobApplPersonalDetailsHist();
+
+		//1. Get app reference number from update request. Check if application there in MOB_RM_APP_REF_ID					
+		Long appRefNo = 1L; 
+		//2. Create a record id for the application reference id.
+		MobAppRefRecordId mobAppRefRecordId = createRecordIdForApplication(accountCreationRequest,appRefNo);
+		Long recordId = mobAppRefRecordId.getRecordId(); 
+
+		//3. Take data from MOB_APPLICANT_RECORD_ID table for appRefNo and push data in MOB_APPLICANT_RECORD_ID_HIST					
+		//4. Update MOB_APPLICANT_RECORD_ID with new recordId with MODIFIED DATE, and rmId
+
+
 		return null;
 	}	
 }

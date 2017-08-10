@@ -17,6 +17,8 @@ import com.afrAsia.entities.transactions.MobApplicantRecordId;
 import com.afrAsia.entities.transactions.MobComments;
 import com.afrAsia.entities.transactions.MobRmAppRefId;
 import com.afrAsia.entities.transactions.MainTableCompositePK;
+import com.afrAsia.entities.transactions.MobApplicantKycDocuments;
+
 
 
 public class ApplicationDetailsDaoImpl extends BaseJpaDAOImpl<Long, MobRmAppRefId> implements ApplicationDetailsJpaDAO {
@@ -74,9 +76,18 @@ public class ApplicationDetailsDaoImpl extends BaseJpaDAOImpl<Long, MobRmAppRefI
 		return (MobApplicantAdditionalDtl) query.getSingleResult();
 	}
 	public List<MobComments> getComments(Long appRefId){
-		String queryString = "SELECT s FROM MobComments s where s.id = :appRefId";
+		String queryString = "FROM MobComments s where s.id = :appRefId";
 		Query query = getEntityManager().createQuery(queryString);
 		query.setParameter("appRefId", appRefId);
 		return (List<MobComments>) query.getResultList();
+	}
+	
+	public List<MobApplicantKycDocuments> getMobApplicantKyc(Long appRefId, Long applicantId){
+		String queryString = "FROM MobApplicantKycDocuments s where s.id.id = :appRefId and s.id.applicantId = :applicantId";
+		Query query = getEntityManager().createQuery(queryString);
+		query.setParameter("appRefId", appRefId);
+		query.setParameter("applicantId", applicantId);
+		return (List<MobApplicantKycDocuments>) query.getResultList();
+		
 	}
 }

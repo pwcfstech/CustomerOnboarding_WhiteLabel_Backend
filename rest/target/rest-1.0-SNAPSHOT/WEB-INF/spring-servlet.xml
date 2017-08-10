@@ -11,6 +11,6 @@
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler />
 	
-<import resource="classpath*:**applicationContext-rest.xml"/> 
-	
+<import resource="classpath*:**/*applicationContext*.xml"/>
+
 </beans>  

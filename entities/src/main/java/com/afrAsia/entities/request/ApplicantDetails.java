@@ -2,6 +2,9 @@ package com.afrAsia.entities.request;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import com.afrAsia.entities.request.KycInfo;
 
 
 public class ApplicantDetails implements Serializable {
@@ -11,6 +14,7 @@ public class ApplicantDetails implements Serializable {
 	}
 
 	private static final long serialVersionUID = 1L;
+	Long applicantId;
 	String residencyStatus;
 	String otherBank1;
 	String otherBank2;
@@ -82,7 +86,9 @@ public class ApplicantDetails implements Serializable {
 	String crsCountryResidence1;
 	String crsCountryResidence2;
 	String crsCountryResidence3;
-
+	Boolean isMinor;
+	List<KycInfo> kycInfo;
+	
 	/* These fields are applicable only for Joint Holders */
 	String relationshipMinor;
 	Boolean powerAttnGivenToUSPerson;
@@ -92,6 +98,20 @@ public class ApplicantDetails implements Serializable {
 	String mopInstruction;
 	
 	
+	
+	
+	public List<KycInfo> getKycInfo() {
+		return kycInfo;
+	}
+	public void setKycInfo(List<KycInfo> kycInfo) {
+		this.kycInfo = kycInfo;
+	}
+	public Long getApplicantId() {
+		return applicantId;
+	}
+	public void setApplicantId(Long applicantId) {
+		this.applicantId = applicantId;
+	}
 	public String getResidencyStatus() {
 		return residencyStatus;
 	}
@@ -555,41 +575,51 @@ public class ApplicantDetails implements Serializable {
 	public void setMopInstruction(String mopInstruction) {
 		this.mopInstruction = mopInstruction;
 	}
+	
+	
+	
+	public Boolean getIsMinor() {
+		return isMinor;
+	}
+	public void setIsMinor(Boolean isMinor) {
+		this.isMinor = isMinor;
+	}
 	@Override
 	public String toString() {
-		return "ApplicantDetails [residencyStatus=" + residencyStatus + ", otherBank1=" + otherBank1
-				+ ", otherBank2=" + otherBank2 + ", otherBank3=" + otherBank3 + ", isEmployee=" + isEmployee
-				+ ", title=" + title + ", firstName=" + firstName + ", lastName=" + lastName + ", maidenName="
-				+ maidenName + ", nic=" + nic + ", passportNo=" + passportNo + ", passportExpDate="
+		return "ApplicantDetails [applicantId=" + applicantId + ", residencyStatus=" + residencyStatus + ", otherBank1="
+				+ otherBank1 + ", otherBank2=" + otherBank2 + ", otherBank3=" + otherBank3 + ", isEmployee="
+				+ isEmployee + ", title=" + title + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", maidenName=" + maidenName + ", nic=" + nic + ", passportNo=" + passportNo + ", passportExpDate="
 				+ passportExpDate + ", nationality=" + nationality + ", email=" + email + ", dob=" + dob
-				+ ", countryBirth=" + countryBirth + ", isExistingCustomer=" + isExistingCustomer
-				+ ", customerCIF=" + customerCIF + ", maritialStatus=" + maritialStatus + ", permAddr1="
-				+ permAddr1 + ", permAddr2=" + permAddr2 + ", permAddr3=" + permAddr3 + ", permCity=" + permCity
-				+ ", permCountry=" + permCountry + ", isMailAddrSameAsPerm=" + isMailAddrSameAsPerm
-				+ ", mailAddr1=" + mailAddr1 + ", mailAddr2=" + mailAddr2 + ", mailAddr3=" + mailAddr3
-				+ ", mailCity=" + mailCity + ", mailCountry=" + mailCountry + ", telNoOff=" + telNoOff
-				+ ", telOffCallingCode=" + telOffCallingCode + ", telNoHome=" + telNoHome
+				+ ", countryBirth=" + countryBirth + ", isExistingCustomer=" + isExistingCustomer + ", customerCIF="
+				+ customerCIF + ", maritialStatus=" + maritialStatus + ", permAddr1=" + permAddr1 + ", permAddr2="
+				+ permAddr2 + ", permAddr3=" + permAddr3 + ", permCity=" + permCity + ", permCountry=" + permCountry
+				+ ", isMailAddrSameAsPerm=" + isMailAddrSameAsPerm + ", mailAddr1=" + mailAddr1 + ", mailAddr2="
+				+ mailAddr2 + ", mailAddr3=" + mailAddr3 + ", mailCity=" + mailCity + ", mailCountry=" + mailCountry
+				+ ", telNoOff=" + telNoOff + ", telOffCallingCode=" + telOffCallingCode + ", telNoHome=" + telNoHome
 				+ ", telNoHomeCallingCode=" + telNoHomeCallingCode + ", mobNo=" + mobNo + ", mobNoCountryCode="
 				+ mobNoCountryCode + ", faxNo=" + faxNo + ", faxNoCallingCode=" + faxNoCallingCode
 				+ ", employmentStatus=" + employmentStatus + ", currentOccupation=" + currentOccupation
 				+ ", employerName=" + employerName + ", employerAddr1=" + employerAddr1 + ", employerAddr2="
 				+ employerAddr2 + ", employerAddr3=" + employerAddr3 + ", employerCity=" + employerCity
-				+ ", employerCountry=" + employerCountry + ", noYearsService=" + noYearsService
-				+ ", businessSector=" + businessSector + ", dateStarted=" + dateStarted + ", netMonthlyIncome="
-				+ netMonthlyIncome + ", annualDepositTurnover=" + annualDepositTurnover + ", annualCashDeposit="
-				+ annualCashDeposit + ", annualCashWithdrawl=" + annualCashWithdrawl + ", otherIncomeSource="
-				+ otherIncomeSource + ", fundSources=" + fundSources + ", iSUSCitizen=" + iSUSCitizen
-				+ ", isIncomeTaxableinUSA=" + isIncomeTaxableinUSA + ", usaSsn=" + usaSsn + ", oAddr1=" + oAddr1
-				+ ", oAddr2=" + oAddr2 + ", oAddr3=" + oAddr3 + ", oCity=" + oCity + ", oCountry=" + oCountry
-				+ ", workPermitExpDate=" + workPermitExpDate + ", incomeOtherCountryTaxable="
-				+ incomeOtherCountryTaxable + ", crsTin1=" + crsTin1 + ", crsTin2=" + crsTin2 + ", crsTin3="
-				+ crsTin3 + ", crsCountryResidence1=" + crsCountryResidence1 + ", crsCountryResidence2="
-				+ crsCountryResidence2 + ", crsCountryResidence3=" + crsCountryResidence3
-				+ ", relationshipMinor=" + relationshipMinor + ", powerAttnGivenToUSPerson="
-				+ powerAttnGivenToUSPerson + ", powerAttnGoverningCountry=" + powerAttnGoverningCountry
-				+ ", powerAttnIssueDate=" + powerAttnIssueDate + ", mop=" + mop + ", mopInstruction="
-				+ mopInstruction + "]";
-	}	        
+				+ ", employerCountry=" + employerCountry + ", noYearsService=" + noYearsService + ", businessSector="
+				+ businessSector + ", dateStarted=" + dateStarted + ", netMonthlyIncome=" + netMonthlyIncome
+				+ ", annualDepositTurnover=" + annualDepositTurnover + ", annualCashDeposit=" + annualCashDeposit
+				+ ", annualCashWithdrawl=" + annualCashWithdrawl + ", otherIncomeSource=" + otherIncomeSource
+				+ ", fundSources=" + fundSources + ", iSUSCitizen=" + iSUSCitizen + ", isIncomeTaxableinUSA="
+				+ isIncomeTaxableinUSA + ", usaSsn=" + usaSsn + ", oAddr1=" + oAddr1 + ", oAddr2=" + oAddr2
+				+ ", oAddr3=" + oAddr3 + ", oCity=" + oCity + ", oCountry=" + oCountry + ", workPermitExpDate="
+				+ workPermitExpDate + ", incomeOtherCountryTaxable=" + incomeOtherCountryTaxable + ", crsTin1="
+				+ crsTin1 + ", crsTin2=" + crsTin2 + ", crsTin3=" + crsTin3 + ", crsCountryResidence1="
+				+ crsCountryResidence1 + ", crsCountryResidence2=" + crsCountryResidence2 + ", crsCountryResidence3="
+				+ crsCountryResidence3 + ", isMinor=" + isMinor + ", kycInfo=" + kycInfo + ", relationshipMinor="
+				+ relationshipMinor + ", powerAttnGivenToUSPerson=" + powerAttnGivenToUSPerson
+				+ ", powerAttnGoverningCountry=" + powerAttnGoverningCountry + ", powerAttnIssueDate="
+				+ powerAttnIssueDate + ", mop=" + mop + ", mopInstruction=" + mopInstruction + "]";
+	}
+	
+	
+	
 }		
 
 
