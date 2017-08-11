@@ -41,7 +41,7 @@ public class ProductRestService
 	@GET
 	@Path("/getProdCatListApp")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAppversion() 
+	public Response getProdList() 
 	{
 		GenericResponse genericResponse=null;
 		if(productService.getProducts()==null){
@@ -60,7 +60,7 @@ public class ProductRestService
 	//@Consumes(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAppversion(String jsonInput) 
+	public Response getProdDetails(String jsonInput) 
 	{
 		/*String productId = "";
 		logger.info(jsonInput);

@@ -15,7 +15,6 @@ import com.afrAsia.dao.jpa.ProductDetailsJpaDao;
 import com.afrAsia.dao.jpa.ProductJpaDao;
 import com.afrAsia.entities.jpa.Category;
 import com.afrAsia.entities.jpa.Product;
-import com.afrAsia.entities.jpa.ProductDetails;
 import com.afrAsia.entities.response.CategoryResponse;
 import com.afrAsia.entities.response.Data;
 import com.afrAsia.entities.response.GenericResponse;
@@ -148,22 +147,28 @@ public class ProductServiceImpl implements ProductService {
 
 		List<ProductDetailsResponse> listProductDetailsResponse = new ArrayList<ProductDetailsResponse>();
 		//ProductDetailsResponse productDetailsResponse=new ProductDetailsResponse();
-		List<ProductDetails> productDetails = productDetailsDao.getProductById(productID);
 		
-		for (ProductDetails productdetail : productDetails) {
-			System.out.println("#####	inside service "+productdetail.toString());
-
+		List<Object> productDetails = productDetailsDao.getProductById(productID);
+		
+		int i=0;
+		
+		for (Object object : productDetails) {
+			//System.out.println("#####	inside service "+productdetail.toString());
+			Object[] outputs = (Object[]) object;
 			ProductDetailsResponse productdetailsResponse = new ProductDetailsResponse();
 
-			productdetailsResponse.setFeature(productdetail.getFeature());
-			productdetailsResponse.setImageURL(productdetail.getImageURL());
-			productdetailsResponse.setInfoLink(productdetail.getInfoLink());
-			productdetailsResponse.setLongDescription(productdetail.getLongDescription());
-			System.out.println("ONLY RESPONSE : "+productdetailsResponse.toString());
-			listProductDetailsResponse.add(productdetailsResponse);
+			productdetailsResponse.setFeature(outputs[1].toString());
+			System.out.println("feature in service impl : "+outputs[1].toString());
+			productdetailsResponse.setImageURL(outputs[4].toString());
+			System.out.println("ImageURL in service impl : "+outputs[4].toString());
+			productdetailsResponse.setInfoLink(outputs[3].toString());
+			System.out.println("InfoLink in service impl : "+outputs[3].toString());
+			productdetailsResponse.setLongDescription(outputs[2].toString());
+			System.out.println("LongDescription in service impl : "+outputs[2].toString()); 
+			listProductDetailsResponse.add(i,productdetailsResponse);
+			i++;
 			System.out.println("#####inside for "+listProductDetailsResponse);
-		}
-		
+		}		
 		System.out.println("#####final list :"+listProductDetailsResponse.toString());
 		
 		

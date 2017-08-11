@@ -16,6 +16,8 @@
 
 	<util:properties id="dbProperties" location="file:db.properties" ignore-resource-not-found="false" />
 
+	<import resource="classpath*:**/applicationContext-exception-management.xml"/>
+	
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
 	<tx:annotation-driven transaction-manager="transactionManager" />

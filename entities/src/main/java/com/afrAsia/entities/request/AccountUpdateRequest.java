@@ -1,12 +1,13 @@
 package com.afrAsia.entities.request;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
-public class AccountCreationRequest implements Serializable {
+public class AccountUpdateRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	public AccountCreationRequest() {
+	public AccountUpdateRequest() {
 		super();
 	}
 
@@ -30,10 +31,22 @@ public class AccountCreationRequest implements Serializable {
 
 		String rmId;
 		Long appRefNo;
+		String createdBy;
+		Date createdDate;
 		AccountDetails accountDetails;
 		ApplicantDetails primaryApplicantDetail;
 		ApplicantDetails guardianDetail;
 		List<JointApplicants> jointApplicants;
+
+		
+		public Long getAppRefNo() {
+			return appRefNo;
+		}
+
+		public void setAppRefNo(Long appRefNo) {
+			this.appRefNo = appRefNo;
+		}
+		
 
 		public String getRmId() {
 			return rmId;
@@ -43,12 +56,20 @@ public class AccountCreationRequest implements Serializable {
 			this.rmId = rmId;
 		}
 
-		public Long getAppRefNo() {
-			return appRefNo;
+		public String getCreatedBy() {
+			return createdBy;
 		}
 
-		public void setAppRefNo(Long appRefNo) {
-			this.appRefNo = appRefNo;
+		public void setCreatedBy(String createdBy) {
+			this.createdBy = createdBy;
+		}
+
+		public Date getCreatedDate() {
+			return createdDate;
+		}
+
+		public void setCreatedDate(Date createdDate) {
+			this.createdDate = createdDate;
 		}
 
 		public AccountDetails getAccountDetails() {
@@ -83,6 +104,15 @@ public class AccountCreationRequest implements Serializable {
 			this.jointApplicants = jointApplicants;
 		}
 
+		@Override
+		public String toString() {
+			return "Data [rmId=" + rmId + ", appRefNo=" + appRefNo + ", createdBy=" + createdBy + ", createdDate="
+					+ createdDate + ", accountDetails=" + accountDetails + ", primaryApplicantDetail="
+					+ primaryApplicantDetail + ", guardianDetail=" + guardianDetail + ", jointApplicants="
+					+ jointApplicants + "]";
+		}
+
+
 	}
 
 	public static class AccountDetails implements Serializable {
@@ -116,8 +146,8 @@ public class AccountCreationRequest implements Serializable {
 		String authEmail3;
 		Boolean optCallBackServices;
 		List<NomineeInfo> nomineeInfo;
-
-		public AccountDetails() {
+		
+		public AccountDetails(){
 			super();
 		}
 

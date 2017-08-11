@@ -5,8 +5,6 @@ import java.util.List;
 import javax.persistence.Query;
 
 import com.afrAsia.dao.jpa.ApplicationDetailsJpaDAO;
-import com.afrAsia.entities.masters.Employment;
-import com.afrAsia.entities.masters.Prefix;
 import com.afrAsia.entities.transactions.MobAccountAdditionalDetail;
 import com.afrAsia.entities.transactions.MobAccountDetail;
 import com.afrAsia.entities.transactions.MobApplicantAdditionalDtl;
@@ -16,7 +14,6 @@ import com.afrAsia.entities.transactions.MobApplicantPersonalDetail;
 import com.afrAsia.entities.transactions.MobApplicantRecordId;
 import com.afrAsia.entities.transactions.MobComments;
 import com.afrAsia.entities.transactions.MobRmAppRefId;
-import com.afrAsia.entities.transactions.MainTableCompositePK;
 
 
 public class ApplicationDetailsDaoImpl extends BaseJpaDAOImpl<Long, MobRmAppRefId> implements ApplicationDetailsJpaDAO {

@@ -112,9 +112,12 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		
 		if (clientDetails == null)
 		{
-			customClientDetailsService.saveClientDetail(userId, "rest_api", clientSecret, 
+			/*customClientDetailsService.saveClientDetail(userId, "rest_api", clientSecret, 
 				"standard_client", "client_credentials", null, "ROLE_USER", 
-				2147483600, 2147483600, null, null);
+				2147483600, 2147483600, null, null);*/							// original, 25 days ...
+			customClientDetailsService.saveClientDetail(userId, "rest_api", clientSecret, 
+					"standard_client", "client_credentials", null, "ROLE_USER", 
+					1800000, 1800000, null, null);								// 3 minutes changed by sameer ... 
 		}
 		
 		OAuth2AccessToken token = getTokenDetails(userId, clientSecret, "client_credentials");

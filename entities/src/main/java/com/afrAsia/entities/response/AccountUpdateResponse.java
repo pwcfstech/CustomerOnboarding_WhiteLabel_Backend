@@ -1,11 +1,12 @@
 package com.afrAsia.entities.response;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.afrAsia.entities.jpa.MsgHeader;
 
 
-public class AccountCreateResponse implements Serializable {
+public class AccountUpdateResponse implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,18 +36,18 @@ public class AccountCreateResponse implements Serializable {
 	}
 
 	public class Data implements Serializable{
-		static final long serialVersionUID = 1L;
-		private Long refNo;
 		
-		public Long getRefNo() {
+		static final long serialVersionUID = 1L;
+		
+		private List<Long> refNo;
+		
+		public List<Long> getRefNo() {
 			return refNo;
 		}
-		public void setRefNo(Long refNo) {
+		public void setRefNo(List<Long> refNo) {
 			this.refNo = refNo;
 		}
-		@Override
-		public String toString() {
-			return "Data [refNo=" + refNo + "]";
-		}
+		
+		
 	}
 }

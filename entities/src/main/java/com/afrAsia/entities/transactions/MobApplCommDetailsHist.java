@@ -1,97 +1,99 @@
 package com.afrAsia.entities.transactions;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the MOB_APPL_COMM_DETAILS_HIST database table.
  * 
  */
 @Entity
-@Table(name="MOB_APPL_COMM_DETAILS_HIST")
-@NamedQuery(name="MobApplCommDetailsHist.findAll", query="SELECT m FROM MobApplCommDetailsHist m")
+@Table(name = "MOB_APPL_COMM_DETAILS_HIST")
+@NamedQuery(name = "MobApplCommDetailsHist.findAll", query = "SELECT m FROM MobApplCommDetailsHist m")
 public class MobApplCommDetailsHist implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
 	private HistTableCompositePK id;
 
-	@Column(name="CREATED_BY")
+	@Column(name = "CREATED_BY")
 	private String createdBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="CREATED_DATE")
+	@Column(name = "CREATED_DATE")
 	private Date createdDate;
 
-	@Column(name="FAX_NO")
-	private BigDecimal faxNo;
+	@Column(name = "FAX_NO")
+	private Long faxNo;
 
-	@Column(name="FAX_NO_CC")
-	private BigDecimal faxNoCc;
+	@Column(name = "FAX_NO_CC")
+	private Long faxNoCc;
 
-	@Column(name="MAIL_ADDR_1")
+	@Column(name = "MAIL_ADDR_1")
 	private String mailAddr1;
 
-	@Column(name="MAIL_ADDR_2")
+	@Column(name = "MAIL_ADDR_2")
 	private String mailAddr2;
 
-	@Column(name="MAIL_ADDR_3")
+	@Column(name = "MAIL_ADDR_3")
 	private String mailAddr3;
 
-	@Column(name="MAIL_CITY")
+	@Column(name = "MAIL_CITY")
 	private String mailCity;
 
-	@Column(name="MAIL_COUNTRY")
+	@Column(name = "MAIL_COUNTRY")
 	private String mailCountry;
 
-	@Column(name="MOB_NO")
-	private BigDecimal mobNo;
+	@Column(name = "MOB_NO")
+	private Long mobNo;
 
-	@Column(name="MOB_NO_CC")
-	private BigDecimal mobNoCc;
+	@Column(name = "MOB_NO_CC")
+	private Long mobNoCc;
 
-	@Column(name="MODIFIED_BY")
+	@Column(name = "MODIFIED_BY")
 	private String modifiedBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="MODIFIED_DATE")
+	@Column(name = "MODIFIED_DATE")
 	private Date modifiedDate;
 
-	@Column(name="PERM_ADDR_1")
+	@Column(name = "PERM_ADDR_1")
 	private String permAddr1;
 
-	@Column(name="PERM_ADDR_2")
+	@Column(name = "PERM_ADDR_2")
 	private String permAddr2;
 
-	@Column(name="PERM_ADDR_3")
+	@Column(name = "PERM_ADDR_3")
 	private String permAddr3;
 
-	@Column(name="PERM_CITY")
+	@Column(name = "PERM_CITY")
 	private String permCity;
 
-	@Column(name="PERM_COUNTRY")
+	@Column(name = "PERM_COUNTRY")
 	private String permCountry;
 
-	@Column(name="TEL_NO_HOME")
-	private BigDecimal telNoHome;
+	@Column(name = "TEL_NO_HOME")
+	private Long telNoHome;
 
-	@Column(name="TEL_NO_HOME_CC")
-	private BigDecimal telNoHomeCc;
+	@Column(name = "TEL_NO_HOME_CC")
+	private Long telNoHomeCc;
 
-	@Column(name="TEL_NO_OFF")
-	private BigDecimal telNoOff;
+	@Column(name = "TEL_NO_OFF")
+	private Long telNoOff;
 
-	@Column(name="TEL_NO_OFF_CC")
-	private BigDecimal telNoOffCc;
-
-	public MobApplCommDetailsHist() {
-	}
+	@Column(name = "TEL_NO_OFF_CC")
+	private Long telNoOffCc;
 
 	public HistTableCompositePK getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(HistTableCompositePK id) {
@@ -99,7 +101,7 @@ public class MobApplCommDetailsHist implements Serializable {
 	}
 
 	public String getCreatedBy() {
-		return this.createdBy;
+		return createdBy;
 	}
 
 	public void setCreatedBy(String createdBy) {
@@ -107,31 +109,31 @@ public class MobApplCommDetailsHist implements Serializable {
 	}
 
 	public Date getCreatedDate() {
-		return this.createdDate;
+		return createdDate;
 	}
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	public BigDecimal getFaxNo() {
-		return this.faxNo;
+	public Long getFaxNo() {
+		return faxNo;
 	}
 
-	public void setFaxNo(BigDecimal faxNo) {
+	public void setFaxNo(Long faxNo) {
 		this.faxNo = faxNo;
 	}
 
-	public BigDecimal getFaxNoCc() {
-		return this.faxNoCc;
+	public Long getFaxNoCc() {
+		return faxNoCc;
 	}
 
-	public void setFaxNoCc(BigDecimal faxNoCc) {
+	public void setFaxNoCc(Long faxNoCc) {
 		this.faxNoCc = faxNoCc;
 	}
 
 	public String getMailAddr1() {
-		return this.mailAddr1;
+		return mailAddr1;
 	}
 
 	public void setMailAddr1(String mailAddr1) {
@@ -139,7 +141,7 @@ public class MobApplCommDetailsHist implements Serializable {
 	}
 
 	public String getMailAddr2() {
-		return this.mailAddr2;
+		return mailAddr2;
 	}
 
 	public void setMailAddr2(String mailAddr2) {
@@ -147,7 +149,7 @@ public class MobApplCommDetailsHist implements Serializable {
 	}
 
 	public String getMailAddr3() {
-		return this.mailAddr3;
+		return mailAddr3;
 	}
 
 	public void setMailAddr3(String mailAddr3) {
@@ -155,7 +157,7 @@ public class MobApplCommDetailsHist implements Serializable {
 	}
 
 	public String getMailCity() {
-		return this.mailCity;
+		return mailCity;
 	}
 
 	public void setMailCity(String mailCity) {
@@ -163,31 +165,31 @@ public class MobApplCommDetailsHist implements Serializable {
 	}
 
 	public String getMailCountry() {
-		return this.mailCountry;
+		return mailCountry;
 	}
 
 	public void setMailCountry(String mailCountry) {
 		this.mailCountry = mailCountry;
 	}
 
-	public BigDecimal getMobNo() {
-		return this.mobNo;
+	public Long getMobNo() {
+		return mobNo;
 	}
 
-	public void setMobNo(BigDecimal mobNo) {
+	public void setMobNo(Long mobNo) {
 		this.mobNo = mobNo;
 	}
 
-	public BigDecimal getMobNoCc() {
-		return this.mobNoCc;
+	public Long getMobNoCc() {
+		return mobNoCc;
 	}
 
-	public void setMobNoCc(BigDecimal mobNoCc) {
+	public void setMobNoCc(Long mobNoCc) {
 		this.mobNoCc = mobNoCc;
 	}
 
 	public String getModifiedBy() {
-		return this.modifiedBy;
+		return modifiedBy;
 	}
 
 	public void setModifiedBy(String modifiedBy) {
@@ -195,7 +197,7 @@ public class MobApplCommDetailsHist implements Serializable {
 	}
 
 	public Date getModifiedDate() {
-		return this.modifiedDate;
+		return modifiedDate;
 	}
 
 	public void setModifiedDate(Date modifiedDate) {
@@ -203,7 +205,7 @@ public class MobApplCommDetailsHist implements Serializable {
 	}
 
 	public String getPermAddr1() {
-		return this.permAddr1;
+		return permAddr1;
 	}
 
 	public void setPermAddr1(String permAddr1) {
@@ -211,7 +213,7 @@ public class MobApplCommDetailsHist implements Serializable {
 	}
 
 	public String getPermAddr2() {
-		return this.permAddr2;
+		return permAddr2;
 	}
 
 	public void setPermAddr2(String permAddr2) {
@@ -219,7 +221,7 @@ public class MobApplCommDetailsHist implements Serializable {
 	}
 
 	public String getPermAddr3() {
-		return this.permAddr3;
+		return permAddr3;
 	}
 
 	public void setPermAddr3(String permAddr3) {
@@ -227,7 +229,7 @@ public class MobApplCommDetailsHist implements Serializable {
 	}
 
 	public String getPermCity() {
-		return this.permCity;
+		return permCity;
 	}
 
 	public void setPermCity(String permCity) {
@@ -235,42 +237,42 @@ public class MobApplCommDetailsHist implements Serializable {
 	}
 
 	public String getPermCountry() {
-		return this.permCountry;
+		return permCountry;
 	}
 
 	public void setPermCountry(String permCountry) {
 		this.permCountry = permCountry;
 	}
 
-	public BigDecimal getTelNoHome() {
-		return this.telNoHome;
+	public Long getTelNoHome() {
+		return telNoHome;
 	}
 
-	public void setTelNoHome(BigDecimal telNoHome) {
+	public void setTelNoHome(Long telNoHome) {
 		this.telNoHome = telNoHome;
 	}
 
-	public BigDecimal getTelNoHomeCc() {
-		return this.telNoHomeCc;
+	public Long getTelNoHomeCc() {
+		return telNoHomeCc;
 	}
 
-	public void setTelNoHomeCc(BigDecimal telNoHomeCc) {
+	public void setTelNoHomeCc(Long telNoHomeCc) {
 		this.telNoHomeCc = telNoHomeCc;
 	}
 
-	public BigDecimal getTelNoOff() {
-		return this.telNoOff;
+	public Long getTelNoOff() {
+		return telNoOff;
 	}
 
-	public void setTelNoOff(BigDecimal telNoOff) {
+	public void setTelNoOff(Long telNoOff) {
 		this.telNoOff = telNoOff;
 	}
 
-	public BigDecimal getTelNoOffCc() {
-		return this.telNoOffCc;
+	public Long getTelNoOffCc() {
+		return telNoOffCc;
 	}
 
-	public void setTelNoOffCc(BigDecimal telNoOffCc) {
+	public void setTelNoOffCc(Long telNoOffCc) {
 		this.telNoOffCc = telNoOffCc;
 	}
 
@@ -284,6 +286,5 @@ public class MobApplCommDetailsHist implements Serializable {
 				+ permCity + ", permCountry=" + permCountry + ", telNoHome=" + telNoHome + ", telNoHomeCc="
 				+ telNoHomeCc + ", telNoOff=" + telNoOff + ", telNoOffCc=" + telNoOffCc + "]";
 	}
-	
 
 }

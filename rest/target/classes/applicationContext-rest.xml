@@ -84,14 +84,6 @@
 		<property name="applicationDetailsService" ref="applicationDetailsService" />
 	</bean> -->
 	
-	<!-- <bean id="accountCreationRestService" class="com.afrAsia.rest.AccountCreationRestService" >
-		<property name="accountCreationService" ref="accountCreationService" />
-	</bean> -->
-	
-	<!-- <bean id="myTrackerRestService" class="com.afrAsia.rest.MyTrackerRestService" >
-		<property name="myTrackerService" ref="myTrackerService" />
-	</bean> -->
-	
 	<!-- <bean id="dtdpsSoapService" class="com.afrAsia.soap.DTDPSSoapService" >
 		<property name="dtdpsService" ref="dtdpsService" />
 	</bean> -->

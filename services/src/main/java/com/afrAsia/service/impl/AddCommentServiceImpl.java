@@ -96,7 +96,8 @@ public class AddCommentServiceImpl implements AddCommentService {
 		
 		ApplicationReference applicationReference1=new ApplicationReference();
 		for(Long object:appids){
-			applicationReference1.setId(object);		}
+			applicationReference1.setId(object);		
+		}
 		
 		ApplicationReference applicationReference2=new ApplicationReference();
 		for(String object:rmUserIds){
