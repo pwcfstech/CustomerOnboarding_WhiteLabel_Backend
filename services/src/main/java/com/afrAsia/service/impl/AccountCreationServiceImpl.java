@@ -266,7 +266,6 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 //			i++;
 		}
 
-		
 		mobAccountDetail=accountCreateDao.storeMobAccountDetail(mobAccountDetail);
 
 		//Additional details to be stored for Account
@@ -505,7 +504,6 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 	public MobRmAppRefId createApplicationReferenceId(AccountCreationRequest accountCreationRequest){
 		MobRmAppRefId mobRmAppRefId = new MobRmAppRefId();
 		mobRmAppRefId.setRmUsedId(accountCreationRequest.getData().getRmId());
-		mobRmAppRefId.setRmName("Neha");
 		mobRmAppRefId.setCreatedBy(accountCreationRequest.getData().getRmId());
 		mobRmAppRefId.setModifiedBy(accountCreationRequest.getData().getRmId());
 		mobRmAppRefId.setCreatedDate(new Date());
