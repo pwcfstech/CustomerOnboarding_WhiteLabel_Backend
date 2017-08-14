@@ -161,59 +161,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		if(mobGuardianJoint[4] != null)
 			mobAccountDetail.setJoint4GuardianRefNo(mobGuardianJoint[4].getApplicantId());
 
-		
-		
-		
-		List<JointApplicants> jointHolders = accountCreationRequest.getData().getJointApplicants();		
-		
-		int i = 0;
-		for (JointApplicants jointApplicantInfo : jointHolders){
-			
-//			if(i == 0){
-//				mobAccountDetail.setRelationshipMinor1(jointApplicantInfo.getJointApplicantDetail().getRelationshipMinor());
-//				mobAccountDetail.setPowerAttnGovCountry1(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGoverningCountry());
-//				mobAccountDetail.setPowerAttnIssueDate1(jointApplicantInfo.getJointApplicantDetail().getPowerAttnIssueDate());
-//				mobAccountDetail.setPowerAttnUs1(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGivenToUSPerson());
-//				mobAccountDetail.setMop1(jointApplicantInfo.getJointApplicantDetail().getMop());
-//				mobAccountDetail.setMopInstruction1(jointApplicantInfo.getJointApplicantDetail().getMopInstruction());
-//			}
-//			if(i == 1){
-//				mobAccountDetail.setRelationshipMinor2(jointApplicantInfo.getJointApplicantDetail().getRelationshipMinor());
-//				mobAccountDetail.setPowerAttnGovCountry2(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGoverningCountry());
-//				mobAccountDetail.setPowerAttnIssueDate2(jointApplicantInfo.getJointApplicantDetail().getPowerAttnIssueDate());
-//				mobAccountDetail.setPowerAttnUs2(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGivenToUSPerson());
-//				mobAccountDetail.setMop2(jointApplicantInfo.getJointApplicantDetail().getMop());
-//				mobAccountDetail.setMopInstruction2(jointApplicantInfo.getJointApplicantDetail().getMopInstruction());
-//			}
-//			if(i == 2){
-//				mobAccountDetail.setRelationshipMinor3(jointApplicantInfo.getJointApplicantDetail().getRelationshipMinor());
-//				mobAccountDetail.setPowerAttnGovCountry3(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGoverningCountry());
-//				mobAccountDetail.setPowerAttnIssueDate3(jointApplicantInfo.getJointApplicantDetail().getPowerAttnIssueDate());
-//				mobAccountDetail.setPowerAttnUs3(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGivenToUSPerson());
-//				mobAccountDetail.setMop3(jointApplicantInfo.getJointApplicantDetail().getMop());
-//				mobAccountDetail.setMopInstruction3(jointApplicantInfo.getJointApplicantDetail().getMopInstruction());
-//			}
-//			if(i == 3){
-//				mobAccountDetail.setRelationshipMinor4(jointApplicantInfo.getJointApplicantDetail().getRelationshipMinor());
-//				mobAccountDetail.setPowerAttnGovCountry4(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGoverningCountry());
-//				mobAccountDetail.setPowerAttnIssueDate4(jointApplicantInfo.getJointApplicantDetail().getPowerAttnIssueDate());
-//				mobAccountDetail.setPowerAttnUs4(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGivenToUSPerson());
-//				mobAccountDetail.setMop4(jointApplicantInfo.getJointApplicantDetail().getMop());
-//				mobAccountDetail.setMopInstruction4(jointApplicantInfo.getJointApplicantDetail().getMopInstruction());
-//			}
-//			if(i == 4){
-//				mobAccountDetail.setRelationshipMinor5(jointApplicantInfo.getJointApplicantDetail().getRelationshipMinor());
-//				mobAccountDetail.setPowerAttnGovCountry5(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGoverningCountry());
-//				mobAccountDetail.setPowerAttnIssueDate5(jointApplicantInfo.getJointApplicantDetail().getPowerAttnIssueDate());
-//				mobAccountDetail.setPowerAttnUs5(jointApplicantInfo.getJointApplicantDetail().getPowerAttnGivenToUSPerson());
-//				mobAccountDetail.setMop5(jointApplicantInfo.getJointApplicantDetail().getMop());
-//				mobAccountDetail.setMopInstruction5(jointApplicantInfo.getJointApplicantDetail().getMopInstruction());
-//			}
-//			
-//			i++;
-		}
 
-		
 		mobAccountDetail=accountCreateDao.storeMobAccountDetail(mobAccountDetail);
 
 		//Additional details to be stored for Account
@@ -449,7 +397,6 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 	public MobRmAppRefId createApplicationReferenceId(AccountCreationRequest accountCreationRequest){
 		MobRmAppRefId mobRmAppRefId = new MobRmAppRefId();
 		mobRmAppRefId.setRmUsedId(accountCreationRequest.getData().getRmId());
-		mobRmAppRefId.setRmName("Neha");
 		mobRmAppRefId.setCreatedBy(accountCreationRequest.getData().getRmId());
 		mobRmAppRefId.setModifiedBy(accountCreationRequest.getData().getRmId());
 		mobRmAppRefId.setCreatedDate(new Date());
