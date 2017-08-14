@@ -173,6 +173,14 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 	public List<MobApplicantRecordId> updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails applicant,
 			Long appId, Long recordId, String typeOfApplicant) {
 
+		// get all the details of MobApplicantRecordId 
+		Query query5 = getEntityManager().createQuery("From MobApplicantRecordId b where b.id=:apId");
+		query5.setParameter("apId", appId);
+		List<MobApplicantRecordId> listMobApplicantRecordId=(List<MobApplicantRecordId>) query5.getResultList();
+		System.out.println("mobApplicantRecordId in dao updateApplicant ========= "+listMobApplicantRecordId);
+		
+		int i=0;
+		//for(MobApplicantRecordId mobApplicantRecordId:listMobApplicantRecordId){
 		// update MobApplicantCommDetail
 		Query query1 = getEntityManager().createQuery("update MobApplicantCommDetail ma set ma.recordId =:recordid,ma.faxNo=:faxno,"
 				+ "ma.faxNoCc=:faxNocc,ma.mailAddr1=:mailaddr1,ma.mailAddr2=:mailaddr2,ma.mailAddr3=:mailaddr3,ma.mailCity=:mailcity, ma.mailCountry=:mailcountry,"
@@ -306,11 +314,8 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		query4.setParameter("workPermitExpdate", applicant.getWorkPermitExpDate());
 		int numberMobApplicantAdditionalDtl = query4.executeUpdate();
 		System.out.println("numberMobApplicantAdditionalDtl in updateApplicant ================== " + numberMobApplicantAdditionalDtl);
-		
-		Query query5 = getEntityManager().createQuery("From MobApplicantRecordId b where b.id=:apId");
-		query5.setParameter("apId", appId);
-		List<MobApplicantRecordId> listMobApplicantRecordId=(List<MobApplicantRecordId>) query5.getResultList();
-		System.out.println("mobApplicantRecordId in dao updateApplicant ========= ");
+//		i++;
+	//	}
 		return listMobApplicantRecordId;
 		
 	}
@@ -449,10 +454,10 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		Query query2 = getEntityManager().createQuery("update MobAccountAdditionalDetail ma set ma.recordId =:recordid,ma.authEmail1=:authemail1,"
 				+ "ma.authEmail2=:authemail2,ma.authEmail3=:authemail3,ma.commEmail=:commemail,ma.commSms=:commsms,ma.creditCard=:creditcard,"
 				+ "ma.forexBanking=:forexbanking,ma.globalCustody=:globalcustody,ma.hearAboutAfrasia=:hearAboutafrasia,ma.internetBanking=:internetbanking,"
-				+ "ma.modifiedBy=:modifiedby,ma.modifiedDate=:modifieddate,ma.nomineeCallbkNum=:nomineeCallbknum,ma.nomineeCallbkNum1=:nomineeCallbknum1,"
-				+ "ma.nomineeCallbkNum2=:nomineeCallbknum2,ma.nomineeId=:nomineeid,ma.nomineeId1=:nomineeid1,ma.nomineeId2=:nomineeid2,"
-				+ "ma.nomineeName=:nomineename,ma.nomineeName1=:nomineename1,ma.nomineeName2=:nomineename2,ma.nomineeEmail1=:nomineeemail1,"
-				+ "ma.nomineeEmail2=:nomineeemail2,ma.optCallbkServices=:optCallbkservices, " 	 //ma.nomineeEmail=:nomineeemail,
+				+ "ma.modifiedBy=:modifiedby,ma.modifiedDate=:modifieddate,ma.nomineeCallbkNum1=:nomineeCallbknum1,"
+				+ "ma.nomineeCallbkNum2=:nomineeCallbknum2,ma.nomineeId1=:nomineeid1,ma.nomineeId2=:nomineeid2,"
+				+ "ma.nomineeName1=:nomineename1,ma.nomineeName2=:nomineename2,ma.nomineeEmail1=:nomineeemail1,"
+				+ "ma.nomineeEmail2=:nomineeemail2,ma.optCallbkServices=:optCallbkservices, " 	 
 				+ "ma.optTranEmail=:optTranemail,ma.otpEmail=:otpemail,ma.otpSms=:otpsms,ma.pinViaPost=:pinViapost, "
 				+ "ma.pinViaSms=:pinViasms,ma.prefCommMode=:prefCommmode,ma.prepaidCards=:prepaidcards,ma.stmtAddr1=:stmtaddr1, "
 				+ "ma.stmtAddr2=:stmtaddr2,ma.stmtAddr3=:stmtaddr3,ma.stmtCity=:stmtcity,ma.stmtCountry=:stmtcountry, "
@@ -476,44 +481,34 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		int cntr = 0;
 		List<NomineeInfo> listNomineeInfo=accountDetails.getNomineeInfo();
 		if(listNomineeInfo==null){
-			query2.setParameter("nomineeid", null);
 			query2.setParameter("nomineeid1", null);
 			query2.setParameter("nomineeid2", null);
-			query2.setParameter("nomineename", null);
 			query2.setParameter("nomineename1", null);
 			query2.setParameter("nomineename2", null);
-			query2.setParameter("nomineeCallbknum", null);
 			query2.setParameter("nomineeCallbknum1", null);
 			query2.setParameter("nomineeCallbknum2", null);
-			query2.setParameter("nomineeemail", null);
 			query2.setParameter("nomineeemail1", null);
 			query2.setParameter("nomineeemail2", null);
 		}else{
 		for(NomineeInfo n : listNomineeInfo){
 			if(cntr == 0){
-				query2.setParameter("nomineeid", n.getNomineeId());
-				query2.setParameter("nomineename", n.getNomineeName());
-				query2.setParameter("nomineeCallbknum", n.getNomineeCallbkNo());
-				//query2.setParameter("nomineeemail", n.getNomineeEmail());
-				query2.setParameter("nomineeemail1", n.getNomineeEmail1());
-				query2.setParameter("nomineeemail2", n.getNomineeEmail2());
-			}
-			else if(cntr == 1){
 				query2.setParameter("nomineeid1", n.getNomineeId());
 				query2.setParameter("nomineename1", n.getNomineeName());
 				query2.setParameter("nomineeCallbknum1", n.getNomineeCallbkNo());
-				//query2.setParameter("nomineeemail", n.getNomineeEmail());
-				query2.setParameter("nomineeemail1", n.getNomineeEmail1());
-				query2.setParameter("nomineeemail2", n.getNomineeEmail2());
+				query2.setParameter("nomineeemail1", n.getNomineeEmail());
 			}
-			else if(cntr == 2){
+			if(cntr == 1){
 				query2.setParameter("nomineeid2", n.getNomineeId());
 				query2.setParameter("nomineename2", n.getNomineeName());
 				query2.setParameter("nomineeCallbknum2", n.getNomineeCallbkNo());
-				//query2.setParameter("nomineeemail", n.getNomineeEmail());
-				query2.setParameter("nomineeemail1", n.getNomineeEmail1());
-				query2.setParameter("nomineeemail2", n.getNomineeEmail2());
+				query2.setParameter("nomineeemail2", n.getNomineeEmail());
 			}
+			/*else if(cntr == 2){
+				query2.setParameter("nomineeid", n.getNomineeId());
+				query2.setParameter("nomineename", n.getNomineeName());
+				query2.setParameter("nomineeCallbknum", n.getNomineeCallbkNo());
+				query2.setParameter("nomineeemail", n.getNomineeEmail());
+			}*/
 			
 			cntr++;
 		}

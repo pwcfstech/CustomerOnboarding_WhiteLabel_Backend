@@ -26,6 +26,8 @@ public class MobAccountDetailsHist implements Serializable {
 
 	@Id
 	@Column(name = "ID")
+	@SequenceGenerator(name="MOB_ACCOUNT_DETAILS_HIST_ID_RECORDID_GENERATOR", sequenceName="AA_ACCNT_DTLS_HIST_ID_SEQUENCE")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MOB_ACCOUNT_DETAILS_HIST_ID_RECORDID_GENERATOR")
 	private Long id;
 
 	@Column(name = "ACCOUNT_CATEGORY")

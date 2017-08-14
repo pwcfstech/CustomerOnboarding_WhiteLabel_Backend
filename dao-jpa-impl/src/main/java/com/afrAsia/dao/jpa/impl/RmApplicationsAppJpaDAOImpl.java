@@ -27,7 +27,7 @@ public class RmApplicationsAppJpaDAOImpl extends BaseJpaDAOImpl<Long, Applicatio
 		Query query = getEntityManager().createQuery("select ar.id, ar.createdTime, ar.appStatus,"
 				+ "apd.firstName,apd.lastName from ApplicationReference ar, ApplicantPersonalDetails apd "
 				+ "where ar.id=apd.id AND ar.rmUserId=:rmid "
-				+ "AND apd.customerType = lower(:custType) "
+				+ "AND lower(apd.customerType) = lower(:custType) "
 				+ "AND lower(ar.appStatus) in (lower(:as1),lower(:as2)) "
 				+ "order by ar.createdTime desc");
 
@@ -56,7 +56,7 @@ public class RmApplicationsAppJpaDAOImpl extends BaseJpaDAOImpl<Long, Applicatio
 				+ "apd.firstName,apd.lastName from ApplicationReference ar, ApplicantPersonalDetails apd "
 				+ "where ar.id=apd.id AND ar.rmUserId=:rmid "
 				+ "AND ar.updatedTime between :stDate and :edDate "
-				+ "AND apd.customerType like lower(:custType) "
+				+ "AND lower(apd.customerType) like lower(:custType) "
 				+ "order by ar.createdTime desc");
 
 		query.setParameter("rmid", rmId);
@@ -77,12 +77,13 @@ public class RmApplicationsAppJpaDAOImpl extends BaseJpaDAOImpl<Long, Applicatio
 	}
 
 	public List<Object> getDetailsByStatus(String status, String rmId) {
+		System.out.println("in dao ========= getDetailsByStatus =========== ");
 		Query query = getEntityManager().createQuery("select ar.id, ar.createdTime, ar.appStatus,"
-				+ "apd.firstName,apd.lastName from ApplicationReference ar, ApplicantPersonalDetails apd "
+				+ "apd.firstName,apd.lastName from ApplicationReference ar, ApplicantPersonalDetails apd " 
 				+ "where ar.id=apd.id AND ar.rmUserId=:rmid "
 				+ "AND lower(ar.appStatus) =lower(:st) " //or lower(ar.appStatus) like lower(:st1)"
 				+ "AND ar.updatedTime between :stDate and :edDate "
-				+ "AND lower(apd.customerType) like lower(:custType) "
+				+ "AND apd.customerType = lower(:custType) "
 				+ "order by ar.createdTime desc");
 
 		Date today = new Date();
@@ -99,8 +100,10 @@ public class RmApplicationsAppJpaDAOImpl extends BaseJpaDAOImpl<Long, Applicatio
 		query.setParameter("edDate", today);
 
 		List<Object> detailsStatus = query.getResultList();
+		System.out.println("detailsStatus by status ========== in dao ==== "+detailsStatus);
 		
 		for (Object object : detailsStatus) {
+			System.out.println("in for ===== in dao ========= ");
 			Object[] outputs = (Object[]) object;
 			System.out.println("rmid in dao =========== "+outputs[0].toString());
 			System.out.println("createdTime in dao =========== "+outputs[1].toString());
@@ -182,7 +185,7 @@ public class RmApplicationsAppJpaDAOImpl extends BaseJpaDAOImpl<Long, Applicatio
 		Query query = getEntityManager().createQuery("select ar.id, ar.createdTime, ar.appStatus,"
 		+ "apd.firstName,apd.lastName from ApplicationReference ar, ApplicantPersonalDetails apd "
 		+ "where ar.id=apd.id AND ar.rmUserId=:rmid "
-		+ "AND apd.customerType like lower(:custType) "
+		+ "AND lower(apd.customerType) like lower(:custType) "
 		+ "AND (lower(apd.firstName) || ' ' || lower(apd.lastName)) like lower(:nm) " 
 		+ "order by ar.createdTime desc");
 

@@ -10,12 +10,10 @@ public class NomineeInfo implements Serializable {
 		super();
 	}
 
-	private String nomineeName;
+	private String nomineeName; 
 	private String nomineeId;
 	private Long nomineeCallbkNo;
 	private String nomineeEmail;
-	private String nomineeEmail1;
-	private String nomineeEmail2;
 
 	public String getNomineeName() {
 		return nomineeName;
@@ -49,27 +47,10 @@ public class NomineeInfo implements Serializable {
 		this.nomineeEmail = nomineeEmail;
 	}
 
-	public String getNomineeEmail1() {
-		return nomineeEmail1;
-	}
-
-	public void setNomineeEmail1(String nomineeEmail1) {
-		this.nomineeEmail1 = nomineeEmail1;
-	}
-
-	public String getNomineeEmail2() {
-		return nomineeEmail2;
-	}
-
-	public void setNomineeEmail2(String nomineeEmail2) {
-		this.nomineeEmail2 = nomineeEmail2;
-	}
-
 	@Override
 	public String toString() {
 		return "NomineeInfo [nomineeName=" + nomineeName + ", nomineeId=" + nomineeId + ", nomineeCallbkNo="
-				+ nomineeCallbkNo + ", nomineeEmail=" + nomineeEmail + ", nomineeEmail1=" + nomineeEmail1
-				+ ", nomineeEmail2=" + nomineeEmail2 + "]";
+				+ nomineeCallbkNo + ", nomineeEmail=" + nomineeEmail + "]";
 	}
 
 }

@@ -392,7 +392,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			i++;
 
 		}
-		//System.out.println("listOfApps=================" + listOfApps);
+		System.out.println("listOfApps=================" + listOfApps);
 		setOfApps.addAll(listOfApps);
 		System.out.println("setOfApps=================" + setOfApps);
 		//rmApplicationAppResponse.setMessageHeader(null);

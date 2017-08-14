@@ -28,10 +28,10 @@ public class MobAccountAddnDetailsHist implements Serializable {
 	// private HistTableCompositePK id; changed by sameer
 
 	@Id
-	@SequenceGenerator(name="MOB_ACCOUNT_ADDN_DETAILS_HIST_ID_RECORDID_GENERATOR", sequenceName="AA_ACC_DTLS_HIST_ID_SEQUENCE")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MOB_ACCOUNT_ADDN_DETAILS_HIST_ID_RECORDID_GENERATOR")
+	@SequenceGenerator(name = "MOB_ACCOUNT_ADDN_DETAILS_HIST_ID_RECORDID_GENERATOR", sequenceName = "AA_ACC_DTLS_HIST_ID_SEQUENCE")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MOB_ACCOUNT_ADDN_DETAILS_HIST_ID_RECORDID_GENERATOR")
 	@Column(name = "ID")
-	private Long id;
+	private Long id; 
 
 	@Column(name = "RECORD_ID")
 	private long recordId;
@@ -83,26 +83,17 @@ public class MobAccountAddnDetailsHist implements Serializable {
 	@Column(name = "MODIFIED_DATE")
 	private Date modifiedDate;
 
-	@Column(name = "NOMINEE_CALLBK_NUM")
-	private Long nomineeCallbkNum; // changed by sameer
-
 	@Column(name = "NOMINEE_CALLBK_NUM1")
 	private Long nomineeCallbkNum1; // changed by sameer
 
 	@Column(name = "NOMINEE_CALLBK_NUM2")
 	private Long nomineeCallbkNum2; // changed by sameer
 
-	@Column(name = "NOMINEE_ID")
-	private String nomineeId;
-
 	@Column(name = "NOMINEE_ID1")
 	private String nomineeId1;
 
 	@Column(name = "NOMINEE_ID2")
 	private String nomineeId2;
-
-	@Column(name = "NOMINEE_NAME")
-	private String nomineeName;
 
 	@Column(name = "NOMINEE_NAME1")
 	private String nomineeName1;
@@ -303,14 +294,6 @@ public class MobAccountAddnDetailsHist implements Serializable {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public Long getNomineeCallbkNum() {
-		return nomineeCallbkNum;
-	}
-
-	public void setNomineeCallbkNum(Long nomineeCallbkNum) {
-		this.nomineeCallbkNum = nomineeCallbkNum;
-	}
-
 	public Long getNomineeCallbkNum1() {
 		return nomineeCallbkNum1;
 	}
@@ -327,14 +310,6 @@ public class MobAccountAddnDetailsHist implements Serializable {
 		this.nomineeCallbkNum2 = nomineeCallbkNum2;
 	}
 
-	public String getNomineeId() {
-		return nomineeId;
-	}
-
-	public void setNomineeId(String nomineeId) {
-		this.nomineeId = nomineeId;
-	}
-
 	public String getNomineeId1() {
 		return nomineeId1;
 	}
@@ -349,14 +324,6 @@ public class MobAccountAddnDetailsHist implements Serializable {
 
 	public void setNomineeId2(String nomineeId2) {
 		this.nomineeId2 = nomineeId2;
-	}
-
-	public String getNomineeName() {
-		return nomineeName;
-	}
-
-	public void setNomineeName(String nomineeName) {
-		this.nomineeName = nomineeName;
 	}
 
 	public String getNomineeName1() {
@@ -535,9 +502,8 @@ public class MobAccountAddnDetailsHist implements Serializable {
 				+ creditCard + ", forexBanking=" + forexBanking + ", globalCustody=" + globalCustody
 				+ ", hearAboutAfrasia=" + hearAboutAfrasia + ", ibUsername=" + ibUsername + ", internetBanking="
 				+ internetBanking + ", modifiedBy=" + modifiedBy + ", modifiedDate=" + modifiedDate
-				+ ", nomineeCallbkNum=" + nomineeCallbkNum + ", nomineeCallbkNum1=" + nomineeCallbkNum1
-				+ ", nomineeCallbkNum2=" + nomineeCallbkNum2 + ", nomineeId=" + nomineeId + ", nomineeId1=" + nomineeId1
-				+ ", nomineeId2=" + nomineeId2 + ", nomineeName=" + nomineeName + ", nomineeName1=" + nomineeName1
+				+ ", nomineeCallbkNum1=" + nomineeCallbkNum1 + ", nomineeCallbkNum2=" + nomineeCallbkNum2
+				+ ", nomineeId1=" + nomineeId1 + ", nomineeId2=" + nomineeId2 + ", nomineeName1=" + nomineeName1
 				+ ", nomineeName2=" + nomineeName2 + ", optCallbkServices=" + optCallbkServices + ", optTranEmail="
 				+ optTranEmail + ", otpEmail=" + otpEmail + ", otpSms=" + otpSms + ", pinViaPost=" + pinViaPost
 				+ ", pinViaSms=" + pinViaSms + ", prefCommMode=" + prefCommMode + ", prepaidCards=" + prepaidCards

@@ -896,7 +896,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobAccountDetailsHist.setRelationshipMinor4(mobAccountDetail.getRelationshipMinor4());
 		mobAccountDetailsHist.setRelationshipMinor5(mobAccountDetail.getRelationshipMinor5());
 		
-		//System.out.println("mobAccountDetailsHist ============== "+mobAccountDetailsHist.toString());
+		System.out.println("mobAccountDetailsHist ============== "+mobAccountDetailsHist.toString());
 		accountCreateDao.storeMobAccountDetailsHist(mobAccountDetailsHist);
 		
 		
@@ -919,13 +919,13 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobAccountAddnDetailsHist.setInternetBanking(mobAccountAdditionalDetail.getInternetBanking());
 		mobAccountAddnDetailsHist.setModifiedBy(mobAccountAdditionalDetail.getModifiedBy());
 		mobAccountAddnDetailsHist.setModifiedDate(mobAccountAdditionalDetail.getModifiedDate());
-		mobAccountAddnDetailsHist.setNomineeCallbkNum(mobAccountAdditionalDetail.getNomineeCallbkNum());
+		//mobAccountAddnDetailsHist.setNomineeCallbkNum(mobAccountAdditionalDetail.getNomineeCallbkNum());
 		mobAccountAddnDetailsHist.setNomineeCallbkNum1(mobAccountAdditionalDetail.getNomineeCallbkNum1());
 		mobAccountAddnDetailsHist.setNomineeCallbkNum2(mobAccountAdditionalDetail.getNomineeCallbkNum2());
-		mobAccountAddnDetailsHist.setNomineeId(mobAccountAdditionalDetail.getNomineeId());
+		//mobAccountAddnDetailsHist.setNomineeId(mobAccountAdditionalDetail.getNomineeId());
 		mobAccountAddnDetailsHist.setNomineeId1(mobAccountAdditionalDetail.getNomineeId1());
 		mobAccountAddnDetailsHist.setNomineeId2(mobAccountAdditionalDetail.getNomineeId2());
-		mobAccountAddnDetailsHist.setNomineeName(mobAccountAdditionalDetail.getNomineeId());
+		//mobAccountAddnDetailsHist.setNomineeName(mobAccountAdditionalDetail.getNomineeId());
 		mobAccountAddnDetailsHist.setNomineeName1(mobAccountAdditionalDetail.getNomineeId1());
 		mobAccountAddnDetailsHist.setNomineeName2(mobAccountAdditionalDetail.getNomineeId2());
 		mobAccountAddnDetailsHist.setOptCallbkServices(mobAccountAdditionalDetail.getOptCallbkServices());
