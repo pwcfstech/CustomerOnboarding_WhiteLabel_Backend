@@ -262,13 +262,8 @@ System.out.println("###############averageProductivity.getAvgQuarterly() ====="+
 			i++;
 		}
 		
-		
-		
-		
 		setOfApps.addAll(listApps);
-		
 		pendingAction.setApps(setOfApps);
-
 		return pendingAction;
 	}
 

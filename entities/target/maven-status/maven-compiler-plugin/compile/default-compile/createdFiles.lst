@@ -60,7 +60,6 @@ com\afrAsia\entities\transactions\MobApplicantKycDocuments.class
 com\afrAsia\entities\response\MastersResponse$Data.class
 com\afrAsia\entities\request\RmApplicationAppReq.class
 com\afrAsia\entities\response\AverageProductivity.class
-META-INF\maven\com.afrAsia\entities\pom.properties
 com\afrAsia\entities\request\ApplicantDetails.class
 com\afrAsia\entities\jpa\ApplicationDetails.class
 com\afrAsia\entities\request\DeviceFootPrintReq.class
@@ -78,7 +77,6 @@ com\afrAsia\entities\jpa\ApplicantPersonalDetails.class
 com\afrAsia\entities\masters\CategoryMaster.class
 com\afrAsia\entities\response\DailyTxnDataListResponse.class
 com\afrAsia\entities\response\ProductDetailsResponse.class
-META-INF\MANIFEST.MF
 com\afrAsia\entities\request\LogoutDataRequest.class
 com\afrAsia\entities\transactions\MobAccountDetailsHist.class
 com\afrAsia\entities\request\GenericRequest.class
@@ -134,4 +132,3 @@ com\afrAsia\entities\transactions\MobAccountAddnDetailsHist.class
 com\afrAsia\entities\request\GenericRequest2.class
 com\afrAsia\entities\response\GenericResponse.class
 com\afrAsia\entities\request\RequestError.class
-META-INF\maven\com.afrAsia\entities\pom.xml

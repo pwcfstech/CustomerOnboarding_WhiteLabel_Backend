@@ -234,7 +234,7 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 
 		String queryString = "select ar.id From ApplicationReference ar where lower(ar.appStatus)=lower(:as) "
 				+ "AND ar.rmUserId=:rmID "
-				+ "order by ar.id DESC";
+				+ "order by ar.updatedTime DESC";
 		
 
 		Query query = getEntityManager().createQuery(queryString);
@@ -253,14 +253,14 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 	// get the Custermer Name
 	public Collection<Object> getCustermerName(String rmId) {
 
-		String queryString ="SELECT apd.firstName,apd.lastName FROM ApplicantPersonalDetails apd "
+		/*String queryString ="SELECT apd.firstName,apd.lastName FROM ApplicantPersonalDetails apd "
 		+ "WHERE apd.id IN (SELECT ar.id FROM ApplicationReference ar "
 		+ "WHERE lower(ar.appStatus) = lower(:as) AND ar.rmUserId=:rmID))"
-		+ "order by apd.id DESC";
-		/*String queryString ="select apd.firstName,apd.lastName"
-				+ " from ApplicationReference ar, ApplicantPersonalDetails apd "
-				+ "WHERE lower(ar.appStatus) = lower(:as) AND ar.rmUserId=:rmID "
-				+ "order by ar.updatedTime desc";*/
+		+ "order by apd.id DESC";*/
+		String queryString ="select apd.firstName,apd.lastName "
+				+ "from ApplicationReference ar, ApplicantPersonalDetails apd "
+				+ "WHERE lower(ar.appStatus) = lower(:as) AND ar.rmUserId=:rmID AND ar.id=apd.id "
+				+ "order by ar.updatedTime desc";
 		/*Query query = getEntityManager().createQuery("select apd.firstName,apd.lastName"
 				+ " from ApplicationReference ar, ApplicantPersonalDetails apd "
 				+ "WHERE lower(ar.appStatus) = lower(:as) AND ar.rmUserId=:rmID"
@@ -283,7 +283,7 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 
 		String queryString = "select ar.updatedTime From ApplicationReference ar where "
 				+ "lower(ar.appStatus)=lower(:as) AND ar.rmUserId=:rmID "
-				+ "order by ar.id DESC";
+				+ "order by ar.updatedTime DESC";
 
 		Query query = getEntityManager().createQuery(queryString);
 
