@@ -4,109 +4,139 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
-
 /**
  * The persistent class for the MOB_APPL_PERSONAL_DETAILS_HIST database table.
  * 
  */
 @Entity
-@Table(name="MOB_APPL_PERSONAL_DETAILS_HIST")
-@NamedQuery(name="MobApplPersonalDetailsHist.findAll", query="SELECT m FROM MobApplPersonalDetailsHist m")
+@Table(name = "MOB_APPL_PERSONAL_DETAILS_HIST")
+@NamedQuery(name = "MobApplPersonalDetailsHist.findAll", query = "SELECT m FROM MobApplPersonalDetailsHist m")
 public class MobApplPersonalDetailsHist implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private HistTableCompositePK id;
+	/*
+	 * @EmbeddedId private HistTableCompositePK id;
+	 */
+	@Id
+	@SequenceGenerator(name="MOB_APPL_PERSONAL_DETAILS_HIST_ID_RECORDID_GENERATOR", sequenceName="AA_PSNL_DTLS_HIST_ID_SEQUENCE")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MOB_APPL_PERSONAL_DETAILS_HIST_ID_RECORDID_GENERATOR")
+	@Column(name = "ID")//, insertable = false, updatable = false)
+	private Long id;
 
-	@Column(name="COUNTRY_BIRTH")
+	@Column(name = "RECORD_ID")//, insertable = false, updatable = false)
+	private long recordId;
+
+	@Column(name = "APPLICANT_ID")//, insertable = false, updatable = false)
+	private long applicantId;
+
+	@Column(name = "COUNTRY_BIRTH")
 	private String countryBirth;
 
-	@Column(name="CREATED_BY")
+	@Column(name = "CREATED_BY")
 	private String createdBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="CREATED_DATE")
+	@Column(name = "CREATED_DATE")
 	private Date createdDate;
 
-	@Column(name="CUST_CIF")
+	@Column(name = "CUST_CIF")
 	private String custCif;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="DOB")			// changed by sameer
+	@Column(name = "DOB") // changed by sameer
 	private Date dob;
 
-	@Column(name="EMAIL")		// changed by sameer 
+	@Column(name = "EMAIL") // changed by sameer
 	private String email;
 
-	@Column(name="EXISTING_CUSTOMER")
+	@Column(name = "EXISTING_CUSTOMER")
 	private boolean existingCustomer;
 
-	@Column(name="FIRST_NAME")
+	@Column(name = "FIRST_NAME")
 	private String firstName;
 
-	@Column(name="IS_EMPLOYEE")
+	@Column(name = "IS_EMPLOYEE")
 	private boolean isEmployee;
 
-	@Column(name="LAST_NAME")
+	@Column(name = "LAST_NAME")
 	private String lastName;
 
-	@Column(name="MAIDEN_NAME")
+	@Column(name = "MAIDEN_NAME")
 	private String maidenName;
 
-	@Column(name="MARITAL_STATUS")
+	@Column(name = "MARITAL_STATUS")
 	private String maritalStatus;
 
-	@Column(name="MIDDLE_NAME")
+	@Column(name = "MIDDLE_NAME")
 	private String middleName;
 
-	@Column(name="MODIFIED_BY")
+	@Column(name = "MODIFIED_BY")
 	private String modifiedBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="MODIFIED_DATE")
+	@Column(name = "MODIFIED_DATE")
 	private Date modifiedDate;
 
-	@Column(name="NATIONALITY")		// changed by sameer	
+	@Column(name = "NATIONALITY") // changed by sameer
 	private String nationality;
 
-	@Column(name="NIC")		// changed by sameer 	
+	@Column(name = "NIC") // changed by sameer
 	private String nic;
 
-	@Column(name="OTHER_BANK1")
+	@Column(name = "OTHER_BANK1")
 	private String otherBank1;
 
-	@Column(name="OTHER_BANK2")
+	@Column(name = "OTHER_BANK2")
 	private String otherBank2;
 
-	@Column(name="OTHER_BANK3")
+	@Column(name = "OTHER_BANK3")
 	private String otherBank3;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="PASSPORT_EXPIRY_DATE")
+	@Column(name = "PASSPORT_EXPIRY_DATE")
 	private Date passportExpiryDate;
 
-	@Column(name="PASSPORT_NO")
+	@Column(name = "PASSPORT_NO")
 	private String passportNo;
 
-	@Column(name="RESIDENCY_STATUS")
+	@Column(name = "RESIDENCY_STATUS")
 	private String residencyStatus;
-	
-	@Column(name="TITLE")				// changed by sameer 	
+
+	@Column(name = "TITLE") // changed by sameer
 	private String title;
 
-	public MobApplPersonalDetailsHist() {
+	@Column(name = "CUSTOMER_TYPE")
+	private String customerType;
+
+	@Column(name = "IS_MINOR")
+	private Boolean isMinor;
+
+	public Long getId() {
+		return id;
 	}
 
-	public HistTableCompositePK getId() {
-		return this.id;
-	}
-
-	public void setId(HistTableCompositePK id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
+	public long getRecordId() {
+		return recordId;
+	}
+
+	public void setRecordId(long recordId) {
+		this.recordId = recordId;
+	}
+
+	public long getApplicantId() {
+		return applicantId;
+	}
+
+	public void setApplicantId(long applicantId) {
+		this.applicantId = applicantId;
+	}
+
 	public String getCountryBirth() {
-		return this.countryBirth;
+		return countryBirth;
 	}
 
 	public void setCountryBirth(String countryBirth) {
@@ -114,7 +144,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public String getCreatedBy() {
-		return this.createdBy;
+		return createdBy;
 	}
 
 	public void setCreatedBy(String createdBy) {
@@ -122,7 +152,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public Date getCreatedDate() {
-		return this.createdDate;
+		return createdDate;
 	}
 
 	public void setCreatedDate(Date createdDate) {
@@ -130,7 +160,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public String getCustCif() {
-		return this.custCif;
+		return custCif;
 	}
 
 	public void setCustCif(String custCif) {
@@ -138,7 +168,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public Date getDob() {
-		return this.dob;
+		return dob;
 	}
 
 	public void setDob(Date dob) {
@@ -146,15 +176,15 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public String getEmail() {
-		return this.email;
+		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public boolean getExistingCustomer() {
-		return this.existingCustomer;
+	public boolean isExistingCustomer() {
+		return existingCustomer;
 	}
 
 	public void setExistingCustomer(boolean existingCustomer) {
@@ -162,23 +192,23 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public String getFirstName() {
-		return this.firstName;
+		return firstName;
 	}
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-	public boolean getIsEmployee() {
-		return this.isEmployee;
+	public boolean isEmployee() {
+		return isEmployee;
 	}
 
-	public void setIsEmployee(boolean isEmployee) {
+	public void setEmployee(boolean isEmployee) {
 		this.isEmployee = isEmployee;
 	}
 
 	public String getLastName() {
-		return this.lastName;
+		return lastName;
 	}
 
 	public void setLastName(String lastName) {
@@ -186,7 +216,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public String getMaidenName() {
-		return this.maidenName;
+		return maidenName;
 	}
 
 	public void setMaidenName(String maidenName) {
@@ -194,7 +224,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public String getMaritalStatus() {
-		return this.maritalStatus;
+		return maritalStatus;
 	}
 
 	public void setMaritalStatus(String maritalStatus) {
@@ -202,7 +232,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public String getMiddleName() {
-		return this.middleName;
+		return middleName;
 	}
 
 	public void setMiddleName(String middleName) {
@@ -210,7 +240,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public String getModifiedBy() {
-		return this.modifiedBy;
+		return modifiedBy;
 	}
 
 	public void setModifiedBy(String modifiedBy) {
@@ -218,7 +248,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public Date getModifiedDate() {
-		return this.modifiedDate;
+		return modifiedDate;
 	}
 
 	public void setModifiedDate(Date modifiedDate) {
@@ -226,7 +256,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public String getNationality() {
-		return this.nationality;
+		return nationality;
 	}
 
 	public void setNationality(String nationality) {
@@ -234,7 +264,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public String getNic() {
-		return this.nic;
+		return nic;
 	}
 
 	public void setNic(String nic) {
@@ -242,7 +272,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public String getOtherBank1() {
-		return this.otherBank1;
+		return otherBank1;
 	}
 
 	public void setOtherBank1(String otherBank1) {
@@ -250,7 +280,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public String getOtherBank2() {
-		return this.otherBank2;
+		return otherBank2;
 	}
 
 	public void setOtherBank2(String otherBank2) {
@@ -258,7 +288,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public String getOtherBank3() {
-		return this.otherBank3;
+		return otherBank3;
 	}
 
 	public void setOtherBank3(String otherBank3) {
@@ -266,7 +296,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public Date getPassportExpiryDate() {
-		return this.passportExpiryDate;
+		return passportExpiryDate;
 	}
 
 	public void setPassportExpiryDate(Date passportExpiryDate) {
@@ -274,7 +304,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public String getPassportNo() {
-		return this.passportNo;
+		return passportNo;
 	}
 
 	public void setPassportNo(String passportNo) {
@@ -282,7 +312,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public String getResidencyStatus() {
-		return this.residencyStatus;
+		return residencyStatus;
 	}
 
 	public void setResidencyStatus(String residencyStatus) {
@@ -290,23 +320,41 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	}
 
 	public String getTitle() {
-		return this.title;
+		return title;
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
+	public String getCustomerType() {
+		return customerType;
+	}
+
+	public void setCustomerType(String customerType) {
+		this.customerType = customerType;
+	}
+
+	public Boolean getIsMinor() {
+		return isMinor;
+	}
+
+	public void setIsMinor(Boolean isMinor) {
+		this.isMinor = isMinor;
+	}
+
 	@Override
 	public String toString() {
-		return "MobApplPersonalDetailsHist [id=" + id + ", countryBirth=" + countryBirth + ", createdBy=" + createdBy
-				+ ", createdDate=" + createdDate + ", custCif=" + custCif + ", dob=" + dob + ", email=" + email
-				+ ", existingCustomer=" + existingCustomer + ", firstName=" + firstName + ", isEmployee=" + isEmployee
-				+ ", lastName=" + lastName + ", maidenName=" + maidenName + ", maritalStatus=" + maritalStatus
-				+ ", middleName=" + middleName + ", modifiedBy=" + modifiedBy + ", modifiedDate=" + modifiedDate
-				+ ", nationality=" + nationality + ", nic=" + nic + ", otherBank1=" + otherBank1 + ", otherBank2="
-				+ otherBank2 + ", otherBank3=" + otherBank3 + ", passportExpiryDate=" + passportExpiryDate
-				+ ", passportNo=" + passportNo + ", residencyStatus=" + residencyStatus + ", title=" + title + "]";
+		return "MobApplPersonalDetailsHist [id=" + id + ", recordId=" + recordId + ", applicantId=" + applicantId
+				+ ", countryBirth=" + countryBirth + ", createdBy=" + createdBy + ", createdDate=" + createdDate
+				+ ", custCif=" + custCif + ", dob=" + dob + ", email=" + email + ", existingCustomer="
+				+ existingCustomer + ", firstName=" + firstName + ", isEmployee=" + isEmployee + ", lastName="
+				+ lastName + ", maidenName=" + maidenName + ", maritalStatus=" + maritalStatus + ", middleName="
+				+ middleName + ", modifiedBy=" + modifiedBy + ", modifiedDate=" + modifiedDate + ", nationality="
+				+ nationality + ", nic=" + nic + ", otherBank1=" + otherBank1 + ", otherBank2=" + otherBank2
+				+ ", otherBank3=" + otherBank3 + ", passportExpiryDate=" + passportExpiryDate + ", passportNo="
+				+ passportNo + ", residencyStatus=" + residencyStatus + ", title=" + title + ", customerType="
+				+ customerType + ", isMinor=" + isMinor + "]";
 	}
-	
+
 }

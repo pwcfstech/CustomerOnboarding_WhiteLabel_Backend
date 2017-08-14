@@ -1,5 +1,7 @@
 package com.afrAsia.dao;
 
+import java.util.List;
+
 import com.afrAsia.entities.request.AccountCreationRequest;
 import com.afrAsia.entities.request.ApplicantDetails;
 import com.afrAsia.entities.request.AccountUpdateRequest.AccountDetails;
@@ -67,10 +69,10 @@ public interface AccountCreateDao {
 
 	public Long getRecordIdFromAccountDetails(Long appId);
 
-	public MobApplicantRecordId updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails primaryApplicant,
+	public List<MobApplicantRecordId> updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails primaryApplicant,
 			Long appId, Long recordId, String typeOfApplicant);
 
 	public void updateAccountDetails(AccountCreationRequest accountCreationRequest, Long appId, Long recordId,
-			MobApplicantRecordId mobApplicantPrimary, MobApplicantRecordId mobGuardianPrimary,
+			MobApplicantRecordId[] mobApplicantPrimary, MobApplicantRecordId[] mobGuardianPrimary,
 			MobApplicantRecordId[] mobJoint, MobApplicantRecordId[] mobGuardianJoint, com.afrAsia.entities.request.AccountCreationRequest.AccountDetails accountDetails);
 }

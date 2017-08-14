@@ -145,7 +145,17 @@ public class AuthenticationServiceImpl implements AuthenticationService
 
 	public GenericResponse checkSession() 
 	{
-		// TODO Auto-generated method stub
+//		Map<String, String> requestParameters = new HashMap<String, String>();
+//		requestParameters.put("client_id", rmId);
+//		requestParameters.put("grant_type", grantType);
+//		requestParameters.put("client_secret", password);
+//		
+//		ClientCredentialsTokenGranter tokenGranter = new ClientCredentialsTokenGranter(tokenServices, customClientDetailsService, oAuth2RequestFactory);
+//		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(rmId);
+//		TokenRequest request  = oAuth2RequestFactory.createTokenRequest(requestParameters, clientDetails);
+//		
+//		tokenServices.refreshAccessToken(refreshTokenValue, request);\
+		
 		return null;
 	}
 	

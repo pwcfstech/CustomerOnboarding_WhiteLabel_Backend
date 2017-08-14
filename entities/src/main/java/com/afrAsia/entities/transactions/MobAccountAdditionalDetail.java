@@ -92,6 +92,12 @@ public class MobAccountAdditionalDetail implements Serializable {
 
 	@Column(name="NOMINEE_NAME2")
 	private String nomineeName2;
+	
+	@Column(name="NOMINEE_EMAIL1")
+	private String nomineeEmail1;
+
+	@Column(name="NOMINEE_EMAIL2")
+	private String nomineeEmail2;
 
 	@Column(name="OPT_CALLBK_SERVICES")
 	private Boolean optCallbkServices;
@@ -137,6 +143,17 @@ public class MobAccountAdditionalDetail implements Serializable {
 
 	@Column(name="STMT_DELIVERY")
 	private String stmtDelivery;
+	
+	@Column(name="REQUIRE_CHQ_BOOK")
+	private Boolean requireChqBook;
+	
+	@Column(name="AFRASIA_EVENT_QUES")
+	private String afrasiaEventQues;
+	
+	@Column(name="AFRASIA_EVENT_ANS")
+	private String afrasiaEventAns;
+	
+	
 
 	public MobAccountAdditionalDetail() {
 	}
@@ -340,6 +357,24 @@ public class MobAccountAdditionalDetail implements Serializable {
 	public void setNomineeName2(String nomineeName2) {
 		this.nomineeName2 = nomineeName2;
 	}
+	
+	
+
+	public String getNomineeEmail1() {
+		return nomineeEmail1;
+	}
+
+	public void setNomineeEmail1(String nomineeEmail1) {
+		this.nomineeEmail1 = nomineeEmail1;
+	}
+
+	public String getNomineeEmail2() {
+		return nomineeEmail2;
+	}
+
+	public void setNomineeEmail2(String nomineeEmail2) {
+		this.nomineeEmail2 = nomineeEmail2;
+	}
 
 	public Boolean getOptCallbkServices() {
 		return optCallbkServices;
@@ -465,6 +500,32 @@ public class MobAccountAdditionalDetail implements Serializable {
 		return serialVersionUID;
 	}
 
+	
+	
+	public Boolean getRequireChqBook() {
+		return requireChqBook;
+	}
+
+	public void setRequireChqBook(Boolean requireChqBook) {
+		this.requireChqBook = requireChqBook;
+	}
+
+	public String getAfrasiaEventQues() {
+		return afrasiaEventQues;
+	}
+
+	public void setAfrasiaEventQues(String afrasiaEventQues) {
+		this.afrasiaEventQues = afrasiaEventQues;
+	}
+
+	public String getAfrasiaEventAns() {
+		return afrasiaEventAns;
+	}
+
+	public void setAfrasiaEventAns(String afrasiaEventAns) {
+		this.afrasiaEventAns = afrasiaEventAns;
+	}
+
 	@Override
 	public String toString() {
 		return "MobAccountAdditionalDetail [id=" + id + ", authEmail1=" + authEmail1 + ", authEmail2=" + authEmail2
@@ -475,11 +536,13 @@ public class MobAccountAdditionalDetail implements Serializable {
 				+ ", modifiedDate=" + modifiedDate + ", nomineeCallbkNum=" + nomineeCallbkNum + ", nomineeCallbkNum1="
 				+ nomineeCallbkNum1 + ", nomineeCallbkNum2=" + nomineeCallbkNum2 + ", nomineeId=" + nomineeId
 				+ ", nomineeId1=" + nomineeId1 + ", nomineeId2=" + nomineeId2 + ", nomineeName=" + nomineeName
-				+ ", nomineeName1=" + nomineeName1 + ", nomineeName2=" + nomineeName2 + ", optCallbkServices="
-				+ optCallbkServices + ", optTranEmail=" + optTranEmail + ", otpEmail=" + otpEmail + ", otpSms=" + otpSms
-				+ ", pinViaPost=" + pinViaPost + ", pinViaSms=" + pinViaSms + ", prefCommMode=" + prefCommMode
-				+ ", prepaidCards=" + prepaidCards + ", recordId=" + recordId + ", stmtAddr1=" + stmtAddr1
-				+ ", stmtAddr2=" + stmtAddr2 + ", stmtAddr3=" + stmtAddr3 + ", stmtCity=" + stmtCity + ", stmtCountry="
-				+ stmtCountry + ", stmtDelivery=" + stmtDelivery + "]";
+				+ ", nomineeName1=" + nomineeName1 + ", nomineeName2=" + nomineeName2 + ", nomineeEmail1="
+				+ nomineeEmail1 + ", nomineeEmail2=" + nomineeEmail2 + ", optCallbkServices=" + optCallbkServices
+				+ ", optTranEmail=" + optTranEmail + ", otpEmail=" + otpEmail + ", otpSms=" + otpSms + ", pinViaPost="
+				+ pinViaPost + ", pinViaSms=" + pinViaSms + ", prefCommMode=" + prefCommMode + ", prepaidCards="
+				+ prepaidCards + ", recordId=" + recordId + ", stmtAddr1=" + stmtAddr1 + ", stmtAddr2=" + stmtAddr2
+				+ ", stmtAddr3=" + stmtAddr3 + ", stmtCity=" + stmtCity + ", stmtCountry=" + stmtCountry
+				+ ", stmtDelivery=" + stmtDelivery + ", requireChqBook=" + requireChqBook + ", afrasiaEventQues="
+				+ afrasiaEventQues + ", afrasiaEventAns=" + afrasiaEventAns + "]";
 	}
 }

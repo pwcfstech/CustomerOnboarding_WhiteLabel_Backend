@@ -73,6 +73,7 @@
 		<property name="supportRefreshToken" value="false" />
 		<property name="clientDetailsService" ref="clientDetails" />
 		<property name="accessTokenValiditySeconds" value="1800000" />
+		<!-- <property name="accessTokenValiditySeconds" value="180" /> -->
 	</bean>
 
 

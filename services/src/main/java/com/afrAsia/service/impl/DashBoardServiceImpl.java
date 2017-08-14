@@ -3,6 +3,7 @@ package com.afrAsia.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -213,7 +214,7 @@ System.out.println("###############averageProductivity.getAvgQuarterly() ====="+
 
 		List<Apps> listApps = new ArrayList<Apps>();
 		
-		Set<Apps> setOfApps = new HashSet<Apps>(listApps);
+		Set<Apps> setOfApps = new LinkedHashSet<Apps>(listApps);
 
 		//Apps apps=new Apps();
 
@@ -273,6 +274,7 @@ System.out.println("###############averageProductivity.getAvgQuarterly() ====="+
 
 	public DashboardResponse getDashBoardSummery(String rmId) {
 		DashboardResponse dashboardResponse = new DashboardResponse();
+		
 		List<String> id= dashBoardDao.getId(rmId);
 		
 		ApplicationReference applicationReference=new ApplicationReference();

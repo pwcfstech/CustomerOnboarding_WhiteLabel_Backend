@@ -10,6 +10,8 @@ import com.afrAsia.entities.jpa.MsgHeader.Error;
 import com.afrAsia.entities.request.ApplicantDetails;
 import com.afrAsia.entities.request.ApplicationDetailsReq;
 import com.afrAsia.entities.request.JointApplicants;
+import com.afrAsia.entities.request.KycInfo;
+import com.afrAsia.entities.request.NomineeInfo;
 import com.afrAsia.entities.response.ApplicationDetailsResponse;
 import com.afrAsia.entities.response.ApplicationDetailsResponse.Data;
 import com.afrAsia.entities.response.ApplicationDetailsResponse.Data.AccountDetails;
@@ -19,6 +21,7 @@ import com.afrAsia.entities.transactions.MobAccountDetail;
 import com.afrAsia.entities.transactions.MobApplicantAdditionalDtl;
 import com.afrAsia.entities.transactions.MobApplicantCommDetail;
 import com.afrAsia.entities.transactions.MobApplicantEmploymentDtl;
+import com.afrAsia.entities.transactions.MobApplicantKycDocuments;
 import com.afrAsia.entities.transactions.MobApplicantPersonalDetail;
 import com.afrAsia.entities.transactions.MobComments;
 import com.afrAsia.entities.transactions.MobRmAppRefId;
@@ -101,8 +104,8 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			MobAccountDetail mobAccountDetail = applicationDetailsDAO.getMobAccountDetails(appRefNo);
 			if(mobAccountDetail != null){
 				System.out.println("Data received from Mob Account Table");
-				accountDetails.setAccount(mobAccountDetail.getAccountCategory());
-				accountDetails.setAccountType(mobAccountDetail.getAccountType());
+				accountDetails.setAccount(mobAccountDetail.getAccountType());
+				accountDetails.setAccountType(mobAccountDetail.getAccountCategory());
 				accountDetails.setMop(mobAccountDetail.getMop());
 				System.out.println(mobAccountDetail.toString());
 			}
@@ -139,6 +142,32 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				accountDetails.setOptCallBackServices(mobAccountAddnDetail.getOptCallbkServices());
 				accountDetails.setNeedCreditCard(mobAccountAddnDetail.getCreditCard());
 				accountDetails.setOptTransactionsThruEmail(mobAccountAddnDetail.getOptTranEmail());
+				
+				
+				List<NomineeInfo> nomineeInfo =  new ArrayList<NomineeInfo>();
+				NomineeInfo nomineeInfo1 = new NomineeInfo();
+				
+				nomineeInfo1.setNomineeCallbkNo(mobAccountAddnDetail.getNomineeCallbkNum1());
+				nomineeInfo1.setNomineeEmail(mobAccountAddnDetail.getNomineeEmail1());
+				nomineeInfo1.setNomineeId(mobAccountAddnDetail.getNomineeId1());
+				nomineeInfo1.setNomineeName(mobAccountAddnDetail.getNomineeName1());
+				nomineeInfo.add(nomineeInfo1);
+				
+				if(mobAccountAddnDetail.getNomineeName2() != null){
+					NomineeInfo nomineeInfo2 = new NomineeInfo();
+					nomineeInfo2.setNomineeCallbkNo(mobAccountAddnDetail.getNomineeCallbkNum2());
+					nomineeInfo2.setNomineeEmail(mobAccountAddnDetail.getNomineeEmail2());
+					nomineeInfo2.setNomineeId(mobAccountAddnDetail.getNomineeId2());
+					nomineeInfo2.setNomineeName(mobAccountAddnDetail.getNomineeName2());
+					nomineeInfo.add(nomineeInfo2);
+				}
+				
+				accountDetails.setNomineeInfo(nomineeInfo);
+				
+				
+				
+				
+				
 				System.out.println(mobAccountAddnDetail.toString());
 			}
 			else{
@@ -273,6 +302,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 		MobApplicantPersonalDetail mobApplicantPersonalDetail = applicationDetailsDAO.getMobApplicantPersonalDetails(appRefNo,primaryApplicantRefNo);
 		if(mobApplicantPersonalDetail != null){
 			System.out.println("Personal Detail");
+			primaryApplicantDetails.setApplicantId(mobApplicantPersonalDetail.getId().getApplicantId());
 			primaryApplicantDetails.setResidencyStatus(mobApplicantPersonalDetail.getResidencyStatus());
 			primaryApplicantDetails.setOtherBank1(mobApplicantPersonalDetail.getOtherBank1());
 			primaryApplicantDetails.setOtherBank2(mobApplicantPersonalDetail.getOtherBank2());
@@ -292,6 +322,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setIsExistingCustomer(mobApplicantPersonalDetail.getExistingCustomer());
 			primaryApplicantDetails.setCustomerCIF(mobApplicantPersonalDetail.getCustCif());
 			primaryApplicantDetails.setMaritialStatus(mobApplicantPersonalDetail.getMaritalStatus());
+			primaryApplicantDetails.setIsMinor(mobApplicantPersonalDetail.getIsMinor());
 			System.out.println(mobApplicantPersonalDetail.toString());
 		}
 		else{
@@ -373,11 +404,35 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setCrsTin1(mobApplicantAdditionalDtl.getTin1());
 			primaryApplicantDetails.setCrsTin2(mobApplicantAdditionalDtl.getTin2());
 			primaryApplicantDetails.setCrsTin3(mobApplicantAdditionalDtl.getTin3());
+			
+			
 			System.out.println(mobApplicantAdditionalDtl.toString());
 		}
 		else{
 			System.out.println("No data from mobApplicantPersonalDetail " + forWhom);
 		}
+		
+		//get KYC
+		List<MobApplicantKycDocuments> mobApplicantKycDocs = applicationDetailsDAO.getMobApplicantKyc(appRefNo,primaryApplicantRefNo);
+		
+		
+		if(mobApplicantKycDocs.size() > 0){
+			List<KycInfo> kycList = new ArrayList<KycInfo>();
+			for(MobApplicantKycDocuments kyc : mobApplicantKycDocs){
+				KycInfo kycData = new KycInfo();
+				kycData.setDocId(kyc.getId().getDocId());
+				kycData.setDocUrl(kyc.getDocUrl());
+			
+				kycList.add(kycData);
+			}
+			primaryApplicantDetails.setKycInfo(kycList);
+		}
+		else{
+			primaryApplicantDetails.setKycInfo(null);
+		}
+		
+		
+		
 		System.out.println("APPLICANT DETAILS" + primaryApplicantDetails.toString());
 		return primaryApplicantDetails;
 	}

@@ -1,5 +1,7 @@
 package com.afrAsia.dao.jpa;
 
+import java.util.List;
+
 import com.afrAsia.dao.AccountCreateDao;
 import com.afrAsia.entities.request.AccountCreationRequest;
 import com.afrAsia.entities.request.ApplicantDetails;
@@ -66,10 +68,10 @@ public interface AccountCreateJpaDao extends AccountCreateDao {
 
 	public Integer updateAplicantRecordId(Long appId, Long recordId);
 
-	public MobApplicantRecordId updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails primaryApplicant,
+	public List<MobApplicantRecordId> updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails primaryApplicant,
 			Long appId, Long recordId, String typeOfApplicant);
 
 	public void updateAccountDetails(AccountCreationRequest accountCreationRequest, Long appId, Long recordId,
-			MobApplicantRecordId mobApplicantPrimary, MobApplicantRecordId mobGuardianPrimary,
+			MobApplicantRecordId[] mobApplicantPrimaryArr, MobApplicantRecordId[] mobGuardianPrimaryArr,
 			MobApplicantRecordId[] mobJoint, MobApplicantRecordId[] mobGuardianJoint, com.afrAsia.entities.request.AccountCreationRequest.AccountDetails accountDetails);
 }

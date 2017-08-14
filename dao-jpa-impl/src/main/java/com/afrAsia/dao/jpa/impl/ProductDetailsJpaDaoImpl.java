@@ -6,10 +6,18 @@ import javax.persistence.Query;
 
 import com.afrAsia.dao.jpa.ProductDetailsJpaDao;
 import com.afrAsia.entities.jpa.ProductDetails;
-import com.afrAsia.entities.masters.UIDType;
 
 public class ProductDetailsJpaDaoImpl extends BaseJpaDAOImpl<Long, ProductDetails> implements ProductDetailsJpaDao{
-			
+	
+	public List<Long> getId(Long id){
+		Query query = getEntityManager().createQuery("select pd.id from ProductDetails pd "
+				+ "where pd.id=:productId");
+		query.setParameter("productId", id);
+		
+		List<Long> detailsByefault = query.getResultList();
+		return detailsByefault; 
+	}
+	
 	//for get Product Details id 
 	public List<Object> getProductById(Long productID) {
 		/*String queryString = "select * from MOB_PROD_DETAILS where ID="+productID;

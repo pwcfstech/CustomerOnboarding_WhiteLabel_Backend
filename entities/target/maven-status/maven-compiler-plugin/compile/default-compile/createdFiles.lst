@@ -51,13 +51,16 @@ com\afrAsia\entities\response\MastersDataResponse$Data$Country.class
 com\afrAsia\entities\jpa\AuthItemChild.class
 com\afrAsia\entities\transactions\MobAccountAdditionalDetail.class
 com\afrAsia\entities\transactions\MobAppRefRecordId.class
+com\afrAsia\entities\transactions\KycTableCompositePK.class
 com\afrAsia\entities\response\MessageHeader.class
 com\afrAsia\entities\response\MastersDataResponse$Data$MaritalStatus.class
 com\afrAsia\entities\request\MobCommentsRequest.class
 com\afrAsia\entities\response\MastersResponse$AccountClass.class
+com\afrAsia\entities\transactions\MobApplicantKycDocuments.class
 com\afrAsia\entities\response\MastersResponse$Data.class
 com\afrAsia\entities\request\RmApplicationAppReq.class
 com\afrAsia\entities\response\AverageProductivity.class
+META-INF\maven\com.afrAsia\entities\pom.properties
 com\afrAsia\entities\request\ApplicantDetails.class
 com\afrAsia\entities\jpa\ApplicationDetails.class
 com\afrAsia\entities\request\DeviceFootPrintReq.class
@@ -65,6 +68,7 @@ com\afrAsia\entities\response\DashboardResponse.class
 com\afrAsia\entities\request\Data.class
 com\afrAsia\entities\jpa\ProductDetails.class
 com\afrAsia\entities\response\MastersResponse.class
+com\afrAsia\entities\request\KycInfo.class
 com\afrAsia\entities\response\ApplicationDetailsResponse$Data$AccountDetails.class
 com\afrAsia\entities\jpa\Category.class
 com\afrAsia\entities\masters\AccountType.class
@@ -74,6 +78,7 @@ com\afrAsia\entities\jpa\ApplicantPersonalDetails.class
 com\afrAsia\entities\masters\CategoryMaster.class
 com\afrAsia\entities\response\DailyTxnDataListResponse.class
 com\afrAsia\entities\response\ProductDetailsResponse.class
+META-INF\MANIFEST.MF
 com\afrAsia\entities\request\LogoutDataRequest.class
 com\afrAsia\entities\transactions\MobAccountDetailsHist.class
 com\afrAsia\entities\request\GenericRequest.class
@@ -129,3 +134,4 @@ com\afrAsia\entities\transactions\MobAccountAddnDetailsHist.class
 com\afrAsia\entities\request\GenericRequest2.class
 com\afrAsia\entities\response\GenericResponse.class
 com\afrAsia\entities\request\RequestError.class
+META-INF\maven\com.afrAsia\entities\pom.xml

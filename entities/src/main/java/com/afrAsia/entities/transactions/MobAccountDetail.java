@@ -14,6 +14,7 @@ import java.util.Date;
 @NamedQuery(name="MobAccountDetail.findAll", query="SELECT m FROM MobAccountDetail m")
 public class MobAccountDetail implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@Column(name="ID")
 	private Long id;   

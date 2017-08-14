@@ -25,8 +25,8 @@ public class MobAccountDetailsHist implements Serializable {
 	 */
 
 	@Id
-	@Column(name = "RECORD_ID")
-	private long recordId;
+	@Column(name = "ID")
+	private Long id;
 
 	@Column(name = "ACCOUNT_CATEGORY")
 	private String accountCategory;
@@ -42,51 +42,40 @@ public class MobAccountDetailsHist implements Serializable {
 	private Date createdDate;
 
 	@Column(name = "INDV_APPLICANT_REF_NO")
-	private Long indvApplicantRefNo; // changed from BigDecimal to Long
-										// =========
+	private Long indvApplicantRefNo;
 
 	@Column(name = "INDV_GUARDIAN_REF_NO")
-	private Long indvGuardianRefNo; // changed from BigDecimal to Long =========
+	private Long indvGuardianRefNo;
 
 	@Column(name = "JOINT1_APPLICANT_REF_NO")
-	private Long joint1ApplicantRefNo; // changed from BigDecimal to Long
-										// =========
+	private Long joint1ApplicantRefNo;
 
 	@Column(name = "JOINT1_GUARDIAN_REF_NO")
-	private Long joint1GuardianRefNo; // changed from BigDecimal to Long
-										// =========
+	private Long joint1GuardianRefNo;
 
 	@Column(name = "JOINT2_APPLICANT_REF_NO")
-	private Long joint2ApplicantRefNo; // changed from BigDecimal to Long
-										// =========
+	private Long joint2ApplicantRefNo;
 
 	@Column(name = "JOINT2_GUARDIAN_REF_NO")
-	private Long joint2GuardianRefNo; // changed from BigDecimal to Long
-										// =========
+	private Long joint2GuardianRefNo;
 
 	@Column(name = "JOINT3_APPLICANT_REF_NO")
-	private Long joint3ApplicantRefNo; // changed from BigDecimal to Long
-										// =========
+	private Long joint3ApplicantRefNo;
 
 	@Column(name = "JOINT3_GUARDIAN_REF_NO")
-	private Long joint3GuardianRefNo; // changed from BigDecimal to Long
-										// =========
+	private Long joint3GuardianRefNo;
 
 	@Column(name = "JOINT4_APPLICANT_REF_NO")
-	private Long joint4ApplicantRefNo; // changed from BigDecimal to Long
-										// =========
+	private Long joint4ApplicantRefNo;
 
 	@Column(name = "JOINT4_GUARDIAN_REF_NO")
-	private Long joint4GuardianRefNo; // changed from BigDecimal to Long
-										// =========
+	private Long joint4GuardianRefNo;
 
 	@Column(name = "JOINT5_APPLICANT_REF_NO")
-	private Long joint5ApplicantRefNo; // changed from BigDecimal to Long
-										// =========
+	private Long joint5ApplicantRefNo;
 
 	@Column(name = "JOINT5_GUARDIAN_REF_NO")
-	private Long joint5GuardianRefNo; // changed from BigDecimal to Long
-										// =========
+	private Long joint5GuardianRefNo;
 
 	@Column(name = "MODIFIED_BY")
 	private String modifiedBy;
@@ -95,6 +84,7 @@ public class MobAccountDetailsHist implements Serializable {
 	@Column(name = "MODIFIED_DATE")
 	private Date modifiedDate;
 
+	@Column(name = "MOP")
 	private String mop;
 
 	@Column(name = "MOP_1")
@@ -177,6 +167,9 @@ public class MobAccountDetailsHist implements Serializable {
 	@Column(name = "POWER_ATTN_US_5")
 	private boolean powerAttnUs5;
 
+	@Column(name = "RECORD_ID")
+	private Long recordId;
+
 	@Column(name = "RELATIONSHIP_MINOR_1")
 	private String relationshipMinor1;
 
@@ -192,12 +185,12 @@ public class MobAccountDetailsHist implements Serializable {
 	@Column(name = "RELATIONSHIP_MINOR_5")
 	private String relationshipMinor5;
 
-	public long getRecordId() {
-		return recordId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setRecordId(long recordId) {
-		this.recordId = recordId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getAccountCategory() {
@@ -552,6 +545,14 @@ public class MobAccountDetailsHist implements Serializable {
 		this.powerAttnUs5 = powerAttnUs5;
 	}
 
+	public Long getRecordId() {
+		return recordId;
+	}
+
+	public void setRecordId(Long recordId) {
+		this.recordId = recordId;
+	}
+
 	public String getRelationshipMinor1() {
 		return relationshipMinor1;
 	}
@@ -594,7 +595,7 @@ public class MobAccountDetailsHist implements Serializable {
 
 	@Override
 	public String toString() {
-		return "MobAccountDetailsHist [recordId=" + recordId + ", accountCategory=" + accountCategory + ", accountType="
+		return "MobAccountDetailsHist [id=" + id + ", accountCategory=" + accountCategory + ", accountType="
 				+ accountType + ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", indvApplicantRefNo="
 				+ indvApplicantRefNo + ", indvGuardianRefNo=" + indvGuardianRefNo + ", joint1ApplicantRefNo="
 				+ joint1ApplicantRefNo + ", joint1GuardianRefNo=" + joint1GuardianRefNo + ", joint2ApplicantRefNo="
@@ -612,9 +613,10 @@ public class MobAccountDetailsHist implements Serializable {
 				+ powerAttnIssueDate2 + ", powerAttnIssueDate3=" + powerAttnIssueDate3 + ", powerAttnIssueDate4="
 				+ powerAttnIssueDate4 + ", powerAttnIssueDate5=" + powerAttnIssueDate5 + ", powerAttnUs1="
 				+ powerAttnUs1 + ", powerAttnUs2=" + powerAttnUs2 + ", powerAttnUs3=" + powerAttnUs3 + ", powerAttnUs4="
-				+ powerAttnUs4 + ", powerAttnUs5=" + powerAttnUs5 + ", relationshipMinor1=" + relationshipMinor1
-				+ ", relationshipMinor2=" + relationshipMinor2 + ", relationshipMinor3=" + relationshipMinor3
-				+ ", relationshipMinor4=" + relationshipMinor4 + ", relationshipMinor5=" + relationshipMinor5 + "]";
+				+ powerAttnUs4 + ", powerAttnUs5=" + powerAttnUs5 + ", recordId=" + recordId + ", relationshipMinor1="
+				+ relationshipMinor1 + ", relationshipMinor2=" + relationshipMinor2 + ", relationshipMinor3="
+				+ relationshipMinor3 + ", relationshipMinor4=" + relationshipMinor4 + ", relationshipMinor5="
+				+ relationshipMinor5 + "]";
 	}
 
 }

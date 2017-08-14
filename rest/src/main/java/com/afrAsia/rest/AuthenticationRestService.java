@@ -34,7 +34,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Path("{version}")
 public class AuthenticationRestService 
 {
-	
 	private AuthenticationService authenticationService;
 	
 	public AuthenticationService getAuthenticationService() 
@@ -58,6 +57,7 @@ public class AuthenticationRestService
 		{
 			System.out.println("try of rest ====== "+loginStringRequest);
 			LoginRequest loginRequest = CommonUtils.jsonStringToObject(loginStringRequest, LoginRequest.class);
+			System.out.println("Value of login request::" + loginRequest.toString());
 			response = authenticationService.login(loginRequest);
 		}
 		catch (Exception e)

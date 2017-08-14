@@ -2,6 +2,9 @@ package com.afrAsia.entities.request;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import com.afrAsia.entities.request.KycInfo;
 
 public class ApplicantDetails implements Serializable {
 
@@ -10,9 +13,10 @@ public class ApplicantDetails implements Serializable {
 	}
 
 	private static final long serialVersionUID = 1L;
-	private String residencyStatus;
+
+	private String residencyStatus; 
 	private String otherBank1;
-	private String otherBank2; 
+	private String otherBank2;
 	private String otherBank3;
 	private Boolean isEmployee;
 	private String title;
@@ -83,6 +87,9 @@ public class ApplicantDetails implements Serializable {
 	private String crsCountryResidence2;
 	private String crsCountryResidence3;
 	private String employmentSts;
+	private Long applicantId;
+	private Boolean isMinor;
+	private List<KycInfo> kycInfo;
 
 	/* These fields are applicable only for Joint Holders */
 	private String relationshipMinor;
@@ -676,6 +683,30 @@ public class ApplicantDetails implements Serializable {
 		this.employmentSts = employmentSts;
 	}
 
+	public Long getApplicantId() {
+		return applicantId;
+	}
+
+	public void setApplicantId(Long applicantId) {
+		this.applicantId = applicantId;
+	}
+
+	public Boolean getIsMinor() {
+		return isMinor;
+	}
+
+	public void setIsMinor(Boolean isMinor) {
+		this.isMinor = isMinor;
+	}
+
+	public List<KycInfo> getKycInfo() {
+		return kycInfo;
+	}
+
+	public void setKycInfo(List<KycInfo> kycInfo) {
+		this.kycInfo = kycInfo;
+	}
+
 	public String getRelationshipMinor() {
 		return relationshipMinor;
 	}
@@ -752,7 +783,8 @@ public class ApplicantDetails implements Serializable {
 				+ workPermitExpDate + ", incomeOtherCountryTaxable=" + incomeOtherCountryTaxable + ", crsTin1="
 				+ crsTin1 + ", crsTin2=" + crsTin2 + ", crsTin3=" + crsTin3 + ", crsCountryResidence1="
 				+ crsCountryResidence1 + ", crsCountryResidence2=" + crsCountryResidence2 + ", crsCountryResidence3="
-				+ crsCountryResidence3 + ", employmentSts=" + employmentSts + ", relationshipMinor=" + relationshipMinor
+				+ crsCountryResidence3 + ", employmentSts=" + employmentSts + ", applicantId=" + applicantId
+				+ ", isMinor=" + isMinor + ", kycInfo=" + kycInfo + ", relationshipMinor=" + relationshipMinor
 				+ ", powerAttnGivenToUSPerson=" + powerAttnGivenToUSPerson + ", powerAttnGoverningCountry="
 				+ powerAttnGoverningCountry + ", powerAttnIssueDate=" + powerAttnIssueDate + ", mop=" + mop
 				+ ", mopInstruction=" + mopInstruction + "]";

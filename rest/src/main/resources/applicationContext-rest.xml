@@ -23,6 +23,8 @@
 	<import resource="classpath*:**/applicationContext-configuration-authentication.xml"/>
 	<import resource="classpath*:**/applicationContext-exception-management.xml"/>
 	
+	<context:component-scan base-package="com.afrAsia"></context:component-scan>
+	
 	<!-- <wss:binding url="/DigitalTransaction">
         <wss:service>
             <ws:service bean="#dtdpsSoapService"/>
@@ -67,7 +69,7 @@
 	
 	<bean id="addCommentRestService" class="com.afrAsia.rest.AddCommentRestService" >
 		<property name="addCommentService" ref="addCommentService" />
-	</bean>
+	</bean> 
 	
 	<bean id="authenticationRestService" class="com.afrAsia.rest.AuthenticationRestService" >
 		<property name="authenticationService" ref="authenticationService" />
@@ -80,9 +82,6 @@
 	<bean id="accountCreationRestService" class="com.afrAsia.rest.AccountCreationRestService" >
 		<property name="accountCreationService" ref="accountCreationService" />
 	</bean>
-	<!-- <bean id="applicationDetailsRestService" class="com.afrAsia.rest.ApplicationDetailsRestService" >
-		<property name="applicationDetailsService" ref="applicationDetailsService" />
-	</bean> -->
 	
 	<!-- <bean id="dtdpsSoapService" class="com.afrAsia.soap.DTDPSSoapService" >
 		<property name="dtdpsService" ref="dtdpsService" />

@@ -417,12 +417,12 @@
 	</dependencyManagement>
 	<modules>
 		<module>entities</module>
+		<module>authentication</module>  
 		<module>dao</module>
 		<module>dao-jpa-impl</module>
 		<module>exception-management</module>
 		<module>services</module>
 		<module>rest</module>
 		<module>web-socket</module>
-		<module>authentication</module>  
 	</modules>
 </project>
