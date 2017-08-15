@@ -1,151 +1,153 @@
 package com.afrAsia.entities.transactions;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the MOB_APPL_EMPLOYMENT_DTLS_HIST database table.
  * 
  */
 @Entity
-@Table(name="MOB_APPL_EMPLOYMENT_DTLS_HIST")
-@NamedQuery(name="MobApplEmploymentDtlsHist.findAll", query="SELECT m FROM MobApplEmploymentDtlsHist m")
+@Table(name = "MOB_APPL_EMPLOYMENT_DTLS_HIST")
+@NamedQuery(name = "MobApplEmploymentDtlsHist.findAll", query = "SELECT m FROM MobApplEmploymentDtlsHist m")
 public class MobApplEmploymentDtlsHist implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
 	private HistTableCompositePK id;
 
-	@Column(name="ANN_CASH_DEPOSIT")
-	private BigDecimal annCashDeposit;
+	@Column(name = "ANN_CASH_DEPOSIT")
+	private Long annCashDeposit; 
 
-	@Column(name="ANN_CASH_WITHDRAWL")
-	private BigDecimal annCashWithdrawl;
+	@Column(name = "ANN_CASH_WITHDRAWL")
+	private Long annCashWithdrawl;
 
-	@Column(name="ANN_DEPOSIT_TURNOVR")
-	private BigDecimal annDepositTurnovr;
+	@Column(name = "ANN_DEPOSIT_TURNOVR")
+	private Long annDepositTurnovr;
 
-	@Column(name="BUSINESS_SECTOR")
+	@Column(name = "BUSINESS_SECTOR")
 	private String businessSector;
 
+	@Column(name = "CREATED_BY")
+	private String createdBy;
+
 	@Temporal(TemporalType.DATE)
-	@Column(name="CREATED_BY")
-	private Date createdBy;
+	@Column(name = "CREATED_DATE")
+	private Date createdDate;
 
-	@Column(name="CREATED_DATE")
-	private String createdDate;
-
-	@Column(name="CURR_OCCUPATION")
+	@Column(name = "CURR_OCCUPATION")
 	private String currOccupation;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="DATE_STARTED")
+	@Column(name = "DATE_STARTED")
 	private Date dateStarted;
 
-	@Column(name="EMPLOYER_ADDR_1")
+	@Column(name = "EMPLOYER_ADDR_1")
 	private String employerAddr1;
 
-	@Column(name="EMPLOYER_ADDR_2")
+	@Column(name = "EMPLOYER_ADDR_2")
 	private String employerAddr2;
 
-	@Column(name="EMPLOYER_ADDR_3")
+	@Column(name = "EMPLOYER_ADDR_3")
 	private String employerAddr3;
 
-	@Column(name="EMPLOYER_CITY")
+	@Column(name = "EMPLOYER_CITY")
 	private String employerCity;
 
-	@Column(name="EMPLOYER_COUNTRY")
+	@Column(name = "EMPLOYER_COUNTRY")
 	private String employerCountry;
 
-	@Column(name="EMPLOYER_NAME")
+	@Column(name = "EMPLOYER_NAME")
 	private String employerName;
 
-	@Column(name="EMPLOYMENT_STS")
+	@Column(name = "EMPLOYMENT_STS")
 	private String employmentSts;
 
-	@Column(name="FUND_SOURCES")
+	@Column(name = "FUND_SOURCES")
 	private String fundSources;
 
+	@Column(name = "MODIFIED_BY")
+	private String modifiedBy;
+
 	@Temporal(TemporalType.DATE)
-	@Column(name="MODIFIED_BY")
-	private Date modifiedBy;
+	@Column(name = "MODIFIED_DATE")
+	private Date modifiedDate;
 
-	@Column(name="MODIFIED_DATE")
-	private String modifiedDate;
+	@Column(name = "NET_MONTHLY_INCOME")
+	private Long netMonthlyIncome;
 
-	@Column(name="NET_MONTHLY_INCOME")
-	private BigDecimal netMonthlyIncome;
+	@Column(name = "NO_OF_YEARS_SERVICE")
+	private Long noOfYearsService;
 
-	@Column(name="NO_OF_YEARS_SERVICE")
-	private BigDecimal noOfYearsService;
-
-	@Column(name="OTHER_SOURCES_INCOME")
+	@Column(name = "OTHER_SOURCES_INCOME")
 	private String otherSourcesIncome;
 
-	public MobApplEmploymentDtlsHist() {
-	}
-
 	public HistTableCompositePK getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(HistTableCompositePK id) {
 		this.id = id;
 	}
 
-	public BigDecimal getAnnCashDeposit() {
-		return this.annCashDeposit;
+	public Long getAnnCashDeposit() {
+		return annCashDeposit;
 	}
 
-	public void setAnnCashDeposit(BigDecimal annCashDeposit) {
+	public void setAnnCashDeposit(Long annCashDeposit) {
 		this.annCashDeposit = annCashDeposit;
 	}
 
-	public BigDecimal getAnnCashWithdrawl() {
-		return this.annCashWithdrawl;
+	public Long getAnnCashWithdrawl() {
+		return annCashWithdrawl;
 	}
 
-	public void setAnnCashWithdrawl(BigDecimal annCashWithdrawl) {
+	public void setAnnCashWithdrawl(Long annCashWithdrawl) {
 		this.annCashWithdrawl = annCashWithdrawl;
 	}
 
-	public BigDecimal getAnnDepositTurnovr() {
-		return this.annDepositTurnovr;
+	public Long getAnnDepositTurnovr() {
+		return annDepositTurnovr;
 	}
 
-	public void setAnnDepositTurnovr(BigDecimal annDepositTurnovr) {
+	public void setAnnDepositTurnovr(Long annDepositTurnovr) {
 		this.annDepositTurnovr = annDepositTurnovr;
 	}
 
 	public String getBusinessSector() {
-		return this.businessSector;
+		return businessSector;
 	}
 
 	public void setBusinessSector(String businessSector) {
 		this.businessSector = businessSector;
 	}
 
-	public Date getCreatedBy() {
-		return this.createdBy;
+	public String getCreatedBy() {
+		return createdBy;
 	}
 
-	public void setCreatedBy(Date createdBy) {
+	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
 
-	public String getCreatedDate() {
-		return this.createdDate;
+	public Date getCreatedDate() {
+		return createdDate;
 	}
 
-	public void setCreatedDate(String createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 
 	public String getCurrOccupation() {
-		return this.currOccupation;
+		return currOccupation;
 	}
 
 	public void setCurrOccupation(String currOccupation) {
@@ -153,7 +155,7 @@ public class MobApplEmploymentDtlsHist implements Serializable {
 	}
 
 	public Date getDateStarted() {
-		return this.dateStarted;
+		return dateStarted;
 	}
 
 	public void setDateStarted(Date dateStarted) {
@@ -161,7 +163,7 @@ public class MobApplEmploymentDtlsHist implements Serializable {
 	}
 
 	public String getEmployerAddr1() {
-		return this.employerAddr1;
+		return employerAddr1;
 	}
 
 	public void setEmployerAddr1(String employerAddr1) {
@@ -169,7 +171,7 @@ public class MobApplEmploymentDtlsHist implements Serializable {
 	}
 
 	public String getEmployerAddr2() {
-		return this.employerAddr2;
+		return employerAddr2;
 	}
 
 	public void setEmployerAddr2(String employerAddr2) {
@@ -177,7 +179,7 @@ public class MobApplEmploymentDtlsHist implements Serializable {
 	}
 
 	public String getEmployerAddr3() {
-		return this.employerAddr3;
+		return employerAddr3;
 	}
 
 	public void setEmployerAddr3(String employerAddr3) {
@@ -185,7 +187,7 @@ public class MobApplEmploymentDtlsHist implements Serializable {
 	}
 
 	public String getEmployerCity() {
-		return this.employerCity;
+		return employerCity;
 	}
 
 	public void setEmployerCity(String employerCity) {
@@ -193,7 +195,7 @@ public class MobApplEmploymentDtlsHist implements Serializable {
 	}
 
 	public String getEmployerCountry() {
-		return this.employerCountry;
+		return employerCountry;
 	}
 
 	public void setEmployerCountry(String employerCountry) {
@@ -201,7 +203,7 @@ public class MobApplEmploymentDtlsHist implements Serializable {
 	}
 
 	public String getEmployerName() {
-		return this.employerName;
+		return employerName;
 	}
 
 	public void setEmployerName(String employerName) {
@@ -209,7 +211,7 @@ public class MobApplEmploymentDtlsHist implements Serializable {
 	}
 
 	public String getEmploymentSts() {
-		return this.employmentSts;
+		return employmentSts;
 	}
 
 	public void setEmploymentSts(String employmentSts) {
@@ -217,47 +219,47 @@ public class MobApplEmploymentDtlsHist implements Serializable {
 	}
 
 	public String getFundSources() {
-		return this.fundSources;
+		return fundSources;
 	}
 
 	public void setFundSources(String fundSources) {
 		this.fundSources = fundSources;
 	}
 
-	public Date getModifiedBy() {
-		return this.modifiedBy;
+	public String getModifiedBy() {
+		return modifiedBy;
 	}
 
-	public void setModifiedBy(Date modifiedBy) {
+	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public String getModifiedDate() {
-		return this.modifiedDate;
+	public Date getModifiedDate() {
+		return modifiedDate;
 	}
 
-	public void setModifiedDate(String modifiedDate) {
+	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public BigDecimal getNetMonthlyIncome() {
-		return this.netMonthlyIncome;
+	public Long getNetMonthlyIncome() {
+		return netMonthlyIncome;
 	}
 
-	public void setNetMonthlyIncome(BigDecimal netMonthlyIncome) {
+	public void setNetMonthlyIncome(Long netMonthlyIncome) {
 		this.netMonthlyIncome = netMonthlyIncome;
 	}
 
-	public BigDecimal getNoOfYearsService() {
-		return this.noOfYearsService;
+	public Long getNoOfYearsService() {
+		return noOfYearsService;
 	}
 
-	public void setNoOfYearsService(BigDecimal noOfYearsService) {
+	public void setNoOfYearsService(Long noOfYearsService) {
 		this.noOfYearsService = noOfYearsService;
 	}
 
 	public String getOtherSourcesIncome() {
-		return this.otherSourcesIncome;
+		return otherSourcesIncome;
 	}
 
 	public void setOtherSourcesIncome(String otherSourcesIncome) {
@@ -276,5 +278,5 @@ public class MobApplEmploymentDtlsHist implements Serializable {
 				+ modifiedDate + ", netMonthlyIncome=" + netMonthlyIncome + ", noOfYearsService=" + noOfYearsService
 				+ ", otherSourcesIncome=" + otherSourcesIncome + "]";
 	}
-	
+
 }

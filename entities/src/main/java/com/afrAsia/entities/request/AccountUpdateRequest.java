@@ -1,12 +1,13 @@
 package com.afrAsia.entities.request;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
-public class AccountCreationRequest implements Serializable {
+public class AccountUpdateRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	public AccountCreationRequest() {
+	public AccountUpdateRequest() {
 		super();
 	}
 
@@ -28,12 +29,24 @@ public class AccountCreationRequest implements Serializable {
 
 		private static final long serialVersionUID = 1L;
 
-		private String rmId;
-		private Long appRefNo;
-		private AccountDetails accountDetails;
-		private ApplicantDetails primaryApplicantDetail;
-		private ApplicantDetails guardianDetail;
-		private List<JointApplicants> jointApplicants;
+		String rmId;
+		Long appRefNo;
+		String createdBy;
+		Date createdDate;
+		AccountDetails accountDetails;
+		ApplicantDetails primaryApplicantDetail;
+		ApplicantDetails guardianDetail;
+		List<JointApplicants> jointApplicants;
+
+		
+		public Long getAppRefNo() {
+			return appRefNo;
+		}
+
+		public void setAppRefNo(Long appRefNo) {
+			this.appRefNo = appRefNo;
+		}
+		
 
 		public String getRmId() {
 			return rmId;
@@ -43,12 +56,20 @@ public class AccountCreationRequest implements Serializable {
 			this.rmId = rmId;
 		}
 
-		public Long getAppRefNo() {
-			return appRefNo;
+		public String getCreatedBy() {
+			return createdBy;
 		}
 
-		public void setAppRefNo(Long appRefNo) {
-			this.appRefNo = appRefNo;
+		public void setCreatedBy(String createdBy) {
+			this.createdBy = createdBy;
+		}
+
+		public Date getCreatedDate() {
+			return createdDate;
+		}
+
+		public void setCreatedDate(Date createdDate) {
+			this.createdDate = createdDate;
 		}
 
 		public AccountDetails getAccountDetails() {
@@ -83,44 +104,52 @@ public class AccountCreationRequest implements Serializable {
 			this.jointApplicants = jointApplicants;
 		}
 
+		@Override
+		public String toString() {
+			return "Data [rmId=" + rmId + ", appRefNo=" + appRefNo + ", createdBy=" + createdBy + ", createdDate="
+					+ createdDate + ", accountDetails=" + accountDetails + ", primaryApplicantDetail="
+					+ primaryApplicantDetail + ", guardianDetail=" + guardianDetail + ", jointApplicants="
+					+ jointApplicants + "]";
+		}
+
+
 	}
 
 	public static class AccountDetails implements Serializable {
 		private static final long serialVersionUID = 1L;
-
-		private String account;
-		private String accountType;
-		private String mop;
-		private String stmtDelivery;
-		private String stmtAddr1;
-		private String stmtAddr2;
-		private String stmtAddr3;
-		private String stmtCity;
-		private String stmtCountry;
-		private Boolean needCreditCard;
-		private Boolean needGlobalCustody;
-		private Boolean needForexBanking;
-		private Boolean needPrepaidCard;
-		private Boolean needInternetBanking;
-		private String internetBankingUn;
-		private Boolean otpOverEmail;
-		private Boolean otpOverSMS;
-		private Boolean pinViaSMS;
-		private Boolean pinViaPost;
-		private String prefCommMode;
-		private String whrDidYouHearAbtAfrAsia;
-		private Boolean agreeCommEmail;
-		private Boolean agreeCommSMS;
-		private Boolean optTransactionsThruEmail;
-		private String authEmail1;
-		private String authEmail2;
-		private String authEmail3;
-		private Boolean optCallBackServices;
-		private String afrasiaEventQues;
-		private String afrasiaEventAns;
-		private Boolean requireChequeBook;
-
-		private List<NomineeInfo> nomineeInfo;
+		String account;
+		String accountType;
+		String mop;
+		String stmtDelivery;
+		String stmtAddr1;
+		String stmtAddr2;
+		String stmtAddr3;
+		String stmtCity;
+		String stmtCountry;
+		Boolean needCreditCard;
+		Boolean needGlobalCustody;
+		Boolean needForexBanking;
+		Boolean needPrepaidCard;
+		Boolean needInternetBanking;
+		String internetBankingUn;
+		Boolean otpOverEmail;
+		Boolean otpOverSMS;
+		Boolean pinViaSMS;
+		Boolean pinViaPost;
+		String prefCommMode;
+		String whrDidYouHearAbtAfrAsia;
+		Boolean agreeCommEmail;
+		Boolean agreeCommSMS;
+		Boolean optTransactionsThruEmail;
+		String authEmail1;
+		String authEmail2;
+		String authEmail3;
+		Boolean optCallBackServices;
+		List<NomineeInfo> nomineeInfo;
+		
+		public AccountDetails(){
+			super();
+		}
 
 		public String getAccount() {
 			return account;
@@ -306,11 +335,11 @@ public class AccountCreationRequest implements Serializable {
 			this.agreeCommSMS = agreeCommSMS;
 		}
 
-		public Boolean getOptTransactionsThruEmail() {
+		public boolean getOptTransactionsThruEmail() {
 			return optTransactionsThruEmail;
 		}
 
-		public void setOptTransactionsThruEmail(Boolean optTransactionsThruEmail) {
+		public void setOptTransactionsThruEmail(boolean optTransactionsThruEmail) {
 			this.optTransactionsThruEmail = optTransactionsThruEmail;
 		}
 
@@ -346,30 +375,6 @@ public class AccountCreationRequest implements Serializable {
 			this.optCallBackServices = optCallBackServices;
 		}
 
-		public String getAfrasiaEventQues() {
-			return afrasiaEventQues;
-		}
-
-		public void setAfrasiaEventQues(String afrasiaEventQues) {
-			this.afrasiaEventQues = afrasiaEventQues;
-		}
-
-		public String getAfrasiaEventAns() {
-			return afrasiaEventAns;
-		}
-
-		public void setAfrasiaEventAns(String afrasiaEventAns) {
-			this.afrasiaEventAns = afrasiaEventAns;
-		}
-
-		public Boolean getRequireChequeBook() {
-			return requireChequeBook;
-		}
-
-		public void setRequireChequeBook(Boolean requireChequeBook) {
-			this.requireChequeBook = requireChequeBook;
-		}
-
 		public List<NomineeInfo> getNomineeInfo() {
 			return nomineeInfo;
 		}
@@ -391,33 +396,7 @@ public class AccountCreationRequest implements Serializable {
 					+ whrDidYouHearAbtAfrAsia + ", agreeCommEmail=" + agreeCommEmail + ", agreeCommSMS=" + agreeCommSMS
 					+ ", optTransactionsThruEmail=" + optTransactionsThruEmail + ", authEmail1=" + authEmail1
 					+ ", authEmail2=" + authEmail2 + ", authEmail3=" + authEmail3 + ", optCallBackServices="
-					+ optCallBackServices + ", afrasiaEventQues=" + afrasiaEventQues + ", afrasiaEventAns="
-					+ afrasiaEventAns + ", requireChequeBook=" + requireChequeBook + ", nomineeInfo=" + nomineeInfo
-					+ "]";
+					+ optCallBackServices + ", nomineeInfo=" + nomineeInfo + "]";
 		}
-
 	}
-
-	/*
-	 * public class AccountDetails implements Serializable{
-	 * 
-	 * private static final long serialVersionUID = 1L;
-	 * 
-	 * private String account; private String accountType; private String mop;
-	 * private String stmtDelivery; private String stmtAddr1; private String
-	 * stmtAddr2; private String stmtAddr3; private String stmtCity; private
-	 * String stmtCountry; Boolean needCreditCard; Boolean needGlobalCustody;
-	 * Boolean needForexBanking; Boolean needPrepaidCard; Boolean
-	 * needInternetBanking; private String internetBankingUn; Boolean
-	 * otpOverEmail; Boolean otpOverSMS; Boolean pinViaSMS; Boolean pinViaPost;
-	 * private String prefCommMode; private String whrDidYouHearAbtAfrAsia;
-	 * Boolean agreeCommEmail; Boolean agreeCommSMS; Boolean
-	 * optTransactionsThruEmail; private String authEmail1; private String
-	 * authEmail2; private String authEmail3; Boolean optCallBackServices;
-	 * private String afrasiaEventQues; private String afrasiaEventAns; Boolean
-	 * requireChequeBook;
-	 * 
-	 * List<NomineeInfo> nomineeInfo; }
-	 */
-
 }

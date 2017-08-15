@@ -16,6 +16,12 @@
 						http://www.springframework.org/schema/aop 					http://www.springframework.org/schema/tx/spring-aop-4.1.xsd">
 
 	<import resource="classpath*:**/applicationContext-dao-jpa-configuration.xml"/>
+	
+	<import resource="classpath*:**/applicationContext-exception-management.xml"/>
+	
+	<bean id="idNotFoundException" class="com.afrAsia.customexception.IdNotFoundException">
+		<!-- <property name="idNotFoundException" ref="idNotFoundException" /> -->
+	</bean>
 
 	<bean id="userJpaDAO" class="com.afrAsia.dao.jpa.impl.UserJpaDAOImpl" />
 	

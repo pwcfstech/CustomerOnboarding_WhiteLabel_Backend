@@ -4,88 +4,84 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
-
 /**
  * The persistent class for the MOB_APPL_ADDITIONAL_DTLS_HIST database table.
  * 
  */
 @Entity
-@Table(name="MOB_APPL_ADDITIONAL_DTLS_HIST")
-@NamedQuery(name="MobApplAdditionalDtlsHist.findAll", query="SELECT m FROM MobApplAdditionalDtlsHist m")
+@Table(name = "MOB_APPL_ADDITIONAL_DTLS_HIST")
+@NamedQuery(name = "MobApplAdditionalDtlsHist.findAll", query = "SELECT m FROM MobApplAdditionalDtlsHist m")
 public class MobApplAdditionalDtlsHist implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
 	private HistTableCompositePK id;
 
-	@Column(name="COUNTRY_1")
+	@Column(name = "COUNTRY_1")
 	private String country1;
 
-	@Column(name="COUNTRY_2")
-	private String country2;
+	@Column(name = "COUNTRY_2")
+	private String country2; 
 
-	@Column(name="COUNTRY_3")
+	@Column(name = "COUNTRY_3")
 	private String country3;
 
-	@Column(name="CREATED_BY")
+	@Column(name = "CREATED_BY")
 	private String createdBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="CREATED_DATE")
+	@Column(name = "CREATED_DATE")
 	private Date createdDate;
 
-	@Column(name="INCOME_OTHER_COUNTRY_TAX")
-	private String incomeOtherCountryTax;
+	@Column(name = "INCOME_OTHER_COUNTRY_TAX")
+	private Boolean incomeOtherCountryTax; // ===== changed
 
-	@Column(name="INCOME_US_TAXABLE")
-	private String incomeUsTaxable;
+	@Column(name = "INCOME_US_TAXABLE")
+	private Boolean incomeUsTaxable; // ===== changed
 
-	@Column(name="MODIFIED_BY")
+	@Column(name = "MODIFIED_BY")
 	private String modifiedBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="MODIFIED_DATE")
+	@Column(name = "MODIFIED_DATE")
 	private Date modifiedDate;
 
-	@Column(name="OSEAS_ADDR_1")
+	@Column(name = "OSEAS_ADDR_1")
 	private String oseasAddr1;
 
-	@Column(name="OSEAS_ADDR_2")
+	@Column(name = "OSEAS_ADDR_2")
 	private String oseasAddr2;
 
-	@Column(name="OSEAS_ADDR_3")
+	@Column(name = "OSEAS_ADDR_3")
 	private String oseasAddr3;
 
-	@Column(name="OSEAS_CITY")
+	@Column(name = "OSEAS_CITY")
 	private String oseasCity;
 
-	@Column(name="OSEAS_COUNTRY")
+	@Column(name = "OSEAS_COUNTRY")
 	private String oseasCountry;
 
-	@Column(name="TIN_1")
+	@Column(name = "TIN_1")
 	private String tin1;
 
-	@Column(name="TIN_2")
+	@Column(name = "TIN_2")
 	private String tin2;
 
-	@Column(name="TIN_3")
+	@Column(name = "TIN_3")
 	private String tin3;
 
-	@Column(name="US_CITIZEN")
-	private String usCitizen;
+	@Column(name = "US_CITIZEN")
+	private Boolean usCitizen; // changed
 
-	@Column(name="US_SSN")
+	@Column(name = "US_SSN")
 	private String usSsn;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="WORK_PERMIT_EXP_DATE")
+	@Column(name = "WORK_PERMIT_EXP_DATE")
 	private Date workPermitExpDate;
 
-	public MobApplAdditionalDtlsHist() {
-	}
-
 	public HistTableCompositePK getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(HistTableCompositePK id) {
@@ -93,7 +89,7 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 	}
 
 	public String getCountry1() {
-		return this.country1;
+		return country1;
 	}
 
 	public void setCountry1(String country1) {
@@ -101,7 +97,7 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 	}
 
 	public String getCountry2() {
-		return this.country2;
+		return country2;
 	}
 
 	public void setCountry2(String country2) {
@@ -109,7 +105,7 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 	}
 
 	public String getCountry3() {
-		return this.country3;
+		return country3;
 	}
 
 	public void setCountry3(String country3) {
@@ -117,7 +113,7 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 	}
 
 	public String getCreatedBy() {
-		return this.createdBy;
+		return createdBy;
 	}
 
 	public void setCreatedBy(String createdBy) {
@@ -125,31 +121,31 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 	}
 
 	public Date getCreatedDate() {
-		return this.createdDate;
+		return createdDate;
 	}
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	public String getIncomeOtherCountryTax() {
-		return this.incomeOtherCountryTax;
+	public Boolean getIncomeOtherCountryTax() {
+		return incomeOtherCountryTax;
 	}
 
-	public void setIncomeOtherCountryTax(String incomeOtherCountryTax) {
+	public void setIncomeOtherCountryTax(Boolean incomeOtherCountryTax) {
 		this.incomeOtherCountryTax = incomeOtherCountryTax;
 	}
 
-	public String getIncomeUsTaxable() {
-		return this.incomeUsTaxable;
+	public Boolean getIncomeUsTaxable() {
+		return incomeUsTaxable;
 	}
 
-	public void setIncomeUsTaxable(String incomeUsTaxable) {
+	public void setIncomeUsTaxable(Boolean incomeUsTaxable) {
 		this.incomeUsTaxable = incomeUsTaxable;
 	}
 
 	public String getModifiedBy() {
-		return this.modifiedBy;
+		return modifiedBy;
 	}
 
 	public void setModifiedBy(String modifiedBy) {
@@ -157,7 +153,7 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 	}
 
 	public Date getModifiedDate() {
-		return this.modifiedDate;
+		return modifiedDate;
 	}
 
 	public void setModifiedDate(Date modifiedDate) {
@@ -165,7 +161,7 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 	}
 
 	public String getOseasAddr1() {
-		return this.oseasAddr1;
+		return oseasAddr1;
 	}
 
 	public void setOseasAddr1(String oseasAddr1) {
@@ -173,7 +169,7 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 	}
 
 	public String getOseasAddr2() {
-		return this.oseasAddr2;
+		return oseasAddr2;
 	}
 
 	public void setOseasAddr2(String oseasAddr2) {
@@ -181,7 +177,7 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 	}
 
 	public String getOseasAddr3() {
-		return this.oseasAddr3;
+		return oseasAddr3;
 	}
 
 	public void setOseasAddr3(String oseasAddr3) {
@@ -189,7 +185,7 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 	}
 
 	public String getOseasCity() {
-		return this.oseasCity;
+		return oseasCity;
 	}
 
 	public void setOseasCity(String oseasCity) {
@@ -197,7 +193,7 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 	}
 
 	public String getOseasCountry() {
-		return this.oseasCountry;
+		return oseasCountry;
 	}
 
 	public void setOseasCountry(String oseasCountry) {
@@ -205,7 +201,7 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 	}
 
 	public String getTin1() {
-		return this.tin1;
+		return tin1;
 	}
 
 	public void setTin1(String tin1) {
@@ -213,7 +209,7 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 	}
 
 	public String getTin2() {
-		return this.tin2;
+		return tin2;
 	}
 
 	public void setTin2(String tin2) {
@@ -221,23 +217,23 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 	}
 
 	public String getTin3() {
-		return this.tin3;
+		return tin3;
 	}
 
 	public void setTin3(String tin3) {
 		this.tin3 = tin3;
 	}
 
-	public String getUsCitizen() {
-		return this.usCitizen;
+	public Boolean getUsCitizen() {
+		return usCitizen;
 	}
 
-	public void setUsCitizen(String usCitizen) {
+	public void setUsCitizen(Boolean usCitizen) {
 		this.usCitizen = usCitizen;
 	}
 
 	public String getUsSsn() {
-		return this.usSsn;
+		return usSsn;
 	}
 
 	public void setUsSsn(String usSsn) {
@@ -245,7 +241,7 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 	}
 
 	public Date getWorkPermitExpDate() {
-		return this.workPermitExpDate;
+		return workPermitExpDate;
 	}
 
 	public void setWorkPermitExpDate(Date workPermitExpDate) {
@@ -262,6 +258,5 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 				+ ", oseasCountry=" + oseasCountry + ", tin1=" + tin1 + ", tin2=" + tin2 + ", tin3=" + tin3
 				+ ", usCitizen=" + usCitizen + ", usSsn=" + usSsn + ", workPermitExpDate=" + workPermitExpDate + "]";
 	}
-	
 
 }

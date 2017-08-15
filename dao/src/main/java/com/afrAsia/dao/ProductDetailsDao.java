@@ -2,11 +2,11 @@ package com.afrAsia.dao;
 
 import java.util.List;
 
-import com.afrAsia.entities.jpa.ProductDetails;
-
 public interface ProductDetailsDao {
 			
+	public List<Long> getId(Long productID);
+	
 	//for get Product Details id 
-	public List<ProductDetails> getProductById(Long productID);
+	public List<Object> getProductById(Long productID);
 }
 

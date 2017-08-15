@@ -29,10 +29,11 @@ public class MobApplicantPersonalDetail implements Serializable {
 	private Date createdDate;
 
 	@Column(name="CUST_CIF")
-	private String custCif;
+	private String custCif;   
 
 	@Temporal(TemporalType.DATE)
 	private Date dob;
+	
 	@Column(name="EMAIL")
 	private String email;
 
@@ -63,8 +64,10 @@ public class MobApplicantPersonalDetail implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name="MODIFIED_DATE")
 	private Date modifiedDate;
+
 	@Column(name="NATIONALITY")
 	private String nationality;
+	
 	@Column(name="nic")
 	private String nic;
 
@@ -89,6 +92,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 
 	@Column(name="RESIDENCY_STATUS")
 	private String residencyStatus;
+	
 	@Column(name="TITLE")
 	private String title;
 	

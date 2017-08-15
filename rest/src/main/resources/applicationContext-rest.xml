@@ -83,6 +83,9 @@
 		<property name="accountCreationService" ref="accountCreationService" />
 	</bean>
 	
+	<!-- <bean id="dtdpsSoapService" class="com.afrAsia.soap.DTDPSSoapService" >
+		<property name="dtdpsService" ref="dtdpsService" />
+	</bean> -->
 	
 <!-- 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
 		destroy-method="close">

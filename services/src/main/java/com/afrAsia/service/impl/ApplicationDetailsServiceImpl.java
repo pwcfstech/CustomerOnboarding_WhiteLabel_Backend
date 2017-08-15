@@ -10,6 +10,8 @@ import com.afrAsia.entities.jpa.MsgHeader.Error;
 import com.afrAsia.entities.request.ApplicantDetails;
 import com.afrAsia.entities.request.ApplicationDetailsReq;
 import com.afrAsia.entities.request.JointApplicants;
+import com.afrAsia.entities.request.KycInfo;
+import com.afrAsia.entities.request.NomineeInfo;
 import com.afrAsia.entities.response.ApplicationDetailsResponse;
 import com.afrAsia.entities.response.ApplicationDetailsResponse.Data;
 import com.afrAsia.entities.response.ApplicationDetailsResponse.Data.AccountDetails;
@@ -19,13 +21,11 @@ import com.afrAsia.entities.transactions.MobAccountDetail;
 import com.afrAsia.entities.transactions.MobApplicantAdditionalDtl;
 import com.afrAsia.entities.transactions.MobApplicantCommDetail;
 import com.afrAsia.entities.transactions.MobApplicantEmploymentDtl;
+import com.afrAsia.entities.transactions.MobApplicantKycDocuments;
 import com.afrAsia.entities.transactions.MobApplicantPersonalDetail;
 import com.afrAsia.entities.transactions.MobComments;
 import com.afrAsia.entities.transactions.MobRmAppRefId;
-import com.afrAsia.entities.transactions.MobApplicantKycDocuments;
 import com.afrAsia.service.ApplicationDetailsService;
-import com.afrAsia.entities.request.NomineeInfo;
-import com.afrAsia.entities.request.KycInfo;
 
 
 public class ApplicationDetailsServiceImpl implements ApplicationDetailsService {	

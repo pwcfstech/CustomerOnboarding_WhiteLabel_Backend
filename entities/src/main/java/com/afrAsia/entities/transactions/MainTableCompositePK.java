@@ -9,14 +9,15 @@ import javax.persistence.*;
  */
 @Embeddable
 public class MainTableCompositePK implements Serializable {
+
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="ID",insertable=false, updatable=false)
-	private long id;
+	private Long id;
 
 	@Column(name="APPLICANT_ID", insertable=false, updatable=false)
-	private long applicantId;
+	private Long applicantId;
 
 	public MainTableCompositePK() {
 	}

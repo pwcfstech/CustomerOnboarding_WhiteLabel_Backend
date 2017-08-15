@@ -136,6 +136,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		
 		if (clientDetails == null)
 		{
+<<<<<<< HEAD
 			rmDetails = customClientDetailsService.saveClientDetail(userId, userType,"rest_api", clientSecret, 
 				"standard_client", "client_credentials", null, "ROLE_USER", 
 				180, 180, null, null);

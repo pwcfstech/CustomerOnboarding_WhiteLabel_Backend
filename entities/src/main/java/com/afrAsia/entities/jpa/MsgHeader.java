@@ -23,9 +23,13 @@ public class MsgHeader implements Serializable {
 
 
 	public class Error implements Serializable{
+		
+		private static final long serialVersionUID = 1L;
+		
 		private String cd;
 		private String rsn;
 		private String customCode;
+		
 		public String getCd() {
 			return cd;
 		}

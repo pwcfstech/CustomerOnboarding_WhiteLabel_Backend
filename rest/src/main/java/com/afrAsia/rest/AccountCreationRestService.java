@@ -51,11 +51,21 @@ public class AccountCreationRestService {
 	public Response createAccount(AccountCreationRequest accountCreationRequest) {
 		AccountCreateResponse accountCreationResponse = new AccountCreateResponse();
 		MsgHeader msgHeader= new MsgHeader();
-		System.out.println(accountCreationRequest.toString());
-		System.out.println("here in rest Service");
+		//System.out.println(accountCreationRequest.toString());
+		
 		try{
 			String checkRequest = validateRequest(accountCreationRequest);
+			accountCreationResponse = accountCreationService.updateAccount(accountCreationRequest);
 			if (checkRequest.equals("Success")){
+				if(accountCreationRequest.getData().getAppRefNo()==null){
+					System.out.println(" ########### in create service ############## ");
+					accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
+				}
+				/*else{
+					System.out.println(" ########### in update service ############## "); 
+					accountCreationResponse = accountCreationService.updateAccount(accountCreationRequest);	
+				}*/ 
+				
 				accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
 
 				if (accountCreationResponse!=null) {
@@ -66,7 +76,7 @@ public class AccountCreationRestService {
 				}
 			}
 			else{
-				System.out.println("Request Details" + checkRequest);
+				//System.out.println("Request Details" + checkRequest);
 				Error error = new MsgHeader(). new Error();
 				error.setCd("404");
 				error.setRsn(checkRequest);
@@ -89,18 +99,25 @@ public class AccountCreationRestService {
 
 
 	private String validateRequest(AccountCreationRequest accountCreationRequest) {
+
 		if (accountCreationRequest != null && accountCreationRequest.getData() != null){
+			
 			Data accountCreationData = accountCreationRequest.getData();
+			//System.out.println(" in validateRequest ,  in if  , accountCreationData ======== "+accountCreationData);
 			//Validate Account Details
 			String accountValidated = validateAccountDetails(accountCreationData);
+			//System.out.println(" in validateRequest ,  in if  , accountValidated ===== "+accountValidated);
 			if(!accountValidated.equalsIgnoreCase("Success")){
 				System.out.println("Account:Returning from here");
 				return accountValidated;
 			}
 			//Validate Primary Applicant Details and Guardian Detail
 			ApplicantDetails primaryApplicant = accountCreationRequest.getData().getPrimaryApplicantDetail();
+			//System.out.println("  in validateRequest ,  in if  , primaryApplicant ======= "+primaryApplicant);
 			ApplicantDetails guardianPrimary = accountCreationRequest.getData().getGuardianDetail();
+			//System.out.println("  in validateRequest ,  in if  , guardianPrimary ======= "+guardianPrimary);
 			String primaryValidated = validateApplicant(accountCreationData,primaryApplicant,guardianPrimary,"Primary");
+			//System.out.println(" in validateRequest ,  in if  , primaryValidated ====== "+primaryValidated);
 			if(!primaryValidated.equalsIgnoreCase("Success")){
 				return primaryValidated;
 			}
@@ -135,7 +152,17 @@ public class AccountCreationRestService {
 	}
 
 	//Account Details
-	private String validateAccountDetails(Data accountCreationData){	
+	private String validateAccountDetails(Data accountCreationData){
+		
+		//System.out.println(" in validateAccountDetails , accountCreationData ===== "+accountCreationData);
+		/*System.out.println(" in validateAccountDetails , accountCreationData.getAccountDetails().getAccount() "
+				+ accountCreationData.getAccountDetails().getAccount());*/
+		/*System.out.println(" in validateAccountDetails , accountCreationData.getAccountDetails().getAccount().length() "
+				+ accountCreationData.getAccountDetails().getAccount().length());*/
+		/*System.out.println(" in validateAccountDetails , accountCreationData.getAccountDetails().getAccountType() "
+				+ accountCreationData.getAccountDetails().getAccountType());
+		System.out.println(" in validateAccountDetails , accountCreationData.getAccountDetails().getAccountType().length() "
+				+ accountCreationData.getAccountDetails().getAccountType().length());*/
 		//Account level Information
 		if(!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getAccount()) || accountCreationData.getAccountDetails().getAccount().length() > 6){
 			return ("Error in account type::" + CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getAccount()) + "   " + accountCreationData.getAccountDetails().getAccount().length());
@@ -155,6 +182,10 @@ public class AccountCreationRestService {
 				return ("Account Category is incorrect");
 			}
 		}
+		
+		/*System.out.println(" in validateAccountDetails , accountCreationData.getAccountDetails().getStmtDelivery() "
+				+ accountCreationData.getAccountDetails().getStmtDelivery());*/
+		
 
 		//Check for Statement delivery type
 		if(!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getStmtDelivery())){
@@ -230,7 +261,7 @@ public class AccountCreationRestService {
 
 	private String validateApplicant(Data accountCreationData, ApplicantDetails applicant, ApplicantDetails guardian, String customerType) {
 
-		System.out.println("Applicant Details:: " + applicant.toString());
+		//System.out.println("Applicant Details:: " + applicant.toString());
 		//Primary applicant information
 		//Check DOB to identify if customer is minor. If not minor, check for below fields.
 		Date currentDate=new Date();
@@ -471,4 +502,23 @@ public class AccountCreationRestService {
 		return ("Success");
 
 	}
+	
+	@POST
+	@Path("/updateApplication")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateAccount(AccountCreationRequest accountUpdateRequest) {
+		AccountCreateResponse accountCreateResponse = new AccountCreateResponse();
+
+		System.out.println(accountUpdateRequest.toString());
+		System.out.println("here in rest Service of update account");
+
+		System.out.println("RmId is =========="+accountUpdateRequest.getData().getRmId());
+		System.out.println("app ref no  is =========="+accountUpdateRequest.getData().getAppRefNo());
+
+		accountCreateResponse = accountCreationService.updateAccount(accountUpdateRequest);
+		
+		return Response.ok(accountCreateResponse, MediaType.APPLICATION_JSON).build();
+	}
+	
 }

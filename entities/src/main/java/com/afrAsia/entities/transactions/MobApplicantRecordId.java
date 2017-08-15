@@ -3,8 +3,17 @@ package com.afrAsia.entities.transactions;
 
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -15,19 +24,20 @@ import java.util.Date;
 @Table(name="MOB_APPLICANT_RECORD_ID")
 
 public class MobApplicantRecordId implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	private static final Long serialVersionUID = 1L;
 
 	@Id
 	@SequenceGenerator(name="MOB_APPLICANT_RECORD_ID_APPLICANTID_GENERATOR", sequenceName="AA_APPLICANT_SEQUENCE")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MOB_APPLICANT_RECORD_ID_APPLICANTID_GENERATOR")
 	@Column(name="APPLICANT_ID")
-	private long applicantId;
+	private Long applicantId;
 	
 	@Column(name="RECORD_ID")
 	private Long recordId;
 	
 	@Column(name="ID")
-	private long id;
+	private Long id;
 	
 	@Column(name="CREATED_BY")
 	private String createdBy;
@@ -49,11 +59,11 @@ public class MobApplicantRecordId implements Serializable {
 	public MobApplicantRecordId() {
 	}
 
-	public long getApplicantId() {
+	public Long getApplicantId() {
 		return this.applicantId;
 	}
 
-	public void setApplicantId(long applicantId) {
+	public void setApplicantId(Long applicantId) {
 		this.applicantId = applicantId;
 	}
 
