@@ -17,6 +17,7 @@ C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\ProductResponse.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\transactions\MobAccountDetail.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\listener\EntityListener.java
+C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\AccountUpdateResponse.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\ProductDetails.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\PendingAction.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\transactions\HistTableCompositePK.java
@@ -82,6 +83,7 @@ C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\ApplicantPersonalDetails.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\request\LoginRequest.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\LogoutResponse.java
+C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\request\AccountUpdateRequest.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\OAuthAccessToken.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\RequestError.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\transactions\MobApplCommDetailsHist.java

@@ -136,12 +136,9 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		
 		if (clientDetails == null)
 		{
-<<<<<<< HEAD
 			rmDetails = customClientDetailsService.saveClientDetail(userId, userType,"rest_api", clientSecret, 
 				"standard_client", "client_credentials", null, "ROLE_USER", 
-				180, 180, null, null);
-			
-			
+				180, 180, null, null);			
 		}
 		else{
 			rmDetails = customClientDetailsService.getRMDetails(userId, userType);
@@ -153,20 +150,19 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		mobRmSessionDetail.setCreatedDate(new Date());
 		mobRmSessionDetail.setCreatedBy(loginDataRequest.getUserId());
 		MobRmSessionDetail mobRmPreviousSession = rmSessionDetailJpaDAO.setLoginTime(mobRmSessionDetail);
-		
+	 		
+ 		OAuth2AccessToken token = getTokenDetails(userId, clientSecret, "client_credentials");
+ 		
 		if(mobRmPreviousSession != null){
 			responseData.setLastLoginTime(mobRmPreviousSession.getCreatedDate());
 			System.out.println("Previous Session Details::" + mobRmPreviousSession.toString());
 		}
 		
-		OAuth2AccessToken token = getTokenDetails(userId, clientSecret, "client_credentials");
-		
-		
 		responseData.setoAuthToken(token.getValue());
 		responseData.setRmName(rmDetails.getRmName());
 		responseData.setSuccess("true");
 		response.setData(responseData);
-		
+				
 		return response;
 	}
 
