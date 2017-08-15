@@ -15,20 +15,21 @@ public class MobAccountDetailsHist implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/*
-	 * @EmbeddedId private HistTableCompositePK id;
-	 */
-	/*
-	 * @Column(name="RECORD_ID") private long recordId;
+	 * @Id
 	 * 
-	 * @Column(name="RECORD_ID", insertable=false, updatable=false) private long
-	 * recordId;
+	 * @Column(name = "ID")
+	 * 
+	 * @SequenceGenerator(name="MOB_ACCOUNT_DETAILS_HIST_ID_RECORDID_GENERATOR",
+	 * sequenceName="AA_ACCNT_DTLS_HIST_ID_SEQUENCE")
+	 * 
+	 * @GeneratedValue(strategy=GenerationType.SEQUENCE,
+	 * generator="MOB_ACCOUNT_DETAILS_HIST_ID_RECORDID_GENERATOR") private Long
+	 * id;
 	 */
 
 	@Id
-	@Column(name = "ID")
-	@SequenceGenerator(name="MOB_ACCOUNT_DETAILS_HIST_ID_RECORDID_GENERATOR", sequenceName="AA_ACCNT_DTLS_HIST_ID_SEQUENCE")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MOB_ACCOUNT_DETAILS_HIST_ID_RECORDID_GENERATOR")
-	private Long id;
+	@Column(name = "RECORD_ID")
+	private Long recordId;
 
 	@Column(name = "ACCOUNT_CATEGORY")
 	private String accountCategory;
@@ -169,9 +170,6 @@ public class MobAccountDetailsHist implements Serializable {
 	@Column(name = "POWER_ATTN_US_5")
 	private boolean powerAttnUs5;
 
-	@Column(name = "RECORD_ID")
-	private Long recordId;
-
 	@Column(name = "RELATIONSHIP_MINOR_1")
 	private String relationshipMinor1;
 
@@ -187,12 +185,12 @@ public class MobAccountDetailsHist implements Serializable {
 	@Column(name = "RELATIONSHIP_MINOR_5")
 	private String relationshipMinor5;
 
-	public Long getId() {
-		return id;
+	public Long getRecordId() {
+		return recordId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setRecordId(Long recordId) {
+		this.recordId = recordId;
 	}
 
 	public String getAccountCategory() {
@@ -547,14 +545,6 @@ public class MobAccountDetailsHist implements Serializable {
 		this.powerAttnUs5 = powerAttnUs5;
 	}
 
-	public Long getRecordId() {
-		return recordId;
-	}
-
-	public void setRecordId(Long recordId) {
-		this.recordId = recordId;
-	}
-
 	public String getRelationshipMinor1() {
 		return relationshipMinor1;
 	}
@@ -597,7 +587,7 @@ public class MobAccountDetailsHist implements Serializable {
 
 	@Override
 	public String toString() {
-		return "MobAccountDetailsHist [id=" + id + ", accountCategory=" + accountCategory + ", accountType="
+		return "MobAccountDetailsHist [recordId=" + recordId + ", accountCategory=" + accountCategory + ", accountType="
 				+ accountType + ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", indvApplicantRefNo="
 				+ indvApplicantRefNo + ", indvGuardianRefNo=" + indvGuardianRefNo + ", joint1ApplicantRefNo="
 				+ joint1ApplicantRefNo + ", joint1GuardianRefNo=" + joint1GuardianRefNo + ", joint2ApplicantRefNo="
@@ -615,10 +605,9 @@ public class MobAccountDetailsHist implements Serializable {
 				+ powerAttnIssueDate2 + ", powerAttnIssueDate3=" + powerAttnIssueDate3 + ", powerAttnIssueDate4="
 				+ powerAttnIssueDate4 + ", powerAttnIssueDate5=" + powerAttnIssueDate5 + ", powerAttnUs1="
 				+ powerAttnUs1 + ", powerAttnUs2=" + powerAttnUs2 + ", powerAttnUs3=" + powerAttnUs3 + ", powerAttnUs4="
-				+ powerAttnUs4 + ", powerAttnUs5=" + powerAttnUs5 + ", recordId=" + recordId + ", relationshipMinor1="
-				+ relationshipMinor1 + ", relationshipMinor2=" + relationshipMinor2 + ", relationshipMinor3="
-				+ relationshipMinor3 + ", relationshipMinor4=" + relationshipMinor4 + ", relationshipMinor5="
-				+ relationshipMinor5 + "]";
+				+ powerAttnUs4 + ", powerAttnUs5=" + powerAttnUs5 + ", relationshipMinor1=" + relationshipMinor1
+				+ ", relationshipMinor2=" + relationshipMinor2 + ", relationshipMinor3=" + relationshipMinor3
+				+ ", relationshipMinor4=" + relationshipMinor4 + ", relationshipMinor5=" + relationshipMinor5 + "]";
 	}
 
 }

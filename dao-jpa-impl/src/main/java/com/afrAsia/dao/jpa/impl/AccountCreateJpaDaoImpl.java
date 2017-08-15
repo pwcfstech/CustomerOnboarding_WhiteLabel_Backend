@@ -30,7 +30,7 @@ import com.afrAsia.entities.transactions.MobRmAppRefId;
 public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRecordId>implements AccountCreateJpaDao {
 
 	public MobRmAppRefId storeMobRmAppRefId(MobRmAppRefId mobRmAppRefId) {
-		System.out.println("Value for RM Id table : " + mobRmAppRefId.toString());
+		//System.out.println("Value for RM Id table : " + mobRmAppRefId.toString());
 		getEntityManager().persist(mobRmAppRefId);
 		getEntityManager().flush();
 		return mobRmAppRefId;
@@ -177,7 +177,7 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		Query query5 = getEntityManager().createQuery("From MobApplicantRecordId b where b.id=:apId");
 		query5.setParameter("apId", appId);
 		List<MobApplicantRecordId> listMobApplicantRecordId=(List<MobApplicantRecordId>) query5.getResultList();
-		System.out.println("mobApplicantRecordId in dao updateApplicant ========= "+listMobApplicantRecordId);
+		//System.out.println("mobApplicantRecordId in dao updateApplicant ========= "+listMobApplicantRecordId);
 		
 		int i=0;
 		//for(MobApplicantRecordId mobApplicantRecordId:listMobApplicantRecordId){

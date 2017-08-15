@@ -27,12 +27,12 @@ public class RmApplicationsAppJpaDAOImpl extends BaseJpaDAOImpl<Long, Applicatio
 		Query query = getEntityManager().createQuery("select ar.id, ar.createdTime, ar.appStatus,"
 				+ "apd.firstName,apd.lastName from ApplicationReference ar, ApplicantPersonalDetails apd "
 				+ "where ar.id=apd.id AND ar.rmUserId=:rmid "
-				+ "AND lower(apd.customerType) = lower(:custType) "
+				+ "AND apd.customerType =:custType "
 				+ "AND lower(ar.appStatus) in (lower(:as1),lower(:as2)) "
 				+ "order by ar.createdTime desc");
 
 		query.setParameter("rmid", rmId);
-		query.setParameter("custType", "primary");
+		query.setParameter("custType", "Primary");
 		query.setParameter("as1", "Require Attention");
 		query.setParameter("as2", "Under Processing");
 		query.setMaxResults(10);
@@ -56,11 +56,11 @@ public class RmApplicationsAppJpaDAOImpl extends BaseJpaDAOImpl<Long, Applicatio
 				+ "apd.firstName,apd.lastName from ApplicationReference ar, ApplicantPersonalDetails apd "
 				+ "where ar.id=apd.id AND ar.rmUserId=:rmid "
 				+ "AND ar.updatedTime between :stDate and :edDate "
-				+ "AND lower(apd.customerType) like lower(:custType) "
+				+ "AND apd.customerType =:custType "
 				+ "order by ar.createdTime desc");
 
 		query.setParameter("rmid", rmId);
-		query.setParameter("custType", "primary");
+		query.setParameter("custType", "Primary");
 		query.setParameter("stDate", startDate); 
 		query.setParameter("edDate", endDate);
 
@@ -83,7 +83,7 @@ public class RmApplicationsAppJpaDAOImpl extends BaseJpaDAOImpl<Long, Applicatio
 				+ "where ar.id=apd.id AND ar.rmUserId=:rmid "
 				+ "AND lower(ar.appStatus) =lower(:st) " //or lower(ar.appStatus) like lower(:st1)"
 				+ "AND ar.updatedTime between :stDate and :edDate "
-				+ "AND apd.customerType = lower(:custType) "
+				+ "AND apd.customerType = :custType "
 				+ "order by ar.createdTime desc");
 
 		Date today = new Date();
@@ -93,7 +93,7 @@ public class RmApplicationsAppJpaDAOImpl extends BaseJpaDAOImpl<Long, Applicatio
 		Date today30 = cal.getTime();
 		
 		query.setParameter("rmid", rmId);
-		query.setParameter("custType", "primary");
+		query.setParameter("custType", "Primary");
 		query.setParameter("st", status);
 		//query.setParameter("st1", "%"+status+"%");
 		query.setParameter("stDate", today30); 
@@ -125,7 +125,7 @@ public class RmApplicationsAppJpaDAOImpl extends BaseJpaDAOImpl<Long, Applicatio
 				+ "order by ar.createdTime desc");
 
 		query.setParameter("rmid", rmId);
-		query.setParameter("custType", "primary");
+		query.setParameter("custType", "Primary");
 		query.setParameter("stDate", startDate);
 		query.setParameter("edDate", endDate);
 		query.setParameter("nm", "%"+name+"%");
@@ -151,12 +151,12 @@ public class RmApplicationsAppJpaDAOImpl extends BaseJpaDAOImpl<Long, Applicatio
 				+ "where ar.id=apd.id AND ar.rmUserId=:rmid "
 				+ "AND lower(ar.appStatus) =lower(:as) "
 				+ "AND ar.updatedTime between :stDate and :edDate "
-				+ "AND lower(apd.customerType) like lower(:custType) "
+				+ "AND apd.customerType =:custType "
 				+ "AND (lower(apd.firstName) || ' ' || lower(apd.lastName)) like lower(:nm) "
 				+ "order by ar.createdTime desc");
 
 		query.setParameter("rmid", rmId);
-		query.setParameter("custType", "primary");
+		query.setParameter("custType", "Primary");
 		query.setParameter("as", "status");
 		
 		query.setParameter("stDate", startDate); 
@@ -185,7 +185,7 @@ public class RmApplicationsAppJpaDAOImpl extends BaseJpaDAOImpl<Long, Applicatio
 		Query query = getEntityManager().createQuery("select ar.id, ar.createdTime, ar.appStatus,"
 		+ "apd.firstName,apd.lastName from ApplicationReference ar, ApplicantPersonalDetails apd "
 		+ "where ar.id=apd.id AND ar.rmUserId=:rmid "
-		+ "AND lower(apd.customerType) like lower(:custType) "
+		+ "AND apd.customerType=:custType "
 		+ "AND (lower(apd.firstName) || ' ' || lower(apd.lastName)) like lower(:nm) " 
 		+ "order by ar.createdTime desc");
 
@@ -193,7 +193,7 @@ public class RmApplicationsAppJpaDAOImpl extends BaseJpaDAOImpl<Long, Applicatio
 		
 		query.setParameter("nm", "%"+name+"%");
 		
-		query.setParameter("custType", "primary");
+		query.setParameter("custType", "Primary");
 
 		List<Object> detailsByName = query.getResultList();
 		
