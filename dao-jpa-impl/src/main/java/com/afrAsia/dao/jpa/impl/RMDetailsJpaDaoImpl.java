@@ -19,15 +19,16 @@ public class RMDetailsJpaDaoImpl extends BaseJpaDAOImpl<String, RMDetails>implem
 		return (List<RMDetails>) query.getResultList();
 	}
 
-	public RMDetails getRMDetailById(String rmId) 
+	public RMDetails getRMDetailById(String rmId, String userGroup) 
 	{
 		if (rmId == null || rmId.trim().isEmpty())
 		{
 			return null;
 		}
-		String query = "FROM RMDetails rm WHERE rm.id = :rmId";
+		String query = "FROM RMDetails rm WHERE rm.id = :rmId AND lower(rm.userGroup) = lower(:userGroup)";
 		Query q = getEntityManager().createQuery(query);
 		q.setParameter("rmId", rmId);
+		q.setParameter("userGroup", userGroup);
 		
 		return (RMDetails) q.getSingleResult();
 		

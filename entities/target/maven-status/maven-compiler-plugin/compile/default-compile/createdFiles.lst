@@ -110,6 +110,7 @@ com\afrAsia\entities\response\DeviceFootPrintResponse$Data.class
 com\afrAsia\entities\response\AppLoggedSummary.class
 com\afrAsia\entities\request\LogoutRequest.class
 com\afrAsia\entities\jpa\DigitalTxnDaily.class
+com\afrAsia\entities\jpa\MobRmSessionDetail.class
 com\afrAsia\entities\masters\Country.class
 com\afrAsia\entities\masters\Prefix.class
 com\afrAsia\entities\response\MastersDataResponse$Data.class

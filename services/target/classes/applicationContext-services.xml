@@ -84,6 +84,7 @@
 		<property name="tokenServices" ref="tokenServices" />
 		<property name="oAuth2RequestFactory" ref="oAuth2RequestFactory" />
 		<property name="customClientDetailsService" ref="clientDetails" />
+		<property name="rmSessionDetailJpaDAO" ref="rmSessionDetailJpaDAO" />
 	</bean>
 	
 	<bean id="tokenStore"

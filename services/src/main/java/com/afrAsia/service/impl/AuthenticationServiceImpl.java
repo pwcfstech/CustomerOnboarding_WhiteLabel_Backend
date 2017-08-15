@@ -3,6 +3,7 @@ package com.afrAsia.service.impl;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Date;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +13,7 @@ import org.springframework.security.oauth2.provider.TokenRequest;
 import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenGranter;
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.afrAsia.authenticate.CustomClientDetailsService;
 import com.afrAsia.dao.OAuthAuthorizationDAO;
@@ -23,8 +25,14 @@ import com.afrAsia.entities.response.LoginDataResponse;
 import com.afrAsia.entities.response.LoginResponse;
 import com.afrAsia.entities.response.LogoutDataResponse;
 import com.afrAsia.entities.response.LogoutResponse;
+import com.afrAsia.entities.masters.RMDetails;
 import com.afrAsia.service.AuthenticationService;
 import com.afrAsia.service.RMDetailsService;
+import com.afrAsia.dao.RMDetailsDao;
+
+import com.afrAsia.dao.jpa.RMSessionDetailJpaDAO;
+import com.afrAsia.dao.jpa.impl.RMSessionDetailJpaDaoImpl;
+import com.afrAsia.entities.jpa.MobRmSessionDetail;
 
 /**
  * 
@@ -45,6 +53,18 @@ public class AuthenticationServiceImpl implements AuthenticationService
 	
 	private DefaultOAuth2RequestFactory oAuth2RequestFactory;
 	
+	private RMSessionDetailJpaDAO rmSessionDetailJpaDAO;
+	
+	
+	
+	public RMSessionDetailJpaDAO getRmSessionDetailJpaDAO() {
+		return rmSessionDetailJpaDAO;
+	}
+
+	public void setRmSessionDetailJpaDAO(RMSessionDetailJpaDAO rmSessionDetailJpaDAO) {
+		this.rmSessionDetailJpaDAO = rmSessionDetailJpaDAO;
+	}
+
 	public void setTokenServices(DefaultTokenServices tokenServices) {
 		this.tokenServices = tokenServices;
 	}
@@ -91,6 +111,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		this.oAuthAuthorizationDAO = oAuthAuthorizationDAO;
 	}
 
+	@Transactional(readOnly = false, rollbackFor = {Exception.class})
 	public LoginResponse login(LoginRequest loginRequest) 
 	{
 		System.out.println("in login ============ ");
@@ -104,23 +125,44 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		System.out.println("password ==== "+loginDataRequest.getPassword());
 		String clientSecret = passwordEncoder.encode(loginDataRequest.getPassword());
 		System.out.println("clientSecret ==== "+clientSecret);
+		String userType = loginDataRequest.getUserType();
 		
 		//rmDetailsService.saveRMDetails("ID" + userId, userId);
 		
 		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(userId); 
 		System.out.println("clientDetails =========== "+clientDetails);
 		
+		RMDetails rmDetails;
+		
 		if (clientDetails == null)
 		{
-			customClientDetailsService.saveClientDetail(userId, "rest_api", clientSecret, 
+			rmDetails = customClientDetailsService.saveClientDetail(userId, userType,"rest_api", clientSecret, 
 				"standard_client", "client_credentials", null, "ROLE_USER", 
 				180, 180, null, null);
+			
+			
+		}
+		else{
+			rmDetails = customClientDetailsService.getRMDetails(userId, userType);
+		}
+		
+		MobRmSessionDetail mobRmSessionDetail = new MobRmSessionDetail();
+		mobRmSessionDetail.setDeviceId(loginDataRequest.getDeviceId());
+		mobRmSessionDetail.setRmId(loginDataRequest.getUserId());		
+		mobRmSessionDetail.setCreatedDate(new Date());
+		mobRmSessionDetail.setCreatedBy(loginDataRequest.getUserId());
+		MobRmSessionDetail mobRmPreviousSession = rmSessionDetailJpaDAO.setLoginTime(mobRmSessionDetail);
+		
+		if(mobRmPreviousSession != null){
+			responseData.setLastLoginTime(mobRmPreviousSession.getCreatedDate());
+			System.out.println("Previous Session Details::" + mobRmPreviousSession.toString());
 		}
 		
 		OAuth2AccessToken token = getTokenDetails(userId, clientSecret, "client_credentials");
 		
+		
 		responseData.setoAuthToken(token.getValue());
-		responseData.setRmName(userId);
+		responseData.setRmName(rmDetails.getRmName());
 		responseData.setSuccess("true");
 		response.setData(responseData);
 		

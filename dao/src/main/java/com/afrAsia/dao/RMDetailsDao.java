@@ -9,7 +9,7 @@ public interface RMDetailsDao
 
 	public List<RMDetails> getRMDetails();
 	
-	public RMDetails getRMDetailById(String rmId);
+	public RMDetails getRMDetailById(String rmId, String userType);
 	
 	public void saveRmDetails(RMDetails obj);
 }

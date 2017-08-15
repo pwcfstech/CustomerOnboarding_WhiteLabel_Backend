@@ -20,6 +20,7 @@ com\afrAsia\dao\DashBoardDao.class
 com\afrAsia\dao\UserDAO.class
 com\afrAsia\dao\DTDPSDAO.class
 com\afrAsia\dao\AddCommentDao.class
+com\afrAsia\dao\RMSessionDetailDao.class
 com\afrAsia\dao\core\UserType.class
 com\afrAsia\dao\CountryDao.class
 com\afrAsia\dao\CategoryMasterDao.class
