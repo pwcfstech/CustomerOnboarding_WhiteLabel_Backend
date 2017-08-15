@@ -61,12 +61,12 @@ public class AccountCreationRestService {
 					System.out.println(" ########### in create service ############## ");
 					accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
 				}
-				/*else{
+				else{
 					System.out.println(" ########### in update service ############## "); 
 					accountCreationResponse = accountCreationService.updateAccount(accountCreationRequest);	
-				}*/ 
+				} 
 				
-				accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
+				//accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
 
 				if (accountCreationResponse!=null) {
 					return Response.ok(accountCreationResponse, MediaType.APPLICATION_JSON).build();
@@ -503,7 +503,7 @@ public class AccountCreationRestService {
 
 	}
 	
-	@POST
+	/*@POST
 	@Path("/updateApplication")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -519,6 +519,6 @@ public class AccountCreationRestService {
 		accountCreateResponse = accountCreationService.updateAccount(accountUpdateRequest);
 		
 		return Response.ok(accountCreateResponse, MediaType.APPLICATION_JSON).build();
-	}
+	}*/
 	
 }
