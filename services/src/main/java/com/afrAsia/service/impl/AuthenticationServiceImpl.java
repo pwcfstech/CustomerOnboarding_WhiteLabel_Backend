@@ -277,6 +277,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
 			return false;
 		}
 		
