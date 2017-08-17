@@ -5,6 +5,7 @@ com\afrAsia\entities\request\AccountUpdateRequest.class
 com\afrAsia\entities\request\LoginRequest.class
 com\afrAsia\entities\jpa\AppVersionId.class
 com\afrAsia\entities\request\AccountUpdateRequest$Data.class
+com\afrAsia\entities\response\AccountCreateResponse$Data$JointApplicantsData.class
 com\afrAsia\entities\response\AccountUpdateResponse$Data.class
 com\afrAsia\entities\transactions\MainTableCompositePK.class
 com\afrAsia\entities\response\LoginDataResponse.class

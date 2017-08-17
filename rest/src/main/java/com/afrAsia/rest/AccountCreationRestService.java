@@ -66,8 +66,6 @@ public class AccountCreationRestService {
 					accountCreationResponse = accountCreationService.updateAccount(accountCreationRequest);	
 				} 
 				
-				//accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
-
 				if (accountCreationResponse!=null) {
 					return Response.ok(accountCreationResponse, MediaType.APPLICATION_JSON).build();
 				}
@@ -154,16 +152,6 @@ public class AccountCreationRestService {
 	//Account Details
 	private String validateAccountDetails(Data accountCreationData){
 		
-		//System.out.println(" in validateAccountDetails , accountCreationData ===== "+accountCreationData);
-		/*System.out.println(" in validateAccountDetails , accountCreationData.getAccountDetails().getAccount() "
-				+ accountCreationData.getAccountDetails().getAccount());*/
-		/*System.out.println(" in validateAccountDetails , accountCreationData.getAccountDetails().getAccount().length() "
-				+ accountCreationData.getAccountDetails().getAccount().length());*/
-		/*System.out.println(" in validateAccountDetails , accountCreationData.getAccountDetails().getAccountType() "
-				+ accountCreationData.getAccountDetails().getAccountType());
-		System.out.println(" in validateAccountDetails , accountCreationData.getAccountDetails().getAccountType().length() "
-				+ accountCreationData.getAccountDetails().getAccountType().length());*/
-		//Account level Information
 		if(!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getAccount()) || accountCreationData.getAccountDetails().getAccount().length() > 6){
 			return ("Error in account type::" + CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getAccount()) + "   " + accountCreationData.getAccountDetails().getAccount().length());
 		}
@@ -183,10 +171,6 @@ public class AccountCreationRestService {
 			}
 		}
 		
-		/*System.out.println(" in validateAccountDetails , accountCreationData.getAccountDetails().getStmtDelivery() "
-				+ accountCreationData.getAccountDetails().getStmtDelivery());*/
-		
-
 		//Check for Statement delivery type
 		if(!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getStmtDelivery())){
 			if(accountCreationData.getAccountDetails().getStmtDelivery().equalsIgnoreCase("Post")){
@@ -502,23 +486,4 @@ public class AccountCreationRestService {
 		return ("Success");
 
 	}
-	
-	/*@POST
-	@Path("/updateApplication")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateAccount(AccountCreationRequest accountUpdateRequest) {
-		AccountCreateResponse accountCreateResponse = new AccountCreateResponse();
-
-		System.out.println(accountUpdateRequest.toString());
-		System.out.println("here in rest Service of update account");
-
-		System.out.println("RmId is =========="+accountUpdateRequest.getData().getRmId());
-		System.out.println("app ref no  is =========="+accountUpdateRequest.getData().getAppRefNo());
-
-		accountCreateResponse = accountCreationService.updateAccount(accountUpdateRequest);
-		
-		return Response.ok(accountCreateResponse, MediaType.APPLICATION_JSON).build();
-	}*/
-	
 }

@@ -2,7 +2,6 @@ package com.afrAsia.service.impl;
 
 import java.security.SecureRandom;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.Date;
 
@@ -26,13 +25,11 @@ import com.afrAsia.authenticate.CustomClientDetailsService;
 import com.afrAsia.dao.OAuthAuthorizationDAO;
 import com.afrAsia.entities.request.LoginDataRequest;
 import com.afrAsia.entities.request.LoginRequest;
-
 import com.afrAsia.entities.request.LogoutRequest;
 import com.afrAsia.entities.response.GenericResponse;
 import com.afrAsia.entities.response.LoginDataResponse;
 import com.afrAsia.entities.response.LoginResponse;
 import com.afrAsia.entities.response.LogoutDataResponse;
-import com.afrAsia.entities.request.LogoutDataRequest;
 import com.afrAsia.entities.response.LogoutResponse;
 import com.afrAsia.entities.masters.RMDetails;
 import com.afrAsia.service.AuthenticationService;
@@ -167,10 +164,10 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		//rmDetailsService.saveRMDetails("ID" + userId, userId);
 		
 		/* LDAP */
-//		if (!tryLdapConnection(loginDataRequest.getUserId(), loginDataRequest.getPassword()))
-//		{
-//			throw new IllegalStateException("Could not authenticate with ldap.");
-//		}
+		if (!tryLdapConnection(loginDataRequest.getUserId(), loginDataRequest.getPassword()))
+		{
+			throw new IllegalStateException("Could not authenticate with ldap.");
+		}
 		
 		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(userId); 
 		System.out.println("clientDetails =========== "+clientDetails);
@@ -281,7 +278,6 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		}
 		
 		return true;
-
 		
 		
 	}
