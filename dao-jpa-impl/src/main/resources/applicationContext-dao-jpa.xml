@@ -35,7 +35,6 @@
 	<bean id="uidTypeJpaDAO" class="com.afrAsia.dao.jpa.impl.UIDTypeJpaDaoImpl" />
 	<bean id="accountCreateJpaDao" class="com.afrAsia.dao.jpa.impl.AccountCreateJpaDaoImpl" />
 	<bean id="applicationDetailsJpaDAO" class="com.afrAsia.dao.jpa.impl.ApplicationDetailsDaoImpl" />
-	<bean id="accountCreateJpaDao" class="com.afrAsia.dao.jpa.impl.AccountCreateJpaDaoImpl"/>
 	<bean id="accountTypeJpaDao" class="com.afrAsia.dao.jpa.impl.AccountTypeJpaDaoImpl"/>
 	<bean id="afrAsiaFirstJpaDao" class="com.afrAsia.dao.jpa.impl.AfrAsiaFirstJpaDaoImpl"/>
 	
@@ -49,5 +48,7 @@
 	
 	<!-- Add comments service -->
 	<bean id="addCommentJpaDao" class="com.afrAsia.dao.jpa.impl.AddCommentJpaDaoImpl"/>
+	<!-- Upload KYC document dao bean -->
+	<bean id="uploadKYCDao" class="com.afrAsia.dao.jpa.impl.UploadKYCDaoImpl"/>
 	
 </beans>

@@ -80,6 +80,12 @@
 	<bean id="accountCreationRestService" class="com.afrAsia.rest.AccountCreationRestService" >
 		<property name="accountCreationService" ref="accountCreationService" />
 	</bean>
+	
+	<!-- Upload KYC document rest service bean -->
+	<bean id="kycRestService" class="com.afrAsia.rest.KYCRestService" >
+		<property name="kycService" ref="kycService" />
+	</bean>
+	
 	<!-- <bean id="applicationDetailsRestService" class="com.afrAsia.rest.ApplicationDetailsRestService" >
 		<property name="applicationDetailsService" ref="applicationDetailsService" />
 	</bean> -->
