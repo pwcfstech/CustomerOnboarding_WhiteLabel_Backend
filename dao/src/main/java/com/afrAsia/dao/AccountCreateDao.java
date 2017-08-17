@@ -75,4 +75,6 @@ public interface AccountCreateDao {
 	public void updateAccountDetails(AccountCreationRequest accountCreationRequest, Long appId, Long recordId,
 			MobApplicantRecordId[] mobApplicantPrimary, MobApplicantRecordId[] mobGuardianPrimary,
 			MobApplicantRecordId[] mobJoint, MobApplicantRecordId[] mobGuardianJoint, com.afrAsia.entities.request.AccountCreationRequest.AccountDetails accountDetails);
+
+	public void storeIntoMobApplKycDocumentsHist(Long appid);
 }

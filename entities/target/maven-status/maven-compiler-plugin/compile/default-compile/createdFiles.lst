@@ -1,3 +1,4 @@
+com\afrAsia\entities\transactions\MobApplKycDocumentsHist.class
 com\afrAsia\entities\listener\EntityListener.class
 com\afrAsia\entities\response\ProductResponse.class
 com\afrAsia\entities\transactions\MobApplicantRecordId.class

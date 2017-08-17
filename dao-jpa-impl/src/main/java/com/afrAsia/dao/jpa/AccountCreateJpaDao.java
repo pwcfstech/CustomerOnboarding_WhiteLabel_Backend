@@ -14,10 +14,12 @@ import com.afrAsia.entities.transactions.MobAppRefRecordId;
 import com.afrAsia.entities.transactions.MobApplAdditionalDtlsHist;
 import com.afrAsia.entities.transactions.MobApplCommDetailsHist;
 import com.afrAsia.entities.transactions.MobApplEmploymentDtlsHist;
+import com.afrAsia.entities.transactions.MobApplKycDocumentsHist;
 import com.afrAsia.entities.transactions.MobApplPersonalDetailsHist;
 import com.afrAsia.entities.transactions.MobApplicantAdditionalDtl;
 import com.afrAsia.entities.transactions.MobApplicantCommDetail;
 import com.afrAsia.entities.transactions.MobApplicantEmploymentDtl;
+import com.afrAsia.entities.transactions.MobApplicantKycDocuments;
 import com.afrAsia.entities.transactions.MobApplicantPersonalDetail;
 import com.afrAsia.entities.transactions.MobApplicantRecordId;
 import com.afrAsia.entities.transactions.MobApplicantRecordIdHist;
@@ -74,4 +76,10 @@ public interface AccountCreateJpaDao extends AccountCreateDao {
 	public void updateAccountDetails(AccountCreationRequest accountCreationRequest, Long appId, Long recordId,
 			MobApplicantRecordId[] mobApplicantPrimaryArr, MobApplicantRecordId[] mobGuardianPrimaryArr,
 			MobApplicantRecordId[] mobJoint, MobApplicantRecordId[] mobGuardianJoint, com.afrAsia.entities.request.AccountCreationRequest.AccountDetails accountDetails);
+	
+	public MobApplKycDocumentsHist storeMobApplKycDocumentsHist(MobApplKycDocumentsHist mobApplKycDocumentsHist);
+	
+	public MobApplicantKycDocuments storeMobApplicantKycDocuments(MobApplicantKycDocuments mobApplicantKycDocuments);
+
+	public void storeIntoMobApplKycDocumentsHist(Long appid);
 }

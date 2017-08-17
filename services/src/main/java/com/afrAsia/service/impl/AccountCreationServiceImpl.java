@@ -72,6 +72,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
 	@Transactional(readOnly = false, rollbackFor = {Exception.class})
 	public AccountCreateResponse createAccount(AccountCreationRequest accountCreationRequest) {
+		
+		System.out.println("in service === accny creation service ========== ");
 		AccountCreateResponse accountCreationResponse = new AccountCreateResponse();
 		Data data= new AccountCreateResponse().new Data();
 
@@ -360,6 +362,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		} 
 
 		//Enter personal details of applicant
+		
+		System.out.println("in MobApplicantPersonalDetail================= ");
 		MobApplicantPersonalDetail mobApplicantPersonalDetail = new MobApplicantPersonalDetail();
 		mobApplicantPersonalDetail.setId(new MainTableCompositePK());
 		mobApplicantPersonalDetail.getId().setId(appRefNo);
@@ -391,6 +395,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobApplicantPersonalDetail.setMaritalStatus(applicant.getMaritialStatus());
 		mobApplicantPersonalDetail.setCustomerType(customerType);
 		mobApplicantPersonalDetail=accountCreateDao.storeMobApplicantPersonalDetail(mobApplicantPersonalDetail);
+		
+		System.out.println("mobApplicantPersonalDetail in service ====== "+mobApplicantPersonalDetail.toString());
 		
 		if(age > 18){
 			mobApplicantPersonalDetail.setIsMinor(false);
@@ -616,7 +622,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		//Update applicant id	=========== needs to be done 
 		ApplicantDetails primaryApplicant = accountCreationRequest.getData().getPrimaryApplicantDetail();
 		List<MobApplicantRecordId> listMobApplicantPrimary = accountCreateDao.updateApplicant(accountCreationRequest, primaryApplicant, appId, recordId, "Primary");
-		
+		System.out.println("########## listMobApplicantPrimary.toString() in service =========== "+listMobApplicantPrimary.toString());
 		MobApplicantRecordId[] mobApplicantPrimaryArr = new MobApplicantRecordId[listMobApplicantPrimary.size()];
 		mobApplicantPrimaryArr = listMobApplicantPrimary.toArray(mobApplicantPrimaryArr);
 		
@@ -626,12 +632,19 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		ApplicantDetails guardianPrimary = accountCreationRequest.getData().getGuardianDetail();
 		if(guardianPrimary != null && guardianPrimary.getFirstName()!=null && !guardianPrimary.getFirstName().isEmpty()){
 			listMobGuardianPrimary = accountCreateDao.updateApplicant(accountCreationRequest, guardianPrimary, appId, recordId, "Guardian");
-			
+			System.out.println("########## listMobApplicantPrimary.toString() in service =========== "+listMobApplicantPrimary.toString());
 			mobGuardianPrimaryArr = new MobApplicantRecordId[listMobGuardianPrimary.size()];
 			mobGuardianPrimaryArr = listMobGuardianPrimary.toArray(mobGuardianPrimaryArr);
 		}
 		//Update Joint holders	=========== needs to be done
 		List<JointApplicants> jointHolders = accountCreationRequest.getData().getJointApplicants();
+		JointApplicants[] mobJointApplicantsArr=null;
+		if(jointHolders != null){
+			listMobGuardianPrimary = accountCreateDao.updateApplicant(accountCreationRequest, guardianPrimary, appId, recordId, "Joint");
+			System.out.println("########## listMobApplicantPrimary.toString() in service =========== "+listMobApplicantPrimary.toString());
+			mobGuardianPrimaryArr = new MobApplicantRecordId[listMobGuardianPrimary.size()];
+			mobJointApplicantsArr = jointHolders.toArray(mobJointApplicantsArr);
+		}
 		//		
 		for (JointApplicants s : jointHolders){
 			//System.out.println("Joint applicant Info::" + s.toString());
@@ -708,12 +721,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			MobApplPersonalDetailsHist mobApplPersonalDetailsHist=new MobApplPersonalDetailsHist();
 			MobApplicantPersonalDetail mobApplicantPersonalDetail=applicationDetailsDAO.getMobApplicantPersonalDetails(appid,mobApplicantRecordId.getApplicantId());
 			
-			//System.out.println("##### mobApplicantPersonalDetail in service impl =================== "+mobApplicantPersonalDetail.toString()); 
-			
-			//mobApplPersonalDetailsHist.setId(mobApplicantPersonalDetail.getId().getId());
-			//System.out.println("##### mobApplPersonalDetailsHist.getId() ===== "+mobApplPersonalDetailsHist.getId());
+			System.out.println("############### mobApplicantPersonalDetail in service ========== "+mobApplicantPersonalDetail.toString());
 			mobApplPersonalDetailsHist.setRecordId(mobApplicantPersonalDetail.getRecordId());
-			//System.out.println("###### mobApplPersonalDetailsHist.getRecordId() ====== "+mobApplPersonalDetailsHist.getRecordId());
 			mobApplPersonalDetailsHist.setApplicantId(mobApplicantPersonalDetail.getId().getApplicantId());
 			mobApplPersonalDetailsHist.setCountryBirth(mobApplicantPersonalDetail.getCountryBirth());
 			mobApplPersonalDetailsHist.setCreatedBy(mobApplicantPersonalDetail.getCreatedBy());
@@ -825,12 +834,6 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			//System.out.println("mobApplAdditionalDtlsHist.toString() =========== "+mobApplAdditionalDtlsHist.toString());
 			accountCreateDao.storeMobApplAdditionalDtlsHist(mobApplAdditionalDtlsHist);
 		
-			////Mob_KYC application id, applicant id to history table	=========== later 
-			//List
-			//for(){
-				
-			//}
-			//Update new record id in new table for application id and applicant id =========== later 
 		}
 		
 		//Mob_account_Details - application Id to mob_account_details_history
@@ -945,7 +948,11 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobAccountAddnDetailsHist.setNomineeEmail2(mobAccountAdditionalDetail.getNomineeEmail2());
 		accountCreateDao.storeMobAccountAddnDetailsHist(mobAccountAddnDetailsHist);
 		//System.out.println("mobAccountAddnDetailsHist ================ "+mobAccountAddnDetailsHist.toString());
-	}
+
+		
+		accountCreateDao.storeIntoMobApplKycDocumentsHist(appid);
+		
+    }
 
 	// update MobApplicantRecordId table with the new record id  ===================== 
 	@Transactional(readOnly = false, rollbackFor = {Exception.class}) 
