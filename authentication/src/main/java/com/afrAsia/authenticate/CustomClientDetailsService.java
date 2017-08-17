@@ -1,6 +1,7 @@
 package com.afrAsia.authenticate;
 
 import org.springframework.security.oauth2.provider.ClientDetailsService;
+import com.afrAsia.entities.masters.RMDetails;
 
 /**
  *
@@ -26,7 +27,7 @@ public interface  CustomClientDetailsService extends ClientDetailsService {
 	 * @param additionalInformation the additional information
 	 * @param autoApprove the auto approve
 	 */
-	public void saveClientDetail(String clientId, String resourceId,
+	public RMDetails saveClientDetail(String clientId, String clientType, String resourceId,
 			String clientSecret, String scope, String authorizedGrantTypes,
 			String webServerRedirectUri, String authorities,
 			int accessTokenValidity, int refreshTokenValidity,
@@ -39,6 +40,7 @@ public interface  CustomClientDetailsService extends ClientDetailsService {
 	 * @return true, if is client valid
 	 */
 	public boolean isClientValid(String clientId);
+	public RMDetails getRMDetails(String clientId, String clientType);
 
 
 }

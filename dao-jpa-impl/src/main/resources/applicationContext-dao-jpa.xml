@@ -43,6 +43,7 @@
 	<bean id="applicationDetailsJpaDAO" class="com.afrAsia.dao.jpa.impl.ApplicationDetailsDaoImpl" />
 	<bean id="accountTypeJpaDao" class="com.afrAsia.dao.jpa.impl.AccountTypeJpaDaoImpl"/>
 	<bean id="afrAsiaFirstJpaDao" class="com.afrAsia.dao.jpa.impl.AfrAsiaFirstJpaDaoImpl"/>
+	<bean id="rmSessionDetailJpaDAO" class="com.afrAsia.dao.jpa.impl.RMSessionDetailJpaDaoImpl"/>
 	
 	<bean id="rmDetailsDAO" class="com.afrAsia.dao.jpa.impl.RMDetailsJpaDaoImpl" />
 	

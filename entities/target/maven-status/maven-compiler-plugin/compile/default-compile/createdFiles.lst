@@ -6,6 +6,7 @@ com\afrAsia\entities\request\AccountUpdateRequest.class
 com\afrAsia\entities\request\LoginRequest.class
 com\afrAsia\entities\jpa\AppVersionId.class
 com\afrAsia\entities\request\AccountUpdateRequest$Data.class
+com\afrAsia\entities\response\AccountCreateResponse$Data$JointApplicantsData.class
 com\afrAsia\entities\response\AccountUpdateResponse$Data.class
 com\afrAsia\entities\transactions\MainTableCompositePK.class
 com\afrAsia\entities\response\LoginDataResponse.class
@@ -115,6 +116,7 @@ com\afrAsia\entities\response\DeviceFootPrintResponse$Data.class
 com\afrAsia\entities\response\AppLoggedSummary.class
 com\afrAsia\entities\request\LogoutRequest.class
 com\afrAsia\entities\jpa\DigitalTxnDaily.class
+com\afrAsia\entities\jpa\MobRmSessionDetail.class
 com\afrAsia\entities\masters\Country.class
 com\afrAsia\entities\masters\Prefix.class
 com\afrAsia\entities\response\MastersDataResponse$Data.class

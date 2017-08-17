@@ -20,6 +20,7 @@
 	
 	<import resource="classpath*:**/applicationContext-exception-management.xml"/>
 	
+	<util:properties id="ldapProperties" location="file:ldap.properties" ignore-resource-not-found="false" />
 	<bean id="dateDifferenceException" class="com.afrAsia.customexception.DateDifferenceException">
 		<!-- <property name="dateDifferenceException" ref="dateDifferenceException" /> -->
 	</bean>
@@ -80,6 +81,10 @@
 		<property name="tokenServices" ref="tokenServices" />
 		<property name="oAuth2RequestFactory" ref="oAuth2RequestFactory" />
 		<property name="customClientDetailsService" ref="clientDetails" />
+		<property name="rmSessionDetailJpaDAO" ref="rmSessionDetailJpaDAO" />
+		<property name="url" value="#{ldapProperties[ldapUrl]}" />
+		<property name="authenticationType" value="#{ldapProperties[ldapAuthenticationType]}" />
+		<property name="contextFactory" value="#{ldapProperties[ldapContextFactory]}" />
 	</bean>
 	
 	<bean id="tokenStore"
@@ -92,7 +97,7 @@
 		<property name="tokenStore" ref="tokenStore" />
 		<property name="supportRefreshToken" value="false" />
 		<property name="clientDetailsService" ref="clientDetails" />
-		<property name="accessTokenValiditySeconds" value="1800000" />
+		<property name="accessTokenValiditySeconds" value="180" />
 		<!-- <property name="accessTokenValiditySeconds" value="180" /> -->
 	</bean>
 

@@ -22,6 +22,7 @@ import com.afrAsia.entities.request.JointApplicants;
 import com.afrAsia.entities.request.NomineeInfo;
 import com.afrAsia.entities.response.AccountCreateResponse;
 import com.afrAsia.entities.response.AccountCreateResponse.Data;
+import com.afrAsia.entities.response.AccountCreateResponse.Data.JointApplicantsData;
 import com.afrAsia.entities.transactions.HistTableCompositePK;
 import com.afrAsia.entities.transactions.MainTableCompositePK;
 import com.afrAsia.entities.transactions.MobAccountAdditionalDetail;
@@ -76,6 +77,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		System.out.println("in service === accny creation service ========== ");
 		AccountCreateResponse accountCreationResponse = new AccountCreateResponse();
 		Data data= new AccountCreateResponse().new Data();
+		List<JointApplicantsData> jointApplicants = new ArrayList<JointApplicantsData>(); 
+		
 
 		// Create Application Reference id against Rm id
 		MobRmAppRefId mobRmAppRefId = createApplicationReferenceId(accountCreationRequest);
@@ -84,47 +87,49 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		// Create a record id for the application reference id.
 		MobAppRefRecordId mobAppRefRecordId = createRecordIdForApplication(accountCreationRequest,appRefNo);
 		Long recordId = mobAppRefRecordId.getRecordId(); 
+		data.setRecordId(recordId);
 
 		//Create applicant id
 		ApplicantDetails primaryApplicant = accountCreationRequest.getData().getPrimaryApplicantDetail();
 		MobApplicantRecordId mobApplicantPrimary = createApplicant(accountCreationRequest, primaryApplicant, appRefNo, recordId, "Primary");
 
+		data.setPrimaryApplicantRefNo(mobApplicantPrimary.getApplicantId());
+		
 		//Create Guardian
 		MobApplicantRecordId mobGuardianPrimary = null;
 		ApplicantDetails guardianPrimary = accountCreationRequest.getData().getGuardianDetail();
 		if(guardianPrimary != null && guardianPrimary.getFirstName()!=null && !guardianPrimary.getFirstName().isEmpty()){
 			mobGuardianPrimary = createApplicant(accountCreationRequest, guardianPrimary, appRefNo, recordId, "Guardian");
+			data.setGuardianRefNo(guardianPrimary.getApplicantId());
 		}
+		
+		
 		//Create Joint holders
 		List<JointApplicants> jointHolders = accountCreationRequest.getData().getJointApplicants();
-		//		
-		for (JointApplicants s : jointHolders){
-			System.out.println("Joint applicant Info::" + s.toString());
-		}
-
-
 		MobApplicantRecordId[] mobJoint = new MobApplicantRecordId[5];
 		MobApplicantRecordId[] mobGuardianJoint = new MobApplicantRecordId[5];
 
 		int i = 0;
+		
 		for (JointApplicants jointApplicantInfo : jointHolders){
-			//System.out.println("I am here");
+			
+			JointApplicantsData applicantRefNo = new AccountCreateResponse().new Data().new JointApplicantsData();
+			
 			ApplicantDetails jointApplicant = jointApplicantInfo.getJointApplicantDetail();
 			if(jointApplicant != null){
-				//System.out.println("I am also here " + jointApplicant.toString());
 				mobJoint[i] = createApplicant(accountCreationRequest, jointApplicant, appRefNo, recordId, "Joint");
-				//System.out.println("Applicant id" + mobJoint[i].getApplicantId());
+				applicantRefNo.setJointAppRefNo(mobJoint[i].getApplicantId());
 			}
 			ApplicantDetails guardianJoint = jointApplicantInfo.getGuardianDetail();
 			if(guardianJoint != null){
-				//System.out.println("I am also here " + guardianJoint.toString());
 				mobGuardianJoint[i] = createApplicant(accountCreationRequest, guardianJoint, appRefNo, recordId, "Guardian");
-				//System.out.println("Guardins id" + mobGuardianJoint[i].getApplicantId());
+				applicantRefNo.setGuardianRefNo(mobGuardianJoint[i].getApplicantId());
 			}
 			else {
 				mobGuardianJoint[i] = null;
 			}
 			i++;
+			jointApplicants.add(applicantRefNo);
 		}
 
 		//Create Account
@@ -134,6 +139,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
 
 		//Send application reference id to frontend
+		data.setJointApplicants(jointApplicants);
 		data.setRefNo(mobRmAppRefId.getId());
 		accountCreationResponse.setData(data);
 		return accountCreationResponse;
