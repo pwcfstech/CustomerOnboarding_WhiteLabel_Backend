@@ -148,6 +148,20 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		Long appid = (Long) query.getSingleResult();
 		return appid;
 	}
+	
+	
+	public void updateMobRmAppRefId(Long appId, String rmId) {
+		//System.out.println("Value for RM Id table : " + mobRmAppRefId.toString());
+		
+		Query query = getEntityManager()
+				.createQuery("update MobRmAppRefId ma set ma.modifiedBy=:modifiedBy,ma.modifiedDate=:modifiedDate " + "where ma.id =:appid ");
+		query.setParameter("appid", appId);
+		query.setParameter("modifiedBy", rmId);
+		query.setParameter("modifiedDate", new Date());
+		
+		int numberOfRecords = query.executeUpdate();
+		//return mobRmAppRefId;
+	}
 
 	public Integer updateAplicantRecordId(Long appId, Long recordId) {
 		System.out.println("appId ==== " + appId + " " + "recordId ======== " + recordId);
@@ -159,6 +173,8 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		int numberOfRecords = query.executeUpdate();
 		System.out.println("numberOfRecords in dao impl in updateAplicantRecordId ========== "+numberOfRecords);
 		return numberOfRecords;
+		
+		
 	}
 
 	public Long getRecordIdFromAccountDetails(Long appId) {
@@ -170,25 +186,18 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		return recordId;
 	}
 
-	public List<MobApplicantRecordId> updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails applicant,
+	public void updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails applicant,
 			Long appId, Long recordId, String typeOfApplicant) {
 
-		// get all the details of MobApplicantRecordId 
-		Query query5 = getEntityManager().createQuery("From MobApplicantRecordId b where b.id=:apId");
-		query5.setParameter("apId", appId);
-		List<MobApplicantRecordId> listMobApplicantRecordId=(List<MobApplicantRecordId>) query5.getResultList();
-		//System.out.println("mobApplicantRecordId in dao updateApplicant ========= "+listMobApplicantRecordId);
 		
-		int i=0;
-		//for(MobApplicantRecordId mobApplicantRecordId:listMobApplicantRecordId){
-		// update MobApplicantCommDetail
 		Query query1 = getEntityManager().createQuery("update MobApplicantCommDetail ma set ma.recordId =:recordid,ma.faxNo=:faxno,"
 				+ "ma.faxNoCc=:faxNocc,ma.mailAddr1=:mailaddr1,ma.mailAddr2=:mailaddr2,ma.mailAddr3=:mailaddr3,ma.mailCity=:mailcity, ma.mailCountry=:mailcountry,"
 				+ "ma.mobNo=:mobno,ma.mobNoCc=:mobNocc,ma.modifiedBy=:modifiedby,ma.modifiedDate=:modifieddate,ma.permAddr1=:permaddr1,ma.permAddr2=:permaddr2,"
 				+ "ma.permAddr3=:permaddr3,ma.permCity=:permcity,ma.permCountry=:permcountry,ma.telNoHome=:telNohome,ma.telNoHomeCc=:telNoHomecc, "
 				+ "ma.telNoOff=:telNooff,ma.telNoOffCc=:telNoOffcc "
-				+ "where ma.id.id =:appid ");
+				+ "where ma.id.id =:appid and ma.id.applicantId =:applicantId");
 		query1.setParameter("appid", appId);
+		query1.setParameter("applicantId", applicant.getApplicantId());
 		query1.setParameter("recordid", recordId);
 		query1.setParameter("faxno", applicant.getFaxNo());
 		query1.setParameter("faxNocc", applicant.getFaxNoCallingCode());
@@ -316,7 +325,7 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		System.out.println("numberMobApplicantAdditionalDtl in updateApplicant ================== " + numberMobApplicantAdditionalDtl);
 //		i++;
 	//	}
-		return listMobApplicantRecordId;
+		return;
 		
 	}
 

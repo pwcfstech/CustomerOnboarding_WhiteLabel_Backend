@@ -171,6 +171,9 @@ public class AuthenticationServiceImpl implements AuthenticationService
 //		{
 //			throw new IllegalStateException("Could not authenticate with ldap.");
 //		}
+//		else{
+//			System.out.println("Authenticated with LDAP");
+//		}
 		
 		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(userId); 
 		System.out.println("clientDetails =========== "+clientDetails);
@@ -277,6 +280,8 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		}
 		catch (Exception e)
 		{
+			System.out.println("LDAP EXCEPTION" + e.getMessage());
+			e.printStackTrace();
 			return false;
 		}
 		

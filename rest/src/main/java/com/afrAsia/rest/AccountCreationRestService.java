@@ -55,7 +55,6 @@ public class AccountCreationRestService {
 		
 		try{
 			String checkRequest = validateRequest(accountCreationRequest);
-			accountCreationResponse = accountCreationService.updateAccount(accountCreationRequest);
 			if (checkRequest.equals("Success")){
 				if(accountCreationRequest.getData().getAppRefNo()==null){
 					System.out.println(" ########### in create service ############## ");

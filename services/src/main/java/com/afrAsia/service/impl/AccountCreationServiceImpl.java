@@ -552,7 +552,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			if(appIdFromDb!=null){
 				MsgHeader messageHeader=new MsgHeader();
 				MsgHeader.Error error=new MsgHeader().new Error();
-				error.setRsn("rm user id an and ref id are present in Db ");
+				error.setRsn("Rm user id an and ref id are present in Db ");
 				messageHeader.setError(error);
 			} 	
 			else{
@@ -597,7 +597,6 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			return accountCreateResponse;
 		}
 		//2. Create a record id for the application reference id.
-
 		MobAppRefRecordId mobAppRefRecordId = createRecordIdForApplication(accountCreationRequest,accountCreationRequest.getData().getAppRefNo());
 		Long recordId=mobAppRefRecordId.getRecordId();
 		System.out.println("recordId =========== "+recordId);
@@ -609,9 +608,11 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
 		populateHistoryTables(appId);
 		
-		//4. Update MOB_APPLICANT_RECORD_ID with new recordId with MODIFIED DATE, and rmId
 		
-		//int noOfRecordsChanged=saveMobApplicantRecordId(appId,recordId);
+		/* Update MOB_RM_APP_REF_ID table with Modified date and Rm ID*/
+		accountCreateDao.updateMobRmAppRefId(accountCreationRequest.getData().getAppRefNo(), accountCreationRequest.getData().getRmId());
+		
+		//4. Update MOB_APPLICANT_RECORD_ID with new recordId with MODIFIED DATE, and rmId
 		saveMobApplicantRecordId(accountCreationRequest,recordId);
 		
 		//5. update other tables ==========
@@ -621,61 +622,60 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
 		//Update applicant id	=========== needs to be done 
 		ApplicantDetails primaryApplicant = accountCreationRequest.getData().getPrimaryApplicantDetail();
-		List<MobApplicantRecordId> listMobApplicantPrimary = accountCreateDao.updateApplicant(accountCreationRequest, primaryApplicant, appId, recordId, "Primary");
+		accountCreateDao.updateApplicant(accountCreationRequest, primaryApplicant, appId, recordId, "Primary");
 		
-		MobApplicantRecordId[] mobApplicantPrimaryArr = new MobApplicantRecordId[listMobApplicantPrimary.size()];
-		mobApplicantPrimaryArr = listMobApplicantPrimary.toArray(mobApplicantPrimaryArr);
 		
-		//Update Guardian		=========== needs to be done
-		List<MobApplicantRecordId> listMobGuardianPrimary = null;
-		MobApplicantRecordId[] mobGuardianPrimaryArr=null;
-		ApplicantDetails guardianPrimary = accountCreationRequest.getData().getGuardianDetail();
-		if(guardianPrimary != null && guardianPrimary.getFirstName()!=null && !guardianPrimary.getFirstName().isEmpty()){
-			listMobGuardianPrimary = accountCreateDao.updateApplicant(accountCreationRequest, guardianPrimary, appId, recordId, "Guardian");
-			
-			mobGuardianPrimaryArr = new MobApplicantRecordId[listMobGuardianPrimary.size()];
-			mobGuardianPrimaryArr = listMobGuardianPrimary.toArray(mobGuardianPrimaryArr);
-		}
-		//Update Joint holders	=========== needs to be done
-		List<JointApplicants> jointHolders = accountCreationRequest.getData().getJointApplicants();
-		//		
-		for (JointApplicants s : jointHolders){
-			//System.out.println("Joint applicant Info::" + s.toString());
-		}
-
-
-		MobApplicantRecordId[] mobJoint = new MobApplicantRecordId[5];
-		MobApplicantRecordId[] mobGuardianJoint = new MobApplicantRecordId[5];
-
-		int i = 0;
-		for (JointApplicants jointApplicantInfo : jointHolders){
-			//System.out.println("I am here");
-			ApplicantDetails jointApplicant = jointApplicantInfo.getJointApplicantDetail();
-			if(jointApplicant != null){
-				//System.out.println("I am also here " + jointApplicant.toString());
-				mobJoint[i] = createApplicant(accountCreationRequest, jointApplicant, appId, recordId, "Joint");
-				//System.out.println("Applicant id" + mobJoint[i].getApplicantId());
-			}
-			ApplicantDetails guardianJoint = jointApplicantInfo.getGuardianDetail();
-			if(guardianJoint != null){
-				//System.out.println("I am also here " + guardianJoint.toString());
-				mobGuardianJoint[i] = createApplicant(accountCreationRequest, guardianJoint, appId, recordId, "Guardian");
-				//System.out.println("Guardins id" + mobGuardianJoint[i].getApplicantId());
-			}
-			else {
-				mobGuardianJoint[i] = null;
-			}
-			i++;
-		}
-
-		// Update Account
-		AccountDetails accountDetails = accountCreationRequest.getData().getAccountDetails();
-		accountCreateDao.updateAccountDetails(accountCreationRequest,appId, recordId, mobApplicantPrimaryArr,mobGuardianPrimaryArr, mobJoint, mobGuardianJoint, accountDetails); 
-		// Trigger email and sms to customer 
+		
+//		//Update Guardian		=========== needs to be done
+//		List<MobApplicantRecordId> listMobGuardianPrimary = null;
+//		MobApplicantRecordId[] mobGuardianPrimaryArr=null;
+//		ApplicantDetails guardianPrimary = accountCreationRequest.getData().getGuardianDetail();
+//		if(guardianPrimary != null && guardianPrimary.getFirstName()!=null && !guardianPrimary.getFirstName().isEmpty()){
+//			listMobGuardianPrimary = accountCreateDao.updateApplicant(accountCreationRequest, guardianPrimary, appId, recordId, "Guardian");
+//			
+//			mobGuardianPrimaryArr = new MobApplicantRecordId[listMobGuardianPrimary.size()];
+//			mobGuardianPrimaryArr = listMobGuardianPrimary.toArray(mobGuardianPrimaryArr);
+//		}
+//		//Update Joint holders	=========== needs to be done
+//		List<JointApplicants> jointHolders = accountCreationRequest.getData().getJointApplicants();
+//		//		
+//		for (JointApplicants s : jointHolders){
+//			//System.out.println("Joint applicant Info::" + s.toString());
+//		}
+//
+//
+//		MobApplicantRecordId[] mobJoint = new MobApplicantRecordId[5];
+//		MobApplicantRecordId[] mobGuardianJoint = new MobApplicantRecordId[5];
+//
+//		int i = 0;
+//		for (JointApplicants jointApplicantInfo : jointHolders){
+//			//System.out.println("I am here");
+//			ApplicantDetails jointApplicant = jointApplicantInfo.getJointApplicantDetail();
+//			if(jointApplicant != null){
+//				//System.out.println("I am also here " + jointApplicant.toString());
+//				mobJoint[i] = createApplicant(accountCreationRequest, jointApplicant, appId, recordId, "Joint");
+//				//System.out.println("Applicant id" + mobJoint[i].getApplicantId());
+//			}
+//			ApplicantDetails guardianJoint = jointApplicantInfo.getGuardianDetail();
+//			if(guardianJoint != null){
+//				//System.out.println("I am also here " + guardianJoint.toString());
+//				mobGuardianJoint[i] = createApplicant(accountCreationRequest, guardianJoint, appId, recordId, "Guardian");
+//				//System.out.println("Guardins id" + mobGuardianJoint[i].getApplicantId());
+//			}
+//			else {
+//				mobGuardianJoint[i] = null;
+//			}
+//			i++;
+//		}
+//
+//		// Update Account
+//		AccountDetails accountDetails = accountCreationRequest.getData().getAccountDetails();
+//		accountCreateDao.updateAccountDetails(accountCreationRequest,appId, recordId, mobApplicantPrimaryArr,mobGuardianPrimaryArr, mobJoint, mobGuardianJoint, accountDetails); 
+//		// Trigger email and sms to customer 
 
 
 		// Send application reference id to frontend
-		data.setRefNo(appId);
+		data.setRefNo(123L);
 		System.out.println("data.getRefNo() =========== in service "+data.getRefNo());
 		accountCreationResponse.setData(data);
 		System.out.println("accountCreationResponse.getData().getRefNo() in service ======== "+accountCreationResponse.getData().getRefNo());

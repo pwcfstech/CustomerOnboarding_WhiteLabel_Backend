@@ -68,10 +68,13 @@ public interface AccountCreateJpaDao extends AccountCreateDao {
 
 	public Integer updateAplicantRecordId(Long appId, Long recordId);
 
-	public List<MobApplicantRecordId> updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails primaryApplicant,
+	public void updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails primaryApplicant,
 			Long appId, Long recordId, String typeOfApplicant);
 
 	public void updateAccountDetails(AccountCreationRequest accountCreationRequest, Long appId, Long recordId,
 			MobApplicantRecordId[] mobApplicantPrimaryArr, MobApplicantRecordId[] mobGuardianPrimaryArr,
 			MobApplicantRecordId[] mobJoint, MobApplicantRecordId[] mobGuardianJoint, com.afrAsia.entities.request.AccountCreationRequest.AccountDetails accountDetails);
+
+	public void updateMobRmAppRefId(Long appId, String rmId);
+
 }

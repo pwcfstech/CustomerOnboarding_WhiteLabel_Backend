@@ -69,10 +69,13 @@ public interface AccountCreateDao {
 
 	public Long getRecordIdFromAccountDetails(Long appId);
 
-	public List<MobApplicantRecordId> updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails primaryApplicant,
+	public void updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails primaryApplicant,
 			Long appId, Long recordId, String typeOfApplicant);
 
 	public void updateAccountDetails(AccountCreationRequest accountCreationRequest, Long appId, Long recordId,
 			MobApplicantRecordId[] mobApplicantPrimary, MobApplicantRecordId[] mobGuardianPrimary,
 			MobApplicantRecordId[] mobJoint, MobApplicantRecordId[] mobGuardianJoint, com.afrAsia.entities.request.AccountCreationRequest.AccountDetails accountDetails);
+
+	public void updateMobRmAppRefId(Long appId, String rmId);
+
 }
