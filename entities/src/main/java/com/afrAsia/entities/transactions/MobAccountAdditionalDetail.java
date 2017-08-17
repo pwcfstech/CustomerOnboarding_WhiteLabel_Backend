@@ -66,8 +66,8 @@ public class MobAccountAdditionalDetail implements Serializable {
 	@Column(name="MODIFIED_DATE")
 	private Date modifiedDate;
 
-	@Column(name="NOMINEE_CALLBK_NUM")
-	private Long nomineeCallbkNum;
+	/*@Column(name="NOMINEE_CALLBK_NUM")
+	private Long nomineeCallbkNum;*/
 
 	@Column(name="NOMINEE_CALLBK_NUM1")
 	private Long nomineeCallbkNum1;
@@ -75,8 +75,8 @@ public class MobAccountAdditionalDetail implements Serializable {
 	@Column(name="NOMINEE_CALLBK_NUM2")
 	private Long nomineeCallbkNum2;
 
-	@Column(name="NOMINEE_ID")
-	private String nomineeId;
+	/*@Column(name="NOMINEE_ID")
+	private String nomineeId;*/
 
 	@Column(name="NOMINEE_ID1")
 	private String nomineeId1;
@@ -84,9 +84,9 @@ public class MobAccountAdditionalDetail implements Serializable {
 	@Column(name="NOMINEE_ID2")
 	private String nomineeId2;
 
-	@Column(name="NOMINEE_NAME")
+	/*@Column(name="NOMINEE_NAME")
 	private String nomineeName;
-
+*/
 	@Column(name="NOMINEE_NAME1")
 	private String nomineeName1;
 
@@ -269,14 +269,6 @@ public class MobAccountAdditionalDetail implements Serializable {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public Long getNomineeCallbkNum() {
-		return nomineeCallbkNum;
-	}
-
-	public void setNomineeCallbkNum(Long nomineeCallbkNum) {
-		this.nomineeCallbkNum = nomineeCallbkNum;
-	}
-
 	public Long getNomineeCallbkNum1() {
 		return nomineeCallbkNum1;
 	}
@@ -293,14 +285,6 @@ public class MobAccountAdditionalDetail implements Serializable {
 		this.nomineeCallbkNum2 = nomineeCallbkNum2;
 	}
 
-	public String getNomineeId() {
-		return nomineeId;
-	}
-
-	public void setNomineeId(String nomineeId) {
-		this.nomineeId = nomineeId;
-	}
-
 	public String getNomineeId1() {
 		return nomineeId1;
 	}
@@ -315,14 +299,6 @@ public class MobAccountAdditionalDetail implements Serializable {
 
 	public void setNomineeId2(String nomineeId2) {
 		this.nomineeId2 = nomineeId2;
-	}
-
-	public String getNomineeName() {
-		return nomineeName;
-	}
-
-	public void setNomineeName(String nomineeName) {
-		this.nomineeName = nomineeName;
 	}
 
 	public String getNomineeName1() {
@@ -349,11 +325,11 @@ public class MobAccountAdditionalDetail implements Serializable {
 		this.optCallbkServices = optCallbkServices;
 	}
 
-	public boolean getOptTranEmail() {
+	public Boolean getOptTranEmail() {
 		return optTranEmail;
 	}
 
-	public void setOptTranEmail(boolean optTranEmail) {
+	public void setOptTranEmail(Boolean optTranEmail) {
 		this.optTranEmail = optTranEmail;
 	}
 
@@ -461,10 +437,6 @@ public class MobAccountAdditionalDetail implements Serializable {
 		this.stmtDelivery = stmtDelivery;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	@Override
 	public String toString() {
 		return "MobAccountAdditionalDetail [id=" + id + ", authEmail1=" + authEmail1 + ", authEmail2=" + authEmail2
@@ -472,14 +444,14 @@ public class MobAccountAdditionalDetail implements Serializable {
 				+ createdBy + ", createdDate=" + createdDate + ", creditCard=" + creditCard + ", forexBanking="
 				+ forexBanking + ", globalCustody=" + globalCustody + ", hearAboutAfrasia=" + hearAboutAfrasia
 				+ ", ibUsername=" + ibUsername + ", internetBanking=" + internetBanking + ", modifiedBy=" + modifiedBy
-				+ ", modifiedDate=" + modifiedDate + ", nomineeCallbkNum=" + nomineeCallbkNum + ", nomineeCallbkNum1="
-				+ nomineeCallbkNum1 + ", nomineeCallbkNum2=" + nomineeCallbkNum2 + ", nomineeId=" + nomineeId
-				+ ", nomineeId1=" + nomineeId1 + ", nomineeId2=" + nomineeId2 + ", nomineeName=" + nomineeName
-				+ ", nomineeName1=" + nomineeName1 + ", nomineeName2=" + nomineeName2 + ", optCallbkServices="
-				+ optCallbkServices + ", optTranEmail=" + optTranEmail + ", otpEmail=" + otpEmail + ", otpSms=" + otpSms
-				+ ", pinViaPost=" + pinViaPost + ", pinViaSms=" + pinViaSms + ", prefCommMode=" + prefCommMode
-				+ ", prepaidCards=" + prepaidCards + ", recordId=" + recordId + ", stmtAddr1=" + stmtAddr1
-				+ ", stmtAddr2=" + stmtAddr2 + ", stmtAddr3=" + stmtAddr3 + ", stmtCity=" + stmtCity + ", stmtCountry="
-				+ stmtCountry + ", stmtDelivery=" + stmtDelivery + "]";
+				+ ", modifiedDate=" + modifiedDate + ", nomineeCallbkNum1=" + nomineeCallbkNum1 + ", nomineeCallbkNum2="
+				+ nomineeCallbkNum2 + ", nomineeId1=" + nomineeId1 + ", nomineeId2=" + nomineeId2 + ", nomineeName1="
+				+ nomineeName1 + ", nomineeName2=" + nomineeName2 + ", optCallbkServices=" + optCallbkServices
+				+ ", optTranEmail=" + optTranEmail + ", otpEmail=" + otpEmail + ", otpSms=" + otpSms + ", pinViaPost="
+				+ pinViaPost + ", pinViaSms=" + pinViaSms + ", prefCommMode=" + prefCommMode + ", prepaidCards="
+				+ prepaidCards + ", recordId=" + recordId + ", stmtAddr1=" + stmtAddr1 + ", stmtAddr2=" + stmtAddr2
+				+ ", stmtAddr3=" + stmtAddr3 + ", stmtCity=" + stmtCity + ", stmtCountry=" + stmtCountry
+				+ ", stmtDelivery=" + stmtDelivery + "]";
 	}
+	
 }

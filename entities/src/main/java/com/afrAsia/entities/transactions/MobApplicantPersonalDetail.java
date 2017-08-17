@@ -29,10 +29,11 @@ public class MobApplicantPersonalDetail implements Serializable {
 	private Date createdDate;
 
 	@Column(name="CUST_CIF")
-	private String custCif;
+	private String custCif;   
 
 	@Temporal(TemporalType.DATE)
 	private Date dob;
+	
 	@Column(name="EMAIL")
 	private String email;
 
@@ -63,8 +64,10 @@ public class MobApplicantPersonalDetail implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name="MODIFIED_DATE")
 	private Date modifiedDate;
+
 	@Column(name="NATIONALITY")
 	private String nationality;
+	
 	@Column(name="nic")
 	private String nic;
 
@@ -89,11 +92,15 @@ public class MobApplicantPersonalDetail implements Serializable {
 
 	@Column(name="RESIDENCY_STATUS")
 	private String residencyStatus;
+	
 	@Column(name="TITLE")
 	private String title;
 	
 	@Column(name="CUSTOMER_TYPE")
 	private String customerType;
+	
+	@Column(name="IS_MINOR")
+	private Boolean isMinor;
 
 	public MobApplicantPersonalDetail() {
 	}
@@ -313,6 +320,14 @@ public class MobApplicantPersonalDetail implements Serializable {
 	public String getCustomerType(){
 		return customerType;
 	}
+	
+	public Boolean getIsMinor(){
+		return isMinor;
+	}
+	
+	public void setIsMinor(boolean isMinor){
+		this.isMinor = isMinor;
+	}
 
 	@Override
 	public String toString() {
@@ -324,6 +339,6 @@ public class MobApplicantPersonalDetail implements Serializable {
 				+ ", nationality=" + nationality + ", nic=" + nic + ", otherBank1=" + otherBank1 + ", otherBank2="
 				+ otherBank2 + ", otherBank3=" + otherBank3 + ", passportExpiryDate=" + passportExpiryDate
 				+ ", passportNo=" + passportNo + ", recordId=" + recordId + ", residencyStatus=" + residencyStatus
-				+ ", title=" + title + ", customerType=" + customerType + "]";
+				+ ", title=" + title + ", customerType=" + customerType +  ", isMinor=" + isMinor + "]";
 	}
 }
