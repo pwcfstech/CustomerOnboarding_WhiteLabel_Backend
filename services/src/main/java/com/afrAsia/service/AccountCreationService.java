@@ -4,6 +4,6 @@ import com.afrAsia.entities.request.AccountCreationRequest;
 import com.afrAsia.entities.response.AccountCreateResponse;
 
 public interface AccountCreationService {
-		AccountCreateResponse createAccount(AccountCreationRequest accountCreationRequest);
-		AccountCreateResponse updateAccount(AccountCreationRequest accountCreationRequest);
+	public AccountCreateResponse createAccount(AccountCreationRequest accountCreationRequest);
+	public AccountCreateResponse updateAccount(AccountCreationRequest accountUpdateRequest);
 }

@@ -23,6 +23,8 @@
 	<import resource="classpath*:**/applicationContext-configuration-authentication.xml"/>
 	<import resource="classpath*:**/applicationContext-exception-management.xml"/>
 	
+	<context:component-scan base-package="com.afrAsia"></context:component-scan>
+	
 	<!-- <wss:binding url="/DigitalTransaction">
         <wss:service>
             <ws:service bean="#dtdpsSoapService"/>
@@ -67,7 +69,7 @@
 	
 	<bean id="addCommentRestService" class="com.afrAsia.rest.AddCommentRestService" >
 		<property name="addCommentService" ref="addCommentService" />
-	</bean>
+	</bean> 
 	
 	<bean id="authenticationRestService" class="com.afrAsia.rest.AuthenticationRestService" >
 		<property name="authenticationService" ref="authenticationService" />
@@ -77,20 +79,22 @@
 		<property name="applicationDetailsService" ref="applicationDetailsService" />
 	</bean>
 	
+	<util:properties id="mailProperties" location="file:mail.properties" ignore-resource-not-found="false" />
+<!--  	<context:property-placeholder location="classpath:mail.properties" />-->
+	<bean id="mailConfig" class="com.afrAsia.Utils.AfrAsiaMailConfig">
+        <property name="mailhost" value="${mailhost}"/>    
+        <property name="mailport" value="${mailport}"/>
+        <property name="mailFrom" value="${mailFrom}"/>
+        <property name="mailPassword" value="${mailPassword}"/>
+        <property name="smtpAuthRequired" value="${smtpAuthRequired}"/>
+        <property name="smtpAuthstarttls" value="smtpAuthstarttls"/>
+    </bean>
+	
+	
 	<bean id="accountCreationRestService" class="com.afrAsia.rest.AccountCreationRestService" >
 		<property name="accountCreationService" ref="accountCreationService" />
+		<property name="afrAsiaMailConfig" ref="mailConfig" />
 	</bean>
-	<!-- <bean id="applicationDetailsRestService" class="com.afrAsia.rest.ApplicationDetailsRestService" >
-		<property name="applicationDetailsService" ref="applicationDetailsService" />
-	</bean> -->
-	
-	<!-- <bean id="accountCreationRestService" class="com.afrAsia.rest.AccountCreationRestService" >
-		<property name="accountCreationService" ref="accountCreationService" />
-	</bean> -->
-	
-	<!-- <bean id="myTrackerRestService" class="com.afrAsia.rest.MyTrackerRestService" >
-		<property name="myTrackerService" ref="myTrackerService" />
-	</bean> -->
 	
 	<!-- <bean id="dtdpsSoapService" class="com.afrAsia.soap.DTDPSSoapService" >
 		<property name="dtdpsService" ref="dtdpsService" />
@@ -108,4 +112,5 @@
 		<property name="maxIdle" value="1" />
 		<property name="minIdle" value="1" />
 	</bean>  -->
+	
 </beans>

@@ -43,7 +43,7 @@
 				<version>1.4.196</version>
 				<scope>test</scope>
 			</dependency>
-
+			
 			<dependency>
 				<groupId>org.springframework.ldap</groupId>
 				<artifactId>spring-ldap-core</artifactId>
@@ -414,7 +414,7 @@
 				<artifactId>spring-webmvc</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-
+			
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-io</artifactId>
@@ -426,18 +426,17 @@
 			    <artifactId>itextpdf</artifactId>
 			    <version>${itextpdf.version}</version>
 			</dependency>
-			
-
+		
 		</dependencies>
 	</dependencyManagement>
 	<modules>
 		<module>entities</module>
+		<module>authentication</module>  
 		<module>dao</module>
 		<module>dao-jpa-impl</module>
 		<module>exception-management</module>
 		<module>services</module>
 		<module>rest</module>
 		<module>web-socket</module>
-		<module>authentication</module>
 	</modules>
 </project>

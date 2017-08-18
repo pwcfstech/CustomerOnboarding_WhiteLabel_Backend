@@ -1,7 +1,9 @@
 package com.afrAsia.rest;
 
 
+import java.io.IOException;
 import java.util.Calendar;
+
 import java.util.Date;
 import java.util.List;
 
@@ -25,12 +27,20 @@ import com.afrAsia.entities.request.NomineeInfo;
 import com.afrAsia.entities.response.AccountCreateResponse;
 import com.afrAsia.service.AccountCreationService;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+import javax.naming.NamingException;
+
+import com.afrAsia.Utils.AfrAsiaMailConfig;
+import com.afrAsia.Utils.AfrAsiaEmailUtility;
+
 
 @Component
 
 @Path("{version}")
 public class AccountCreationRestService {
 	private AccountCreationService accountCreationService;
+	AfrAsiaMailConfig afrAsiaMailConfig;
 
 	public AccountCreationService getAccountCreationService() {
 		return accountCreationService;
@@ -38,12 +48,21 @@ public class AccountCreationRestService {
 	public void setAccountCreationService(AccountCreationService accountCreationService) {
 		this.accountCreationService = accountCreationService;
 	}
+
+	public AfrAsiaMailConfig getAfrAsiaMailConfig() {
+		return afrAsiaMailConfig;
+	}
+
+
+	public void setAfrAsiaMailConfig(AfrAsiaMailConfig afrAsiaMailConfig) {
+		this.afrAsiaMailConfig = afrAsiaMailConfig;
+	}
 	@Override
 	public String toString() {
 		return "AccountCreationRestService [accountCreationService=" + accountCreationService + "]";
 	}
-	
-	
+
+
 	@POST
 	@Path("/createApplication")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -51,13 +70,28 @@ public class AccountCreationRestService {
 	public Response createAccount(AccountCreationRequest accountCreationRequest) {
 		AccountCreateResponse accountCreationResponse = new AccountCreateResponse();
 		MsgHeader msgHeader= new MsgHeader();
-		System.out.println(accountCreationRequest.toString());
-		System.out.println("here in rest Service");
+		//System.out.println(accountCreationRequest.toString());
+
 		try{
 			String checkRequest = validateRequest(accountCreationRequest);
 			if (checkRequest.equals("Success")){
-				accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
-				
+				if(accountCreationRequest.getData().getAppRefNo()==null){
+					System.out.println(" ########### in create service ############## ");
+					accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
+					sendEmailToCustomer();
+
+					String smsContent = "Dear [First Name], thank you for your interest in AfrAsia Bank. "
+							+ "Your application is currently under process with application number" 
+							+ accountCreationResponse.getData().getRefNo() 
+							+ ".We shall update you as soon as your account is opened. Regards, AfrAsia Bank Team";
+					sendSMSToCustomer(smsContent);
+
+				}
+				else{
+					System.out.println(" ########### in update service ############## "); 
+					accountCreationResponse = accountCreationService.updateAccount(accountCreationRequest);	
+				} 
+
 				if (accountCreationResponse!=null) {
 					return Response.ok(accountCreationResponse, MediaType.APPLICATION_JSON).build();
 				}
@@ -66,7 +100,7 @@ public class AccountCreationRestService {
 				}
 			}
 			else{
-				System.out.println("Request Details" + checkRequest);
+				//System.out.println("Request Details" + checkRequest);
 				Error error = new MsgHeader(). new Error();
 				error.setCd("404");
 				error.setRsn(checkRequest);
@@ -86,25 +120,32 @@ public class AccountCreationRestService {
 		return Response.ok(accountCreationResponse, MediaType.APPLICATION_JSON).build();
 
 	}
-	
+
 
 	private String validateRequest(AccountCreationRequest accountCreationRequest) {
+
 		if (accountCreationRequest != null && accountCreationRequest.getData() != null){
+
 			Data accountCreationData = accountCreationRequest.getData();
+			//System.out.println(" in validateRequest ,  in if  , accountCreationData ======== "+accountCreationData);
 			//Validate Account Details
 			String accountValidated = validateAccountDetails(accountCreationData);
+			//System.out.println(" in validateRequest ,  in if  , accountValidated ===== "+accountValidated);
 			if(!accountValidated.equalsIgnoreCase("Success")){
 				System.out.println("Account:Returning from here");
 				return accountValidated;
 			}
 			//Validate Primary Applicant Details and Guardian Detail
 			ApplicantDetails primaryApplicant = accountCreationRequest.getData().getPrimaryApplicantDetail();
+			//System.out.println("  in validateRequest ,  in if  , primaryApplicant ======= "+primaryApplicant);
 			ApplicantDetails guardianPrimary = accountCreationRequest.getData().getGuardianDetail();
+			//System.out.println("  in validateRequest ,  in if  , guardianPrimary ======= "+guardianPrimary);
 			String primaryValidated = validateApplicant(accountCreationData,primaryApplicant,guardianPrimary,"Primary");
+			//System.out.println(" in validateRequest ,  in if  , primaryValidated ====== "+primaryValidated);
 			if(!primaryValidated.equalsIgnoreCase("Success")){
 				return primaryValidated;
 			}
-			
+
 			//Validate Joint holder details
 			List<JointApplicants> jointApplicants = accountCreationRequest.getData().getJointApplicants(); 
 			if(accountCreationData.getAccountDetails().getAccountType().equalsIgnoreCase("J")){
@@ -125,7 +166,7 @@ public class AccountCreationRestService {
 				}
 				cntr++;
 			}
-		
+
 			return ("Success");
 		}
 		else{
@@ -133,10 +174,10 @@ public class AccountCreationRestService {
 			return ("Invalid Request from Create Application");
 		}
 	}
-	
+
 	//Account Details
-	private String validateAccountDetails(Data accountCreationData){	
-		//Account level Information
+	private String validateAccountDetails(Data accountCreationData){
+
 		if(!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getAccount()) || accountCreationData.getAccountDetails().getAccount().length() > 6){
 			return ("Error in account type::" + CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getAccount()) + "   " + accountCreationData.getAccountDetails().getAccount().length());
 		}
@@ -155,7 +196,7 @@ public class AccountCreationRestService {
 				return ("Account Category is incorrect");
 			}
 		}
-		
+
 		//Check for Statement delivery type
 		if(!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getStmtDelivery())){
 			if(accountCreationData.getAccountDetails().getStmtDelivery().equalsIgnoreCase("Post")){
@@ -179,14 +220,14 @@ public class AccountCreationRestService {
 				return("Invalid value for Statement Delivery");
 			}
 		}
-		
+
 		//Check for Internet banking
 		if(accountCreationData.getAccountDetails().getNeedInternetBanking()){
 			if(!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getInternetBankingUn()) || accountCreationData.getAccountDetails().getInternetBankingUn().length()>20){
 				return("Please enter a username for internet banking");
 			}
 		}
-		
+
 		//Check if user has opted for transactions thru email
 		if(accountCreationData.getAccountDetails().getOptTransactionsThruEmail()){
 			if(!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getAuthEmail1()) || accountCreationData.getAccountDetails().getAuthEmail1().length() > 255){
@@ -199,13 +240,13 @@ public class AccountCreationRestService {
 				return("Error in Auth email 3");
 			}
 		}
-		
+
 		//Check if opted for call back services
 		if(accountCreationData.getAccountDetails().getOptCallBackServices()){
 			if(accountCreationData.getAccountDetails().getNomineeInfo().size() == 0){
 				return("Please enter Nominee information");
 			}
-			
+
 			int cntr = 0;
 			for(NomineeInfo n : accountCreationData.getAccountDetails().getNomineeInfo()){
 
@@ -224,14 +265,28 @@ public class AccountCreationRestService {
 				cntr++;
 			}
 		}
-		
+
 		return("Success");
 	}
 
 	private String validateApplicant(Data accountCreationData, ApplicantDetails applicant, ApplicantDetails guardian, String customerType) {
-		
-		System.out.println("Applicant Details:: " + applicant.toString());
+
+		//System.out.println("Applicant Details:: " + applicant.toString());
 		//Primary applicant information
+		//Check DOB to identify if customer is minor. If not minor, check for below fields.
+		Date currentDate=new Date();
+		Calendar firstCalendar = Calendar.getInstance();
+		firstCalendar.setTime(applicant.getDob()); //set the time as the first java.util.Date
+		Calendar secondCalendar = Calendar.getInstance();
+		secondCalendar.setTime(currentDate); //set the time as the second java.util.Date
+		int year = Calendar.YEAR;
+		int month = Calendar.MONTH;
+		int age = secondCalendar.get(year) - firstCalendar.get(year);
+		if (age > 0 && (secondCalendar.get(month) < firstCalendar.get(month))) {
+			age--;
+		} 
+
+
 		if(!CommonUtils.checkNullorBlank(applicant.getResidencyStatus())){
 			return (customerType + ":Error in Primary Applicant Residency Status");
 		}
@@ -247,7 +302,7 @@ public class AccountCreationRestService {
 		if(!applicant.getMaidenName().isEmpty() && applicant.getMaidenName().length() > 105){
 			return (customerType + ":Error in Maiden Name");
 		}
-		if(applicant.getResidencyStatus().equals("RESIDENT") && CommonUtils.checkNullorBlank(applicant.getNic())){
+		if(applicant.getResidencyStatus().equals("RESIDENT") && !CommonUtils.checkNullorBlank(applicant.getNic())){
 			if(!CommonUtils.checkNullorBlank(applicant.getPassportNo())){
 				return (customerType + ":Need NIC or Passport information for customer");
 			}
@@ -275,20 +330,23 @@ public class AccountCreationRestService {
 				return (customerType + ":Error in Customer CIF");
 			}
 		}
-		if(!CommonUtils.checkNullorBlank(applicant.getMaritialStatus()) || applicant.getMaritialStatus().length() > 1){
-			return (customerType + ":Error in Maritial Status");
-		}
-		else{
-			String[] arr = {"S", "M", "D", "R", "P", "E"};
-			int i;
-			for (i=0; i< arr.length; i++){
-				if(arr[i].equalsIgnoreCase(applicant.getMaritialStatus())){
-					System.out.println("I was here in mar status");
-					break;
-				}
+
+		if(age > 18){
+			if(!CommonUtils.checkNullorBlank(applicant.getMaritialStatus()) || applicant.getMaritialStatus().length() > 1){
+				return (customerType + ":Error in Maritial Status");
 			}
-			if(i == arr.length){
-				return (customerType + ":Maritial status is incorrect" + " " + i);
+			else{
+				String[] arr = {"S", "M", "D", "R", "P", "E"};
+				int i;
+				for (i=0; i< arr.length; i++){
+					if(arr[i].equalsIgnoreCase(applicant.getMaritialStatus())){
+						System.out.println("I was here in mar status");
+						break;
+					}
+				}
+				if(i == arr.length){
+					return (customerType + ":Maritial status is incorrect" + " " + i);
+				}
 			}
 		}
 		if(!CommonUtils.checkNullorBlank(applicant.getPermAddr1()) || applicant.getPermAddr1().length()>105){
@@ -332,23 +390,27 @@ public class AccountCreationRestService {
 		if(applicant.getMobNo() == null){
 			return (customerType + ":Error in Mobile No");
 		}
-		if(!CommonUtils.checkNullorBlank(applicant.getEmploymentStatus()) || applicant.getEmploymentStatus().length() > 1){
-			return (customerType + ":Error in Maritial Status");
-		}
-		else{
-			String[] arr = {"F", "U", "S", "P", "R", "N", "O"};
-			int i;
-			for (i=0; i< arr.length; i++){
-				if(arr[i].equalsIgnoreCase(applicant.getEmploymentStatus())){
-					break;
+
+		if(age > 18){
+			if(!CommonUtils.checkNullorBlank(applicant.getEmploymentStatus()) || applicant.getEmploymentStatus().length() > 1){
+				return (customerType + ":Error in Employment Status");
+			}
+			else{
+				String[] arr = {"F", "U", "S", "P", "R", "N", "O"};
+				int i;
+				for (i=0; i< arr.length; i++){
+					if(arr[i].equalsIgnoreCase(applicant.getEmploymentStatus())){
+						break;
+					}
+				}
+				if(i == arr.length){
+					return (customerType + ":Employment status is incorrect");
 				}
 			}
-			if(i == arr.length){
-				return (customerType + ":Employment status is incorrect");
+
+			if(!CommonUtils.checkNullorBlank(applicant.getCurrentOccupation()) && (applicant.getEmploymentStatus().equalsIgnoreCase("F") || applicant.getEmploymentStatus().equalsIgnoreCase("S"))){
+				return (customerType + ":Error in Current Occupation");
 			}
-		}
-		if(!CommonUtils.checkNullorBlank(applicant.getCurrentOccupation())){
-			return (customerType + ":Error in Current Occupation");
 		}
 
 		//If employed, check if user has entered employment details
@@ -378,7 +440,7 @@ public class AccountCreationRestService {
 
 		//If self-employed, check if user has entered details
 		if("S".equalsIgnoreCase(applicant.getEmploymentStatus())){
-			if(CommonUtils.checkNullorBlank(applicant.getBusinessSector()) || applicant.getBusinessSector().length()>105){
+			if(!CommonUtils.checkNullorBlank(applicant.getBusinessSector()) || applicant.getBusinessSector().length()>105){
 				return (customerType + ":Error in Business Sector");
 			}
 
@@ -387,22 +449,8 @@ public class AccountCreationRestService {
 			}
 		}
 
-		//Check DOB to identify if customer is minor. If not minor, check for below fields.
-		Date currentDate=new Date();
-		
-		Calendar firstCalendar = Calendar.getInstance();
-		firstCalendar.setTime(applicant.getDob()); //set the time as the first java.util.Date
 
-		Calendar secondCalendar = Calendar.getInstance();
-		secondCalendar.setTime(currentDate); //set the time as the second java.util.Date
 
-		int year = Calendar.YEAR;
-		int month = Calendar.MONTH;
-		int age = secondCalendar.get(year) - firstCalendar.get(year);
-		if (age > 0 && 
-		    (secondCalendar.get(month) < firstCalendar.get(month))) {
-		    age--;
-		} 
 		System.out.println("Current Date:" + currentDate + "DOB:" + applicant.getDob() + "AGE" + age);
 		if(age > 18){
 			if(applicant.getNetMonthlyIncome() < 50000 || applicant.getNetMonthlyIncome() > 1000000000 ){
@@ -445,7 +493,7 @@ public class AccountCreationRestService {
 				return (customerType + ":Error in CRS Country");
 			}
 		}
-		
+
 		//Check if guardian details are correct.
 		System.out.println("Age is ::" + age);
 		if(age <= 18 && !customerType.equalsIgnoreCase("Guardian")){
@@ -453,9 +501,9 @@ public class AccountCreationRestService {
 				return (customerType + ":The customer is a minor. Please enter guardian details.");
 			}
 			System.out.println("Inside Guardian ::" + guardian);
-			
-			
-			
+
+
+
 			String guardianValidated = validateApplicant(accountCreationData,guardian,null,"Guardian");
 			if(!guardianValidated.equalsIgnoreCase("Success")){
 				return guardianValidated;
@@ -464,4 +512,53 @@ public class AccountCreationRestService {
 		return ("Success");
 
 	}
-}
+
+
+	public void sendEmailToCustomer(){
+		String host = afrAsiaMailConfig.getMailhost();
+		String port = afrAsiaMailConfig.getMailport();
+		String mailFrom = afrAsiaMailConfig.getMailFrom();
+		String password = afrAsiaMailConfig.getMailPassword();
+		String smtpAuthRequired=afrAsiaMailConfig.getSmtpAuthRequired();
+		String smtpAuthstarttls=afrAsiaMailConfig.getSmtpAuthRequired();
+		String toAddress="neha.marda@gmail.com";
+		String subject="Test Mail";
+
+		String message="Dear [First Name]," +
+				"Welcome to AfrAsia Bank and thank you for choosing us as your banking partner. Your application is currently under process with application number [XXX]. We shall update you as soon as your account is opened." +
+				"In the meantime, we invite you to browse our website www.afrasiabank.com for a detailed overview of our banking solutions, and our pioneering rewards programme, AfrAsia XtraMiles." +
+				"We remain at your disposal should you wish to discuss about your financial aspirations and how we can be of more relevance to you." +
+				"Thank you for your trust and we hope that our team measures up to your expectations." +
+				"Kind regards," + 
+				"Relationship manager (name)";
+
+
+
+		try {
+			AfrAsiaEmailUtility.sendEmail(host, port, mailFrom, password, toAddress, subject, message, smtpAuthRequired, smtpAuthstarttls);
+			System.out.println("EMail sent success");
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+	public void sendSMSToCustomer(String text){
+		String url = "http://41.212.214.205:81/cgi-bin/BMP_SendTextMsg?"
+				+ "UserName=afrasia1&PassWord=4fr4s14&UserData="
+				+ text
+				+ "&Concatenated=0&SenderId=23052581818&Deferred=false&Number="
+				+ "23051234567"
+				+ "&Dsr=false";
+	}	
+}	

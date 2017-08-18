@@ -233,7 +233,8 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 	public Collection<Long> getRefNo(String rmId) {
 
 		String queryString = "select ar.id From ApplicationReference ar where lower(ar.appStatus)=lower(:as) "
-				+ "AND ar.rmUserId=:rmID ";//order by ar.updatedTime ASC
+				+ "AND ar.rmUserId=:rmID "
+				+ "order by ar.updatedTime DESC";
 		
 
 		Query query = getEntityManager().createQuery(queryString);
@@ -252,12 +253,18 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 	// get the Custermer Name
 	public Collection<Object> getCustermerName(String rmId) {
 
-		String queryString ="SELECT apd.firstName,apd.lastName FROM ApplicantPersonalDetails apd "
-		+ "WHERE apd.applicantId IN (SELECT ad.indvApplicantRefNo FROM ApplicationDetails ad "
-		+ "WHERE ad.id IN (SELECT ar.id FROM ApplicationReference ar "
-		+ "WHERE lower(ar.appStatus) = lower(:as) AND ar.rmUserId=:rmID))";
-		/*+ "order by ar.updatedTime ASC FROM ApplicationReference ar"
-		+ "WHERE ar.id=apd.id ";*/
+		/*String queryString ="SELECT apd.firstName,apd.lastName FROM ApplicantPersonalDetails apd "
+		+ "WHERE apd.id IN (SELECT ar.id FROM ApplicationReference ar "
+		+ "WHERE lower(ar.appStatus) = lower(:as) AND ar.rmUserId=:rmID))"
+		+ "order by apd.id DESC";*/
+		String queryString ="select apd.firstName,apd.lastName "
+				+ "from ApplicationReference ar, ApplicantPersonalDetails apd "
+				+ "WHERE lower(ar.appStatus) = lower(:as) AND ar.rmUserId=:rmID AND ar.id=apd.id "
+				+ "order by ar.updatedTime desc";
+		/*Query query = getEntityManager().createQuery("select apd.firstName,apd.lastName"
+				+ " from ApplicationReference ar, ApplicantPersonalDetails apd "
+				+ "WHERE lower(ar.appStatus) = lower(:as) AND ar.rmUserId=:rmID"
+				+ "order by ar.createdTime desc");*/
 		
 		Query query = getEntityManager().createQuery(queryString);
 
@@ -275,8 +282,8 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 	public Collection<Date> getPendingSinceStatus(String rmId) {
 
 		String queryString = "select ar.updatedTime From ApplicationReference ar where "
-				+ "lower(ar.appStatus)=lower(:as) AND ar.rmUserId=:rmID ";
-				//+ "order by ar.updatedTime ASC";
+				+ "lower(ar.appStatus)=lower(:as) AND ar.rmUserId=:rmID "
+				+ "order by ar.updatedTime DESC";
 
 		Query query = getEntityManager().createQuery(queryString);
 

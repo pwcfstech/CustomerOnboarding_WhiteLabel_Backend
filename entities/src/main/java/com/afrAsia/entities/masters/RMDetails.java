@@ -18,6 +18,9 @@ public class RMDetails extends BaseMaster  implements Serializable{
 	
 	@Column(name = "RM_NAME")
 	private String rmName;
+	
+	@Column(name = "USER_GROUP")
+	private String userGroup;
 
 	public String getId() {
 		return id;
@@ -34,9 +37,19 @@ public class RMDetails extends BaseMaster  implements Serializable{
 	public void setRmName(String rmName) {
 		this.rmName = rmName;
 	}
+	
+	public String getUserGroup() {
+		return userGroup;
+	}
+
+	public void setUserGroup(String userGroup) {
+		this.userGroup = userGroup;
+	}
 
 	@Override
 	public String toString() {
-		return "RMDetails [rmId=" + id + ", rmName=" + rmName + "]";
+		return "RMDetails [id=" + id + ", rmName=" + rmName + ", userGroup=" + userGroup + "]";
 	}
+
+	
 }

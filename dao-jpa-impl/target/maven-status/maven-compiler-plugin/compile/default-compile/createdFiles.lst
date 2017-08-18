@@ -13,6 +13,8 @@ com\afrAsia\dao\jpa\impl\RmApplicationsAppJpaDAOImpl.class
 com\afrAsia\dao\jpa\impl\AccountClassJpaDaoImpl.class
 com\afrAsia\dao\jpa\impl\ApplicationDetailsDaoImpl.class
 com\afrAsia\dao\jpa\ProductJpaDao.class
+com\afrAsia\dao\jpa\impl\RMSessionDetailJpaDaoImpl.class
+com\afrAsia\dao\jpa\RMSessionDetailJpaDAO.class
 com\afrAsia\dao\jpa\MaritalStatusJpaDAO.class
 com\afrAsia\dao\jpa\impl\AccountTypeJpaDaoImpl.class
 com\afrAsia\dao\jpa\AddCommentJpaDao.class

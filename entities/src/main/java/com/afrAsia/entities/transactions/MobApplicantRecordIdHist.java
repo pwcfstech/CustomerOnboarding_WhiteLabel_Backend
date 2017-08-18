@@ -4,47 +4,43 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
-
 /**
  * The persistent class for the MOB_APPLICANT_RECORD_ID_HIST database table.
  * 
  */
 @Entity
-@Table(name="MOB_APPLICANT_RECORD_ID_HIST")
-@NamedQuery(name="MobApplicantRecordIdHist.findAll", query="SELECT m FROM MobApplicantRecordIdHist m")
+@Table(name = "MOB_APPLICANT_RECORD_ID_HIST")
+@NamedQuery(name = "MobApplicantRecordIdHist.findAll", query = "SELECT m FROM MobApplicantRecordIdHist m")
 public class MobApplicantRecordIdHist implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private MainTableCompositePK id;
+	private HistTableCompositePK id;
 
-	@Column(name="CREATED_BY")
+	@Column(name = "CREATED_BY")
 	private String createdBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="CREATED_DATE")
+	@Column(name = "CREATED_DATE")
 	private Date createdDate;
 
-	@Column(name="MODIFIED_BY")
+	@Column(name = "MODIFIED_BY")
 	private String modifiedBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="MODIFIED_DATE")
+	@Column(name = "MODIFIED_DATE")
 	private Date modifiedDate;
 
-	public MobApplicantRecordIdHist() {
+	public HistTableCompositePK getId() {
+		return id;
 	}
 
-	public MainTableCompositePK getId() {
-		return this.id;
-	}
-
-	public void setId(MainTableCompositePK id) {
+	public void setId(HistTableCompositePK id) {
 		this.id = id;
 	}
 
 	public String getCreatedBy() {
-		return this.createdBy;
+		return createdBy;
 	}
 
 	public void setCreatedBy(String createdBy) {
@@ -52,7 +48,7 @@ public class MobApplicantRecordIdHist implements Serializable {
 	}
 
 	public Date getCreatedDate() {
-		return this.createdDate;
+		return createdDate;
 	}
 
 	public void setCreatedDate(Date createdDate) {
@@ -60,7 +56,7 @@ public class MobApplicantRecordIdHist implements Serializable {
 	}
 
 	public String getModifiedBy() {
-		return this.modifiedBy;
+		return modifiedBy;
 	}
 
 	public void setModifiedBy(String modifiedBy) {
@@ -68,11 +64,17 @@ public class MobApplicantRecordIdHist implements Serializable {
 	}
 
 	public Date getModifiedDate() {
-		return this.modifiedDate;
+		return modifiedDate;
 	}
 
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
+	}
+
+	@Override
+	public String toString() {
+		return "MobApplicantRecordIdHist [id=" + id + ", createdBy=" + createdBy + ", createdDate=" + createdDate
+				+ ", modifiedBy=" + modifiedBy + ", modifiedDate=" + modifiedDate + "]";
 	}
 
 }

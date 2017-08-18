@@ -22,5 +22,11 @@ public class LoginRequest
 	public void setData(LoginDataRequest data) {
 		this.data = data;
 	}
+	@Override
+	public String toString() {
+		return "LoginRequest [msgHeader=" + msgHeader + ", data=" + data + "]";
+	}
+	
+	
 	
 }

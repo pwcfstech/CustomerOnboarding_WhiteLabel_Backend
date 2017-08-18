@@ -71,22 +71,18 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
     }
 
     @Transactional
-    public void saveClientDetail(String clientId, String resourceId, String clientSecret, String scope, String authorizedGrantTypes, String webServerRedirectUri, String authorities,
+    public RMDetails saveClientDetail(String clientId, String clientType, String resourceId, String clientSecret, String scope, String authorizedGrantTypes, String webServerRedirectUri, String authorities,
             int accessTokenValidity, int refreshTokenValidity, String additionalInformation, String autoApprove)
     {
-    	System.out.println("-------- clientId --------- "+clientId);
-    	System.out.println("clientId in saveClientDetail impl ========== "+rmDetailsDAO.getRMDetailById(clientId));
-    	RMDetails rmDetails = rmDetailsDAO.getRMDetailById(clientId);
+    
+    	RMDetails rmDetails = rmDetailsDAO.getRMDetailById(clientId, clientType);
     	//rmDetails.getRmName();
     	//rmDetails.setId("1");
 //        User client = userDAO.findById(Integer.valueOf(clientId));
         OauthAuthorization oauthAuthorization = new OauthAuthorization();
         oauthAuthorization.setId(1L); 
         System.out.println("######## id in service impl ================ "+oauthAuthorization.getId());
-    	
-    	System.out.println("Client id : " + clientId);
-    	RMDetails rmDetails1 = rmDetailsDAO.getRMDetailById(clientId);
-    	System.out.println("rmDetails: " + rmDetails1);
+
 //        User client = userDAO.findById(Integer.valueOf(clientId));
         oauthAuthorization.setId(System.currentTimeMillis());
         oauthAuthorization.setResourceIds(resourceId);
@@ -106,6 +102,8 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
         oauthAuthorization.setCreatedBy(clientId);
         System.out.println("oauthAuthorization.getCreatedBy() ========================== "+oauthAuthorization.getCreatedBy());
         oAuthAuthorizationDAO.saveClientDetail(oauthAuthorization);
+        
+        return rmDetails;
     }
 
     public boolean isClientValid(String clientId)
@@ -135,5 +133,9 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
         	throw new ClientRegistrationException("Exception while loading client by id.", e);
         }
     }
-
+    
+    public RMDetails getRMDetails(String clientId, String clientType){
+    	RMDetails rmDetails = rmDetailsDAO.getRMDetailById(clientId, clientType);
+    	return rmDetails;
+    }
 }

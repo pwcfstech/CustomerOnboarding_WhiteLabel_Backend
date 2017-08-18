@@ -12,7 +12,7 @@ import java.util.Date;
 @Entity
 @Table(name="MOB_APPLICANT_COMM_DETAILS")
 @NamedQuery(name="MobApplicantCommDetail.findAll", query="SELECT m FROM MobApplicantCommDetail m")
-public class MobApplicantCommDetail implements Serializable {
+public class MobApplicantCommDetail implements Serializable { 
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId

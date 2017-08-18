@@ -16,6 +16,12 @@
 						http://www.springframework.org/schema/aop 					http://www.springframework.org/schema/tx/spring-aop-4.1.xsd">
 
 	<import resource="classpath*:**/applicationContext-dao-jpa-configuration.xml"/>
+	
+	<import resource="classpath*:**/applicationContext-exception-management.xml"/>
+	
+	<bean id="idNotFoundException" class="com.afrAsia.customexception.IdNotFoundException">
+		<!-- <property name="idNotFoundException" ref="idNotFoundException" /> -->
+	</bean>
 
 	<bean id="userJpaDAO" class="com.afrAsia.dao.jpa.impl.UserJpaDAOImpl" />
 	
@@ -35,9 +41,9 @@
 	<bean id="uidTypeJpaDAO" class="com.afrAsia.dao.jpa.impl.UIDTypeJpaDaoImpl" />
 	<bean id="accountCreateJpaDao" class="com.afrAsia.dao.jpa.impl.AccountCreateJpaDaoImpl" />
 	<bean id="applicationDetailsJpaDAO" class="com.afrAsia.dao.jpa.impl.ApplicationDetailsDaoImpl" />
-	<bean id="accountCreateJpaDao" class="com.afrAsia.dao.jpa.impl.AccountCreateJpaDaoImpl"/>
 	<bean id="accountTypeJpaDao" class="com.afrAsia.dao.jpa.impl.AccountTypeJpaDaoImpl"/>
 	<bean id="afrAsiaFirstJpaDao" class="com.afrAsia.dao.jpa.impl.AfrAsiaFirstJpaDaoImpl"/>
+	<bean id="rmSessionDetailJpaDAO" class="com.afrAsia.dao.jpa.impl.RMSessionDetailJpaDaoImpl"/>
 	
 	<bean id="rmDetailsDAO" class="com.afrAsia.dao.jpa.impl.RMDetailsJpaDaoImpl" />
 	

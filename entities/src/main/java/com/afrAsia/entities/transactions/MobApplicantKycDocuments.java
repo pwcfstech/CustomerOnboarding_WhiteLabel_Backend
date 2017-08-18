@@ -101,4 +101,5 @@ public class MobApplicantKycDocuments implements Serializable {
 				+ docUrl + ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", modifiedBy=" + modifiedBy
 				+ ", modifiedDate=" + modifiedDate + "]";
 	}
+
 }

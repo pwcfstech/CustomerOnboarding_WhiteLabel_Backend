@@ -342,3 +342,4 @@ public class MobApplicantPersonalDetail implements Serializable {
 				+ ", title=" + title + ", customerType=" + customerType +  ", isMinor=" + isMinor + "]";
 	}
 }
+
