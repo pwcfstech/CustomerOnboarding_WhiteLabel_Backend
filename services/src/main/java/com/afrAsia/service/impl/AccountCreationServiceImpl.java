@@ -74,6 +74,54 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 	@Transactional(readOnly = false, rollbackFor = {Exception.class})
 	public AccountCreateResponse createAccount(AccountCreationRequest accountCreationRequest) {
 		
+		// Get app reference number from create request	
+
+				AccountCreateResponse accountCreateResponse=new AccountCreateResponse();
+
+				Long appId=accountCreationRequest.getData().getAppRefNo();
+				System.out.println("appId =========== in service impl "+appId);
+
+				Long appIdFromDb=0L;
+				try{			
+					appIdFromDb= accountCreateDao.getAppId(appId);			
+					if(appIdFromDb!=null){
+						MsgHeader messageHeader=new MsgHeader();
+						MsgHeader.Error error=new MsgHeader().new Error();
+						error.setRsn("Provided application reference number is present in Db ");
+						messageHeader.setError(error);
+					} 	
+					else{
+						MsgHeader messageHeader=new MsgHeader();
+						MsgHeader.Error error=new MsgHeader().new Error();
+						error.setCd("404");
+						error.setCustomCode("ERR404");
+						error.setRsn("Provided application reference number is not present, please pass proper value");
+						messageHeader.setError(error);
+						accountCreateResponse.setMsgHeader(messageHeader);
+						throw new IdNotFoundException("Provided application reference number is not present, please pass proper value");
+					}
+
+				}  catch(IdNotFoundException exceptionMessage){
+					MsgHeader msgHdr = new MsgHeader();
+					Error err = new MsgHeader().new Error();
+					err.setRsn("The application number does not exist. Please try again");
+					err.setCd("404");
+					err.setCustomCode("IdNotFoundException");
+					msgHdr.setError(err);
+					accountCreateResponse.setMsgHeader(msgHdr);
+					return accountCreateResponse;
+				}	
+				catch(NoResultException excpMessage){
+					MsgHeader msgHdr = new MsgHeader();
+					Error err = new MsgHeader().new Error();
+					err.setRsn("The application number does not exist. Please try again");
+					err.setCd("404");
+					err.setCustomCode("NoResultException");
+					msgHdr.setError(err);
+					accountCreateResponse.setMsgHeader(msgHdr);
+					return accountCreateResponse;
+				}
+		
 		System.out.println("in service === accny creation service ========== ");
 		AccountCreateResponse accountCreationResponse = new AccountCreateResponse();
 		Data data= new AccountCreateResponse().new Data();
@@ -402,7 +450,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobApplicantPersonalDetail.setCustomerType(customerType);
 		mobApplicantPersonalDetail=accountCreateDao.storeMobApplicantPersonalDetail(mobApplicantPersonalDetail);
 		
-		System.out.println("mobApplicantPersonalDetail in service ====== "+mobApplicantPersonalDetail.toString());
+		//System.out.println("mobApplicantPersonalDetail in service ====== "+mobApplicantPersonalDetail.toString());
 		
 		if(age > 18){
 			mobApplicantPersonalDetail.setIsMinor(false);
@@ -592,16 +640,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			accountCreateResponse.setMsgHeader(msgHdr);
 			return accountCreateResponse;
 		}
-		catch(Exception message){
-			MsgHeader msgHdr = new MsgHeader();
-			Error err = new MsgHeader().new Error();
-			err.setRsn("The application number does not exist. Please try again");
-			err.setCd("404");
-			err.setCustomCode("Exception");
-			msgHdr.setError(err);
-			accountCreateResponse.setMsgHeader(msgHdr);
-			return accountCreateResponse;
-		}
+
 		//2. Create a record id for the application reference id.
 
 		MobAppRefRecordId mobAppRefRecordId = createRecordIdForApplication(accountCreationRequest,accountCreationRequest.getData().getAppRefNo());
@@ -626,70 +665,101 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		
 
 		//Update applicant id	=========== needs to be done 
+		MobApplicantRecordId mobApplicantRecordId=new MobApplicantRecordId();
+		Long primaryApplicantRefNo=null;
 		ApplicantDetails primaryApplicant = accountCreationRequest.getData().getPrimaryApplicantDetail();
-		List<MobApplicantRecordId> listMobApplicantPrimary = accountCreateDao.updateApplicant(accountCreationRequest, primaryApplicant, appId, recordId, "Primary");
-		System.out.println("########## listMobApplicantPrimary.toString() in service =========== "+listMobApplicantPrimary.toString());
-		MobApplicantRecordId[] mobApplicantPrimaryArr = new MobApplicantRecordId[listMobApplicantPrimary.size()];
-		mobApplicantPrimaryArr = listMobApplicantPrimary.toArray(mobApplicantPrimaryArr);
+		if(primaryApplicant!=null)
+		{
+			System.out.println("######## primaryApplicant.getApplicantId() in service ==== "+primaryApplicant.getApplicantId());
+			mobApplicantRecordId=accountCreateDao.updateApplicant(accountCreationRequest, primaryApplicant, appId, recordId, "Primary");
+			data.setPrimaryApplicantRefNo(primaryApplicant.getApplicantId());
+			primaryApplicantRefNo=primaryApplicant.getApplicantId();
+			System.out.println("data.getPrimaryApplicantRefNo() in service ======== "+data.getPrimaryApplicantRefNo());
+		}	
 		
-		//Update Guardian		=========== needs to be done
-		List<MobApplicantRecordId> listMobGuardianPrimary = null;
-		MobApplicantRecordId[] mobGuardianPrimaryArr=null;
+		else
+		{
+			MsgHeader msgHdr = new MsgHeader();
+			Error err = new MsgHeader().new Error();
+			err.setRsn("PrimaryApplicant details has not been sent properly, please send proper values");
+			err.setCd("404");
+			err.setCustomCode("PrimaryApplicant is null");
+			msgHdr.setError(err);
+			accountCreateResponse.setMsgHeader(msgHdr);
+		}
+		
+		Long guardianRefNo=null;
 		ApplicantDetails guardianPrimary = accountCreationRequest.getData().getGuardianDetail();
-		if(guardianPrimary != null && guardianPrimary.getFirstName()!=null && !guardianPrimary.getFirstName().isEmpty()){
-			listMobGuardianPrimary = accountCreateDao.updateApplicant(accountCreationRequest, guardianPrimary, appId, recordId, "Guardian");
-			System.out.println("########## listMobApplicantPrimary.toString() in service =========== "+listMobApplicantPrimary.toString());
-			mobGuardianPrimaryArr = new MobApplicantRecordId[listMobGuardianPrimary.size()];
-			mobGuardianPrimaryArr = listMobGuardianPrimary.toArray(mobGuardianPrimaryArr);
+		if(guardianPrimary!=null)
+		{
+			System.out.println("######## guardianPrimary.getApplicantId() in service ==== "+guardianPrimary.getApplicantId());
+			mobApplicantRecordId=accountCreateDao.updateApplicant(accountCreationRequest, guardianPrimary, appId, recordId, "Guardian");
+			data.setGuardianRefNo(guardianPrimary.getApplicantId());
+			guardianRefNo=guardianPrimary.getApplicantId();
+			System.out.println("data.getGuardianRefNo() in service ======== "+data.getGuardianRefNo());
+		}	
+		else
+		{
+			MsgHeader msgHdr = new MsgHeader();
+			Error err = new MsgHeader().new Error();
+			err.setRsn("guardianPrimary details has not been sent properly, please send proper values");
+			err.setCd("404");
+			err.setCustomCode("guardianPrimary is null");
+			msgHdr.setError(err);
+			accountCreateResponse.setMsgHeader(msgHdr);
 		}
+		
+
 		//Update Joint holders	=========== needs to be done
-		List<JointApplicants> jointHolders = accountCreationRequest.getData().getJointApplicants();
-		JointApplicants[] mobJointApplicantsArr=null;
-		if(jointHolders != null){
-			listMobGuardianPrimary = accountCreateDao.updateApplicant(accountCreationRequest, guardianPrimary, appId, recordId, "Joint");
-			System.out.println("########## listMobApplicantPrimary.toString() in service =========== "+listMobApplicantPrimary.toString());
-			mobGuardianPrimaryArr = new MobApplicantRecordId[listMobGuardianPrimary.size()];
-			mobJointApplicantsArr = jointHolders.toArray(mobJointApplicantsArr);
-		}
-		//		
-		for (JointApplicants s : jointHolders){
-			//System.out.println("Joint applicant Info::" + s.toString());
-		}
+		//Create Joint holders
+		
+		List<JointApplicantsData> jointApplicants = new ArrayList<JointApplicantsData>();
+				List<JointApplicants> jointHolders = accountCreationRequest.getData().getJointApplicants();
+				
+				MobApplicantRecordId[] mobJoint = new MobApplicantRecordId[5];
+				MobApplicantRecordId[] mobGuardianJoint = new MobApplicantRecordId[5];
 
-
-		MobApplicantRecordId[] mobJoint = new MobApplicantRecordId[5];
-		MobApplicantRecordId[] mobGuardianJoint = new MobApplicantRecordId[5];
-
-		int i = 0;
-		for (JointApplicants jointApplicantInfo : jointHolders){
-			//System.out.println("I am here");
-			ApplicantDetails jointApplicant = jointApplicantInfo.getJointApplicantDetail();
-			if(jointApplicant != null){
-				//System.out.println("I am also here " + jointApplicant.toString());
-				mobJoint[i] = createApplicant(accountCreationRequest, jointApplicant, appId, recordId, "Joint");
-				//System.out.println("Applicant id" + mobJoint[i].getApplicantId());
-			}
-			ApplicantDetails guardianJoint = jointApplicantInfo.getGuardianDetail();
-			if(guardianJoint != null){
-				//System.out.println("I am also here " + guardianJoint.toString());
-				mobGuardianJoint[i] = createApplicant(accountCreationRequest, guardianJoint, appId, recordId, "Guardian");
-				//System.out.println("Guardins id" + mobGuardianJoint[i].getApplicantId());
-			}
-			else {
-				mobGuardianJoint[i] = null;
-			}
-			i++;
-		}
-
-		// Update Account
-		AccountDetails accountDetails = accountCreationRequest.getData().getAccountDetails();
-		accountCreateDao.updateAccountDetails(accountCreationRequest,appId, recordId, mobApplicantPrimaryArr,mobGuardianPrimaryArr, mobJoint, mobGuardianJoint, accountDetails); 
+				int i = 0; 
+				
+				for (JointApplicants jointApplicantInfo : jointHolders){
+					
+					JointApplicantsData applicantRefNo = new AccountCreateResponse().new Data().new JointApplicantsData();
+					
+					ApplicantDetails jointApplicant = jointApplicantInfo.getJointApplicantDetail();
+					if(jointApplicant != null){
+						System.out.println("######## jointApplicant.getApplicantId() in service ==== "+jointApplicant.getApplicantId());
+						mobJoint[i]=accountCreateDao.updateApplicant(accountCreationRequest, jointApplicant, appId, recordId, "Joint");
+						applicantRefNo.setJointAppRefNo(mobJoint[i].getApplicantId());
+						System.out.println("data.getGuardianRefNo() in service ======== "+applicantRefNo.getJointAppRefNo());
+					}
+					ApplicantDetails guardianJoint = jointApplicantInfo.getGuardianDetail();
+					if(guardianJoint != null){
+						System.out.println("######## guardianJoint.getApplicantId() in service ==== "+guardianJoint.getApplicantId());
+						mobGuardianJoint[i]=accountCreateDao.updateApplicant(accountCreationRequest, guardianJoint, appId, recordId, "Guardian");
+						applicantRefNo.setGuardianRefNo(mobGuardianJoint[i].getApplicantId());
+						System.out.println("data.getGuardianRefNo() in service ======== "+applicantRefNo.getGuardianRefNo());
+					}
+					else {
+						mobGuardianJoint[i] = null;
+					}
+					i++;
+					jointApplicants.add(applicantRefNo);
+				}
+				data.setJointApplicants(jointApplicants);
+				data.setRefNo(appId);
+				data.setRecordId(recordId);
+				// update MOB_ACCOUNT_DETAILS and MOB_ACCT_ADDTIONAL_DETAILS
+				//AccountCreationRequest accountCreationRequest, Long appId, Long recordId,
+				//Long mobApplicantPrimaryApplicantId, Long mobGuardianPrimaryApplicantId,
+				//MobApplicantRecordId[] mobJoint, MobApplicantRecordId[] mobGuardianJoint, 
+				//AccountDetails accountDetails
+				AccountDetails accountDetails=accountCreationRequest.getData().getAccountDetails();
+				accountCreateDao.updateAccountDetails(accountCreationRequest,appId,recordId,primaryApplicantRefNo, guardianRefNo,
+						mobJoint, mobGuardianJoint,accountDetails);
 		// Trigger email and sms to customer 
 
 
 		// Send application reference id to frontend
-		data.setRefNo(appId);
-		System.out.println("data.getRefNo() =========== in service "+data.getRefNo());
 		accountCreationResponse.setData(data);
 		System.out.println("accountCreationResponse.getData().getRefNo() in service ======== "+accountCreationResponse.getData().getRefNo());
 		return accountCreationResponse;
@@ -727,7 +797,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			MobApplPersonalDetailsHist mobApplPersonalDetailsHist=new MobApplPersonalDetailsHist();
 			MobApplicantPersonalDetail mobApplicantPersonalDetail=applicationDetailsDAO.getMobApplicantPersonalDetails(appid,mobApplicantRecordId.getApplicantId());
 			
-			System.out.println("############### mobApplicantPersonalDetail in service ========== "+mobApplicantPersonalDetail.toString());
+			//System.out.println("############### mobApplicantPersonalDetail in service ========== "+mobApplicantPersonalDetail.toString());
 			mobApplPersonalDetailsHist.setRecordId(mobApplicantPersonalDetail.getRecordId());
 			mobApplPersonalDetailsHist.setApplicantId(mobApplicantPersonalDetail.getId().getApplicantId());
 			mobApplPersonalDetailsHist.setCountryBirth(mobApplicantPersonalDetail.getCountryBirth());

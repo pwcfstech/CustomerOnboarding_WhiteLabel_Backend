@@ -1,5 +1,6 @@
 package com.afrAsia.dao.jpa.impl;
 
+import java.awt.event.MouseMotionAdapter;
 import java.util.Date;
 import java.util.List;
 
@@ -158,7 +159,17 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		return mobApplKycDocumentsHist;
 	}
 	
+	// to check whether application reference number ,comes from create request is present in DB or not  
+	public Long getAppId(Long appId) {
 
+		Query query = getEntityManager()
+				.createQuery("select ar.id from MobRmAppRefId ar " + "where ar.id=:appid");
+		query.setParameter("appid", appId);
+		Long appid = (Long) query.getSingleResult();
+		return appid;
+	}
+	
+	// to check whether application reference number and rmId ,comes from update request are present in DB or not 
 	public Long getAppId(Long appId, String rmUserId) {
 
 		Query query = getEntityManager()
@@ -190,26 +201,38 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		return recordId;
 	}
 
-	public List<MobApplicantRecordId> updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails applicant,
+	
+	public MobApplicantRecordId getMobApplicantRecordId(Long appRefId,Long applicantId){
+		String queryString = "FROM MobApplicantRecordId s where s.id =:appRefId and s.applicantId=:applicantId";
+		Query query = getEntityManager().createQuery(queryString);
+		query.setParameter("appRefId", appRefId);
+		query.setParameter("applicantId", applicantId);
+		MobApplicantRecordId mobApplicantRecordId=(MobApplicantRecordId) query.getSingleResult();
+		System.out.println("mobApplicantRecordId=======in dao,getMobApplicantRecordId()========= "
+				+mobApplicantRecordId);
+		return mobApplicantRecordId;
+		
+	}
+	
+	public MobApplicantRecordId updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails applicant,
 			Long appId, Long recordId, String typeOfApplicant) {
 
-		// get all the details of MobApplicantRecordId 
-		Query query5 = getEntityManager().createQuery("From MobApplicantRecordId b where b.id=:apId");
-		query5.setParameter("apId", appId);
-		List<MobApplicantRecordId> listMobApplicantRecordId=(List<MobApplicantRecordId>) query5.getResultList();
-		System.out.println("mobApplicantRecordId in dao updateApplicant ========= "+listMobApplicantRecordId);
+		System.out.println("updateApplicant in dao ============================ ");
 		
-		int i=0;
-		//for(MobApplicantRecordId mobApplicantRecordId:listMobApplicantRecordId){
-		// update MobApplicantCommDetail
+		System.out.println("applicant.getApplicantId() in dao,updateApplicant ============ "+applicant.getApplicantId());
+		MobApplicantRecordId mobApplicantRecordId= getMobApplicantRecordId(appId,applicant.getApplicantId());
+		System.out.println("mobApplicantRecordId in dao,updateApplicant==========="+mobApplicantRecordId);
+		
+		
 		Query query1 = getEntityManager().createQuery("update MobApplicantCommDetail ma set ma.recordId =:recordid,ma.faxNo=:faxno,"
 				+ "ma.faxNoCc=:faxNocc,ma.mailAddr1=:mailaddr1,ma.mailAddr2=:mailaddr2,ma.mailAddr3=:mailaddr3,ma.mailCity=:mailcity, ma.mailCountry=:mailcountry,"
 				+ "ma.mobNo=:mobno,ma.mobNoCc=:mobNocc,ma.modifiedBy=:modifiedby,ma.modifiedDate=:modifieddate,ma.permAddr1=:permaddr1,ma.permAddr2=:permaddr2,"
 				+ "ma.permAddr3=:permaddr3,ma.permCity=:permcity,ma.permCountry=:permcountry,ma.telNoHome=:telNohome,ma.telNoHomeCc=:telNoHomecc, "
 				+ "ma.telNoOff=:telNooff,ma.telNoOffCc=:telNoOffcc "
-				+ "where ma.id.id =:appid and ma.id.applicantId=:appntId");
+				+ "where ma.id.id =:appid and ma.id.applicantId=:applicantId");
 		query1.setParameter("appid", appId);
-		query1.setParameter("appntId", applicant.getApplicantId());
+		query1.setParameter("applicantId", applicant.getApplicantId());
+		System.out.println("###### applicant.getApplicantId() in dao for MobApplicantCommDetail ========== "+applicant.getApplicantId());
 		query1.setParameter("recordid", recordId);
 		query1.setParameter("faxno", applicant.getFaxNo());
 		query1.setParameter("faxNocc", applicant.getFaxNoCallingCode());
@@ -243,9 +266,10 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 				+ "ma.otherBank2=:otherbank2,ma.otherBank3=:otherbank3,ma.passportExpiryDate=:passportExpirydate,"
 				+ "ma.passportNo=:passportno,ma.residencyStatus=:residencystatus,ma.title=:title1,ma.customerType=:customertype,"
 				+ "ma.isMinor=:isminor " 
-				+ "where ma.id.id =:appid and ma.id.applicantId=:appntId");
+				+ "where ma.id.id =:appid and ma.id.applicantId=:applicantId");
 		query2.setParameter("appid", appId);
-		query2.setParameter("appntId", applicant.getApplicantId());
+		query2.setParameter("applicantId", applicant.getApplicantId());
+		System.out.println("###### applicant.getApplicantId() in dao for MobApplicantPersonalDetail ========== "+applicant.getApplicantId());
 		query2.setParameter("recordid", recordId);
 		query2.setParameter("countrybirth", applicant.getCountryBirth());
 		query2.setParameter("custcif", applicant.getCustomerCIF());
@@ -285,9 +309,10 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 				+ "ma.employerCity=:employercity,ma.employerCountry=:employercountry,ma.employerName=:employername,ma.employmentSts=:employmentsts, "
 				+ "ma.fundSources=:fundsources,ma.modifiedBy=:modifiedby,ma.modifiedDate=:modifieddate, "
 				+ "ma.netMonthlyIncome=:netMonthlyincome,ma.noOfYearsService=:noOfYearsservice,ma.otherSourcesIncome=:otherSourcesincome " 
-				+ "where ma.id.id =:appid and ma.id.applicantId=:appntId");
+				+ "where ma.id.id =:appid and ma.id.applicantId=:applicantId");
 		query3.setParameter("appid", appId);
-		query3.setParameter("appntId", applicant.getApplicantId());
+		query3.setParameter("applicantId", applicant.getApplicantId());
+		System.out.println("###### applicant.getApplicantId() in dao for MobApplicantEmploymentDtl ========== "+applicant.getApplicantId());
 		query3.setParameter("recordid", recordId);
 		query3.setParameter("annCashdeposit", applicant.getAnnualCashDeposit());
 		query3.setParameter("annCashwithdrawl", applicant.getAnnualCashWithdrawl());
@@ -317,9 +342,10 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 				+ "ma.modifiedBy=:modifiedby,ma.modifiedDate=:modifieddate,ma.oseasAddr1=:oseasaddr1,ma.oseasAddr2=:oseasaddr2,ma.oseasAddr3=:oseasaddr3, "
 				+ "ma.oseasCity=:oseascity,ma.oseasCountry=:oseascountry,ma.tin1=:tin1_1,ma.tin2=:tin2_2,ma.tin3=:tin3_3,ma.usCitizen=:uscitizen,ma.usSsn=:usssn,"
 				+ "ma.workPermitExpDate=:workPermitExpdate " 
-				+ "where ma.id.id =:appid and ma.id.applicantId=:appntId");
+				+ "where ma.id.id =:appid and ma.id.applicantId=:applicantId");
 		query4.setParameter("appid", appId);
-		query4.setParameter("appntId", applicant.getApplicantId());
+		query4.setParameter("applicantId", applicant.getApplicantId());
+		System.out.println("###### applicant.getApplicantId() in dao for MobApplicantAdditionalDtl ========== "+applicant.getApplicantId());
 		query4.setParameter("recordid", recordId);
 		query4.setParameter("country1_1", applicant.getCrsCountryResidence1());
 		query4.setParameter("country2_2", applicant.getCrsCountryResidence2());
@@ -344,25 +370,25 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		//i++;
 		//}
 		
-		Query query6 = getEntityManager()
+		Query query5 = getEntityManager()
 				.createQuery("update MobApplicantKycDocuments ma set ma.recordId =:recordid where ma.id.id =:appid "); 
-		query6.setParameter("appid", appId);
-		query6.setParameter("recordid", recordId);
-		int numberOfRecordsMobApplicantKycDocuments = query6.executeUpdate();
+		query5.setParameter("appid", appId);
+		query5.setParameter("recordid", recordId);
+		int numberOfRecordsMobApplicantKycDocuments = query5.executeUpdate();
 		System.out.println("numberOfRecordsMobApplicantKycDocuments in dao impl in updateApplicant ========== "+numberOfRecordsMobApplicantKycDocuments);
 		
-		return listMobApplicantRecordId;		
+		return mobApplicantRecordId;
 	}
 
 	public void updateAccountDetails(AccountCreationRequest accountCreationRequest, Long appId, Long recordId,
-			MobApplicantRecordId[] mobApplicantPrimary, MobApplicantRecordId[] mobGuardianPrimary,
+			Long mobApplicantPrimaryApplicantId, Long mobGuardianPrimaryApplicantId,
 			MobApplicantRecordId[] mobJoint, MobApplicantRecordId[] mobGuardianJoint, 
 			AccountDetails accountDetails) {
 		System.out.println("appId ==== " + appId + " " + "recordId ======== " + recordId);
 
-		Query query = getEntityManager()
+		Query query6 = getEntityManager()
 				.createQuery("update MobAccountDetail ma set ma.recordId =:recordid,ma.accountCategory=:accountcategory,ma.accountType=:accounttype,"
-						+ "ma.indvApplicantRefNo=:indvApplicantRefno,ma.indvGuardianRefNo=:indvGuardianRefno,ma.joint1ApplicantRefNo=:joint1ApplicantRefno,"
+						+ "ma.indvApplicantRefNo=:indvApplicantRefno,ma.indvGuardianRefNo=:indvGuardianRefNo,ma.joint1ApplicantRefNo=:joint1ApplicantRefno,"
 						+ "ma.joint1GuardianRefNo=:joint1GuardianRefno,ma.joint2ApplicantRefNo=:joint2ApplicantRefno,ma.joint2GuardianRefNo=:joint2GuardianRefno,"
 						+ "ma.joint3ApplicantRefNo=:joint3ApplicantRefno,ma.joint3GuardianRefNo=:joint3GuardianRefno,ma.joint4ApplicantRefNo=:joint4ApplicantRefno,"
 						+ "ma.joint4GuardianRefNo=:joint4GuardianRefno,ma.joint5ApplicantRefNo=:joint5ApplicantRefno,ma.joint5GuardianRefNo=:joint5GuardianRefno,"
@@ -378,114 +404,114 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 						+ "where ma.id =:appid ");
 		
 		//for(int i=0;i<mobApplicantPrimary.length;i++){
-		query.setParameter("appid", appId);
-		query.setParameter("recordid", recordId);
-		query.setParameter("accountcategory", accountDetails.getAccountType());
-		query.setParameter("accounttype", accountDetails.getAccountType());
-		query.setParameter("indvApplicantRefno", mobApplicantPrimary[0].getApplicantId());
+		query6.setParameter("appid", appId);
+		query6.setParameter("recordid", recordId);
+		query6.setParameter("accountcategory", accountDetails.getAccountType());
+		query6.setParameter("accounttype", accountDetails.getAccount());
+		query6.setParameter("indvApplicantRefno", mobApplicantPrimaryApplicantId);
 		
-		if(mobGuardianPrimary != null){
-			query.setParameter("indvGuardianRefno", mobGuardianPrimary[1].getApplicantId());
+		if(mobGuardianPrimaryApplicantId != null){
+			query6.setParameter("indvGuardianRefNo", mobGuardianPrimaryApplicantId);
 		}
 		else{
-			query.setParameter("indvGuardianRefNo", null);
+			query6.setParameter("indvGuardianRefNo", null);
 		}
 		if(mobJoint[0] != null){
-		query.setParameter("joint1ApplicantRefno", mobJoint[0].getApplicantId());
+		query6.setParameter("joint1ApplicantRefno", mobJoint[0].getApplicantId());
 		}
 		else{
-			query.setParameter("joint1ApplicantRefno", null);
+			query6.setParameter("joint1ApplicantRefno", null);
 		}
 		if(mobGuardianJoint[0] != null)
-		query.setParameter("joint1GuardianRefno", mobGuardianJoint[0].getApplicantId());
+		query6.setParameter("joint1GuardianRefno", mobGuardianJoint[0].getApplicantId());
 		else{
-			query.setParameter("joint1GuardianRefno", null);
+			query6.setParameter("joint1GuardianRefno", null);
 		}
 		if(mobJoint[1] != null)
-		query.setParameter("joint2ApplicantRefno", mobJoint[1].getApplicantId());
+		query6.setParameter("joint2ApplicantRefno", mobJoint[1].getApplicantId());
 		else{
-			query.setParameter("joint2ApplicantRefno", null);
+			query6.setParameter("joint2ApplicantRefno", null);
 		}
 		if(mobGuardianJoint[1] != null)
-		query.setParameter("joint2GuardianRefno", mobGuardianJoint[1].getApplicantId());
+		query6.setParameter("joint2GuardianRefno", mobGuardianJoint[1].getApplicantId());
 		else{
-			query.setParameter("joint2GuardianRefno", null);
+			query6.setParameter("joint2GuardianRefno", null);
 		}
 		
 		if(mobJoint[2] != null)
-		query.setParameter("joint3ApplicantRefno", mobJoint[2].getApplicantId());
+		query6.setParameter("joint3ApplicantRefno", mobJoint[2].getApplicantId());
 		else{
-			query.setParameter("joint3ApplicantRefno", null);
+			query6.setParameter("joint3ApplicantRefno", null);
 		}
 		
 		if(mobGuardianJoint[2] != null)
-		query.setParameter("joint3GuardianRefno", mobGuardianJoint[2].getApplicantId());
+		query6.setParameter("joint3GuardianRefno", mobGuardianJoint[2].getApplicantId());
 		else{
-			query.setParameter("joint3GuardianRefno", null);
+			query6.setParameter("joint3GuardianRefno", null);
 		}
 		
 		if(mobJoint[3] != null)
-		query.setParameter("joint4ApplicantRefno", mobJoint[3].getApplicantId());
+		query6.setParameter("joint4ApplicantRefno", mobJoint[3].getApplicantId());
 		else
-			query.setParameter("joint4ApplicantRefno", null);
+			query6.setParameter("joint4ApplicantRefno", null);
 		
 		if(mobGuardianJoint[3] != null)
-		query.setParameter("joint4GuardianRefno", mobGuardianJoint[3].getApplicantId());
+		query6.setParameter("joint4GuardianRefno", mobGuardianJoint[3].getApplicantId());
 		else{
-			query.setParameter("joint4GuardianRefno", null);
+			query6.setParameter("joint4GuardianRefno", null);
 		}
 		if(mobJoint[4] != null){
-		query.setParameter("joint5ApplicantRefno", mobJoint[4].getApplicantId());
+		query6.setParameter("joint5ApplicantRefno", mobJoint[4].getApplicantId());
 		}
 		else{
-			query.setParameter("joint5ApplicantRefno", null);
+			query6.setParameter("joint5ApplicantRefno", null);
 		}
 		if(mobGuardianJoint[4] != null){
-		query.setParameter("joint5GuardianRefno", mobGuardianJoint[4].getApplicantId());
+		query6.setParameter("joint5GuardianRefno", mobGuardianJoint[4].getApplicantId());
 		}
 		else{
-			query.setParameter("joint5GuardianRefno", null);
+			query6.setParameter("joint5GuardianRefno", null);
 		}
 		
-		query.setParameter("modifiedby", accountCreationRequest.getData().getRmId());
-		query.setParameter("modifieddate", new Date());
-		query.setParameter("mop_1", accountDetails.getMop());
-		query.setParameter("mop1_1", null);
-		query.setParameter("mop2_2", null);
-		query.setParameter("mop3_3", null);
-		query.setParameter("mop4_4", null);
-		query.setParameter("mop5_5", null);
-		query.setParameter("mopinstruction1", null);
-		query.setParameter("mopinstruction2", null);
-		query.setParameter("mopinstruction3", null);
-		query.setParameter("mopinstruction4", null);
-		query.setParameter("mopinstruction5", null);
-		query.setParameter("powerAttnGovcountry1", null);
-		query.setParameter("powerAttnGovcountry2", null);
-		query.setParameter("powerAttnGovcountry3", null);
-		query.setParameter("powerAttnGovcountry4", null);
-		query.setParameter("powerAttnGovcountry5", null);
-		query.setParameter("powerAttnIssuedate1", null);
-		query.setParameter("powerAttnIssuedate2", null);
-		query.setParameter("powerAttnIssuedate3", null);
-		query.setParameter("powerAttnIssuedate4", null);
-		query.setParameter("powerAttnIssuedate5", null);
-		query.setParameter("powerAttnus1", false);
-		query.setParameter("powerAttnus2", false);
-		query.setParameter("powerAttnus3", false);
-		query.setParameter("powerAttnus4", false);
-		query.setParameter("powerAttnus5", false);
-		query.setParameter("relationshipminor1", null);
-		query.setParameter("relationshipminor2", null);
-		query.setParameter("relationshipminor3", null);
-		query.setParameter("relationshipminor4", null);
-		query.setParameter("relationshipminor5", null); 
+		query6.setParameter("modifiedby", accountCreationRequest.getData().getRmId());
+		query6.setParameter("modifieddate", new Date());
+		query6.setParameter("mop_1", accountDetails.getMop());
+		query6.setParameter("mop1_1", null);
+		query6.setParameter("mop2_2", null);
+		query6.setParameter("mop3_3", null);
+		query6.setParameter("mop4_4", null);
+		query6.setParameter("mop5_5", null);
+		query6.setParameter("mopinstruction1", null);
+		query6.setParameter("mopinstruction2", null);
+		query6.setParameter("mopinstruction3", null);
+		query6.setParameter("mopinstruction4", null);
+		query6.setParameter("mopinstruction5", null);
+		query6.setParameter("powerAttnGovcountry1", null);
+		query6.setParameter("powerAttnGovcountry2", null);
+		query6.setParameter("powerAttnGovcountry3", null);
+		query6.setParameter("powerAttnGovcountry4", null);
+		query6.setParameter("powerAttnGovcountry5", null);
+		query6.setParameter("powerAttnIssuedate1", null);
+		query6.setParameter("powerAttnIssuedate2", null);
+		query6.setParameter("powerAttnIssuedate3", null);
+		query6.setParameter("powerAttnIssuedate4", null);
+		query6.setParameter("powerAttnIssuedate5", null);
+		query6.setParameter("powerAttnus1", false);
+		query6.setParameter("powerAttnus2", false);
+		query6.setParameter("powerAttnus3", false);
+		query6.setParameter("powerAttnus4", false);
+		query6.setParameter("powerAttnus5", false);
+		query6.setParameter("relationshipminor1", null);
+		query6.setParameter("relationshipminor2", null);
+		query6.setParameter("relationshipminor3", null);
+		query6.setParameter("relationshipminor4", null);
+		query6.setParameter("relationshipminor5", null); 
 		
-		int numberOfRecords = query.executeUpdate();
+		int numberOfRecords = query6.executeUpdate();
 		System.out.println("numberOfRecords in updateAccountDetails ================== " + numberOfRecords);
 		
 		
-		Query query2 = getEntityManager().createQuery("update MobAccountAdditionalDetail ma set ma.recordId =:recordid,ma.authEmail1=:authemail1,"
+		Query query7 = getEntityManager().createQuery("update MobAccountAdditionalDetail ma set ma.recordId =:recordid,ma.authEmail1=:authemail1,"
 				+ "ma.authEmail2=:authemail2,ma.authEmail3=:authemail3,ma.commEmail=:commemail,ma.commSms=:commsms,ma.creditCard=:creditcard,"
 				+ "ma.forexBanking=:forexbanking,ma.globalCustody=:globalcustody,ma.hearAboutAfrasia=:hearAboutafrasia,ma.internetBanking=:internetbanking,"
 				+ "ma.modifiedBy=:modifiedby,ma.modifiedDate=:modifieddate,ma.nomineeCallbkNum1=:nomineeCallbknum1,"
@@ -498,83 +524,83 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 				+ "ma.stmtDelivery=:stmtdelivery,ma.requireChqBook=:requireChqbook,ma.afrasiaEventQues=:afrasiaEventques,ma.afrasiaEventAns=:afrasiaEventans "
 				+ "where ma.id =:appid ");
 		
-		query2.setParameter("appid", appId);
-		query2.setParameter("recordid", recordId);
-		query2.setParameter("authemail1", accountDetails.getAuthEmail1());
-		query2.setParameter("authemail2", accountDetails.getAuthEmail2());
-		query2.setParameter("authemail3", accountDetails.getAuthEmail3());
-		query2.setParameter("commemail", accountDetails.getAgreeCommEmail());
-		query2.setParameter("commsms", accountDetails.getAgreeCommSMS());
-		query2.setParameter("creditcard", accountDetails.getNeedCreditCard());
-		query2.setParameter("forexbanking", accountDetails.getNeedForexBanking());
-		query2.setParameter("globalcustody", accountDetails.getNeedGlobalCustody());
-		query2.setParameter("hearAboutafrasia", accountDetails.getWhrDidYouHearAbtAfrAsia());
-		query2.setParameter("internetbanking", accountDetails.getNeedInternetBanking());
-		query2.setParameter("modifiedby", accountCreationRequest.getData().getRmId());
-		query2.setParameter("modifieddate", new Date());
+		query7.setParameter("appid", appId);
+		query7.setParameter("recordid", recordId);
+		query7.setParameter("authemail1", accountDetails.getAuthEmail1());
+		query7.setParameter("authemail2", accountDetails.getAuthEmail2());
+		query7.setParameter("authemail3", accountDetails.getAuthEmail3());
+		query7.setParameter("commemail", accountDetails.getAgreeCommEmail());
+		query7.setParameter("commsms", accountDetails.getAgreeCommSMS());
+		query7.setParameter("creditcard", accountDetails.getNeedCreditCard());
+		query7.setParameter("forexbanking", accountDetails.getNeedForexBanking());
+		query7.setParameter("globalcustody", accountDetails.getNeedGlobalCustody());
+		query7.setParameter("hearAboutafrasia", accountDetails.getWhrDidYouHearAbtAfrAsia());
+		query7.setParameter("internetbanking", accountDetails.getNeedInternetBanking());
+		query7.setParameter("modifiedby", accountCreationRequest.getData().getRmId());
+		query7.setParameter("modifieddate", new Date());
 		int cntr = 0;
 		List<NomineeInfo> listNomineeInfo=accountDetails.getNomineeInfo();
 		if(listNomineeInfo==null){
-			query2.setParameter("nomineeid1", null);
-			query2.setParameter("nomineeid2", null);
-			query2.setParameter("nomineename1", null);
-			query2.setParameter("nomineename2", null);
-			query2.setParameter("nomineeCallbknum1", null);
-			query2.setParameter("nomineeCallbknum2", null);
-			query2.setParameter("nomineeemail1", null);
-			query2.setParameter("nomineeemail2", null);
+			query7.setParameter("nomineeid1", null);
+			query7.setParameter("nomineeid2", null);
+			query7.setParameter("nomineename1", null);
+			query7.setParameter("nomineename2", null);
+			query7.setParameter("nomineeCallbknum1", null);
+			query7.setParameter("nomineeCallbknum2", null);
+			query7.setParameter("nomineeemail1", null);
+			query7.setParameter("nomineeemail2", null);
 		}else{
 		for(NomineeInfo n : listNomineeInfo){
 			if(cntr == 0){
-				query2.setParameter("nomineeid1", n.getNomineeId());
-				query2.setParameter("nomineename1", n.getNomineeName());
-				query2.setParameter("nomineeCallbknum1", n.getNomineeCallbkNo());
-				query2.setParameter("nomineeemail1", n.getNomineeEmail());
+				query7.setParameter("nomineeid1", n.getNomineeId());
+				query7.setParameter("nomineename1", n.getNomineeName());
+				query7.setParameter("nomineeCallbknum1", n.getNomineeCallbkNo());
+				query7.setParameter("nomineeemail1", n.getNomineeEmail());
 			}
 			if(cntr == 1){
-				query2.setParameter("nomineeid2", n.getNomineeId());
-				query2.setParameter("nomineename2", n.getNomineeName());
-				query2.setParameter("nomineeCallbknum2", n.getNomineeCallbkNo());
-				query2.setParameter("nomineeemail2", n.getNomineeEmail());
+				query7.setParameter("nomineeid2", n.getNomineeId());
+				query7.setParameter("nomineename2", n.getNomineeName());
+				query7.setParameter("nomineeCallbknum2", n.getNomineeCallbkNo());
+				query7.setParameter("nomineeemail2", n.getNomineeEmail());
 			}
 			/*else if(cntr == 2){
-				query2.setParameter("nomineeid", n.getNomineeId());
-				query2.setParameter("nomineename", n.getNomineeName());
-				query2.setParameter("nomineeCallbknum", n.getNomineeCallbkNo());
-				query2.setParameter("nomineeemail", n.getNomineeEmail());
+				query7.setParameter("nomineeid", n.getNomineeId());
+				query7.setParameter("nomineename", n.getNomineeName());
+				query7.setParameter("nomineeCallbknum", n.getNomineeCallbkNo());
+				query7.setParameter("nomineeemail", n.getNomineeEmail());
 			}*/
 			
 			cntr++;
 		}
 		}
-		query2.setParameter("optCallbkservices", accountDetails.getOptCallBackServices());
-		query2.setParameter("optTranemail", accountDetails.getOptTransactionsThruEmail());
-		query2.setParameter("otpemail", accountDetails.getOtpOverEmail());
-		query2.setParameter("otpsms", accountDetails.getOtpOverSMS());
-		query2.setParameter("pinViapost", accountDetails.getPinViaPost());
-		query2.setParameter("pinViasms", accountDetails.getOtpOverSMS());
-		query2.setParameter("prefCommmode", accountDetails.getPrefCommMode());
-		query2.setParameter("prepaidcards", accountDetails.getNeedPrepaidCard());
-		query2.setParameter("stmtaddr1", accountDetails.getStmtAddr1());
-		query2.setParameter("stmtaddr2", accountDetails.getStmtAddr2());
-		query2.setParameter("stmtaddr3", accountDetails.getStmtAddr3());
-		query2.setParameter("stmtcity", accountDetails.getStmtCity());
-		query2.setParameter("stmtcountry", accountDetails.getStmtCountry());
-		query2.setParameter("stmtdelivery", accountDetails.getStmtDelivery());		
+		query7.setParameter("optCallbkservices", accountDetails.getOptCallBackServices());
+		query7.setParameter("optTranemail", accountDetails.getOptTransactionsThruEmail());
+		query7.setParameter("otpemail", accountDetails.getOtpOverEmail());
+		query7.setParameter("otpsms", accountDetails.getOtpOverSMS());
+		query7.setParameter("pinViapost", accountDetails.getPinViaPost());
+		query7.setParameter("pinViasms", accountDetails.getOtpOverSMS());
+		query7.setParameter("prefCommmode", accountDetails.getPrefCommMode());
+		query7.setParameter("prepaidcards", accountDetails.getNeedPrepaidCard());
+		query7.setParameter("stmtaddr1", accountDetails.getStmtAddr1());
+		query7.setParameter("stmtaddr2", accountDetails.getStmtAddr2());
+		query7.setParameter("stmtaddr3", accountDetails.getStmtAddr3());
+		query7.setParameter("stmtcity", accountDetails.getStmtCity());
+		query7.setParameter("stmtcountry", accountDetails.getStmtCountry());
+		query7.setParameter("stmtdelivery", accountDetails.getStmtDelivery());		
 		
 		if(accountDetails.getRequireChequeBook() == null){
 			//mobAccountAdditionalDetail.setRequireChqBook(false);
-			query2.setParameter("requireChqbook", false);
+			query7.setParameter("requireChqbook", false);
 		}
 		else{
 			//mobAccountAdditionalDetail.setRequireChqBook(accountDetails.getRequireChequeBook());
-			query2.setParameter("requireChqbook", accountDetails.getRequireChequeBook());
+			query7.setParameter("requireChqbook", accountDetails.getRequireChequeBook());
 		}
 		
-		query2.setParameter("afrasiaEventques", accountDetails.getAfrasiaEventQues());
-		query2.setParameter("afrasiaEventans", accountDetails.getAfrasiaEventAns());
+		query7.setParameter("afrasiaEventques", accountDetails.getAfrasiaEventQues());
+		query7.setParameter("afrasiaEventans", accountDetails.getAfrasiaEventAns());
 
-		int numberMobApplicantAdditionalDtl = query2.executeUpdate();
+		int numberMobApplicantAdditionalDtl = query7.executeUpdate();
 		System.out.println("numberMobApplicantAdditionalDtl in updateApplicant ================== " + numberMobApplicantAdditionalDtl);
 
 	}
