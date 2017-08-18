@@ -18,19 +18,19 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	 * @EmbeddedId private HistTableCompositePK id;
 	 */
 	@Id
-	@SequenceGenerator(name="MOB_APPL_PERSONAL_DETAILS_HIST_ID_RECORDID_GENERATOR", sequenceName="AA_PSNL_DTLS_HIST_ID_SEQUENCE")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MOB_APPL_PERSONAL_DETAILS_HIST_ID_RECORDID_GENERATOR")
-	@Column(name = "ID")//, insertable = false, updatable = false)
+	@SequenceGenerator(name = "MOB_APPL_PERSONAL_DETAILS_HIST_ID_RECORDID_GENERATOR", sequenceName = "AA_PSNL_DTLS_HIST_ID_SEQUENCE")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MOB_APPL_PERSONAL_DETAILS_HIST_ID_RECORDID_GENERATOR")
+	@Column(name = "ID") // , insertable = false, updatable = false)
 	private Long id;
 
-	@Column(name = "RECORD_ID")//, insertable = false, updatable = false)
+	@Column(name = "RECORD_ID") // , insertable = false, updatable = false)
 	private long recordId;
 
-	@Column(name = "APPLICANT_ID")//, insertable = false, updatable = false)
+	@Column(name = "APPLICANT_ID") // , insertable = false, updatable = false)
 	private long applicantId;
 
 	@Column(name = "COUNTRY_BIRTH")
-	private String countryBirth;
+	private String countryBirth;													
 
 	@Column(name = "CREATED_BY")
 	private String createdBy;
@@ -110,6 +110,15 @@ public class MobApplPersonalDetailsHist implements Serializable {
 
 	@Column(name = "IS_MINOR")
 	private Boolean isMinor;
+
+	@Column(name = "SEX")
+	private String sex;
+
+	@Column(name = "IS_HNWI")
+	private Boolean isHnwi;
+
+	@Column(name = "SIGNATORY_TYPE")
+	private String signatoryType;
 
 	public Long getId() {
 		return id;
@@ -343,6 +352,30 @@ public class MobApplPersonalDetailsHist implements Serializable {
 		this.isMinor = isMinor;
 	}
 
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public Boolean getIsHnwi() {
+		return isHnwi;
+	}
+
+	public void setIsHnwi(Boolean isHnwi) {
+		this.isHnwi = isHnwi;
+	}
+
+	public String getSignatoryType() {
+		return signatoryType;
+	}
+
+	public void setSignatoryType(String signatoryType) {
+		this.signatoryType = signatoryType;
+	}
+
 	@Override
 	public String toString() {
 		return "MobApplPersonalDetailsHist [id=" + id + ", recordId=" + recordId + ", applicantId=" + applicantId
@@ -354,7 +387,8 @@ public class MobApplPersonalDetailsHist implements Serializable {
 				+ nationality + ", nic=" + nic + ", otherBank1=" + otherBank1 + ", otherBank2=" + otherBank2
 				+ ", otherBank3=" + otherBank3 + ", passportExpiryDate=" + passportExpiryDate + ", passportNo="
 				+ passportNo + ", residencyStatus=" + residencyStatus + ", title=" + title + ", customerType="
-				+ customerType + ", isMinor=" + isMinor + "]";
+				+ customerType + ", isMinor=" + isMinor + ", sex=" + sex + ", isHnwi=" + isHnwi + ", signatoryType="
+				+ signatoryType + "]";
 	}
 
 }

@@ -160,13 +160,13 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 	}
 	
 	// to check whether application reference number ,comes from create request is present in DB or not  
-	public Long getAppId(Long appId) {
+	public String getAppId(String rmId) {
 
 		Query query = getEntityManager()
 				.createQuery("select ar.id from MobRmAppRefId ar " + "where ar.id=:appid");
-		query.setParameter("appid", appId);
-		Long appid = (Long) query.getSingleResult();
-		return appid;
+		query.setParameter("appid", rmId);
+		String rmUserId = (String) query.getSingleResult();
+		return rmId;
 	}
 	
 	// to check whether application reference number and rmId ,comes from update request are present in DB or not 
@@ -176,8 +176,18 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 				.createQuery("select ar.id from MobRmAppRefId ar " + "where ar.id=:appid AND ar.rmUsedId=:rmid");
 		query.setParameter("appid", appId);
 		query.setParameter("rmid", rmUserId);
-		Long appid = (Long) query.getSingleResult();
-		return appid;
+		Long appRefid = (Long) query.getSingleResult();
+		return appRefid;
+	}
+	
+	// to check whether the record id proved in the update request is present against the arrfer id or not 		
+	public Long checkRecordId(Long appId, Long recordIdFromRequest){
+		Query query = getEntityManager()
+				.createQuery("select ar.recordId from MobAppRefRecordId ar " + "where ar.id=:appid AND ar.recordId=:recordId");
+		query.setParameter("appid", appId);
+		query.setParameter("recordId", recordIdFromRequest);
+		Long recordId = (Long) query.getSingleResult();
+		return recordId;
 	}
 
 	public Integer updateAplicantRecordId(Long appId, Long recordId) {

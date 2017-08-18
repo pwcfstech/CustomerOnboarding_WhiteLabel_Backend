@@ -307,7 +307,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setOtherBank1(mobApplicantPersonalDetail.getOtherBank1());
 			primaryApplicantDetails.setOtherBank2(mobApplicantPersonalDetail.getOtherBank2());
 			primaryApplicantDetails.setOtherBank3(mobApplicantPersonalDetail.getOtherBank3());
-			primaryApplicantDetails.setIsEmployee(mobApplicantPersonalDetail.getIsEmployee());
+			primaryApplicantDetails.setIsEmployee(mobApplicantPersonalDetail.isEmployee());
 			primaryApplicantDetails.setTitle(mobApplicantPersonalDetail.getTitle());
 			primaryApplicantDetails.setFirstName(mobApplicantPersonalDetail.getFirstName());
 			primaryApplicantDetails.setMaidenName(mobApplicantPersonalDetail.getMaidenName());
@@ -319,7 +319,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setEmail(mobApplicantPersonalDetail.getEmail());
 			primaryApplicantDetails.setDob(mobApplicantPersonalDetail.getDob());
 			primaryApplicantDetails.setCountryBirth(mobApplicantPersonalDetail.getCountryBirth());
-			primaryApplicantDetails.setIsExistingCustomer(mobApplicantPersonalDetail.getExistingCustomer());
+			primaryApplicantDetails.setIsExistingCustomer(mobApplicantPersonalDetail.isExistingCustomer());
 			primaryApplicantDetails.setCustomerCIF(mobApplicantPersonalDetail.getCustCif());
 			primaryApplicantDetails.setMaritialStatus(mobApplicantPersonalDetail.getMaritalStatus());
 			primaryApplicantDetails.setIsMinor(mobApplicantPersonalDetail.getIsMinor());

@@ -63,7 +63,7 @@ public interface AccountCreateJpaDao extends AccountCreateDao {
 	public MobApplEmploymentDtlsHist storeMobApplEmploymentDtlsHist(
 			MobApplEmploymentDtlsHist mobApplEmploymentDtlsHist);
 
-	public Long getAppId(Long appId);
+	public String getAppId(String rmUserId);
 	
 	public Long getAppId(Long appId, String rmUserId);
 
@@ -81,4 +81,6 @@ public interface AccountCreateJpaDao extends AccountCreateDao {
 	public MobApplicantKycDocuments storeMobApplicantKycDocuments(MobApplicantKycDocuments mobApplicantKycDocuments);
 
 	public void storeIntoMobApplKycDocumentsHist(Long appid);
+
+	public Long checkRecordId(Long appId, Long recordIdFromRequest);
 }

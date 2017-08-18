@@ -4,177 +4,182 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
-
 /**
  * The persistent class for the MOB_ACCOUNT_DETAILS database table.
  * 
  */
 @Entity
-@Table(name="MOB_ACCOUNT_DETAILS")
-@NamedQuery(name="MobAccountDetail.findAll", query="SELECT m FROM MobAccountDetail m")
+@Table(name = "MOB_ACCOUNT_DETAILS")
+@NamedQuery(name = "MobAccountDetail.findAll", query = "SELECT m FROM MobAccountDetail m")
 public class MobAccountDetail implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@Column(name="ID")
-	private Long id;   
+	@Column(name = "ID")
+	private Long id;
 
-	@Column(name="ACCOUNT_CATEGORY")
-	private String accountCategory;
+	@Column(name = "ACCOUNT_CATEGORY")
+	private String accountCategory;																
 
-	@Column(name="ACCOUNT_TYPE")
+	@Column(name = "ACCOUNT_TYPE")
 	private String accountType;
 
-	@Column(name="CREATED_BY")
+	@Column(name = "CREATED_BY")
 	private String createdBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="CREATED_DATE")
+	@Column(name = "CREATED_DATE")
 	private Date createdDate;
 
-	@Column(name="INDV_APPLICANT_REF_NO")
+	@Column(name = "INDV_APPLICANT_REF_NO")
 	private Long indvApplicantRefNo;
 
-	@Column(name="INDV_GUARDIAN_REF_NO")
+	@Column(name = "INDV_GUARDIAN_REF_NO")
 	private Long indvGuardianRefNo;
 
-	@Column(name="JOINT1_APPLICANT_REF_NO")
+	@Column(name = "JOINT1_APPLICANT_REF_NO")
 	private Long joint1ApplicantRefNo;
 
-	@Column(name="JOINT1_GUARDIAN_REF_NO")
+	@Column(name = "JOINT1_GUARDIAN_REF_NO")
 	private Long joint1GuardianRefNo;
 
-	@Column(name="JOINT2_APPLICANT_REF_NO")
+	@Column(name = "JOINT2_APPLICANT_REF_NO")
 	private Long joint2ApplicantRefNo;
 
-	@Column(name="JOINT2_GUARDIAN_REF_NO")
+	@Column(name = "JOINT2_GUARDIAN_REF_NO")
 	private Long joint2GuardianRefNo;
 
-	@Column(name="JOINT3_APPLICANT_REF_NO")
+	@Column(name = "JOINT3_APPLICANT_REF_NO")
 	private Long joint3ApplicantRefNo;
 
-	@Column(name="JOINT3_GUARDIAN_REF_NO")
+	@Column(name = "JOINT3_GUARDIAN_REF_NO")
 	private Long joint3GuardianRefNo;
 
-	@Column(name="JOINT4_APPLICANT_REF_NO")
+	@Column(name = "JOINT4_APPLICANT_REF_NO")
 	private Long joint4ApplicantRefNo;
 
-	@Column(name="JOINT4_GUARDIAN_REF_NO")
+	@Column(name = "JOINT4_GUARDIAN_REF_NO")
 	private Long joint4GuardianRefNo;
-	
-	@Column(name="JOINT5_APPLICANT_REF_NO")
+
+	@Column(name = "JOINT5_APPLICANT_REF_NO")
 	private Long joint5ApplicantRefNo;
 
-	@Column(name="JOINT5_GUARDIAN_REF_NO")
+	@Column(name = "JOINT5_GUARDIAN_REF_NO")
 	private Long joint5GuardianRefNo;
 
-	@Column(name="MODIFIED_BY")
+	@Column(name = "MODIFIED_BY")
 	private String modifiedBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="MODIFIED_DATE")
+	@Column(name = "MODIFIED_DATE")
 	private Date modifiedDate;
 
-	@Column(name="MOP")
+	@Column(name = "MOP")
 	private String mop;
 
-	@Column(name="MOP_1")
+	@Column(name = "MOP_1")
 	private String mop1;
 
-	@Column(name="MOP_2")
+	@Column(name = "MOP_2")
 	private String mop2;
 
-	@Column(name="MOP_3")
+	@Column(name = "MOP_3")
 	private String mop3;
 
-	@Column(name="MOP_4")
+	@Column(name = "MOP_4")
 	private String mop4;
-	
-	@Column(name="MOP_5")
+
+	@Column(name = "MOP_5")
 	private String mop5;
 
-	@Column(name="MOP_INSTRUCTION_1")
+	@Column(name = "MOP_INSTRUCTION_1")
 	private String mopInstruction1;
 
-	@Column(name="MOP_INSTRUCTION_2")
+	@Column(name = "MOP_INSTRUCTION_2")
 	private String mopInstruction2;
 
-	@Column(name="MOP_INSTRUCTION_3")
+	@Column(name = "MOP_INSTRUCTION_3")
 	private String mopInstruction3;
 
-	@Column(name="MOP_INSTRUCTION_4")
+	@Column(name = "MOP_INSTRUCTION_4")
 	private String mopInstruction4;
-	
-	@Column(name="MOP_INSTRUCTION_5")
+
+	@Column(name = "MOP_INSTRUCTION_5")
 	private String mopInstruction5;
 
-	@Column(name="POWER_ATTN_GOV_COUNTRY_1")
+	@Column(name = "POWER_ATTN_GOV_COUNTRY_1")
 	private String powerAttnGovCountry1;
 
-	@Column(name="POWER_ATTN_GOV_COUNTRY_2")
+	@Column(name = "POWER_ATTN_GOV_COUNTRY_2")
 	private String powerAttnGovCountry2;
 
-	@Column(name="POWER_ATTN_GOV_COUNTRY_3")
+	@Column(name = "POWER_ATTN_GOV_COUNTRY_3")
 	private String powerAttnGovCountry3;
 
-	@Column(name="POWER_ATTN_GOV_COUNTRY_4")
+	@Column(name = "POWER_ATTN_GOV_COUNTRY_4")
 	private String powerAttnGovCountry4;
-	
-	@Column(name="POWER_ATTN_GOV_COUNTRY_5")
+
+	@Column(name = "POWER_ATTN_GOV_COUNTRY_5")
 	private String powerAttnGovCountry5;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="POWER_ATTN_ISSUE_DATE_1")
+	@Column(name = "POWER_ATTN_ISSUE_DATE_1")
 	private Date powerAttnIssueDate1;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="POWER_ATTN_ISSUE_DATE_2")
+	@Column(name = "POWER_ATTN_ISSUE_DATE_2")
 	private Date powerAttnIssueDate2;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="POWER_ATTN_ISSUE_DATE_3")
+	@Column(name = "POWER_ATTN_ISSUE_DATE_3")
 	private Date powerAttnIssueDate3;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="POWER_ATTN_ISSUE_DATE_4")
+	@Column(name = "POWER_ATTN_ISSUE_DATE_4")
 	private Date powerAttnIssueDate4;
-	
+
 	@Temporal(TemporalType.DATE)
-	@Column(name="POWER_ATTN_ISSUE_DATE_5")
+	@Column(name = "POWER_ATTN_ISSUE_DATE_5")
 	private Date powerAttnIssueDate5;
 
-	@Column(name="POWER_ATTN_US_1")
+	@Column(name = "POWER_ATTN_US_1")
 	private boolean powerAttnUs1;
 
-	@Column(name="POWER_ATTN_US_2")
+	@Column(name = "POWER_ATTN_US_2")
 	private boolean powerAttnUs2;
 
-	@Column(name="POWER_ATTN_US_3")
+	@Column(name = "POWER_ATTN_US_3")
 	private boolean powerAttnUs3;
 
-	@Column(name="POWER_ATTN_US_4")
+	@Column(name = "POWER_ATTN_US_4")
 	private boolean powerAttnUs4;
-	
-	@Column(name="POWER_ATTN_US_5")
+
+	@Column(name = "POWER_ATTN_US_5")
 	private boolean powerAttnUs5;
 
-	@Column(name="RECORD_ID")
+	@Column(name = "RECORD_ID")
 	private Long recordId;
 
-	@Column(name="RELATIONSHIP_MINOR_1")
+	@Column(name = "RELATIONSHIP_MINOR_1")
 	private String relationshipMinor1;
 
-	@Column(name="RELATIONSHIP_MINOR_2")
+	@Column(name = "RELATIONSHIP_MINOR_2")
 	private String relationshipMinor2;
 
-	@Column(name="RELATIONSHIP_MINOR_3")
+	@Column(name = "RELATIONSHIP_MINOR_3")
 	private String relationshipMinor3;
 
-	@Column(name="RELATIONSHIP_MINOR_4")
+	@Column(name = "RELATIONSHIP_MINOR_4")
 	private String relationshipMinor4;
-	
-	@Column(name="RELATIONSHIP_MINOR_5")
+
+	@Column(name = "RELATIONSHIP_MINOR_5")
 	private String relationshipMinor5;
+
+	@Column(name = "MIN_NO_SIGNATURES")
+	private Long minNoSignatures;
+
+	@Column(name = "OPERATING_INST")
+	private String operatingInst;
 
 	public MobAccountDetail() {
 	}
@@ -587,6 +592,22 @@ public class MobAccountDetail implements Serializable {
 		this.relationshipMinor5 = relationshipMinor5;
 	}
 
+	public Long getMinNoSignatures() {
+		return minNoSignatures;
+	}
+
+	public void setMinNoSignatures(Long minNoSignatures) {
+		this.minNoSignatures = minNoSignatures;
+	}
+
+	public String getOperatingInst() {
+		return operatingInst;
+	}
+
+	public void setOperatingInst(String operatingInst) {
+		this.operatingInst = operatingInst;
+	}
+
 	@Override
 	public String toString() {
 		return "MobAccountDetail [id=" + id + ", accountCategory=" + accountCategory + ", accountType=" + accountType
@@ -610,9 +631,8 @@ public class MobAccountDetail implements Serializable {
 				+ powerAttnUs4 + ", powerAttnUs5=" + powerAttnUs5 + ", recordId=" + recordId + ", relationshipMinor1="
 				+ relationshipMinor1 + ", relationshipMinor2=" + relationshipMinor2 + ", relationshipMinor3="
 				+ relationshipMinor3 + ", relationshipMinor4=" + relationshipMinor4 + ", relationshipMinor5="
-				+ relationshipMinor5 + "]";
+				+ relationshipMinor5 + ", minNoSignatures=" + minNoSignatures + ", operatingInst=" + operatingInst
+				+ "]";
 	}
-
-	
 
 }

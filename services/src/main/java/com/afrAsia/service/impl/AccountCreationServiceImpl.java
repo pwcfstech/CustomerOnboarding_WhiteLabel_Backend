@@ -78,33 +78,20 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
 				AccountCreateResponse accountCreateResponse=new AccountCreateResponse();
 
-				Long appId=accountCreationRequest.getData().getAppRefNo();
-				System.out.println("appId =========== in service impl "+appId);
+				String rmUserId=accountCreationRequest.getData().getRmId();
+				System.out.println("rmUserId =========== in create service impl "+rmUserId);
 
-				Long appIdFromDb=0L;
+				String rmId=null;
 				try{			
-					appIdFromDb= accountCreateDao.getAppId(appId);			
-					if(appIdFromDb!=null){
-						MsgHeader messageHeader=new MsgHeader();
-						MsgHeader.Error error=new MsgHeader().new Error();
-						error.setRsn("Provided application reference number is present in Db ");
-						messageHeader.setError(error);
-					} 	
-					else{
-						MsgHeader messageHeader=new MsgHeader();
-						MsgHeader.Error error=new MsgHeader().new Error();
-						error.setCd("404");
-						error.setCustomCode("ERR404");
-						error.setRsn("Provided application reference number is not present, please pass proper value");
-						messageHeader.setError(error);
-						accountCreateResponse.setMsgHeader(messageHeader);
-						throw new IdNotFoundException("Provided application reference number is not present, please pass proper value");
+					rmId= accountCreateDao.getAppId(rmId);			
+					if(rmId==null){
+						throw new IdNotFoundException("Provided RM user id is not present, please pass proper value");
 					}
 
 				}  catch(IdNotFoundException exceptionMessage){
 					MsgHeader msgHdr = new MsgHeader();
 					Error err = new MsgHeader().new Error();
-					err.setRsn("The application number does not exist. Please try again");
+					err.setRsn("Provided RM user id is not present, please pass proper value");
 					err.setCd("404");
 					err.setCustomCode("IdNotFoundException");
 					msgHdr.setError(err);
@@ -114,7 +101,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 				catch(NoResultException excpMessage){
 					MsgHeader msgHdr = new MsgHeader();
 					Error err = new MsgHeader().new Error();
-					err.setRsn("The application number does not exist. Please try again");
+					err.setRsn("Provided RM user id is not present, please pass proper value");
 					err.setCd("404");
 					err.setCustomCode("NoResultException");
 					msgHdr.setError(err);
@@ -432,7 +419,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobApplicantPersonalDetail.setOtherBank2(applicant.getOtherBank2());
 		mobApplicantPersonalDetail.setOtherBank3(applicant.getOtherBank3());
 
-		mobApplicantPersonalDetail.setIsEmployee(applicant.getIsEmployee());
+		mobApplicantPersonalDetail.setEmployee(applicant.getIsEmployee());
 		mobApplicantPersonalDetail.setTitle(applicant.getTitle());
 		mobApplicantPersonalDetail.setFirstName(applicant.getFirstName());
 		mobApplicantPersonalDetail.setLastName(applicant.getLastName());
@@ -597,19 +584,17 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
 		Long appId=accountCreationRequest.getData().getAppRefNo();
 		System.out.println("appId =========== in service impl "+appId);
+		
 		String rmUserId=accountCreationRequest.getData().getRmId();
 		System.out.println("rmUserId =========== in service impl "+rmUserId);
+		
+		Long recordIdFromRequest=accountCreationRequest.getData().getRecordId();
+		System.out.println("rmUserId =========== in service impl "+recordIdFromRequest);
 
 		Long appIdFromDb=0L;
 		try{			
 			appIdFromDb= accountCreateDao.getAppId(appId,rmUserId);			
-			if(appIdFromDb!=null){
-				MsgHeader messageHeader=new MsgHeader();
-				MsgHeader.Error error=new MsgHeader().new Error();
-				error.setRsn("rm user id an and ref id are present in Db ");
-				messageHeader.setError(error);
-			} 	
-			else{
+			if(appIdFromDb==null){
 				MsgHeader messageHeader=new MsgHeader();
 				MsgHeader.Error error=new MsgHeader().new Error();
 				error.setCd("404");
@@ -634,6 +619,36 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			MsgHeader msgHdr = new MsgHeader();
 			Error err = new MsgHeader().new Error();
 			err.setRsn("The application number does not exist. Please try again");
+			err.setCd("404");
+			err.setCustomCode("NoResultException");
+			msgHdr.setError(err);
+			accountCreateResponse.setMsgHeader(msgHdr);
+			return accountCreateResponse;
+		}
+		
+		//1.B. check whether requested record id is present for the application reference number or not in MOB_APP_REF_RECORD_ID		 	
+		
+		Long recordIdFromDb=0L;
+		try{			
+			recordIdFromDb= accountCreateDao.checkRecordId(appId,recordIdFromRequest);			
+			if(appIdFromDb==null){
+				throw new IdNotFoundException("Provided Rm user id or app ref id is not present, please pass proper values");
+			}
+
+		}  catch(IdNotFoundException exceptionMessage){
+			MsgHeader msgHdr = new MsgHeader();
+			Error err = new MsgHeader().new Error();
+			err.setRsn("The record id does not exist against the provided application refernce number. Please try again");
+			err.setCd("404");
+			err.setCustomCode("IdNotFoundException");
+			msgHdr.setError(err);
+			accountCreateResponse.setMsgHeader(msgHdr);
+			return accountCreateResponse;
+		}	
+		catch(NoResultException excpMessage){
+			MsgHeader msgHdr = new MsgHeader();
+			Error err = new MsgHeader().new Error();
+			err.setRsn("The record id does not exist against the provided application refernce number. Please try again");
 			err.setCd("404");
 			err.setCustomCode("NoResultException");
 			msgHdr.setError(err);
@@ -806,9 +821,9 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			mobApplPersonalDetailsHist.setCustCif(mobApplicantPersonalDetail.getCustCif());
 			mobApplPersonalDetailsHist.setDob(mobApplicantPersonalDetail.getDob());
 			mobApplPersonalDetailsHist.setEmail(mobApplicantPersonalDetail.getEmail());
-			mobApplPersonalDetailsHist.setExistingCustomer(mobApplicantPersonalDetail.getExistingCustomer());
+			mobApplPersonalDetailsHist.setExistingCustomer(mobApplicantPersonalDetail.isExistingCustomer());
 			mobApplPersonalDetailsHist.setFirstName(mobApplicantPersonalDetail.getFirstName());
-			mobApplPersonalDetailsHist.setEmployee(mobApplicantPersonalDetail.getIsEmployee());
+			mobApplPersonalDetailsHist.setEmployee(mobApplicantPersonalDetail.isEmployee());
 			mobApplPersonalDetailsHist.setLastName(mobApplicantPersonalDetail.getLastName());
 			mobApplPersonalDetailsHist.setMaidenName(mobApplicantPersonalDetail.getMaidenName());
 			mobApplPersonalDetailsHist.setModifiedBy(mobApplicantPersonalDetail.getModifiedBy());
@@ -826,6 +841,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			mobApplPersonalDetailsHist.setMiddleName(mobApplicantPersonalDetail.getMiddleName());
 			mobApplPersonalDetailsHist.setCustomerType(mobApplicantPersonalDetail.getCustomerType());
 			mobApplPersonalDetailsHist.setIsMinor(mobApplicantPersonalDetail.getIsMinor());
+			mobApplPersonalDetailsHist.setSex(mobApplicantPersonalDetail.getSex());
+			mobApplPersonalDetailsHist.setIsHnwi(mobApplicantPersonalDetail.getIsHnwi());
 			//System.out.println("mobApplPersonalDetailsHist.toString() ======== "+mobApplPersonalDetailsHist.toString());
 			accountCreateDao.storeMobApplPersonalDetailsHist(mobApplPersonalDetailsHist);
 			

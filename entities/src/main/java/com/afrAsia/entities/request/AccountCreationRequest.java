@@ -30,6 +30,8 @@ public class AccountCreationRequest implements Serializable {
 
 		private String rmId;
 		private Long appRefNo;
+		private Long recordId;
+		private String comment;
 		private AccountDetails accountDetails;
 		private ApplicantDetails primaryApplicantDetail;
 		private ApplicantDetails guardianDetail;
@@ -49,6 +51,22 @@ public class AccountCreationRequest implements Serializable {
 
 		public void setAppRefNo(Long appRefNo) {
 			this.appRefNo = appRefNo;
+		}
+
+		public Long getRecordId() {
+			return recordId;
+		}
+
+		public void setRecordId(Long recordId) {
+			this.recordId = recordId;
+		}
+
+		public String getComment() {
+			return comment;
+		}
+
+		public void setComment(String comment) {
+			this.comment = comment;
 		}
 
 		public AccountDetails getAccountDetails() {
@@ -81,6 +99,13 @@ public class AccountCreationRequest implements Serializable {
 
 		public void setJointApplicants(List<JointApplicants> jointApplicants) {
 			this.jointApplicants = jointApplicants;
+		}
+
+		@Override
+		public String toString() {
+			return "Data [rmId=" + rmId + ", appRefNo=" + appRefNo + ", recordId=" + recordId + ", comment=" + comment
+					+ ", accountDetails=" + accountDetails + ", primaryApplicantDetail=" + primaryApplicantDetail
+					+ ", guardianDetail=" + guardianDetail + ", jointApplicants=" + jointApplicants + "]";
 		}
 
 	}
