@@ -1,7 +1,9 @@
 package com.afrAsia.rest;
 
 
+import java.io.IOException;
 import java.util.Calendar;
+
 import java.util.Date;
 import java.util.List;
 
@@ -25,18 +27,35 @@ import com.afrAsia.entities.request.NomineeInfo;
 import com.afrAsia.entities.response.AccountCreateResponse;
 import com.afrAsia.service.AccountCreationService;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+import javax.naming.NamingException;
+
+import com.afrAsia.Utils.AfrAsiaMailConfig;
+import com.afrAsia.Utils.AfrAsiaEmailUtility;
+
 
 @Component
 
 @Path("{version}")
 public class AccountCreationRestService {
 	private AccountCreationService accountCreationService;
+	AfrAsiaMailConfig afrAsiaMailConfig;
 
 	public AccountCreationService getAccountCreationService() {
 		return accountCreationService;
 	}
 	public void setAccountCreationService(AccountCreationService accountCreationService) {
 		this.accountCreationService = accountCreationService;
+	}
+
+	public AfrAsiaMailConfig getAfrAsiaMailConfig() {
+		return afrAsiaMailConfig;
+	}
+
+
+	public void setAfrAsiaMailConfig(AfrAsiaMailConfig afrAsiaMailConfig) {
+		this.afrAsiaMailConfig = afrAsiaMailConfig;
 	}
 	@Override
 	public String toString() {
@@ -52,19 +71,27 @@ public class AccountCreationRestService {
 		AccountCreateResponse accountCreationResponse = new AccountCreateResponse();
 		MsgHeader msgHeader= new MsgHeader();
 		//System.out.println(accountCreationRequest.toString());
-		
+
 		try{
 			String checkRequest = validateRequest(accountCreationRequest);
 			if (checkRequest.equals("Success")){
 				if(accountCreationRequest.getData().getAppRefNo()==null){
 					System.out.println(" ########### in create service ############## ");
 					accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
+					sendEmailToCustomer();
+
+					String smsContent = "Dear [First Name], thank you for your interest in AfrAsia Bank. "
+							+ "Your application is currently under process with application number" 
+							+ accountCreationResponse.getData().getRefNo() 
+							+ ".We shall update you as soon as your account is opened. Regards, AfrAsia Bank Team";
+					sendSMSToCustomer(smsContent);
+
 				}
 				else{
 					System.out.println(" ########### in update service ############## "); 
 					accountCreationResponse = accountCreationService.updateAccount(accountCreationRequest);	
 				} 
-				
+
 				if (accountCreationResponse!=null) {
 					return Response.ok(accountCreationResponse, MediaType.APPLICATION_JSON).build();
 				}
@@ -98,7 +125,7 @@ public class AccountCreationRestService {
 	private String validateRequest(AccountCreationRequest accountCreationRequest) {
 
 		if (accountCreationRequest != null && accountCreationRequest.getData() != null){
-			
+
 			Data accountCreationData = accountCreationRequest.getData();
 			//System.out.println(" in validateRequest ,  in if  , accountCreationData ======== "+accountCreationData);
 			//Validate Account Details
@@ -150,7 +177,7 @@ public class AccountCreationRestService {
 
 	//Account Details
 	private String validateAccountDetails(Data accountCreationData){
-		
+
 		if(!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getAccount()) || accountCreationData.getAccountDetails().getAccount().length() > 6){
 			return ("Error in account type::" + CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getAccount()) + "   " + accountCreationData.getAccountDetails().getAccount().length());
 		}
@@ -169,7 +196,7 @@ public class AccountCreationRestService {
 				return ("Account Category is incorrect");
 			}
 		}
-		
+
 		//Check for Statement delivery type
 		if(!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getStmtDelivery())){
 			if(accountCreationData.getAccountDetails().getStmtDelivery().equalsIgnoreCase("Post")){
@@ -485,4 +512,53 @@ public class AccountCreationRestService {
 		return ("Success");
 
 	}
-}
+
+
+	public void sendEmailToCustomer(){
+		String host = afrAsiaMailConfig.getMailhost();
+		String port = afrAsiaMailConfig.getMailport();
+		String mailFrom = afrAsiaMailConfig.getMailFrom();
+		String password = afrAsiaMailConfig.getMailPassword();
+		String smtpAuthRequired=afrAsiaMailConfig.getSmtpAuthRequired();
+		String smtpAuthstarttls=afrAsiaMailConfig.getSmtpAuthRequired();
+		String toAddress="neha.marda@gmail.com";
+		String subject="Test Mail";
+
+		String message="Dear [First Name]," +
+				"Welcome to AfrAsia Bank and thank you for choosing us as your banking partner. Your application is currently under process with application number [XXX]. We shall update you as soon as your account is opened." +
+				"In the meantime, we invite you to browse our website www.afrasiabank.com for a detailed overview of our banking solutions, and our pioneering rewards programme, AfrAsia XtraMiles." +
+				"We remain at your disposal should you wish to discuss about your financial aspirations and how we can be of more relevance to you." +
+				"Thank you for your trust and we hope that our team measures up to your expectations." +
+				"Kind regards," + 
+				"Relationship manager (name)";
+
+
+
+		try {
+			AfrAsiaEmailUtility.sendEmail(host, port, mailFrom, password, toAddress, subject, message, smtpAuthRequired, smtpAuthstarttls);
+			System.out.println("EMail sent success");
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+	public void sendSMSToCustomer(String text){
+		String url = "http://41.212.214.205:81/cgi-bin/BMP_SendTextMsg?"
+				+ "UserName=afrasia1&PassWord=4fr4s14&UserData="
+				+ text
+				+ "&Concatenated=0&SenderId=23052581818&Deferred=false&Number="
+				+ "23051234567"
+				+ "&Dsr=false";
+	}	
+}	
