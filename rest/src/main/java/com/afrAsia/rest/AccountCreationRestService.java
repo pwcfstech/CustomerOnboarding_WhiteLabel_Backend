@@ -78,13 +78,13 @@ public class AccountCreationRestService {
 				if(accountCreationRequest.getData().getAppRefNo()==null){
 					System.out.println(" ########### in create service ############## ");
 					accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
-					sendEmailToCustomer();
+					//sendEmailToCustomer();
 
-					String smsContent = "Dear [First Name], thank you for your interest in AfrAsia Bank. "
-							+ "Your application is currently under process with application number" 
-							+ accountCreationResponse.getData().getRefNo() 
-							+ ".We shall update you as soon as your account is opened. Regards, AfrAsia Bank Team";
-					sendSMSToCustomer(smsContent);
+//					String smsContent = "Dear [First Name], thank you for your interest in AfrAsia Bank. "
+//							+ "Your application is currently under process with application number" 
+//							+ accountCreationResponse.getData().getRefNo() 
+//							+ ".We shall update you as soon as your account is opened. Regards, AfrAsia Bank Team";
+//					sendSMSToCustomer(smsContent);
 
 				}
 				else{

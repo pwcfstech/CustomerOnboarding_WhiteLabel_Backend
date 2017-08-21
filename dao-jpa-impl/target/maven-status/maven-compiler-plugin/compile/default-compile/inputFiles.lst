@@ -9,6 +9,7 @@ C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\CategoryMasterJpaDAO.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\AccountCreateJpaDao.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\RMDetailsJpaDAO.java
+C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\UploadKYCDaoImpl.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\CategoryJpaDAO.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\BaseJpaDAOImpl.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\RMSessionDetailJpaDaoImpl.java
@@ -44,6 +45,7 @@ C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\AfrAsiaFirstJpaDaoImpl.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\DTDPSJpaDAOImpl.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\MobRmAppRefIdJpaDaoImpl.java
+C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\UploadKYCDao.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\AfrAsiaFirstJpaDAO.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\ApplicationDetailsJpaDAO.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\PrefixJpaDAO.java

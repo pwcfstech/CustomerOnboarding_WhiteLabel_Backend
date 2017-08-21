@@ -23,7 +23,7 @@
 	<import resource="classpath*:**/applicationContext-configuration-authentication.xml"/>
 	<import resource="classpath*:**/applicationContext-exception-management.xml"/>
 	
-	<context:component-scan base-package="com.afrAsia"></context:component-scan>
+	<!--   <context:component-scan base-package="com.afrAsia"></context:component-scan> -->
 	
 	<!-- <wss:binding url="/DigitalTransaction">
         <wss:service>

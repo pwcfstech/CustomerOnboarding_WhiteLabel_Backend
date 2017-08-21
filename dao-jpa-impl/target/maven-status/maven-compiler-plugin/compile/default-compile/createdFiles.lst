@@ -1,5 +1,6 @@
 com\afrAsia\dao\jpa\impl\CountryJpaDaoImpl.class
 com\afrAsia\dao\jpa\impl\OAuthAuthorizationJpaDAOImpl.class
+com\afrAsia\dao\jpa\UploadKYCDao.class
 com\afrAsia\dao\jpa\impl\EmploymentJpaDaoImpl.class
 com\afrAsia\dao\jpa\DTDPSJpaDAO.class
 com\afrAsia\dao\jpa\impl\AccountCreateJpaDaoImpl.class
@@ -22,6 +23,7 @@ com\afrAsia\dao\jpa\impl\CategoryJpaDaoImpl.class
 com\afrAsia\dao\jpa\UserJpaDAO.class
 com\afrAsia\dao\jpa\MobRmAppRefIdJpaDao.class
 com\afrAsia\dao\jpa\impl\BaseJpaDAOImpl.class
+com\afrAsia\dao\jpa\impl\UploadKYCDaoImpl.class
 com\afrAsia\dao\jpa\impl\AddCommentJpaDaoImpl.class
 com\afrAsia\dao\jpa\AccountClassJpaDAO.class
 com\afrAsia\dao\jpa\impl\PrefixJpaDaoImpl.class

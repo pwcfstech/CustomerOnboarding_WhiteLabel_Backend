@@ -56,4 +56,7 @@
 	<!-- Add comments service -->
 	<bean id="addCommentJpaDao" class="com.afrAsia.dao.jpa.impl.AddCommentJpaDaoImpl"/>
 	
+	<!-- Upload KYC document dao bean -->
+	<bean id="uploadKYCDao" class="com.afrAsia.dao.jpa.impl.UploadKYCDaoImpl"/>
+	
 </beans>

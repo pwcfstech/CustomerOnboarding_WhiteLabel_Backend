@@ -17,8 +17,10 @@ C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\ProductResponse.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\transactions\MobAccountDetail.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\listener\EntityListener.java
+C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\request\KYCRequest.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\AccountUpdateResponse.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\ProductDetails.java
+C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\KYCDataResponse.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\PendingAction.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\transactions\HistTableCompositePK.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\request\KycInfo.java
@@ -27,6 +29,7 @@ C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\request\RmApplicationAppReq.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\transactions\MobComments.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\transactions\MobRmAppRefId.java
+C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\KYCResponse.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\DeviceFootPrint.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\transactions\MobApplicantEmploymentDtl.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\MsgHeader.java
@@ -92,6 +95,7 @@ C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\AverageProductivity.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\transactions\MobAccountDetailsHist.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\transactions\MobApplEmploymentDtlsHist.java
+C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\request\KYCDataRequest.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\masters\BaseMaster.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\response\LogoutDataResponse.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\entities\src\main\java\com\afrAsia\entities\jpa\Product.java

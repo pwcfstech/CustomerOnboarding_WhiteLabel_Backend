@@ -122,4 +122,10 @@
 	<bean id="applicationDetailsService" class="com.afrAsia.service.impl.ApplicationDetailsServiceImpl">
 		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" />
 	</bean>
+	
+	<!-- Upload KYC document service bean -->
+	<bean id="kycService" class="com.afrAsia.service.impl.KYCServiceImpl">
+		<property name="uploadKYCDao" ref="uploadKYCDao" /> 
+		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" /> 
+	</bean>
 </beans>						

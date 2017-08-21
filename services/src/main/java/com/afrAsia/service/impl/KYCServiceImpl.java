@@ -34,11 +34,14 @@ public class KYCServiceImpl implements KYCService {
 	private static final Logger logger = LoggerFactory.getLogger(KYCServiceImpl.class);
 
 	private final String SIGNATURE = "Signature";
-	private final String SIG_SHARED_PATH = "/Signature/";
-	private final String DMSDOCS_SHARED_PATH = "/dmsdocs/";
+//	private final String SIG_SHARED_PATH = "/Signature/";
+//	private final String DMSDOCS_SHARED_PATH = "/dmsdocs/";
 	
 	/*private final String SIG_SHARED_PATH = "C:/Signature/";
 	private final String DMSDOCS_SHARED_PATH = "C:/dmsdocs/";*/
+	
+	private final String SIG_SHARED_PATH = "C:/App_Share_IN/Afrasia_Docs/Signature/";
+	private final String DMSDOCS_SHARED_PATH = "C:/App_Share_IN/Afrasia_Docs/dmsdocs/"; 
 
 	private UploadKYCDao uploadKYCDao;
 

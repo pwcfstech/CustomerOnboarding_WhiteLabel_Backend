@@ -56,7 +56,8 @@
 		<class>com.afrAsia.entities.jpa.ApplicationDetails</class>
 		<class>com.afrAsia.entities.jpa.ApplicationReference</class>
 		
-	
+		<!-- KYC upload related classes -->
+		<class>com.afrAsia.entities.transactions.MobApplicantKycDocuments</class>
 
 		<class>com.afrAsia.entities.transactions.MobComments</class>
 		<properties>
@@ -77,5 +78,3 @@
 
 
 </persistence>
-
-
