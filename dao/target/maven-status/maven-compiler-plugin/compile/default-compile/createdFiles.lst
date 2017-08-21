@@ -23,5 +23,6 @@ com\afrAsia\dao\AddCommentDao.class
 com\afrAsia\dao\RMSessionDetailDao.class
 com\afrAsia\dao\core\UserType.class
 com\afrAsia\dao\CountryDao.class
+com\afrAsia\dao\ComplianceDao.class
 com\afrAsia\dao\CategoryMasterDao.class
 com\afrAsia\dao\BaseDAO.class

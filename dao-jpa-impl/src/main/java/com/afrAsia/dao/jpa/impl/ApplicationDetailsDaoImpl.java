@@ -48,6 +48,7 @@ public class ApplicationDetailsDaoImpl extends BaseJpaDAOImpl<Long, MobRmAppRefI
 		Query query = getEntityManager().createQuery(queryString);
 		query.setParameter("appRefId", appRefId);
 		query.setParameter("applicantId", applicantId);
+		System.out.println("#################### MobApplicantPersonalDetail in dao impl ================ "+query.getSingleResult());
 		return (MobApplicantPersonalDetail) query.getSingleResult();	
 	}
 	public MobApplicantCommDetail getMobApplicantCommDetails(Long appRefId, Long applicantId){
@@ -76,6 +77,27 @@ public class ApplicationDetailsDaoImpl extends BaseJpaDAOImpl<Long, MobRmAppRefI
 		Query query = getEntityManager().createQuery(queryString);
 		query.setParameter("appRefId", appRefId);
 		return (List<MobComments>) query.getResultList();
+	}
+	
+	public MobApplicantKycDocuments  getMobApplicantKycSingleResult(Long appRefId, Long applicantId){
+		String queryString = "FROM MobApplicantKycDocuments s where s.id.id = :appRefId and s.id.applicantId = :applicantId";
+		Query query = getEntityManager().createQuery(queryString);
+		query.setParameter("appRefId", appRefId);
+		return (MobApplicantKycDocuments) query.getSingleResult();
+	}
+	
+	public MobApplicantKycDocuments  getMobApplicantKycSingleResult(Long appRefId){
+		String queryString = "FROM MobApplicantKycDocuments s where s.id.id = :appRefId";
+		Query query = getEntityManager().createQuery(queryString);
+		query.setParameter("appRefId", appRefId);
+		return (MobApplicantKycDocuments) query.getSingleResult();
+	}
+	
+	public List<MobApplicantKycDocuments>  getMobApplicantKyc(Long appRefId){
+		String queryString = "FROM MobApplicantKycDocuments s where s.id.id = :appRefId";
+		Query query = getEntityManager().createQuery(queryString);
+		query.setParameter("appRefId", appRefId);
+		return (List<MobApplicantKycDocuments>) query.getResultList();
 	}
 	
 	public List<MobApplicantKycDocuments> getMobApplicantKyc(Long appRefId, Long applicantId){

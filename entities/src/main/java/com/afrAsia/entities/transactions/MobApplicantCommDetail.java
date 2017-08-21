@@ -4,96 +4,98 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
-
 /**
  * The persistent class for the MOB_APPLICANT_COMM_DETAILS database table.
  * 
  */
 @Entity
-@Table(name="MOB_APPLICANT_COMM_DETAILS")
-@NamedQuery(name="MobApplicantCommDetail.findAll", query="SELECT m FROM MobApplicantCommDetail m")
-public class MobApplicantCommDetail implements Serializable { 
+@Table(name = "MOB_APPLICANT_COMM_DETAILS")
+@NamedQuery(name = "MobApplicantCommDetail.findAll", query = "SELECT m FROM MobApplicantCommDetail m")
+public class MobApplicantCommDetail implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
 	private MainTableCompositePK id;
 
-	@Column(name="CREATED_BY")
+	@Column(name = "CREATED_BY")
 	private String createdBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="CREATED_DATE")
+	@Column(name = "CREATED_DATE")
 	private Date createdDate;
 
-	@Column(name="FAX_NO")
+	@Column(name = "FAX_NO")
 	private Long faxNo;
 
-	@Column(name="FAX_NO_CC")
+	@Column(name = "FAX_NO_CC")
 	private Long faxNoCc;
 
-	@Column(name="MAIL_ADDR_1")
+	@Column(name = "MAIL_ADDR_1")
 	private String mailAddr1;
 
-	@Column(name="MAIL_ADDR_2")
+	@Column(name = "MAIL_ADDR_2")
 	private String mailAddr2;
 
-	@Column(name="MAIL_ADDR_3")
+	@Column(name = "MAIL_ADDR_3")
 	private String mailAddr3;
 
-	@Column(name="MAIL_CITY")
+	@Column(name = "MAIL_CITY")
 	private String mailCity;
 
-	@Column(name="MAIL_COUNTRY")
+	@Column(name = "MAIL_COUNTRY")
 	private String mailCountry;
 
-	@Column(name="MOB_NO")
+	@Column(name = "MOB_NO")
 	private Long mobNo;
 
-	@Column(name="MOB_NO_CC")
+	@Column(name = "MOB_NO_CC")
 	private Long mobNoCc;
 
-	@Column(name="MODIFIED_BY")
+	@Column(name = "MODIFIED_BY")
 	private String modifiedBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="MODIFIED_DATE")
+	@Column(name = "MODIFIED_DATE")
 	private Date modifiedDate;
 
-	@Column(name="PERM_ADDR_1")
+	@Column(name = "PERM_ADDR_1")
 	private String permAddr1;
 
-	@Column(name="PERM_ADDR_2")
+	@Column(name = "PERM_ADDR_2")
 	private String permAddr2;
 
-	@Column(name="PERM_ADDR_3")
+	@Column(name = "PERM_ADDR_3")
 	private String permAddr3;
 
-	@Column(name="PERM_CITY")
+	@Column(name = "PERM_CITY")
 	private String permCity;
 
-	@Column(name="PERM_COUNTRY")
+	@Column(name = "PERM_COUNTRY")
 	private String permCountry;
 
-	@Column(name="RECORD_ID")
+	@Column(name = "RECORD_ID")
 	private Long recordId;
 
-	@Column(name="TEL_NO_HOME")
+	@Column(name = "TEL_NO_HOME")
 	private Long telNoHome;
 
-	@Column(name="TEL_NO_HOME_CC")
+	@Column(name = "TEL_NO_HOME_CC")
 	private Long telNoHomeCc;
 
-	@Column(name="TEL_NO_OFF")
+	@Column(name = "TEL_NO_OFF")
 	private Long telNoOff;
 
-	@Column(name="TEL_NO_OFF_CC")
+	@Column(name = "TEL_NO_OFF_CC")
 	private Long telNoOffCc;
+
+	@Column(name = "IS_MAIL_PERM_SAME")
+	private Boolean isMailPermSame;
 
 	public MobApplicantCommDetail() {
 	}
 
 	public MainTableCompositePK getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(MainTableCompositePK id) {
@@ -101,7 +103,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public String getCreatedBy() {
-		return this.createdBy;
+		return createdBy;
 	}
 
 	public void setCreatedBy(String createdBy) {
@@ -109,7 +111,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public Date getCreatedDate() {
-		return this.createdDate;
+		return createdDate;
 	}
 
 	public void setCreatedDate(Date createdDate) {
@@ -117,7 +119,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public Long getFaxNo() {
-		return this.faxNo;
+		return faxNo;
 	}
 
 	public void setFaxNo(Long faxNo) {
@@ -125,7 +127,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public Long getFaxNoCc() {
-		return this.faxNoCc;
+		return faxNoCc;
 	}
 
 	public void setFaxNoCc(Long faxNoCc) {
@@ -133,7 +135,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public String getMailAddr1() {
-		return this.mailAddr1;
+		return mailAddr1;
 	}
 
 	public void setMailAddr1(String mailAddr1) {
@@ -141,7 +143,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public String getMailAddr2() {
-		return this.mailAddr2;
+		return mailAddr2;
 	}
 
 	public void setMailAddr2(String mailAddr2) {
@@ -149,7 +151,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public String getMailAddr3() {
-		return this.mailAddr3;
+		return mailAddr3;
 	}
 
 	public void setMailAddr3(String mailAddr3) {
@@ -157,7 +159,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public String getMailCity() {
-		return this.mailCity;
+		return mailCity;
 	}
 
 	public void setMailCity(String mailCity) {
@@ -165,7 +167,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public String getMailCountry() {
-		return this.mailCountry;
+		return mailCountry;
 	}
 
 	public void setMailCountry(String mailCountry) {
@@ -173,7 +175,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public Long getMobNo() {
-		return this.mobNo;
+		return mobNo;
 	}
 
 	public void setMobNo(Long mobNo) {
@@ -181,7 +183,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public Long getMobNoCc() {
-		return this.mobNoCc;
+		return mobNoCc;
 	}
 
 	public void setMobNoCc(Long mobNoCc) {
@@ -189,7 +191,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public String getModifiedBy() {
-		return this.modifiedBy;
+		return modifiedBy;
 	}
 
 	public void setModifiedBy(String modifiedBy) {
@@ -197,7 +199,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public Date getModifiedDate() {
-		return this.modifiedDate;
+		return modifiedDate;
 	}
 
 	public void setModifiedDate(Date modifiedDate) {
@@ -205,7 +207,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public String getPermAddr1() {
-		return this.permAddr1;
+		return permAddr1;
 	}
 
 	public void setPermAddr1(String permAddr1) {
@@ -213,7 +215,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public String getPermAddr2() {
-		return this.permAddr2;
+		return permAddr2;
 	}
 
 	public void setPermAddr2(String permAddr2) {
@@ -221,7 +223,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public String getPermAddr3() {
-		return this.permAddr3;
+		return permAddr3;
 	}
 
 	public void setPermAddr3(String permAddr3) {
@@ -229,7 +231,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public String getPermCity() {
-		return this.permCity;
+		return permCity;
 	}
 
 	public void setPermCity(String permCity) {
@@ -237,7 +239,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public String getPermCountry() {
-		return this.permCountry;
+		return permCountry;
 	}
 
 	public void setPermCountry(String permCountry) {
@@ -245,7 +247,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public Long getRecordId() {
-		return this.recordId;
+		return recordId;
 	}
 
 	public void setRecordId(Long recordId) {
@@ -253,7 +255,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public Long getTelNoHome() {
-		return this.telNoHome;
+		return telNoHome;
 	}
 
 	public void setTelNoHome(Long telNoHome) {
@@ -261,7 +263,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public Long getTelNoHomeCc() {
-		return this.telNoHomeCc;
+		return telNoHomeCc;
 	}
 
 	public void setTelNoHomeCc(Long telNoHomeCc) {
@@ -269,7 +271,7 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public Long getTelNoOff() {
-		return this.telNoOff;
+		return telNoOff;
 	}
 
 	public void setTelNoOff(Long telNoOff) {
@@ -277,11 +279,19 @@ public class MobApplicantCommDetail implements Serializable {
 	}
 
 	public Long getTelNoOffCc() {
-		return this.telNoOffCc;
+		return telNoOffCc;
 	}
 
 	public void setTelNoOffCc(Long telNoOffCc) {
 		this.telNoOffCc = telNoOffCc;
+	}
+
+	public Boolean getIsMailPermSame() {
+		return isMailPermSame;
+	}
+
+	public void setIsMailPermSame(Boolean isMailPermSame) {
+		this.isMailPermSame = isMailPermSame;
 	}
 
 	@Override
@@ -292,7 +302,8 @@ public class MobApplicantCommDetail implements Serializable {
 				+ mobNo + ", mobNoCc=" + mobNoCc + ", modifiedBy=" + modifiedBy + ", modifiedDate=" + modifiedDate
 				+ ", permAddr1=" + permAddr1 + ", permAddr2=" + permAddr2 + ", permAddr3=" + permAddr3 + ", permCity="
 				+ permCity + ", permCountry=" + permCountry + ", recordId=" + recordId + ", telNoHome=" + telNoHome
-				+ ", telNoHomeCc=" + telNoHomeCc + ", telNoOff=" + telNoOff + ", telNoOffCc=" + telNoOffCc + "]";
+				+ ", telNoHomeCc=" + telNoHomeCc + ", telNoOff=" + telNoOff + ", telNoOffCc=" + telNoOffCc
+				+ ", isMailPermSame=" + isMailPermSame + "]";
 	}
-	
+
 }

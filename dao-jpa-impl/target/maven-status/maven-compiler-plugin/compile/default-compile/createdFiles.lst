@@ -1,4 +1,5 @@
 com\afrAsia\dao\jpa\impl\CountryJpaDaoImpl.class
+com\afrAsia\dao\jpa\impl\ComplianceJpaDAOImpl.class
 com\afrAsia\dao\jpa\impl\OAuthAuthorizationJpaDAOImpl.class
 com\afrAsia\dao\jpa\UploadKYCDao.class
 com\afrAsia\dao\jpa\impl\EmploymentJpaDaoImpl.class
@@ -6,6 +7,7 @@ com\afrAsia\dao\jpa\DTDPSJpaDAO.class
 com\afrAsia\dao\jpa\impl\AccountCreateJpaDaoImpl.class
 com\afrAsia\dao\jpa\CountryJpaDAO.class
 com\afrAsia\dao\jpa\impl\AfrAsiaFirstJpaDaoImpl.class
+com\afrAsia\dao\jpa\ComplianceJpaDao.class
 com\afrAsia\dao\jpa\DashBoardJpaDao.class
 com\afrAsia\dao\jpa\impl\MaritalStatusJpaDaoImpl.class
 com\afrAsia\dao\jpa\impl\DashBoardJpaDaoImpl.class

@@ -4,119 +4,128 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * The persistent class for the MOB_RM_APP_REF_ID database table.
+ * 
+ */
+@Entity
+@Table(name = "MOB_RM_APP_REF_ID")
 
-	/**
-	 * The persistent class for the MOB_RM_APP_REF_ID database table.
-	 * 
-	 */
-	@Entity
-	@Table(name="MOB_RM_APP_REF_ID")
-	
-	public class MobRmAppRefId implements Serializable {
-		private static final long serialVersionUID = 1L;
+public class MobRmAppRefId implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-		@Id
-		@SequenceGenerator(name="MOB_RM_APP_REF_ID_ID_GENERATOR", sequenceName="AA_APPLICATION_ID_SEQUENCE")
-		@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MOB_RM_APP_REF_ID_ID_GENERATOR")
-		@Column(name="ID")
-		private long id;
+	@Id
+	@SequenceGenerator(name = "MOB_RM_APP_REF_ID_ID_GENERATOR", sequenceName = "AA_APPLICATION_ID_SEQUENCE")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MOB_RM_APP_REF_ID_ID_GENERATOR")
+	@Column(name = "ID")
+	private long id;
 
-		@Column(name="APP_STATUS")
-		private String appStatus;
+	@Column(name = "RM_NAME")
+	private String rmName;
 
-		@Column(name="CREATED_BY")
-		private String createdBy;
+	@Column(name = "RM_USER_ID")
+	private String rmUsedId;
 
-		@Temporal(TemporalType.DATE)
-		@Column(name="CREATED_DATE")
-		private Date createdDate;
+	@Column(name = "APP_STATUS")
+	private String appStatus;
 
-		@Column(name="MODIFIED_BY")
-		private String modifiedBy;
+	@Column(name = "ACCOUNT_NUMBER")
+	private String accountNumber;
 
-		@Temporal(TemporalType.DATE)
-		@Column(name="MODIFIED_DATE")
-		private Date modifiedDate;
+	@Column(name = "CREATED_BY")
+	private String createdBy;
 
-		@Column(name="RM_NAME")
-		private String rmName;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "CREATED_DATE")
+	private Date createdDate;
 
-		@Column(name="RM_USER_ID")
-		private String rmUsedId;
+	@Column(name = "MODIFIED_BY")
+	private String modifiedBy;
 
-		public MobRmAppRefId() {
-		}
+	@Temporal(TemporalType.DATE)
+	@Column(name = "MODIFIED_DATE")
+	private Date modifiedDate;
 
-		public long getId() {
-			return this.id;
-		}
+	public MobRmAppRefId() {
+	}
 
-		public void setId(long id) {
-			this.id = id;
-		}
+	public long getId() {
+		return id;
+	}
 
-		public String getAppStatus() {
-			return this.appStatus;
-		}
+	public void setId(long id) {
+		this.id = id;
+	}
 
-		public void setAppStatus(String appStatus) {
-			this.appStatus = appStatus;
-		}
+	public String getRmName() {
+		return rmName;
+	}
 
-		public String getCreatedBy() {
-			return this.createdBy;
-		}
+	public void setRmName(String rmName) {
+		this.rmName = rmName;
+	}
 
-		public void setCreatedBy(String createdBy) {
-			this.createdBy = createdBy;
-		}
+	public String getRmUsedId() {
+		return rmUsedId;
+	}
 
-		public Date getCreatedDate() {
-			return this.createdDate;
-		}
+	public void setRmUsedId(String rmUsedId) {
+		this.rmUsedId = rmUsedId;
+	}
 
-		public void setCreatedDate(Date createdDate) {
-			this.createdDate = createdDate;
-		}
+	public String getAppStatus() {
+		return appStatus;
+	}
 
-		public String getModifiedBy() {
-			return this.modifiedBy;
-		}
+	public void setAppStatus(String appStatus) {
+		this.appStatus = appStatus;
+	}
 
-		public void setModifiedBy(String modifiedBy) {
-			this.modifiedBy = modifiedBy;
-		}
+	public String getAccountNumber() {
+		return accountNumber;
+	}
 
-		public Date getModifiedDate() {
-			return this.modifiedDate;
-		}
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
 
-		public void setModifiedDate(Date modifiedDate) {
-			this.modifiedDate = modifiedDate;
-		}
+	public String getCreatedBy() {
+		return createdBy;
+	}
 
-		public String getRmName() {
-			return this.rmName;
-		}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
 
-		public void setRmName(String rmName) {
-			this.rmName = rmName;
-		}
+	public Date getCreatedDate() {
+		return createdDate;
+	}
 
-		public String getRmUsedId() {
-			return this.rmUsedId;
-		}
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
 
-		public void setRmUsedId(String rmUsedId) {
-			this.rmUsedId = rmUsedId;
-		}
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
 
-		@Override
-		public String toString() {
-			return "MobRmAppRefId [id=" + id + ", appStatus=" + appStatus + ", createdBy=" + createdBy
-					+ ", createdDate=" + createdDate + ", modifiedBy=" + modifiedBy + ", modifiedDate=" + modifiedDate
-					+ ", rmName=" + rmName + ", rmUsedId=" + rmUsedId + "]";
-		}
-		
-		
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	@Override
+	public String toString() {
+		return "MobRmAppRefId [id=" + id + ", rmName=" + rmName + ", rmUsedId=" + rmUsedId + ", appStatus=" + appStatus
+				+ ", accountNumber=" + accountNumber + ", createdBy=" + createdBy + ", createdDate=" + createdDate
+				+ ", modifiedBy=" + modifiedBy + ", modifiedDate=" + modifiedDate + "]";
+	}
+
 }

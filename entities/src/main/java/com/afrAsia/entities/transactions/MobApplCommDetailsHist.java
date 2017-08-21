@@ -25,7 +25,7 @@ public class MobApplCommDetailsHist implements Serializable {
 	private HistTableCompositePK id;
 
 	@Column(name = "CREATED_BY")
-	private String createdBy;
+	private String createdBy;																						
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "CREATED_DATE")
@@ -91,6 +91,9 @@ public class MobApplCommDetailsHist implements Serializable {
 
 	@Column(name = "TEL_NO_OFF_CC")
 	private Long telNoOffCc;
+
+	@Column(name = "IS_MAIL_PERM_SAME")
+	private Boolean isMailPermSame;
 
 	public HistTableCompositePK getId() {
 		return id;
@@ -276,6 +279,14 @@ public class MobApplCommDetailsHist implements Serializable {
 		this.telNoOffCc = telNoOffCc;
 	}
 
+	public Boolean getIsMailPermSame() {
+		return isMailPermSame;
+	}
+
+	public void setIsMailPermSame(Boolean isMailPermSame) {
+		this.isMailPermSame = isMailPermSame;
+	}
+
 	@Override
 	public String toString() {
 		return "MobApplCommDetailsHist [id=" + id + ", createdBy=" + createdBy + ", createdDate=" + createdDate
@@ -284,7 +295,8 @@ public class MobApplCommDetailsHist implements Serializable {
 				+ mobNo + ", mobNoCc=" + mobNoCc + ", modifiedBy=" + modifiedBy + ", modifiedDate=" + modifiedDate
 				+ ", permAddr1=" + permAddr1 + ", permAddr2=" + permAddr2 + ", permAddr3=" + permAddr3 + ", permCity="
 				+ permCity + ", permCountry=" + permCountry + ", telNoHome=" + telNoHome + ", telNoHomeCc="
-				+ telNoHomeCc + ", telNoOff=" + telNoOff + ", telNoOffCc=" + telNoOffCc + "]";
+				+ telNoHomeCc + ", telNoOff=" + telNoOff + ", telNoOffCc=" + telNoOffCc + ", isMailPermSame="
+				+ isMailPermSame + "]";
 	}
 
 }

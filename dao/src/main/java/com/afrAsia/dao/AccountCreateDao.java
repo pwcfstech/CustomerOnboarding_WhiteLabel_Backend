@@ -1,10 +1,7 @@
 package com.afrAsia.dao;
 
-import java.util.List;
-
 import com.afrAsia.entities.request.AccountCreationRequest;
 import com.afrAsia.entities.request.ApplicantDetails;
-import com.afrAsia.entities.request.AccountUpdateRequest.AccountDetails;
 import com.afrAsia.entities.transactions.MobAccountAdditionalDetail;
 import com.afrAsia.entities.transactions.MobAccountAddnDetailsHist;
 import com.afrAsia.entities.transactions.MobAccountDetail;
@@ -69,13 +66,14 @@ public interface AccountCreateDao {
 
 	public Long getRecordIdFromAccountDetails(Long appId);
 
-	public void updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails primaryApplicant,
+	public MobApplicantRecordId updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails primaryApplicant,
 			Long appId, Long recordId, String typeOfApplicant);
 
 	public void updateAccountDetails(AccountCreationRequest accountCreationRequest, Long appId, Long recordId,
-			MobApplicantRecordId[] mobApplicantPrimary, MobApplicantRecordId[] mobGuardianPrimary,
+			Long mobApplicantPrimaryApplicantId, Long mobGuardianPrimaryApplicantId,
 			MobApplicantRecordId[] mobJoint, MobApplicantRecordId[] mobGuardianJoint, com.afrAsia.entities.request.AccountCreationRequest.AccountDetails accountDetails);
 
+	public void storeIntoMobApplKycDocumentsHist(Long appid);
 	public void updateMobRmAppRefId(Long appId, String rmId);
 
 }

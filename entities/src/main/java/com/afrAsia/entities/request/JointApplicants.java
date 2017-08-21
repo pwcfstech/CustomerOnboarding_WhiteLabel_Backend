@@ -9,8 +9,10 @@ public class JointApplicants implements Serializable {
 		super();
 	}
 	private static final long serialVersionUID = 1L;
-	ApplicantDetails jointApplicantDetail;
-	ApplicantDetails guardianDetail;
+	
+	private ApplicantDetails jointApplicantDetail;
+	
+	private ApplicantDetails guardianDetail;
 
 	public ApplicantDetails getJointApplicantDetail() {
 		return jointApplicantDetail;

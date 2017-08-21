@@ -185,6 +185,12 @@ public class MobAccountDetailsHist implements Serializable {
 	@Column(name = "RELATIONSHIP_MINOR_5")
 	private String relationshipMinor5;
 
+	@Column(name = "MIN_NO_SIGNATURES")
+	private Long minNoSignatures;
+
+	@Column(name = "OPERATING_INST")
+	private String operatingInst;
+
 	public Long getRecordId() {
 		return recordId;
 	}
@@ -585,6 +591,22 @@ public class MobAccountDetailsHist implements Serializable {
 		this.relationshipMinor5 = relationshipMinor5;
 	}
 
+	public Long getMinNoSignatures() {
+		return minNoSignatures;
+	}
+
+	public void setMinNoSignatures(Long minNoSignatures) {
+		this.minNoSignatures = minNoSignatures;
+	}
+
+	public String getOperatingInst() {
+		return operatingInst;
+	}
+
+	public void setOperatingInst(String operatingInst) {
+		this.operatingInst = operatingInst;
+	}
+
 	@Override
 	public String toString() {
 		return "MobAccountDetailsHist [recordId=" + recordId + ", accountCategory=" + accountCategory + ", accountType="
@@ -607,7 +629,8 @@ public class MobAccountDetailsHist implements Serializable {
 				+ powerAttnUs1 + ", powerAttnUs2=" + powerAttnUs2 + ", powerAttnUs3=" + powerAttnUs3 + ", powerAttnUs4="
 				+ powerAttnUs4 + ", powerAttnUs5=" + powerAttnUs5 + ", relationshipMinor1=" + relationshipMinor1
 				+ ", relationshipMinor2=" + relationshipMinor2 + ", relationshipMinor3=" + relationshipMinor3
-				+ ", relationshipMinor4=" + relationshipMinor4 + ", relationshipMinor5=" + relationshipMinor5 + "]";
+				+ ", relationshipMinor4=" + relationshipMinor4 + ", relationshipMinor5=" + relationshipMinor5
+				+ ", minNoSignatures=" + minNoSignatures + ", operatingInst=" + operatingInst + "]";
 	}
 
 }

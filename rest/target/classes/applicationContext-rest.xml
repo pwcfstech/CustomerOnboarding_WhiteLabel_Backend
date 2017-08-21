@@ -79,21 +79,8 @@
 		<property name="applicationDetailsService" ref="applicationDetailsService" />
 	</bean>
 	
-	<util:properties id="mailProperties" location="file:mail.properties" ignore-resource-not-found="false" />
-<!--  	<context:property-placeholder location="classpath:mail.properties" />-->
-	<bean id="mailConfig" class="com.afrAsia.Utils.AfrAsiaMailConfig">
-        <property name="mailhost" value="${mailhost}"/>    
-        <property name="mailport" value="${mailport}"/>
-        <property name="mailFrom" value="${mailFrom}"/>
-        <property name="mailPassword" value="${mailPassword}"/>
-        <property name="smtpAuthRequired" value="${smtpAuthRequired}"/>
-        <property name="smtpAuthstarttls" value="smtpAuthstarttls"/>
-    </bean>
-	
-	
 	<bean id="accountCreationRestService" class="com.afrAsia.rest.AccountCreationRestService" >
 		<property name="accountCreationService" ref="accountCreationService" />
-		<property name="afrAsiaMailConfig" ref="mailConfig" />
 	</bean>
 	
 	<!-- Upload KYC document rest service bean -->

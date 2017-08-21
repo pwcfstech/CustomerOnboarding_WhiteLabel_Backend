@@ -130,18 +130,8 @@
 			<groupId>org.jvnet.jax-ws-commons.spring</groupId>
 			<artifactId>jaxws-spring</artifactId>
 		</dependency>
-		
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.4.1</version>
-		</dependency>
-		
-		<dependency>
-    		<groupId>javax.activation</groupId>
-    		<artifactId>activation</artifactId>
-    		<version>1.1.1</version>
-		</dependency>
+
+
 	</dependencies>
 
 	<build>
@@ -178,6 +168,7 @@
 
 					<!-- <outputDirectory>/Users/nyalfernandes/projects/Installers/apache-tomcat-7.0.62/webapps/</outputDirectory> -->
 					<!--   C:\Backbase Software\ApacheSetup\apache-tomcat-9.0.0.M19-windows-x64\apache-tomcat-9.0.0.M19\webapps -->
+<<<<<<< HEAD
 					<outputDirectory>C:\Backbase Software\ApacheSetup\apache-tomcat-9.0.0.M19-windows-x64\apache-tomcat-9.0.0.M19\webapps</outputDirectory>
 
 				</configuration>
@@ -199,4 +190,27 @@
 
 		</plugins>
 	</build>
+=======
+					<outputDirectory>C:\apache-tomcat-8.0.32\webapps</outputDirectory>
+
+				</configuration>
+			</plugin>
+
+			 <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>make-a-jar</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions> 
+			</plugin>
+			
+		</plugins>
+	</build>
+>>>>>>> 347b83615ac44cf57a64d62172f8da313e51e989
 </project>
