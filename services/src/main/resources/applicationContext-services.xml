@@ -75,6 +75,10 @@
 		<property name="addCommentDao" ref="addCommentJpaDao" />
 	</bean>
 	
+	<bean id="complianceService" class="com.afrAsia.service.impl.ComplianceServiceImpl">
+		<property name="complianceDao" ref="complianceJpaDao" />
+	</bean>
+	
 	<bean id="authenticationService" class="com.afrAsia.service.impl.AuthenticationServiceImpl" >
 		<property name="oAuthAuthorizationDAO" ref="oAuthAuthorizationDAO" />
 		<property name="rmDetailsService" ref="rmDetailsService" />

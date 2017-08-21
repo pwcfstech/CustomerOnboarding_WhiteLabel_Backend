@@ -71,6 +71,10 @@
 		<property name="addCommentService" ref="addCommentService" />
 	</bean> 
 	
+	<bean id="complianceRestService" class="com.afrAsia.rest.ComplianceRestService" >
+		<property name="complianceService" ref="complianceService" />
+	</bean> 
+	
 	<bean id="authenticationRestService" class="com.afrAsia.rest.AuthenticationRestService" >
 		<property name="authenticationService" ref="authenticationService" />
 	</bean>

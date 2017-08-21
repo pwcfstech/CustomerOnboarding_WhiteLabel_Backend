@@ -13,10 +13,9 @@ import com.afrAsia.entities.jpa.ApplicationReference;
 public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationReference>
 		implements ComplianceJpaDao {
 	
-	public List<Object> getDetailsByefaultByUnderProcessingStatus(String ststus) {
+	public List<Object> getDetailsByefaultByUnderProcessingStatus() {
 
-		List<Object> defaultResult = null;
-		if(ststus.equalsIgnoreCase("Under Processing")){
+
 		Query query = getEntityManager().createQuery("select ar.id,apd.recordId,apd.firstName,apd.lastName,ar.createdTime, "
 				+ "ar.appStatus,ar.accountNumber,ar.modifiedTime "
 				+ "from ApplicationReference ar, ApplicantPersonalDetails apd "
@@ -32,55 +31,17 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 		
 		for (Object object : detailsByefaultByUnderProcessingStatus) {
 			Object[] outputs = (Object[]) object;
-			System.out.println("id in dao =========== "+outputs[0].toString());
-			System.out.println("recordId in dao =========== "+outputs[1].toString());
-			System.out.println("name in dao =========== "+outputs[2].toString()+" "+outputs[3].toString());
-			System.out.println("createdTime in dao =========== "+outputs[4].toString());
-			System.out.println("appStatus in dao =========== "+outputs[5].toString());
-			System.out.println("accountNumber in dao =========== "+outputs[6].toString());
-			System.out.println("modifiedTime in dao =========== "+outputs[7].toString());
+			System.out.println("id in dao,getDetailsByefaultByUnderProcessingStatus =========== "+outputs[0].toString());
+			System.out.println("recordId,getDetailsByefaultByUnderProcessingStatus in dao =========== "+outputs[1].toString());
+			System.out.println("name,getDetailsByefaultByUnderProcessingStatus in dao =========== "+outputs[2].toString()+" "+outputs[3].toString());
+			System.out.println("createdTime,getDetailsByefaultByUnderProcessingStatus in dao =========== "+outputs[4].toString());
+			System.out.println("appStatus,getDetailsByefaultByUnderProcessingStatus in dao =========== "+outputs[5].toString());
+			System.out.println("accountNumber,getDetailsByefaultByUnderProcessingStatus in dao =========== "+outputs[6].toString());
+			System.out.println("modifiedTime,getDetailsByefaultByUnderProcessingStatus in dao =========== "+outputs[7].toString());
 		}
-		defaultResult=detailsByefaultByUnderProcessingStatus;
-		//return detailsByefaultByUnderProcessingStatus; 
-		}
-		else if(ststus.equalsIgnoreCase("ACCOUNT OPENED") || ststus.equalsIgnoreCase("ACCOUNT REJECTED")){
-			Query query = getEntityManager().createQuery("select ar.id,apd.recordId,apd.firstName,apd.lastName,ar.createdTime, "
-					+ "ar.appStatus,ar.accountNumber,ar.modifiedTime "
-					+ "from ApplicationReference ar, ApplicantPersonalDetails apd "
-					+ "where ar.id=apd.id "
-					+ "AND apd.customerType =:custType "
-					+ "AND lower(ar.appStatus) in (lower(:appStatus1),lower(:appStatus2)) "
-					+ "AND ar.updatedTime between :startDate and :endDate "
-					+ "order by ar.createdTime desc");
 
-			Date today = new Date();
-			Calendar cal = new GregorianCalendar();
-			cal.setTime(today);
-			cal.add(Calendar.DAY_OF_MONTH, -30);
-			Date today30 = cal.getTime();
-			
-			query.setParameter("custType", "Primary");
-			query.setParameter("startDate", today30); 
-			query.setParameter("endDate", today);					
-			query.setParameter("appStatus1", "ACCOUNT OPENED");
-			query.setParameter("appStatus2", "ACCOUNT REJECTED");
-			
-			List<Object> detailsByefault = query.getResultList();
-			
-			for (Object object : detailsByefault) {
-				Object[] outputs = (Object[]) object;
-			System.out.println("id in dao =========== "+outputs[0].toString());
-			System.out.println("recordId in dao =========== "+outputs[1].toString());
-			System.out.println("name in dao =========== "+outputs[2].toString()+" "+outputs[3].toString());
-			System.out.println("createdTime in dao =========== "+outputs[4].toString());
-			System.out.println("appStatus in dao =========== "+outputs[5].toString());
-			System.out.println("accountNumber in dao =========== "+outputs[6].toString());
-			System.out.println("modifiedTime in dao =========== "+outputs[7].toString());
-			}
-			defaultResult=detailsByefault;
-			//return detailsByefault; 
-		}
-		return defaultResult;
+		return detailsByefaultByUnderProcessingStatus; 
+		
 	}
 	
 	public List<Object> getDetailsByefaultByAccOpenedOrRejectedStatus() {
@@ -110,13 +71,13 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 		
 		for (Object object : detailsByefault) {
 			Object[] outputs = (Object[]) object;
-		System.out.println("id in dao =========== "+outputs[0].toString());
-		System.out.println("recordId in dao =========== "+outputs[1].toString());
-		System.out.println("name in dao =========== "+outputs[2].toString()+" "+outputs[3].toString());
-		System.out.println("createdTime in dao =========== "+outputs[4].toString());
-		System.out.println("appStatus in dao =========== "+outputs[5].toString());
-		System.out.println("accountNumber in dao =========== "+outputs[6].toString());
-		System.out.println("modifiedTime in dao =========== "+outputs[7].toString());
+		System.out.println("id in dao,getDetailsByefaultByAccOpenedOrRejectedStatus =========== "+outputs[0].toString());
+		System.out.println("recordId,getDetailsByefaultByAccOpenedOrRejectedStatus in dao =========== "+outputs[1].toString());
+		System.out.println("name in dao,getDetailsByefaultByAccOpenedOrRejectedStatus =========== "+outputs[2].toString()+" "+outputs[3].toString());
+		System.out.println("createdTime in dao,getDetailsByefaultByAccOpenedOrRejectedStatus =========== "+outputs[4].toString());
+		System.out.println("appStatus in dao,getDetailsByefaultByAccOpenedOrRejectedStatus =========== "+outputs[5].toString());
+		System.out.println("accountNumber in dao,getDetailsByefaultByAccOpenedOrRejectedStatus =========== "+outputs[6].toString());
+		System.out.println("modifiedTime in dao,getDetailsByefaultByAccOpenedOrRejectedStatus =========== "+outputs[7].toString());
 		}
 
 		return detailsByefault; 

@@ -56,9 +56,8 @@
 		<class>com.afrAsia.entities.jpa.ApplicationDetails</class>
 		<class>com.afrAsia.entities.jpa.ApplicationReference</class>
 		
-	
-
 		<class>com.afrAsia.entities.transactions.MobComments</class>
+
 		<properties>
 			<!-- <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" /> -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />

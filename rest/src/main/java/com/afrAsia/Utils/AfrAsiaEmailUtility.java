@@ -2,9 +2,7 @@ package com.afrAsia.Utils;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;

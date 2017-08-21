@@ -6,6 +6,7 @@ C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\transactions\MobApplPersonalDetailsHist.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\request\GenericRequest.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\response\LogoutResponse.java
+C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\response\ComplianceResponse.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\masters\CategoryMaster.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\transactions\HistTableCompositePK.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\jpa\Category.java
@@ -31,6 +32,7 @@ C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\response\LogoutDataResponse.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\transactions\MobApplicantCommDetail.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\response\MessageHeader.java
+C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\request\ComplianceReq.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\response\LoginDataResponse.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\transactions\MobApplicantAdditionalDtl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\response\AppLoggedSummary.java
@@ -71,6 +73,7 @@ C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\masters\AfrAsiaFirst.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\request\GenericRequest2.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\request\JointApplicants.java
+C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\response\ComplianceApps.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\response\RequestSuccess.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\request\MobCommentsRequest.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\request\RmApplicationAppReq.java
@@ -95,6 +98,7 @@ C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\response\Apps.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\jpa\Product.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\jpa\ApplicantPersonalDetails.java
+C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\request\SearchParameterCompliance.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\response\DeviceFootPrintResponse.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\transactions\MobAccountAddnDetailsHist.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\entities\src\main\java\com\afrAsia\entities\response\AccountCreateResponse.java

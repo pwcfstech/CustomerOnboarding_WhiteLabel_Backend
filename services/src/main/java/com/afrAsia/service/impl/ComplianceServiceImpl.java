@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
 
 import com.afrAsia.customexception.DateDifferenceException;
 import com.afrAsia.dao.jpa.ComplianceJpaDao;
-import com.afrAsia.entities.response.Apps;
+import com.afrAsia.entities.response.ComplianceApps;
+import com.afrAsia.entities.response.ComplianceResponse;
 import com.afrAsia.entities.response.MessageHeader;
 import com.afrAsia.entities.response.RequestError;
-import com.afrAsia.entities.response.RmApplicationAppResponse;
 import com.afrAsia.service.ComplianceService;
 
 public class ComplianceServiceImpl implements ComplianceService {
@@ -34,35 +34,37 @@ public class ComplianceServiceImpl implements ComplianceService {
 	}
 
 	
-	public RmApplicationAppResponse getDetailsByefault(String ststus) {
+	public ComplianceResponse getDetailsBydefault() {
 		
 		System.out.println(" ################ in getDetailsByefault service impl ===== ");
 
-		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
+		ComplianceResponse complianceResponse = new ComplianceResponse();
 
-		List<Apps> listOfApps = new ArrayList<Apps>();
+		List<ComplianceApps> listOfApps = new ArrayList<ComplianceApps>();
 
-		Set<Apps> setOfApps = new LinkedHashSet<Apps>(listOfApps);
+		Set<ComplianceApps> setOfApps = new LinkedHashSet<ComplianceApps>(listOfApps);
+		
+		Set<ComplianceApps> setOfComplianceApps = new LinkedHashSet<ComplianceApps>();
 
 		List<Object> detailsByDefaultByUnderProcessingStatus = new ArrayList<Object>(listOfApps);
 
 		
 		//get Details By UnderProcessing Status																				
-		detailsByDefaultByUnderProcessingStatus = complianceDao.getDetailsByefaultByUnderProcessingStatus(ststus);
+		detailsByDefaultByUnderProcessingStatus = complianceDao.getDetailsByefaultByUnderProcessingStatus();
 		
 		int i=0;
 				
 		for (Object object : detailsByDefaultByUnderProcessingStatus) {
 			
-			Apps apps = new Apps();
+			ComplianceApps complianceApps = new ComplianceApps();
 			
 			Object[] outputs = (Object[]) object;
 
-			apps.setRefNo(outputs[0].toString());
+			complianceApps.setRefNo(outputs[0].toString());
 			
-			apps.setRecordId(outputs[1].toString());
+			complianceApps.setRecordId(outputs[1].toString());
 			
-			apps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
+			complianceApps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
 			
 			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-mm-dd");
 
@@ -75,11 +77,11 @@ public class ComplianceServiceImpl implements ComplianceService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 
-			apps.setAppSubmittedDate(dateSubmitted);
+			complianceApps.setAppSubmittedDate(dateSubmitted);
 
-			apps.setAppStatus(outputs[5].toString());
+			complianceApps.setAppStatus(outputs[5].toString());
 			
-			apps.setAccountNumber(outputs[6].toString());
+			complianceApps.setAccountNumber(outputs[6].toString());
 			
 			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-mm-dd");
 
@@ -92,18 +94,20 @@ public class ComplianceServiceImpl implements ComplianceService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 			
-			apps.setAccountCreationDate(dateCreated);
+			complianceApps.setAccountCreationDate(dateCreated);
 
-			listOfApps.add(apps);
+			listOfApps.add(complianceApps);
+			setOfComplianceApps.add(complianceApps);
 			i++;
 
 		}
-		System.out.println("list of apps 1================= "+listOfApps);
+		System.out.println("list of complianceApps 1================= "+listOfApps);
 		
 		setOfApps.addAll(listOfApps);
 		
-		System.out.println("set of apps 1 =================="+setOfApps);
+		System.out.println("setOfApps 1 =================="+setOfApps);
 		
+		System.out.println("setOfComplianceApps 1 =================="+setOfComplianceApps);
 		
 		//get Details By AccOpened Or Rejected Status	
 		List<Object> detailsByefaultByAccOpenedOrRejectedStatus = new ArrayList<Object>(listOfApps);
@@ -112,15 +116,15 @@ public class ComplianceServiceImpl implements ComplianceService {
 		
 		for (Object object : detailsByefaultByAccOpenedOrRejectedStatus) {
 			
-			Apps apps = listOfApps.get(i);
+			ComplianceApps complianceApps = new ComplianceApps();
 			
 			Object[] outputs = (Object[]) object;
 
-			apps.setRefNo(outputs[0].toString());
+			complianceApps.setRefNo(outputs[0].toString());
 			
-			apps.setRecordId(outputs[1].toString());
+			complianceApps.setRecordId(outputs[1].toString());
 			
-			apps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
+			complianceApps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
 			
 			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-mm-dd");
 
@@ -133,11 +137,11 @@ public class ComplianceServiceImpl implements ComplianceService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 
-			apps.setAppSubmittedDate(dateSubmitted);
+			complianceApps.setAppSubmittedDate(dateSubmitted);
 
-			apps.setAppStatus(outputs[5].toString());
+			complianceApps.setAppStatus(outputs[5].toString());
 			
-			apps.setAccountNumber(outputs[6].toString());
+			complianceApps.setAccountNumber(outputs[6].toString());
 			
 			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-mm-dd");
 
@@ -150,30 +154,32 @@ public class ComplianceServiceImpl implements ComplianceService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 			
-			apps.setAccountCreationDate(dateCreated);
+			complianceApps.setAccountCreationDate(dateCreated);
 
-			listOfApps.add(apps);
+			listOfApps.add(complianceApps);
+			setOfComplianceApps.add(complianceApps);
 			i++;
 		}
 		
 		System.out.println("listOfApps  2 =================" + listOfApps);
 		setOfApps.addAll(listOfApps);
 		System.out.println("setOfApps 2 =================" + setOfApps);
+		System.out.println("setOfComplianceApps 2 =================" + setOfComplianceApps);
 
-		rmApplicationAppResponse.setApps(listOfApps);
+		complianceResponse.setApps(listOfApps);
 
-		return rmApplicationAppResponse;
+		return complianceResponse;
 	}
 
-	public RmApplicationAppResponse getDetailsByName(String name, String appStatus) {
+	public ComplianceResponse getDetailsByName(String name, String appStatus) {
 		
 		System.out.println(" ################ in getDetailsByName service impl ===== ");
 		
-		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
+		ComplianceResponse complianceResponse = new ComplianceResponse();
 
-		List<Apps> listOfApps = new ArrayList<Apps>();
+		List<ComplianceApps> listOfApps = new ArrayList<ComplianceApps>();
 
-		Set<Apps> setOfApps = new LinkedHashSet<Apps>(listOfApps);
+		Set<ComplianceApps> setOfApps = new LinkedHashSet<ComplianceApps>(listOfApps);
 
 		List<Object> detailsByName = new ArrayList<Object>(listOfApps);
 
@@ -181,15 +187,15 @@ public class ComplianceServiceImpl implements ComplianceService {
 		
 		for (Object object : detailsByName) {
 			
-			Apps apps = new Apps();
+			ComplianceApps complianceApps = new ComplianceApps();
 			
 			Object[] outputs = (Object[]) object;
 
-			apps.setRefNo(outputs[0].toString());
+			complianceApps.setRefNo(outputs[0].toString());
 			
-			apps.setRecordId(outputs[1].toString());
+			complianceApps.setRecordId(outputs[1].toString());
 			
-			apps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
+			complianceApps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
 			
 			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-mm-dd");
 
@@ -202,11 +208,11 @@ public class ComplianceServiceImpl implements ComplianceService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 
-			apps.setAppSubmittedDate(dateSubmitted);
+			complianceApps.setAppSubmittedDate(dateSubmitted);
 
-			apps.setAppStatus(outputs[5].toString());
+			complianceApps.setAppStatus(outputs[5].toString());
 			
-			apps.setAccountNumber(outputs[6].toString());
+			complianceApps.setAccountNumber(outputs[6].toString());
 			
 			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-mm-dd");
 
@@ -219,27 +225,27 @@ public class ComplianceServiceImpl implements ComplianceService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 			
-			apps.setAccountCreationDate(dateCreation);
+			complianceApps.setAccountCreationDate(dateCreation);
 
-			listOfApps.add(apps);
+			listOfApps.add(complianceApps);
 		}
 		System.out.println("listOfApps=================" + listOfApps);
 		setOfApps.addAll(listOfApps);
 		System.out.println("setOfApps=================" + setOfApps);
-		rmApplicationAppResponse.setApps(listOfApps);
+		complianceResponse.setApps(listOfApps);
 
-		return rmApplicationAppResponse;
+		return complianceResponse;
 	}
 
-	public RmApplicationAppResponse getDetailsByDates(Date startDate, Date endDate, String rmId) {
+	public ComplianceResponse getDetailsByDates(Date startDate, Date endDate, String rmId) {
 		
 		System.out.println(" ################ in getDetailsByDates service impl ===== ");
 		
-		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
+		ComplianceResponse complianceResponse = new ComplianceResponse();
 
-		List<Apps> listOfApps = new ArrayList<Apps>();
+		List<ComplianceApps> listOfApps = new ArrayList<ComplianceApps>();
 
-		Set<Apps> setOfApps = new LinkedHashSet<Apps>(listOfApps);
+		Set<ComplianceApps> setOfApps = new LinkedHashSet<ComplianceApps>(listOfApps);
 
 		List<Object> listOfCustormerName = new ArrayList<Object>(listOfApps);
 
@@ -258,7 +264,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 					requestError.setCustomCode(" difference between start date and end date is more than 30 days,"
 						+ "please pass dates such that difference should not exceed 30");
 					messageHeader.setError(requestError); 
-					rmApplicationAppResponse.setMessageHeader(messageHeader);	
+					complianceResponse.setMessageHeader(messageHeader);	
 					throw new DateDifferenceException("difference between start date and end date is more than 30 days,"
 						+ "please pass dates such that difference should not exceed 30");
 				}
@@ -270,15 +276,15 @@ public class ComplianceServiceImpl implements ComplianceService {
 		
 		for (Object object : listOfCustormerName) {
 			
-			Apps apps = new Apps();
+			ComplianceApps complianceApps = new ComplianceApps();
 			
 			Object[] outputs = (Object[]) object;
 
-			apps.setRefNo(outputs[0].toString());
+			complianceApps.setRefNo(outputs[0].toString());
 			
-			apps.setRecordId(outputs[1].toString());
+			complianceApps.setRecordId(outputs[1].toString());
 			
-			apps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
+			complianceApps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
 			
 			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-mm-dd");
 
@@ -291,11 +297,11 @@ public class ComplianceServiceImpl implements ComplianceService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 
-			apps.setAppSubmittedDate(dateSubmitted);
+			complianceApps.setAppSubmittedDate(dateSubmitted);
 
-			apps.setAppStatus(outputs[5].toString());
+			complianceApps.setAppStatus(outputs[5].toString());
 			
-			apps.setAccountNumber(outputs[6].toString());
+			complianceApps.setAccountNumber(outputs[6].toString());
 			
 			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-mm-dd");
 
@@ -308,26 +314,26 @@ public class ComplianceServiceImpl implements ComplianceService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 			
-			apps.setAccountCreationDate(dateCreation);
+			complianceApps.setAccountCreationDate(dateCreation);
 
-			listOfApps.add(apps);
+			listOfApps.add(complianceApps);
 		}
 		System.out.println("listOfApps=================" + listOfApps);
 		setOfApps.addAll(listOfApps);
 		System.out.println("setOfApps=================" + setOfApps);
-		rmApplicationAppResponse.setApps(listOfApps);
+		complianceResponse.setApps(listOfApps);
 
-		return rmApplicationAppResponse;
+		return complianceResponse;
 	}
 
 	
-	public RmApplicationAppResponse getDetailsByAllCriteria(String name, Date startDate, Date endDate,
+	public ComplianceResponse getDetailsByAllCriteria(String name, Date startDate, Date endDate,
 			String rmId) {
-		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
+		ComplianceResponse complianceResponse = new ComplianceResponse();
 
-		List<Apps> listOfApps = new ArrayList<Apps>();
+		List<ComplianceApps> listOfApps = new ArrayList<ComplianceApps>();
 
-		Set<Apps> setOfApps = new LinkedHashSet<Apps>(listOfApps);
+		Set<ComplianceApps> setOfApps = new LinkedHashSet<ComplianceApps>(listOfApps);
 
 		List<Object> detailsByAllCriteriaWithoutStatus = new ArrayList<Object>(listOfApps);
 		
@@ -344,7 +350,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 						requestError.setCustomCode(" difference between start date and end date is more than 30 days,"
 							+ "please pass dates such that difference should not exceed 30");
 						messageHeader.setError(requestError);
-						rmApplicationAppResponse.setMessageHeader(messageHeader);	
+						complianceResponse.setMessageHeader(messageHeader);	
 						throw new DateDifferenceException("difference between start date and end date is more than 30 days,"
 							+ "please pass dates such that difference should not exceed 30");
 					}
@@ -355,15 +361,15 @@ public class ComplianceServiceImpl implements ComplianceService {
 		
 		for (Object object : detailsByAllCriteriaWithoutStatus) {
 			
-			Apps apps = new Apps();
+			ComplianceApps complianceApps = new ComplianceApps();
 			
 			Object[] outputs = (Object[]) object;
 
-			apps.setRefNo(outputs[0].toString());
+			complianceApps.setRefNo(outputs[0].toString());
 			
-			apps.setRecordId(outputs[1].toString());
+			complianceApps.setRecordId(outputs[1].toString());
 			
-			apps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
+			complianceApps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
 			
 			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-mm-dd");
 
@@ -376,11 +382,11 @@ public class ComplianceServiceImpl implements ComplianceService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 
-			apps.setAppSubmittedDate(dateSubmitted);
+			complianceApps.setAppSubmittedDate(dateSubmitted);
 
-			apps.setAppStatus(outputs[5].toString());
+			complianceApps.setAppStatus(outputs[5].toString());
 			
-			apps.setAccountNumber(outputs[6].toString());
+			complianceApps.setAccountNumber(outputs[6].toString());
 			
 			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-mm-dd");
 
@@ -393,17 +399,17 @@ public class ComplianceServiceImpl implements ComplianceService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 			
-			apps.setAccountCreationDate(dateCreation);
+			complianceApps.setAccountCreationDate(dateCreation);
 
-			listOfApps.add(apps);
+			listOfApps.add(complianceApps);
 
 		}
 		System.out.println("listOfApps=================" + listOfApps);
 		setOfApps.addAll(listOfApps);
 		System.out.println("setOfApps=================" + setOfApps);
-		rmApplicationAppResponse.setApps(listOfApps);
+		complianceResponse.setApps(listOfApps);
 
-		return rmApplicationAppResponse;
+		return complianceResponse;
 	}
 
 }
