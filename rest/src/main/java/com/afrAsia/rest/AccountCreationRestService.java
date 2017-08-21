@@ -72,7 +72,7 @@ public class AccountCreationRestService {
 				if (accountCreationRequest.getData().getAppRefNo() == null) {
 					System.out.println(" ########### in create service ############## ");
 					accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
-<<<<<<< HEAD
+
 					//sendEmailToCustomer();
 
 //					String smsContent = "Dear [First Name], thank you for your interest in AfrAsia Bank. "
@@ -81,7 +81,7 @@ public class AccountCreationRestService {
 //							+ ".We shall update you as soon as your account is opened. Regards, AfrAsia Bank Team";
 //					sendSMSToCustomer(smsContent);
 
-=======
+
 				} else {
 					System.out.println(" ########### in update service ############## ");
 					System.out.println("accountCreationRequest.getData().getRecordId() in rest ============= "+accountCreationRequest.getData().getRecordId());
@@ -117,7 +117,7 @@ public class AccountCreationRestService {
 						messageHeader.setError(error);
 						accountCreationResponse.setMsgHeader(messageHeader);
 					}
->>>>>>> 347b83615ac44cf57a64d62172f8da313e51e989
+
 				}
 
 				if (accountCreationResponse!=null) {

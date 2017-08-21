@@ -148,7 +148,7 @@ public class KYCServiceImpl implements KYCService {
 				kycDocs.getId().setId(appId);
 				kycDocs.getId().setApplicantId(applicantId);
 				kycDocs.getId().setDocId(docId);
-				kycDocs.setRecordId(recordNo.toString());
+				kycDocs.setRecordId(recordNo);
 				kycDocs.setDocUrl(directory + "/" + filename);
 				kycDocs.setCreatedBy(rmId);
 				Date now = new Date(); 
