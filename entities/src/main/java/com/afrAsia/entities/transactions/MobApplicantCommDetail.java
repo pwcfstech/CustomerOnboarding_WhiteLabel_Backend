@@ -89,7 +89,7 @@ public class MobApplicantCommDetail implements Serializable {
 	private Long telNoOffCc;
 
 	@Column(name = "IS_MAIL_PERM_SAME")
-	private Long isMailPermSame;
+	private Boolean isMailPermSame;
 
 	public MobApplicantCommDetail() {
 	}
@@ -286,11 +286,11 @@ public class MobApplicantCommDetail implements Serializable {
 		this.telNoOffCc = telNoOffCc;
 	}
 
-	public Long getIsMailPermSame() {
+	public Boolean getIsMailPermSame() {
 		return isMailPermSame;
 	}
 
-	public void setIsMailPermSame(Long isMailPermSame) {
+	public void setIsMailPermSame(Boolean isMailPermSame) {
 		this.isMailPermSame = isMailPermSame;
 	}
 

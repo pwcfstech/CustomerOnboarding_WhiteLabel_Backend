@@ -1,16 +1,15 @@
 package com.afrAsia.entities.response;
 
 import java.io.Serializable;
-import java.util.Comparator;
 import java.util.Date;
 
-public class Apps implements Serializable{
+public class Apps implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private String refNo;
 
-	private String customerName;
+	private String customerName;																
 
 	private Date pendingSince;
 
@@ -18,90 +17,102 @@ public class Apps implements Serializable{
 
 	private String appStatus;
 
-	/**
-	 * @return the refNo
-	 */
+	private String recordId;
+
+	private String accountNumber;
+
+	private Date accountCreationDate;
+
+	private String isAppLocked;
+
+	private String lockedBy;
+
 	public String getRefNo() {
 		return refNo;
 	}
 
-	/**
-	 * @param refNo
-	 *            the refNo to set
-	 */
 	public void setRefNo(String refNo) {
 		this.refNo = refNo;
 	}
 
-	/**
-	 * @return the customerName
-	 */
 	public String getCustomerName() {
 		return customerName;
 	}
 
-	/**
-	 * @param customerName
-	 *            the customerName to set
-	 */
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
 	}
 
-	/**
-	 * @return the pendingSince
-	 */
 	public Date getPendingSince() {
 		return pendingSince;
 	}
 
-	/**
-	 * @param pendingSince
-	 *            the pendingSince to set
-	 */
 	public void setPendingSince(Date pendingSince) {
 		this.pendingSince = pendingSince;
 	}
 
-	/**
-	 * @return the appSubmittedDate
-	 */
 	public Date getAppSubmittedDate() {
 		return appSubmittedDate;
 	}
 
-	/**
-	 * @param appSubmittedDate
-	 *            the appSubmittedDate to set
-	 */
 	public void setAppSubmittedDate(Date appSubmittedDate) {
 		this.appSubmittedDate = appSubmittedDate;
 	}
 
-	/**
-	 * @return the appStatus
-	 */
 	public String getAppStatus() {
 		return appStatus;
 	}
 
-	/**
-	 * @param appStatus
-	 *            the appStatus to set
-	 */
 	public void setAppStatus(String appStatus) {
 		this.appStatus = appStatus;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
+	public String getRecordId() {
+		return recordId;
+	}
+
+	public void setRecordId(String recordId) {
+		this.recordId = recordId;
+	}
+
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+	public Date getAccountCreationDate() {
+		return accountCreationDate;
+	}
+
+	public void setAccountCreationDate(Date accountCreationDate) {
+		this.accountCreationDate = accountCreationDate;
+	}
+
+	public String getIsAppLocked() {
+		return isAppLocked;
+	}
+
+	public void setIsAppLocked(String isAppLocked) {
+		this.isAppLocked = isAppLocked;
+	}
+
+	public String getLockedBy() {
+		return lockedBy;
+	}
+
+	public void setLockedBy(String lockedBy) {
+		this.lockedBy = lockedBy;
+	}
+
 	@Override
 	public String toString() {
 		return "Apps [refNo=" + refNo + ", customerName=" + customerName + ", pendingSince=" + pendingSince
-				+ ", appSubmittedDate=" + appSubmittedDate + ", appStatus=" + appStatus + "]";
+				+ ", appSubmittedDate=" + appSubmittedDate + ", appStatus=" + appStatus + ", recordId=" + recordId
+				+ ", accountNumber=" + accountNumber + ", accountCreationDate=" + accountCreationDate + ", isAppLocked="
+				+ isAppLocked + ", lockedBy=" + lockedBy + "]";
 	}
 
 	@Override

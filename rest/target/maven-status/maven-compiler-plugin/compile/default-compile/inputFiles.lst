@@ -1,4 +1,5 @@
 C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\rest\DashBoardSummaryRestService.java
+C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\Utils\AfrAsiaEmailUtility.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\rest\MyTrackerRestService.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\CommonUtils.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\rest\AccountCreationRestService.java
@@ -6,8 +7,10 @@ C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\soap
 C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\rest\ProductRestService.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\rest\MasterDataRestService.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\rest\AppVersionRestService.java
+C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\Utils\AfrAsiaMailConfig.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\rest\DTDPSRestService.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\soap\IDTDPSSoapService.java
+C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\rest\ComplianceRestService.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\rest\AddCommentRestService.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\rest\AuthenticationRestService.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\rest\src\main\java\com\afrAsia\rest\ApplicationDetailsRestService.java

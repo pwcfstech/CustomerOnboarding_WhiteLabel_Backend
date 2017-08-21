@@ -1,6 +1,5 @@
 package com.afrAsia.dao.jpa.impl;
 
-import java.awt.event.MouseMotionAdapter;
 import java.util.Date;
 import java.util.List;
 
@@ -160,13 +159,14 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 	}
 	
 	// to check whether application reference number ,comes from create request is present in DB or not  
-	public String getAppId(String rmId) {
+	public String getRMuserId(String rmUsedId) {
 
 		Query query = getEntityManager()
-				.createQuery("select ar.id from MobRmAppRefId ar " + "where ar.id=:appid");
-		query.setParameter("appid", rmId);
+				.createQuery("select ar.id from RMDetails ar where ar.id=:rmUsedId AND ar.userGroup=:rm");
+		query.setParameter("rmUsedId", rmUsedId);
+		query.setParameter("rm", "RM");
 		String rmUserId = (String) query.getSingleResult();
-		return rmId;
+		return rmUserId;
 	}
 	
 	// to check whether application reference number and rmId ,comes from update request are present in DB or not 
@@ -188,6 +188,19 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		query.setParameter("recordId", recordIdFromRequest);
 		Long recordId = (Long) query.getSingleResult();
 		return recordId;
+	}
+	
+	
+	public void updateMobRmAppRefId(Long appId, String rmId) {
+		//System.out.println("Value for RM Id table : " + mobRmAppRefId.toString());
+		
+		Query query = getEntityManager()
+				.createQuery("update MobRmAppRefId ma set ma.modifiedBy=:modifiedBy,ma.modifiedDate=:modifiedDate " + "where ma.id =:appid ");
+		query.setParameter("appid", appId);
+		query.setParameter("modifiedBy", rmId);
+		query.setParameter("modifiedDate", new Date());
+		
+		query.executeUpdate();
 	}
 
 	public Integer updateAplicantRecordId(Long appId, Long recordId) {
@@ -227,22 +240,17 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 	public MobApplicantRecordId updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails applicant,
 			Long appId, Long recordId, String typeOfApplicant) {
 
-		System.out.println("updateApplicant in dao ============================ ");
-		
-		System.out.println("applicant.getApplicantId() in dao,updateApplicant ============ "+applicant.getApplicantId());
-		MobApplicantRecordId mobApplicantRecordId= getMobApplicantRecordId(appId,applicant.getApplicantId());
-		System.out.println("mobApplicantRecordId in dao,updateApplicant==========="+mobApplicantRecordId);
-		
+		MobApplicantRecordId mobApplicantRecordId=getMobApplicantRecordId(appId,applicant.getApplicantId());
 		
 		Query query1 = getEntityManager().createQuery("update MobApplicantCommDetail ma set ma.recordId =:recordid,ma.faxNo=:faxno,"
 				+ "ma.faxNoCc=:faxNocc,ma.mailAddr1=:mailaddr1,ma.mailAddr2=:mailaddr2,ma.mailAddr3=:mailaddr3,ma.mailCity=:mailcity, ma.mailCountry=:mailcountry,"
 				+ "ma.mobNo=:mobno,ma.mobNoCc=:mobNocc,ma.modifiedBy=:modifiedby,ma.modifiedDate=:modifieddate,ma.permAddr1=:permaddr1,ma.permAddr2=:permaddr2,"
 				+ "ma.permAddr3=:permaddr3,ma.permCity=:permcity,ma.permCountry=:permcountry,ma.telNoHome=:telNohome,ma.telNoHomeCc=:telNoHomecc, "
-				+ "ma.telNoOff=:telNooff,ma.telNoOffCc=:telNoOffcc "
+				+ "ma.telNoOff=:telNooff,ma.telNoOffCc=:telNoOffcc,ma.isMailPermSame=:isMailPermSame "
 				+ "where ma.id.id =:appid and ma.id.applicantId=:applicantId");
+
 		query1.setParameter("appid", appId);
 		query1.setParameter("applicantId", applicant.getApplicantId());
-		System.out.println("###### applicant.getApplicantId() in dao for MobApplicantCommDetail ========== "+applicant.getApplicantId());
 		query1.setParameter("recordid", recordId);
 		query1.setParameter("faxno", applicant.getFaxNo());
 		query1.setParameter("faxNocc", applicant.getFaxNoCallingCode());
@@ -264,10 +272,11 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		query1.setParameter("telNoHomecc", applicant.getTelNoHomeCallingCode());
 		query1.setParameter("telNooff", applicant.getTelNoOff());
 		query1.setParameter("telNoOffcc", applicant.getTelOffCallingCode());
+		query1.setParameter("isMailPermSame", applicant.getIsMailAddrSameAsPerm());
 		
 		int numberMobApplicantCommDetail = query1.executeUpdate();
 		System.out.println("numberMobApplicantCommDetail in updateApplicant ================== " + numberMobApplicantCommDetail);
-		
+
 		// update MobApplicantPersonalDetail
 		Query query2 = getEntityManager().createQuery("update MobApplicantPersonalDetail ma set ma.recordId =:recordid,ma.countryBirth=:countrybirth,"
 				+ "ma.custCif=:custcif,ma.dob=:dob1,ma.email=:email1,ma.existingCustomer=:existingcustomer,ma.firstName=:firstname,"
@@ -275,11 +284,10 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 				+ "ma.modifiedBy=:modifiedby,ma.modifiedDate=:modifieddate,ma.nationality=:nationality1,ma.nic=:nic1,ma.otherBank1=:otherbank1,"
 				+ "ma.otherBank2=:otherbank2,ma.otherBank3=:otherbank3,ma.passportExpiryDate=:passportExpirydate,"
 				+ "ma.passportNo=:passportno,ma.residencyStatus=:residencystatus,ma.title=:title1,ma.customerType=:customertype,"
-				+ "ma.isMinor=:isminor " 
+				+ "ma.isMinor=:isminor,ma.sex=:sex,ma.isHnwi=:isHnwi,ma.signatoryType=:signatoryType " 
 				+ "where ma.id.id =:appid and ma.id.applicantId=:applicantId");
 		query2.setParameter("appid", appId);
 		query2.setParameter("applicantId", applicant.getApplicantId());
-		System.out.println("###### applicant.getApplicantId() in dao for MobApplicantPersonalDetail ========== "+applicant.getApplicantId());
 		query2.setParameter("recordid", recordId);
 		query2.setParameter("countrybirth", applicant.getCountryBirth());
 		query2.setParameter("custcif", applicant.getCustomerCIF());
@@ -287,14 +295,11 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		query2.setParameter("email1", applicant.getEmail());
 		query2.setParameter("existingcustomer", applicant.getIsExistingCustomer());
 		query2.setParameter("firstname", applicant.getFirstName());
-		System.out.println("################ applicant.getFirstName() in dao ============ "+applicant.getFirstName());
 		query2.setParameter("isemployee", applicant.getIsEmployee());
 		query2.setParameter("lastname", applicant.getLastName());
-		System.out.println("################ applicant.getLastName() in dao ============ "+applicant.getLastName());
 		query2.setParameter("maidenname", applicant.getMaidenName());
 		query2.setParameter("maritalstatus", applicant.getMaritialStatus());
 		query2.setParameter("middlename", applicant.getMiddleName());
-		System.out.println("################ applicant.getMiddleName() in dao ============ "+applicant.getMiddleName());
 		query2.setParameter("modifiedby", accountCreationRequest.getData().getRmId());
 		query2.setParameter("modifieddate", new Date());
 		query2.setParameter("nationality1", applicant.getNationality());
@@ -308,6 +313,9 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		query2.setParameter("title1", applicant.getTitle());
 		query2.setParameter("customertype", typeOfApplicant);
 		query2.setParameter("isminor", applicant.getIsMinor());
+		query2.setParameter("sex", applicant.getSex());
+		query2.setParameter("isHnwi", applicant.getIsHnwi());
+		query2.setParameter("signatoryType", applicant.getSignatoryType());
 		
 		int numberMobApplicantPersonalDetail = query2.executeUpdate();
 		System.out.println("numberMobApplicantPersonalDetail in updateApplicant ================== " + numberMobApplicantPersonalDetail);
@@ -322,7 +330,6 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 				+ "where ma.id.id =:appid and ma.id.applicantId=:applicantId");
 		query3.setParameter("appid", appId);
 		query3.setParameter("applicantId", applicant.getApplicantId());
-		System.out.println("###### applicant.getApplicantId() in dao for MobApplicantEmploymentDtl ========== "+applicant.getApplicantId());
 		query3.setParameter("recordid", recordId);
 		query3.setParameter("annCashdeposit", applicant.getAnnualCashDeposit());
 		query3.setParameter("annCashwithdrawl", applicant.getAnnualCashWithdrawl());
@@ -355,7 +362,6 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 				+ "where ma.id.id =:appid and ma.id.applicantId=:applicantId");
 		query4.setParameter("appid", appId);
 		query4.setParameter("applicantId", applicant.getApplicantId());
-		System.out.println("###### applicant.getApplicantId() in dao for MobApplicantAdditionalDtl ========== "+applicant.getApplicantId());
 		query4.setParameter("recordid", recordId);
 		query4.setParameter("country1_1", applicant.getCrsCountryResidence1());
 		query4.setParameter("country2_2", applicant.getCrsCountryResidence2());
@@ -377,8 +383,6 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		query4.setParameter("workPermitExpdate", applicant.getWorkPermitExpDate());
 		int numberMobApplicantAdditionalDtl = query4.executeUpdate();
 		System.out.println("numberMobApplicantAdditionalDtl in updateApplicant ================== " + numberMobApplicantAdditionalDtl);
-		//i++;
-		//}
 		
 		Query query5 = getEntityManager()
 				.createQuery("update MobApplicantKycDocuments ma set ma.recordId =:recordid where ma.id.id =:appid "); 
@@ -410,10 +414,10 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 						+ "ma.powerAttnIssueDate3=:powerAttnIssuedate3,ma.powerAttnIssueDate4=:powerAttnIssuedate4,ma.powerAttnIssueDate5=:powerAttnIssuedate5,"
 						+ "ma.powerAttnUs1=:powerAttnus1,ma.powerAttnUs2=:powerAttnus2,ma.powerAttnUs3=:powerAttnus3,ma.powerAttnUs4=:powerAttnus4,"
 						+ "ma.powerAttnUs5=:powerAttnus5,ma.relationshipMinor1=:relationshipminor1,ma.relationshipMinor2=:relationshipminor2,"
-						+ "ma.relationshipMinor3=:relationshipminor3,ma.relationshipMinor4=:relationshipminor4,ma.relationshipMinor5=:relationshipminor5 "
+						+ "ma.relationshipMinor3=:relationshipminor3,ma.relationshipMinor4=:relationshipminor4,ma.relationshipMinor5=:relationshipminor5,"
+						+ "ma.minNoSignatures=:minNoSignatures,ma.operatingInst=:operatingInst "
 						+ "where ma.id =:appid ");
 		
-		//for(int i=0;i<mobApplicantPrimary.length;i++){
 		query6.setParameter("appid", appId);
 		query6.setParameter("recordid", recordId);
 		query6.setParameter("accountcategory", accountDetails.getAccountType());
@@ -516,6 +520,8 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		query6.setParameter("relationshipminor3", null);
 		query6.setParameter("relationshipminor4", null);
 		query6.setParameter("relationshipminor5", null); 
+		query6.setParameter("minNoSignatures", accountDetails.getMinNoSignatures());
+		query6.setParameter("operatingInst", accountDetails.getOperatingInst());
 		
 		int numberOfRecords = query6.executeUpdate();
 		System.out.println("numberOfRecords in updateAccountDetails ================== " + numberOfRecords);

@@ -1,5 +1,6 @@
 package com.afrAsia.service.impl;
 
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -81,10 +82,10 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 				String rmUserId=accountCreationRequest.getData().getRmId();
 				System.out.println("rmUserId =========== in create service impl "+rmUserId);
 
-				String rmId=null;
+				String rmUserIdFromDB=null;
 				try{			
-					rmId= accountCreateDao.getAppId(rmId);			
-					if(rmId==null){
+					rmUserIdFromDB= accountCreateDao.getRMuserId(rmUserId);			
+					if(rmUserIdFromDB==null){
 						throw new IdNotFoundException("Provided RM user id is not present, please pass proper value");
 					}
 
@@ -118,7 +119,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		// Create Application Reference id against Rm id
 		MobRmAppRefId mobRmAppRefId = createApplicationReferenceId(accountCreationRequest);
 		Long appRefNo = mobRmAppRefId.getId();
-
+		data.setRefNo(appRefNo);
+		
 		// Create a record id for the application reference id.
 		MobAppRefRecordId mobAppRefRecordId = createRecordIdForApplication(accountCreationRequest,appRefNo);
 		Long recordId = mobAppRefRecordId.getRecordId(); 
@@ -135,7 +137,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		ApplicantDetails guardianPrimary = accountCreationRequest.getData().getGuardianDetail();
 		if(guardianPrimary != null && guardianPrimary.getFirstName()!=null && !guardianPrimary.getFirstName().isEmpty()){
 			mobGuardianPrimary = createApplicant(accountCreationRequest, guardianPrimary, appRefNo, recordId, "Guardian");
-			data.setGuardianRefNo(guardianPrimary.getApplicantId());
+			data.setGuardianRefNo(mobGuardianPrimary.getApplicantId());
+			System.out.println("data.getGuardianRefNo() in serviceimpl  ============= "+data.getGuardianRefNo());
 		}
 		
 		
@@ -175,7 +178,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
 		//Send application reference id to frontend
 		data.setJointApplicants(jointApplicants);
-		data.setRefNo(mobRmAppRefId.getId());
+		//data.setRefNo(mobRmAppRefId.getId());
 		accountCreationResponse.setData(data);
 		return accountCreationResponse;
 	}
@@ -589,7 +592,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		System.out.println("rmUserId =========== in service impl "+rmUserId);
 		
 		Long recordIdFromRequest=accountCreationRequest.getData().getRecordId();
-		System.out.println("rmUserId =========== in service impl "+recordIdFromRequest);
+		System.out.println("recordIdFromRequest =========== in service impl "+recordIdFromRequest);
 
 		Long appIdFromDb=0L;
 		try{			
@@ -599,16 +602,16 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 				MsgHeader.Error error=new MsgHeader().new Error();
 				error.setCd("404");
 				error.setCustomCode("ERR404");
-				error.setRsn("Provided Rm user id or app ref id is not present, please pass proper values");
+				error.setRsn("Provided Rm user id and app ref id doestn't match, please pass proper values");
 				messageHeader.setError(error);
 				accountCreateResponse.setMsgHeader(messageHeader);
-				throw new IdNotFoundException("Provided Rm user id or app ref id is not present, please pass proper values");
+				throw new IdNotFoundException("Provided Rm user id and app ref id doestn't match, please pass proper values");
 			}
 
 		}  catch(IdNotFoundException exceptionMessage){
 			MsgHeader msgHdr = new MsgHeader();
 			Error err = new MsgHeader().new Error();
-			err.setRsn("The application number does not exist. Please try again");
+			err.setRsn("Provided Rm user id and app ref id doestn't match, please pass proper values");
 			err.setCd("404");
 			err.setCustomCode("IdNotFoundException");
 			msgHdr.setError(err);
@@ -618,7 +621,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		catch(NoResultException excpMessage){
 			MsgHeader msgHdr = new MsgHeader();
 			Error err = new MsgHeader().new Error();
-			err.setRsn("The application number does not exist. Please try again");
+			err.setRsn("Provided Rm user id and app ref id doestn't match, please pass proper values");
 			err.setCd("404");
 			err.setCustomCode("NoResultException");
 			msgHdr.setError(err);
@@ -632,13 +635,13 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		try{			
 			recordIdFromDb= accountCreateDao.checkRecordId(appId,recordIdFromRequest);			
 			if(appIdFromDb==null){
-				throw new IdNotFoundException("Provided Rm user id or app ref id is not present, please pass proper values");
+				throw new IdNotFoundException("Provided record id and app ref id doestn't match, please pass proper values");
 			}
 
 		}  catch(IdNotFoundException exceptionMessage){
 			MsgHeader msgHdr = new MsgHeader();
 			Error err = new MsgHeader().new Error();
-			err.setRsn("The record id does not exist against the provided application refernce number. Please try again");
+			err.setRsn("Provided record id and app ref id doestn't match, please pass proper values");
 			err.setCd("404");
 			err.setCustomCode("IdNotFoundException");
 			msgHdr.setError(err);
@@ -648,7 +651,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		catch(NoResultException excpMessage){
 			MsgHeader msgHdr = new MsgHeader();
 			Error err = new MsgHeader().new Error();
-			err.setRsn("The record id does not exist against the provided application refernce number. Please try again");
+			err.setRsn("Provided record id and app ref id doestn't match, please pass proper values");
 			err.setCd("404");
 			err.setCustomCode("NoResultException");
 			msgHdr.setError(err);
@@ -657,7 +660,6 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		}
 
 		//2. Create a record id for the application reference id.
-
 		MobAppRefRecordId mobAppRefRecordId = createRecordIdForApplication(accountCreationRequest,accountCreationRequest.getData().getAppRefNo());
 		Long recordId=mobAppRefRecordId.getRecordId();
 		System.out.println("recordId =========== "+recordId);
@@ -669,9 +671,11 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
 		populateHistoryTables(appId);
 		
-		//4. Update MOB_APPLICANT_RECORD_ID with new recordId with MODIFIED DATE, and rmId
 		
-		//int noOfRecordsChanged=saveMobApplicantRecordId(appId,recordId);
+		/* Update MOB_RM_APP_REF_ID table with Modified date and Rm ID*/
+		accountCreateDao.updateMobRmAppRefId(accountCreationRequest.getData().getAppRefNo(), accountCreationRequest.getData().getRmId());
+		
+		//4. Update MOB_APPLICANT_RECORD_ID with new recordId with MODIFIED DATE, and rmId
 		saveMobApplicantRecordId(accountCreationRequest,recordId);
 		
 		//5. update other tables ==========
@@ -687,7 +691,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		{
 			System.out.println("######## primaryApplicant.getApplicantId() in service ==== "+primaryApplicant.getApplicantId());
 			mobApplicantRecordId=accountCreateDao.updateApplicant(accountCreationRequest, primaryApplicant, appId, recordId, "Primary");
-			data.setPrimaryApplicantRefNo(primaryApplicant.getApplicantId());
+			data.setPrimaryApplicantRefNo(mobApplicantRecordId.getApplicantId());
 			primaryApplicantRefNo=primaryApplicant.getApplicantId();
 			System.out.println("data.getPrimaryApplicantRefNo() in service ======== "+data.getPrimaryApplicantRefNo());
 		}	
@@ -709,7 +713,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		{
 			System.out.println("######## guardianPrimary.getApplicantId() in service ==== "+guardianPrimary.getApplicantId());
 			mobApplicantRecordId=accountCreateDao.updateApplicant(accountCreationRequest, guardianPrimary, appId, recordId, "Guardian");
-			data.setGuardianRefNo(guardianPrimary.getApplicantId());
+			data.setGuardianRefNo(mobApplicantRecordId.getApplicantId());
 			guardianRefNo=guardianPrimary.getApplicantId();
 			System.out.println("data.getGuardianRefNo() in service ======== "+data.getGuardianRefNo());
 		}	
@@ -761,8 +765,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 					jointApplicants.add(applicantRefNo);
 				}
 				data.setJointApplicants(jointApplicants);
-				data.setRefNo(appId);
-				data.setRecordId(recordId);
+				/*data.setRefNo(appId);
+				data.setRecordId(recordId);*/
 				// update MOB_ACCOUNT_DETAILS and MOB_ACCT_ADDTIONAL_DETAILS
 				//AccountCreationRequest accountCreationRequest, Long appId, Long recordId,
 				//Long mobApplicantPrimaryApplicantId, Long mobGuardianPrimaryApplicantId,
@@ -775,6 +779,18 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
 
 		// Send application reference id to frontend
+		accountCreateDao.updateApplicant(accountCreationRequest, primaryApplicant, appId, recordId, "Primary");
+		
+		
+		
+//		// Trigger email and sms to customer 
+
+
+		// Send application reference id to frontend
+		data.setRefNo(appId);
+		System.out.println("data.getRefNo() =========== in service "+data.getRefNo());
+		data.setRecordId(recordId);
+		System.out.println("data.getRefNo() =========== in service "+data.getRecordId());
 		accountCreationResponse.setData(data);
 		System.out.println("accountCreationResponse.getData().getRefNo() in service ======== "+accountCreationResponse.getData().getRefNo());
 		return accountCreationResponse;
@@ -843,6 +859,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			mobApplPersonalDetailsHist.setIsMinor(mobApplicantPersonalDetail.getIsMinor());
 			mobApplPersonalDetailsHist.setSex(mobApplicantPersonalDetail.getSex());
 			mobApplPersonalDetailsHist.setIsHnwi(mobApplicantPersonalDetail.getIsHnwi());
+			mobApplPersonalDetailsHist.setSignatoryType(mobApplicantPersonalDetail.getSignatoryType());
 			//System.out.println("mobApplPersonalDetailsHist.toString() ======== "+mobApplPersonalDetailsHist.toString());
 			accountCreateDao.storeMobApplPersonalDetailsHist(mobApplPersonalDetailsHist);
 			
@@ -872,6 +889,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			mobApplCommDetailsHist.setTelNoHomeCc(mobApplicantCommDetail.getTelNoHomeCc());
 			mobApplCommDetailsHist.setTelNoOff(mobApplicantCommDetail.getTelNoOff());
 			mobApplCommDetailsHist.setTelNoOffCc(mobApplicantCommDetail.getTelNoOffCc());
+			mobApplCommDetailsHist.setIsMailPermSame(mobApplicantCommDetail.getIsMailPermSame());
 			//System.out.println("mobApplCommDetailsHist.toString() ======== "+mobApplCommDetailsHist.toString());
 			accountCreateDao.storeMobApplCommDetailsHist(mobApplCommDetailsHist);
 			
@@ -986,6 +1004,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobAccountDetailsHist.setRelationshipMinor3(mobAccountDetail.getRelationshipMinor3());
 		mobAccountDetailsHist.setRelationshipMinor4(mobAccountDetail.getRelationshipMinor4());
 		mobAccountDetailsHist.setRelationshipMinor5(mobAccountDetail.getRelationshipMinor5());
+		mobAccountDetailsHist.setMinNoSignatures(mobAccountDetail.getMinNoSignatures());
+		mobAccountDetailsHist.setOperatingInst(mobAccountDetail.getOperatingInst());
 		
 		//System.out.println("mobAccountDetailsHist ============== "+mobAccountDetailsHist.toString());
 		accountCreateDao.storeMobAccountDetailsHist(mobAccountDetailsHist);

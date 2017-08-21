@@ -25,14 +25,14 @@ public class MobApplCommDetailsHist implements Serializable {
 	private HistTableCompositePK id;
 
 	@Column(name = "CREATED_BY")
-	private String createdBy;
+	private String createdBy;																						
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "CREATED_DATE")
 	private Date createdDate;
 
 	@Column(name = "FAX_NO")
-	private Long faxNo;																						
+	private Long faxNo;
 
 	@Column(name = "FAX_NO_CC")
 	private Long faxNoCc;
@@ -93,7 +93,7 @@ public class MobApplCommDetailsHist implements Serializable {
 	private Long telNoOffCc;
 
 	@Column(name = "IS_MAIL_PERM_SAME")
-	private Long isMailPermSame;
+	private Boolean isMailPermSame;
 
 	public HistTableCompositePK getId() {
 		return id;
@@ -279,11 +279,11 @@ public class MobApplCommDetailsHist implements Serializable {
 		this.telNoOffCc = telNoOffCc;
 	}
 
-	public Long getIsMailPermSame() {
+	public Boolean getIsMailPermSame() {
 		return isMailPermSame;
 	}
 
-	public void setIsMailPermSame(Long isMailPermSame) {
+	public void setIsMailPermSame(Boolean isMailPermSame) {
 		this.isMailPermSame = isMailPermSame;
 	}
 

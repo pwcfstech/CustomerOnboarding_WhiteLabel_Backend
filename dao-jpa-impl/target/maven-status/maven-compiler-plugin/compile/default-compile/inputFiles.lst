@@ -14,6 +14,7 @@ C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrA
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\ProductDetailsJpaDaoImpl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\UIDTypeJpaDaoImpl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\RmApplicationsAppJpaDAOImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\ComplianceJpaDAOImpl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\CountryJpaDaoImpl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\DashBoardJpaDaoImpl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\OAuthAuthorizationJpaDAO.java
@@ -29,6 +30,7 @@ C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrA
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\EmploymentJpaDaoImpl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\AddCommentJpaDaoImpl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\RMSessionDetailJpaDAO.java
+C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\ComplianceJpaDao.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\OAuthAuthorizationJpaDAOImpl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\AccountClassJpaDaoImpl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\UserJpaDAOImpl.java
