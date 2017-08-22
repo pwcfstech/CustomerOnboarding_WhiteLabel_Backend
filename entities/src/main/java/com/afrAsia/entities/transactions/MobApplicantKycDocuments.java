@@ -4,38 +4,38 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
-
 /**
  * The persistent class for the MOB_ACCOUNT_DETAILS database table.
  * 
  */
 @Entity
-@Table(name="MOB_APPLICANT_KYC_DOCUMENTS")
-@NamedQuery(name="MobApplicantKycDocuments.findAll", query="SELECT m FROM MobApplicantKycDocuments m")
+@Table(name = "MOB_APPLICANT_KYC_DOCUMENTS")
+@NamedQuery(name = "MobApplicantKycDocuments.findAll", query = "SELECT m FROM MobApplicantKycDocuments m")
 public class MobApplicantKycDocuments implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@EmbeddedId
 	private KycTableCompositePK id;
-	
-	@Column(name="RECORD_ID")
-	private String recordId;
 
-	@Column(name="DOC_URL")
-	private String docUrl;
-	
-	@Column(name="CREATED_BY")
+	@Column(name = "RECORD_ID")
+	// private String recordId;
+	private Long recordId;
+
+	@Column(name = "DOC_URL")
+	private String docUrl;	
+
+	@Column(name = "CREATED_BY")
 	private String createdBy;
-	
+
 	@Temporal(TemporalType.DATE)
-	@Column(name="CREATED_DATE")
+	@Column(name = "CREATED_DATE")
 	private Date createdDate;
-	
-	@Column(name="MODIFIED_BY")
+
+	@Column(name = "MODIFIED_BY")
 	private String modifiedBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="MODIFIED_DATE")
+	@Column(name = "MODIFIED_DATE")
 	private Date modifiedDate;
 
 	public KycTableCompositePK getId() {
@@ -46,15 +46,14 @@ public class MobApplicantKycDocuments implements Serializable {
 		this.id = id;
 	}
 
-	public String getRecordId() {
+	public Long getRecordId() {
 		return recordId;
 	}
 
-	public void setRecordId(String recordId) {
+	public void setRecordId(Long recordId) {
 		this.recordId = recordId;
 	}
 
-	
 	public String getDocUrl() {
 		return docUrl;
 	}
@@ -97,9 +96,9 @@ public class MobApplicantKycDocuments implements Serializable {
 
 	@Override
 	public String toString() {
-		return "MobApplicantKycDocuments [id=" + id + ", recordId=" + recordId + ",  docUrl="
-				+ docUrl + ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", modifiedBy=" + modifiedBy
-				+ ", modifiedDate=" + modifiedDate + "]";
+		return "MobApplicantKycDocuments [id=" + id + ", recordId=" + recordId + ", docUrl=" + docUrl + ", createdBy="
+				+ createdBy + ", createdDate=" + createdDate + ", modifiedBy=" + modifiedBy + ", modifiedDate="
+				+ modifiedDate + "]";
 	}
 
 }

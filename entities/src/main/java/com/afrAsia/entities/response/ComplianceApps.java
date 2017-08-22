@@ -3,23 +3,21 @@ package com.afrAsia.entities.response;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Apps implements Serializable {
+public class ComplianceApps implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String refNo;
+	private String refNo;										
 
-	private String customerName;																
+	private String recordId;
 
-	private Date pendingSince;
+	private String customerName;
 
 	private Date appSubmittedDate;
 
 	private String appStatus;
 
-	private String recordId;
-
-	private String accountNumber;
+	private String accountNumber;													
 
 	private Date accountCreationDate;
 
@@ -35,20 +33,20 @@ public class Apps implements Serializable {
 		this.refNo = refNo;
 	}
 
+	public String getRecordId() {
+		return recordId;
+	}
+
+	public void setRecordId(String recordId) {
+		this.recordId = recordId;
+	}
+
 	public String getCustomerName() {
 		return customerName;
 	}
 
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
-	}
-
-	public Date getPendingSince() {
-		return pendingSince;
-	}
-
-	public void setPendingSince(Date pendingSince) {
-		this.pendingSince = pendingSince;
 	}
 
 	public Date getAppSubmittedDate() {
@@ -65,14 +63,6 @@ public class Apps implements Serializable {
 
 	public void setAppStatus(String appStatus) {
 		this.appStatus = appStatus;
-	}
-
-	public String getRecordId() {
-		return recordId;
-	}
-
-	public void setRecordId(String recordId) {
-		this.recordId = recordId;
 	}
 
 	public String getAccountNumber() {
@@ -109,10 +99,10 @@ public class Apps implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Apps [refNo=" + refNo + ", customerName=" + customerName + ", pendingSince=" + pendingSince
-				+ ", appSubmittedDate=" + appSubmittedDate + ", appStatus=" + appStatus + ", recordId=" + recordId
-				+ ", accountNumber=" + accountNumber + ", accountCreationDate=" + accountCreationDate + ", isAppLocked="
-				+ isAppLocked + ", lockedBy=" + lockedBy + "]";
+		return "ComplianceApps [refNo=" + refNo + ", recordId=" + recordId + ", customerName=" + customerName
+				+ ", appSubmittedDate=" + appSubmittedDate + ", appStatus=" + appStatus + ", accountNumber="
+				+ accountNumber + ", accountCreationDate=" + accountCreationDate + ", isAppLocked=" + isAppLocked
+				+ ", lockedBy=" + lockedBy + "]";
 	}
 
 	@Override
@@ -131,7 +121,7 @@ public class Apps implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Apps other = (Apps) obj;
+		ComplianceApps other = (ComplianceApps) obj;
 		if (refNo == null) {
 			if (other.refNo != null)
 				return false;

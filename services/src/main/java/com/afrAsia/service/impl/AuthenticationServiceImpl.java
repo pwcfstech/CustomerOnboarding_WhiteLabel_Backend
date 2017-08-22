@@ -1,10 +1,10 @@
 package com.afrAsia.service.impl;
 
 import java.security.SecureRandom;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
-import java.util.Date;
 
 /* LDAP */
 
@@ -24,24 +24,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.afrAsia.authenticate.CustomClientDetailsService;
 import com.afrAsia.dao.OAuthAuthorizationDAO;
+import com.afrAsia.dao.jpa.RMSessionDetailJpaDAO;
+import com.afrAsia.entities.jpa.MobRmSessionDetail;
+import com.afrAsia.entities.masters.RMDetails;
 import com.afrAsia.entities.request.LoginDataRequest;
 import com.afrAsia.entities.request.LoginRequest;
-
+import com.afrAsia.entities.request.LogoutDataRequest;
 import com.afrAsia.entities.request.LogoutRequest;
 import com.afrAsia.entities.response.GenericResponse;
 import com.afrAsia.entities.response.LoginDataResponse;
 import com.afrAsia.entities.response.LoginResponse;
 import com.afrAsia.entities.response.LogoutDataResponse;
-import com.afrAsia.entities.request.LogoutDataRequest;
 import com.afrAsia.entities.response.LogoutResponse;
-import com.afrAsia.entities.masters.RMDetails;
 import com.afrAsia.service.AuthenticationService;
 import com.afrAsia.service.RMDetailsService;
-import com.afrAsia.dao.RMDetailsDao;
-
-import com.afrAsia.dao.jpa.RMSessionDetailJpaDAO;
-import com.afrAsia.dao.jpa.impl.RMSessionDetailJpaDaoImpl;
-import com.afrAsia.entities.jpa.MobRmSessionDetail;
 
 /**
  * 
@@ -167,13 +163,13 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		//rmDetailsService.saveRMDetails("ID" + userId, userId);
 		
 		/* LDAP */
-//		if (!tryLdapConnection(loginDataRequest.getUserId(), loginDataRequest.getPassword()))
-//		{
-//			throw new IllegalStateException("Could not authenticate with ldap.");
-//		}
-//		else{
-//			System.out.println("Authenticated with LDAP");
-//		}
+		/*if (!tryLdapConnection(loginDataRequest.getUserId(), loginDataRequest.getPassword()))
+		{
+			throw new IllegalStateException("Could not authenticate with ldap.");
+		}
+		else{
+			System.out.println("Authenticated with LDAP");
+		}*/
 		
 		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(userId); 
 		System.out.println("clientDetails =========== "+clientDetails);
@@ -182,9 +178,12 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		
 		if (clientDetails == null)
 		{
-			rmDetails = customClientDetailsService.saveClientDetail(userId, userType,"rest_api", clientSecret, 
+			/*rmDetails = customClientDetailsService.saveClientDetail(userId, userType,"rest_api", clientSecret, 
 				"standard_client", "client_credentials", null, "ROLE_USER", 
-				180, 180, null, null);			
+				180, 180, null, null);	*/
+			rmDetails = customClientDetailsService.saveClientDetail(userId, userType,"rest_api", clientSecret, 
+					"standard_client", "client_credentials", null, "ROLE_USER", 
+					1800000000, 1800000000, null, null);	
 		}
 		else{
 			LogoutRequest logOutRequest = new LogoutRequest();

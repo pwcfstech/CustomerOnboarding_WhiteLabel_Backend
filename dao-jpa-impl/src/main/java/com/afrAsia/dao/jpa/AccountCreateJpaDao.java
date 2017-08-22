@@ -1,11 +1,8 @@
 package com.afrAsia.dao.jpa;
 
-import java.util.List;
-
 import com.afrAsia.dao.AccountCreateDao;
 import com.afrAsia.entities.request.AccountCreationRequest;
 import com.afrAsia.entities.request.ApplicantDetails;
-import com.afrAsia.entities.request.AccountUpdateRequest.AccountDetails;
 import com.afrAsia.entities.transactions.MobAccountAdditionalDetail;
 import com.afrAsia.entities.transactions.MobAccountAddnDetailsHist;
 import com.afrAsia.entities.transactions.MobAccountDetail;
@@ -14,10 +11,12 @@ import com.afrAsia.entities.transactions.MobAppRefRecordId;
 import com.afrAsia.entities.transactions.MobApplAdditionalDtlsHist;
 import com.afrAsia.entities.transactions.MobApplCommDetailsHist;
 import com.afrAsia.entities.transactions.MobApplEmploymentDtlsHist;
+import com.afrAsia.entities.transactions.MobApplKycDocumentsHist;
 import com.afrAsia.entities.transactions.MobApplPersonalDetailsHist;
 import com.afrAsia.entities.transactions.MobApplicantAdditionalDtl;
 import com.afrAsia.entities.transactions.MobApplicantCommDetail;
 import com.afrAsia.entities.transactions.MobApplicantEmploymentDtl;
+import com.afrAsia.entities.transactions.MobApplicantKycDocuments;
 import com.afrAsia.entities.transactions.MobApplicantPersonalDetail;
 import com.afrAsia.entities.transactions.MobApplicantRecordId;
 import com.afrAsia.entities.transactions.MobApplicantRecordIdHist;
@@ -64,16 +63,26 @@ public interface AccountCreateJpaDao extends AccountCreateDao {
 	public MobApplEmploymentDtlsHist storeMobApplEmploymentDtlsHist(
 			MobApplEmploymentDtlsHist mobApplEmploymentDtlsHist);
 
+	public String getRMuserId(String rmUserId);
+	
 	public Long getAppId(Long appId, String rmUserId);
 
 	public Integer updateAplicantRecordId(Long appId, Long recordId);
 
-	public void updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails primaryApplicant,
+	public MobApplicantRecordId updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails applicant,
 			Long appId, Long recordId, String typeOfApplicant);
 
 	public void updateAccountDetails(AccountCreationRequest accountCreationRequest, Long appId, Long recordId,
-			MobApplicantRecordId[] mobApplicantPrimaryArr, MobApplicantRecordId[] mobGuardianPrimaryArr,
+			Long mobApplicantPrimaryApplicantId, Long mobGuardianPrimaryApplicantId,
 			MobApplicantRecordId[] mobJoint, MobApplicantRecordId[] mobGuardianJoint, com.afrAsia.entities.request.AccountCreationRequest.AccountDetails accountDetails);
+	
+	public MobApplKycDocumentsHist storeMobApplKycDocumentsHist(MobApplKycDocumentsHist mobApplKycDocumentsHist);
+	
+	public MobApplicantKycDocuments storeMobApplicantKycDocuments(MobApplicantKycDocuments mobApplicantKycDocuments);
+
+	public void storeIntoMobApplKycDocumentsHist(Long appid);
+
+	public Long checkRecordId(Long appId, Long recordIdFromRequest);
 
 	public void updateMobRmAppRefId(Long appId, String rmId);
 

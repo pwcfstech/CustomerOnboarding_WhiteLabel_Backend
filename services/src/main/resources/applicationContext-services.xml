@@ -75,6 +75,10 @@
 		<property name="addCommentDao" ref="addCommentJpaDao" />
 	</bean>
 	
+	<bean id="complianceService" class="com.afrAsia.service.impl.ComplianceServiceImpl">
+		<property name="complianceDao" ref="complianceJpaDao" />
+	</bean>
+	
 	<bean id="authenticationService" class="com.afrAsia.service.impl.AuthenticationServiceImpl" >
 		<property name="oAuthAuthorizationDAO" ref="oAuthAuthorizationDAO" />
 		<property name="rmDetailsService" ref="rmDetailsService" />
@@ -97,7 +101,7 @@
 		<property name="tokenStore" ref="tokenStore" />
 		<property name="supportRefreshToken" value="false" />
 		<property name="clientDetailsService" ref="clientDetails" />
-		<property name="accessTokenValiditySeconds" value="180" />
+		<property name="accessTokenValiditySeconds" value="1800000000" />
 		<!-- <property name="accessTokenValiditySeconds" value="180" /> -->
 	</bean>
 

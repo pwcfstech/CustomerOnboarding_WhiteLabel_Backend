@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import com.afrAsia.entities.request.KycInfo;
-
 public class ApplicantDetails implements Serializable {
 
 	public ApplicantDetails() {
@@ -14,7 +12,7 @@ public class ApplicantDetails implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String residencyStatus; 
+	private String residencyStatus;
 	private String otherBank1;
 	private String otherBank2;
 	private String otherBank3;
@@ -90,6 +88,9 @@ public class ApplicantDetails implements Serializable {
 	private Long applicantId;
 	private Boolean isMinor;
 	private List<KycInfo> kycInfo;
+	private String sex;
+	private Boolean isHnwi;
+	private String signatoryType;
 
 	/* These fields are applicable only for Joint Holders */
 	private String relationshipMinor;
@@ -707,6 +708,30 @@ public class ApplicantDetails implements Serializable {
 		this.kycInfo = kycInfo;
 	}
 
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public Boolean getIsHnwi() {
+		return isHnwi;
+	}
+
+	public void setIsHnwi(Boolean isHnwi) {
+		this.isHnwi = isHnwi;
+	}
+
+	public String getSignatoryType() {
+		return signatoryType;
+	}
+
+	public void setSignatoryType(String signatoryType) {
+		this.signatoryType = signatoryType;
+	}
+
 	public String getRelationshipMinor() {
 		return relationshipMinor;
 	}
@@ -784,7 +809,8 @@ public class ApplicantDetails implements Serializable {
 				+ crsTin1 + ", crsTin2=" + crsTin2 + ", crsTin3=" + crsTin3 + ", crsCountryResidence1="
 				+ crsCountryResidence1 + ", crsCountryResidence2=" + crsCountryResidence2 + ", crsCountryResidence3="
 				+ crsCountryResidence3 + ", employmentSts=" + employmentSts + ", applicantId=" + applicantId
-				+ ", isMinor=" + isMinor + ", kycInfo=" + kycInfo + ", relationshipMinor=" + relationshipMinor
+				+ ", isMinor=" + isMinor + ", kycInfo=" + kycInfo + ", sex=" + sex + ", isHnwi=" + isHnwi
+				+ ", signatoryType=" + signatoryType + ", relationshipMinor=" + relationshipMinor
 				+ ", powerAttnGivenToUSPerson=" + powerAttnGivenToUSPerson + ", powerAttnGoverningCountry="
 				+ powerAttnGoverningCountry + ", powerAttnIssueDate=" + powerAttnIssueDate + ", mop=" + mop
 				+ ", mopInstruction=" + mopInstruction + "]";

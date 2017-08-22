@@ -4,13 +4,12 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
-
 /**
  * The persistent class for the MOB_APPLICANT_PERSONAL_DETAILS database table.
  * 
  */
 @Entity
-@Table(name="MOB_APPLICANT_PERSONAL_DETAILS")
+@Table(name = "MOB_APPLICANT_PERSONAL_DETAILS")
 
 public class MobApplicantPersonalDetail implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -18,14 +17,14 @@ public class MobApplicantPersonalDetail implements Serializable {
 	@EmbeddedId
 	private MainTableCompositePK id;
 
-	@Column(name="COUNTRY_BIRTH")
+	@Column(name = "COUNTRY_BIRTH")
 	private String countryBirth;
 
-	@Column(name="CREATED_BY")
+	@Column(name = "CREATED_BY")
 	private String createdBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="CREATED_DATE")
+	@Column(name = "CREATED_DATE")
 	private Date createdDate;
 
 	@Column(name="CIF")
@@ -33,80 +32,86 @@ public class MobApplicantPersonalDetail implements Serializable {
 
 	@Temporal(TemporalType.DATE)
 	private Date dob;
-	
-	@Column(name="EMAIL")
+
+	@Column(name = "EMAIL")
 	private String email;
 
-	@Column(name="EXISTING_CUSTOMER")
+	@Column(name = "EXISTING_CUSTOMER")
 	private boolean existingCustomer;
 
-	@Column(name="FIRST_NAME")
+	@Column(name = "FIRST_NAME")
 	private String firstName;
 
-	@Column(name="IS_EMPLOYEE")
+	@Column(name = "IS_EMPLOYEE")
 	private boolean isEmployee;
 
-	@Column(name="LAST_NAME")
+	@Column(name = "LAST_NAME")
 	private String lastName;
 
-	@Column(name="MAIDEN_NAME")
+	@Column(name = "MAIDEN_NAME")
 	private String maidenName;
 
-	@Column(name="MARITAL_STATUS")
+	@Column(name = "MARITAL_STATUS")
 	private String maritalStatus;
 
-	@Column(name="MIDDLE_NAME")
+	@Column(name = "MIDDLE_NAME")
 	private String middleName;
 
-	@Column(name="MODIFIED_BY")
+	@Column(name = "MODIFIED_BY")
 	private String modifiedBy;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="MODIFIED_DATE")
+	@Column(name = "MODIFIED_DATE")
 	private Date modifiedDate;
 
-	@Column(name="NATIONALITY")
+	@Column(name = "NATIONALITY")
 	private String nationality;
-	
-	@Column(name="nic")
+
+	@Column(name = "nic")
 	private String nic;
 
-	@Column(name="OTHER_BANK1")
+	@Column(name = "OTHER_BANK1")
 	private String otherBank1;
 
-	@Column(name="OTHER_BANK2")
+	@Column(name = "OTHER_BANK2")
 	private String otherBank2;
 
-	@Column(name="OTHER_BANK3")
+	@Column(name = "OTHER_BANK3")
 	private String otherBank3;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="PASSPORT_EXPIRY_DATE")
+	@Column(name = "PASSPORT_EXPIRY_DATE")
 	private Date passportExpiryDate;
 
-	@Column(name="PASSPORT_NO")
+	@Column(name = "PASSPORT_NO")
 	private String passportNo;
 
-	@Column(name="RECORD_ID")
+	@Column(name = "RECORD_ID")
 	private Long recordId;
 
-	@Column(name="RESIDENCY_STATUS")
+	@Column(name = "RESIDENCY_STATUS")
 	private String residencyStatus;
-	
-	@Column(name="TITLE")
+
+	@Column(name = "TITLE")
 	private String title;
-	
-	@Column(name="CUSTOMER_TYPE")
+
+	@Column(name = "CUSTOMER_TYPE")
 	private String customerType;
-	
-	@Column(name="IS_MINOR")
+
+	@Column(name = "IS_MINOR")
 	private Boolean isMinor;
 
-	public MobApplicantPersonalDetail() {
-	}
+	@Column(name = "SEX")
+	private String sex;
+
+	@Column(name = "IS_HNWI")
+	private Boolean isHnwi;
+
+	@Column(name = "SIGNATORY_TYPE")
+	private String signatoryType;
 
 	public MainTableCompositePK getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(MainTableCompositePK id) {
@@ -114,7 +119,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public String getCountryBirth() {
-		return this.countryBirth;
+		return countryBirth;
 	}
 
 	public void setCountryBirth(String countryBirth) {
@@ -122,7 +127,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public String getCreatedBy() {
-		return this.createdBy;
+		return createdBy;
 	}
 
 	public void setCreatedBy(String createdBy) {
@@ -130,7 +135,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public Date getCreatedDate() {
-		return this.createdDate;
+		return createdDate;
 	}
 
 	public void setCreatedDate(Date createdDate) {
@@ -138,7 +143,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public String getCustCif() {
-		return this.custCif;
+		return custCif;
 	}
 
 	public void setCustCif(String custCif) {
@@ -146,7 +151,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public Date getDob() {
-		return this.dob;
+		return dob;
 	}
 
 	public void setDob(Date dob) {
@@ -154,15 +159,15 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public String getEmail() {
-		return this.email;
+		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public boolean getExistingCustomer() {
-		return this.existingCustomer;
+	public boolean isExistingCustomer() {
+		return existingCustomer;
 	}
 
 	public void setExistingCustomer(boolean existingCustomer) {
@@ -170,23 +175,23 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public String getFirstName() {
-		return this.firstName;
+		return firstName;
 	}
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-	public boolean getIsEmployee() {
-		return this.isEmployee;
+	public boolean isEmployee() {
+		return isEmployee;
 	}
 
-	public void setIsEmployee(boolean isEmployee) {
+	public void setEmployee(boolean isEmployee) {
 		this.isEmployee = isEmployee;
 	}
 
 	public String getLastName() {
-		return this.lastName;
+		return lastName;
 	}
 
 	public void setLastName(String lastName) {
@@ -194,7 +199,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public String getMaidenName() {
-		return this.maidenName;
+		return maidenName;
 	}
 
 	public void setMaidenName(String maidenName) {
@@ -202,7 +207,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public String getMaritalStatus() {
-		return this.maritalStatus;
+		return maritalStatus;
 	}
 
 	public void setMaritalStatus(String maritalStatus) {
@@ -210,7 +215,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public String getMiddleName() {
-		return this.middleName;
+		return middleName;
 	}
 
 	public void setMiddleName(String middleName) {
@@ -218,7 +223,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public String getModifiedBy() {
-		return this.modifiedBy;
+		return modifiedBy;
 	}
 
 	public void setModifiedBy(String modifiedBy) {
@@ -226,7 +231,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public Date getModifiedDate() {
-		return this.modifiedDate;
+		return modifiedDate;
 	}
 
 	public void setModifiedDate(Date modifiedDate) {
@@ -234,7 +239,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public String getNationality() {
-		return this.nationality;
+		return nationality;
 	}
 
 	public void setNationality(String nationality) {
@@ -242,7 +247,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public String getNic() {
-		return this.nic;
+		return nic;
 	}
 
 	public void setNic(String nic) {
@@ -250,7 +255,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public String getOtherBank1() {
-		return this.otherBank1;
+		return otherBank1;
 	}
 
 	public void setOtherBank1(String otherBank1) {
@@ -258,7 +263,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public String getOtherBank2() {
-		return this.otherBank2;
+		return otherBank2;
 	}
 
 	public void setOtherBank2(String otherBank2) {
@@ -266,7 +271,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public String getOtherBank3() {
-		return this.otherBank3;
+		return otherBank3;
 	}
 
 	public void setOtherBank3(String otherBank3) {
@@ -274,7 +279,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public Date getPassportExpiryDate() {
-		return this.passportExpiryDate;
+		return passportExpiryDate;
 	}
 
 	public void setPassportExpiryDate(Date passportExpiryDate) {
@@ -282,7 +287,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public String getPassportNo() {
-		return this.passportNo;
+		return passportNo;
 	}
 
 	public void setPassportNo(String passportNo) {
@@ -290,7 +295,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public Long getRecordId() {
-		return this.recordId;
+		return recordId;
 	}
 
 	public void setRecordId(Long recordId) {
@@ -298,7 +303,7 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public String getResidencyStatus() {
-		return this.residencyStatus;
+		return residencyStatus;
 	}
 
 	public void setResidencyStatus(String residencyStatus) {
@@ -306,27 +311,51 @@ public class MobApplicantPersonalDetail implements Serializable {
 	}
 
 	public String getTitle() {
-		return this.title;
+		return title;
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
-	public void setCustomerType(String customerType){
-		this.customerType = customerType;
-	}
-	
-	public String getCustomerType(){
+
+	public String getCustomerType() {
 		return customerType;
 	}
-	
-	public Boolean getIsMinor(){
+
+	public void setCustomerType(String customerType) {
+		this.customerType = customerType;
+	}
+
+	public Boolean getIsMinor() {
 		return isMinor;
 	}
-	
-	public void setIsMinor(boolean isMinor){
+
+	public void setIsMinor(Boolean isMinor) {
 		this.isMinor = isMinor;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public Boolean getIsHnwi() {
+		return isHnwi;
+	}
+
+	public void setIsHnwi(Boolean isHnwi) {
+		this.isHnwi = isHnwi;
+	}
+
+	public String getSignatoryType() {
+		return signatoryType;
+	}
+
+	public void setSignatoryType(String signatoryType) {
+		this.signatoryType = signatoryType;
 	}
 
 	@Override
@@ -339,7 +368,9 @@ public class MobApplicantPersonalDetail implements Serializable {
 				+ ", nationality=" + nationality + ", nic=" + nic + ", otherBank1=" + otherBank1 + ", otherBank2="
 				+ otherBank2 + ", otherBank3=" + otherBank3 + ", passportExpiryDate=" + passportExpiryDate
 				+ ", passportNo=" + passportNo + ", recordId=" + recordId + ", residencyStatus=" + residencyStatus
-				+ ", title=" + title + ", customerType=" + customerType +  ", isMinor=" + isMinor + "]";
+				+ ", title=" + title + ", customerType=" + customerType + ", isMinor=" + isMinor + ", sex=" + sex
+				+ ", isHnwi=" + isHnwi + ", signatoryType=" + signatoryType + "]";
 	}
+
 }
 

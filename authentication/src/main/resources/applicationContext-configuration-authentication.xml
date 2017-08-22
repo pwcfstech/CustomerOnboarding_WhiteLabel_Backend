@@ -72,7 +72,8 @@
 		<property name="tokenStore" ref="tokenStore" />
 		<property name="supportRefreshToken" value="false" />
 		<property name="clientDetailsService" ref="clientDetails" />
-		<property name="accessTokenValiditySeconds" value="180" /> 
+		<!-- <property name="accessTokenValiditySeconds" value="180" /> --> 
+		<property name="accessTokenValiditySeconds" value="1800000000" />
 	</bean>
 
 
@@ -259,6 +260,7 @@
 	</sec:http> -->
 	
 	<sec:http pattern="/v*/login" security="none"></sec:http>
+	<sec:http pattern="/v*/appversion" security="none"></sec:http>
 		
 	<!-- sec:http pattern="/v*/sign_in" security="none"></sec:http>
 
