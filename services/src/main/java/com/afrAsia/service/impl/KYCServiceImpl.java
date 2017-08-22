@@ -50,8 +50,8 @@ public class KYCServiceImpl implements KYCService {
 	private static final String STATUS_UNDER_PROCESSING = "Under Processing";
 	private static final String SIG_PATH = "C:/App_Share_IN/Afrasia_Docs/Signature/";
 	private static final String DMSDOCS_PATH = "C:/App_Share_IN/Afrasia_Docs/dmsdocs/";
-	private static final String SIG_SHARED_PATH = "\\\125.22.109.58\\App_Share_IN\\Afrasia_Docs\\Signature\\";
-	private static final String DMSDOCS_SHARED_PATH = "\\\125.22.109.58\\App_Share_IN\\Afrasia_Docs\\dmsdocs\\";
+	private static final String SIG_SHARED_PATH = "\\\\125.22.109.58\\App_Share_IN\\Afrasia_Docs\\Signature\\";
+	private static final String DMSDOCS_SHARED_PATH = "\\\\125.22.109.58\\App_Share_IN\\Afrasia_Docs\\dmsdocs\\";
 
 	private UploadKYCJpaDAO uploadKYCDao;
 	private ApplicationDetailsJpaDAO applicationDetailsDAO;
@@ -150,7 +150,7 @@ public class KYCServiceImpl implements KYCService {
 				kycDocs.getId().setApplicantId(applicantId);
 				kycDocs.getId().setDocId(docId);
 
-				kycDocs.setRecordId(recordNo.toString());
+				kycDocs.setRecordId(recordNo);
 				kycDocs.setDocUrl(sharedPath + "\\" + filename);
 
 				kycDocs.setCreatedBy(rmId);
