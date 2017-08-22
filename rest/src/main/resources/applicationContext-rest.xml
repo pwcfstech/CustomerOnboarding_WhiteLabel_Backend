@@ -23,7 +23,7 @@
 	<import resource="classpath*:**/applicationContext-configuration-authentication.xml"/>
 	<import resource="classpath*:**/applicationContext-exception-management.xml"/>
 	
-	<context:component-scan base-package="com.afrAsia"></context:component-scan>
+	<!-- <context:component-scan base-package="com.afrAsia"></context:component-scan> -->
 	
 	<!-- <wss:binding url="/DigitalTransaction">
         <wss:service>
@@ -97,8 +97,8 @@
 	</bean>
 	
 	<!-- Upload KYC document rest service bean -->
-	<bean id="kycRestService" class="com.afrAsia.rest.KYCRestService" >
-		<property name="kycService" ref="kycService" />
+	<bean id="kYCRestService" class="com.afrAsia.rest.KYCRestService" >
+		<property name="kycService" ref="kYCService" />
 	</bean>
 	
 	<!-- <bean id="dtdpsSoapService" class="com.afrAsia.soap.DTDPSSoapService" >

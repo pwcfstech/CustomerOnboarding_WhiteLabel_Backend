@@ -11,20 +11,20 @@ import javax.persistence.Query;
 import com.afrAsia.dao.jpa.DashBoardJpaDao;
 import com.afrAsia.entities.jpa.ApplicationReference;
 
-public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationReference>implements DashBoardJpaDao {
+public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationReference> implements DashBoardJpaDao {
 
-	public List<String> getId(String id){
+	public List<String> getId(String id) {
 		Query query = getEntityManager().createQuery("select ar.rmUserId from ApplicationReference ar "
 				+ "where ar.rmUserId=:rmid");
 		query.setParameter("rmid", id);
-		
+
 		List<String> detailsByefault = query.getResultList();
-		return detailsByefault; 
+		return detailsByefault;
 	}
-	
+
 	public Collection<ApplicationReference> getMonthly(String rmId) {
-		
-		System.out.println("####### in jp dao impl , rm id is "+rmId);
+
+		System.out.println("####### in jp dao impl , rm id is " + rmId);
 
 		String queryString = "from ApplicationReference ar where lower(ar.appStatus)=lower(:as) AND ar.rmUserId=:rmID "
 				+ "and ar.updatedTime between :stDate and :edDate ";
@@ -39,12 +39,11 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 
 		query.setParameter("as", "ACCOUNT OPENED");
 		query.setParameter("rmID", rmId);
-		query.setParameter("stDate", today30); 
+		query.setParameter("stDate", today30);
 		query.setParameter("edDate", today);
-		
-		System.out.println("stDate      ======== "+today30);
-		System.out.println("stDate      ======== "+today);
-		 
+
+		System.out.println("stDate      ======== " + today30);
+		System.out.println("stDate      ======== " + today);
 
 		List<ApplicationReference> listOfEntries = query.getResultList();
 
@@ -64,7 +63,7 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 		cal.setTime(today);
 		cal.add(Calendar.DAY_OF_MONTH, -90);
 		Date today90 = cal.getTime();
-		
+
 		query.setParameter("as", "ACCOUNT OPENED");
 		query.setParameter("rmID", rmId);
 		query.setParameter("stDate", today90);
@@ -81,7 +80,7 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 	public Collection<ApplicationReference> getHalfYeary(String rmId) {
 		String queryString = "From ApplicationReference ar where lower(ar.appStatus)=lower(:as) AND ar.rmUserId=:rmID "
 				+ "and ar.updatedTime BETWEEN :stDate AND :edDate";
-																						
+
 		Query query = getEntityManager().createQuery(queryString);
 		Date today = new Date();
 		Calendar cal = new GregorianCalendar();
@@ -110,9 +109,9 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 
 		Calendar cal = Calendar.getInstance();
 		Date today = cal.getTime();
-		cal.add(Calendar.YEAR, -1); 
+		cal.add(Calendar.YEAR, -1);
 		Date lastYear = cal.getTime();
-		
+
 		query.setParameter("as", "ACCOUNT OPENED");
 		query.setParameter("rmID", rmId);
 		query.setParameter("stDate", lastYear);
@@ -183,7 +182,7 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 				+ "and ar.updatedTime BETWEEN :stDate AND :edDate";
 
 		Query query = getEntityManager().createQuery(queryString);
-		
+
 		Date today = new Date();
 		Calendar cal = new GregorianCalendar();
 		cal.setTime(today);
@@ -209,7 +208,7 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 				+ "and ar.updatedTime BETWEEN :stDate AND :edDate";
 
 		Query query = getEntityManager().createQuery(queryString);
-		
+
 		Date today = new Date();
 		Calendar cal = new GregorianCalendar();
 		cal.setTime(today);
@@ -235,13 +234,12 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 		String queryString = "select ar.id From ApplicationReference ar where lower(ar.appStatus)=lower(:as) "
 				+ "AND ar.rmUserId=:rmID "
 				+ "order by ar.updatedTime DESC";
-		
 
 		Query query = getEntityManager().createQuery(queryString);
 
 		query.setParameter("as", "Require Attention");
 		query.setParameter("rmID", rmId);
-		
+
 		List<Long> listOfEntries = query.getResultList();
 
 		System.out.println("######## listOfEntries for all ids for Require Attention datas" + listOfEntries);
@@ -257,7 +255,7 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 		+ "WHERE apd.id IN (SELECT ar.id FROM ApplicationReference ar "
 		+ "WHERE lower(ar.appStatus) = lower(:as) AND ar.rmUserId=:rmID))"
 		+ "order by apd.id DESC";*/
-		String queryString ="select apd.firstName,apd.lastName "
+		String queryString = "select apd.firstName,apd.lastName "
 				+ "from ApplicationReference ar, ApplicantPersonalDetails apd "
 				+ "WHERE lower(ar.appStatus) = lower(:as) AND ar.rmUserId=:rmID AND ar.id=apd.id "
 				+ "order by ar.updatedTime desc";
@@ -265,14 +263,14 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 				+ " from ApplicationReference ar, ApplicantPersonalDetails apd "
 				+ "WHERE lower(ar.appStatus) = lower(:as) AND ar.rmUserId=:rmID"
 				+ "order by ar.createdTime desc");*/
-		
+
 		Query query = getEntityManager().createQuery(queryString);
 
 		query.setParameter("as", "Require Attention");
 		query.setParameter("rmID", rmId);
-		
+
 		List<Object> listOfNames = query.getResultList();
-		
+
 		System.out.println("####### customer names ::: " + listOfNames);
 
 		return listOfNames;
@@ -289,7 +287,7 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 
 		query.setParameter("as", "Require Attention");
 		query.setParameter("rmID", rmId);
-		
+
 		List<Date> listOfEntries = query.getResultList();
 
 		System.out.println("####### pending status datas ::: " + listOfEntries);
@@ -297,7 +295,7 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 		return listOfEntries;
 
 	}
-	
+
 	public List<Object> getPendingSinceData(String rmId) {
 
 		Query query = getEntityManager().createQuery("select ar.id, ar.updatedTime,"
@@ -308,19 +306,39 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 
 		query.setParameter("rmid", rmId);
 		query.setParameter("as1", "Require Attention");
-		
+
 		List<Object> detailsByefault = query.getResultList();
-		
+
 		for (Object object : detailsByefault) {
 			Object[] outputs = (Object[]) object;
-		System.out.println("rmid in dao =========== "+outputs[0].toString());
-		System.out.println("updatedTime in dao =========== "+outputs[1].toString());
-		System.out.println("name in dao =========== "+outputs[2].toString()+" "+outputs[3].toString());
+			System.out.println("rmid in dao =========== " + outputs[0].toString());
+			System.out.println("updatedTime in dao =========== " + outputs[1].toString());
+			System.out.println("name in dao =========== " + outputs[2].toString() + " " + outputs[3].toString());
 		}
 
-		return detailsByefault; 
+		return detailsByefault;
 
 	}
 
-
+	/* (non-Javadoc)
+	 * @see com.afrAsia.dao.jpa.DashBoardJpaDao#updateAppStatus(com.afrAsia.entities.jpa.ApplicationReference)
+	 */
+	@SuppressWarnings("unchecked")
+	public void updateAppStatus(ApplicationReference appRef) {
+		System.out.println("Enter : updateAppStatus() appRef : " + appRef);
+		if (null != appRef) {
+			Query query = getEntityManager().createQuery("select ar from ApplicationReference ar where ar.id=:apId");
+			query.setParameter("apId", appRef.getId());
+			List<ApplicationReference> appRefList = query.getResultList();
+			if (null != appRefList && !appRefList.isEmpty()) {
+				ApplicationReference appRefDetails = appRefList.get(0);
+				appRefDetails.setAppStatus(appRef.getAppStatus());
+				appRefDetails.setUpdatedBy(appRef.getUpdatedBy());
+				appRefDetails.setUpdatedTime(appRef.getUpdatedTime());
+				getEntityManager().merge(appRefDetails);
+				getEntityManager().flush();
+			}
+		}
+		System.out.println("Exit : updateAppStatus()");
+	}
 }

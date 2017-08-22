@@ -36,4 +36,9 @@ public interface DashBoardJpaDao extends DashBoardDao {
 	// get pending since status
 	public Collection<Date> getPendingSinceStatus(String rmId);
 	
+	/**
+	 * @param appRef
+	 */
+	public void updateAppStatus(ApplicationReference appRef);
+	
 }
