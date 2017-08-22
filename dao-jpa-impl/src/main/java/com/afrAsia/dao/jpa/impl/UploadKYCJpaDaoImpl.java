@@ -4,21 +4,21 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-import com.afrAsia.dao.jpa.UploadKYCDao;
+import com.afrAsia.dao.jpa.UploadKYCJpaDAO;
 import com.afrAsia.entities.transactions.MobApplicantKycDocuments;
 
 /**
  * @author mds012
  *
  */
-public class UploadKYCDaoImpl extends BaseJpaDAOImpl<Long, MobApplicantKycDocuments> implements UploadKYCDao {
+public class UploadKYCJpaDaoImpl extends BaseJpaDAOImpl<Long, MobApplicantKycDocuments> implements UploadKYCJpaDAO {
 
 	/* (non-Javadoc)
 	 * @see com.afrAsia.dao.jpa.UploadKYCDao#saveKYCDocLocation(java.lang.Long, java.lang.Long, java.lang.String, java.lang.String)
 	 */
 	@SuppressWarnings("rawtypes")
 	public void saveKYCDocLocation(MobApplicantKycDocuments kycDocs) {
-		System.out.println("Enter : UploadKYCDao#saveKYCDocLocation()");
+		System.out.println("Enter : UploadKYCDao#saveKYCDocLocation() kycDocs : " + kycDocs);
 		if (null != kycDocs && null != kycDocs.getId()) {
 			Query query = getEntityManager().createQuery("SELECT t FROM MobApplicantKycDocuments t WHERE t.id.id = :id AND t.id.applicantId = :applicantId AND t.id.docId = :docId");
 			query.setParameter("id", kycDocs.getId().getId());

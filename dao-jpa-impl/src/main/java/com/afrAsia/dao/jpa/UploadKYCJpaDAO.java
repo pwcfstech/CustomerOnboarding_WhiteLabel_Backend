@@ -6,7 +6,7 @@ import com.afrAsia.entities.transactions.MobApplicantKycDocuments;
  * @author mds012
  *
  */
-public interface UploadKYCDao {
+public interface UploadKYCJpaDAO {
 
 	/**
 	 * @param kycDocs
