@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.naming.NamingException;
 import javax.ws.rs.Consumes;
@@ -14,12 +13,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.mail.MessagingException;
 
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.CommonUtils;
+
 import com.afrAsia.Utils.AfrAsiaEmailUtility;
 import com.afrAsia.Utils.AfrAsiaMailConfig;
+
 import com.afrAsia.entities.jpa.MsgHeader;
 import com.afrAsia.entities.jpa.MsgHeader.Error;
 import com.afrAsia.entities.request.AccountCreationRequest;
@@ -28,6 +30,7 @@ import com.afrAsia.entities.request.ApplicantDetails;
 import com.afrAsia.entities.request.JointApplicants;
 import com.afrAsia.entities.request.NomineeInfo;
 import com.afrAsia.entities.response.AccountCreateResponse;
+
 import com.afrAsia.service.AccountCreationService;
 
 @Component
@@ -64,7 +67,6 @@ public class AccountCreationRestService {
 	public Response createAccount(AccountCreationRequest accountCreationRequest) {
 		AccountCreateResponse accountCreationResponse = new AccountCreateResponse();
 		MsgHeader msgHeader = new MsgHeader();
-		// System.out.println(accountCreationRequest.toString());
 
 		try {
 			String checkRequest = validateRequest(accountCreationRequest);
@@ -72,6 +74,7 @@ public class AccountCreationRestService {
 				if (accountCreationRequest.getData().getAppRefNo() == null) {
 					System.out.println(" ########### in create service ############## ");
 					accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
+<<<<<<< HEAD
 
 					//sendEmailToCustomer();
 
@@ -82,6 +85,9 @@ public class AccountCreationRestService {
 //					sendSMSToCustomer(smsContent);
 
 
+=======
+					//sendEmailToCustomer();
+>>>>>>> 3c3378dfcb2e8b8535292dcd3897241e1bde6642
 				} else {
 					System.out.println(" ########### in update service ############## ");
 					System.out.println("accountCreationRequest.getData().getRecordId() in rest ============= "+accountCreationRequest.getData().getRecordId());
@@ -591,26 +597,28 @@ public class AccountCreationRestService {
 
 	}
 
-	public void sendEmailToCustomer() {
+	public void sendEmailToCustomer(){
 		String host = afrAsiaMailConfig.getMailhost();
 		String port = afrAsiaMailConfig.getMailport();
 		String mailFrom = afrAsiaMailConfig.getMailFrom();
 		String password = afrAsiaMailConfig.getMailPassword();
-		String smtpAuthRequired = afrAsiaMailConfig.getSmtpAuthRequired();
-		String smtpAuthstarttls = afrAsiaMailConfig.getSmtpAuthRequired();
-		String toAddress = "neha.marda@gmail.com";
-		String subject = "Test Mail";
+		String smtpAuthRequired=afrAsiaMailConfig.getSmtpAuthRequired();
+		String smtpAuthstarttls=afrAsiaMailConfig.getSmtpAuthRequired();
+		String toAddress="neha.marda@gmail.com";
+		String subject="Test Mail";
 
-		String message = "Dear [First Name],"
-				+ "Welcome to AfrAsia Bank and thank you for choosing us as your banking partner. Your application is currently under process with application number [XXX]. We shall update you as soon as your account is opened."
-				+ "In the meantime, we invite you to browse our website www.afrasiabank.com for a detailed overview of our banking solutions, and our pioneering rewards programme, AfrAsia XtraMiles."
-				+ "We remain at your disposal should you wish to discuss about your financial aspirations and how we can be of more relevance to you."
-				+ "Thank you for your trust and we hope that our team measures up to your expectations."
-				+ "Kind regards," + "Relationship manager (name)";
+		String message="Dear [First Name]," +
+				"Welcome to AfrAsia Bank and thank you for choosing us as your banking partner. Your application is currently under process with application number [XXX]. We shall update you as soon as your account is opened." +
+				"In the meantime, we invite you to browse our website www.afrasiabank.com for a detailed overview of our banking solutions, and our pioneering rewards programme, AfrAsia XtraMiles." +
+				"We remain at your disposal should you wish to discuss about your financial aspirations and how we can be of more relevance to you." +
+				"Thank you for your trust and we hope that our team measures up to your expectations." +
+				"Kind regards," + 
+				"Relationship manager (name)";
+
+
 
 		try {
-			AfrAsiaEmailUtility.sendEmail(host, port, mailFrom, password, toAddress, subject, message, smtpAuthRequired,
-					smtpAuthstarttls);
+			AfrAsiaEmailUtility.sendEmail(host, port, mailFrom, password, toAddress, subject, message, smtpAuthRequired, smtpAuthstarttls);
 			System.out.println("EMail sent success");
 		} catch (AddressException e) {
 			// TODO Auto-generated catch block
@@ -627,9 +635,12 @@ public class AccountCreationRestService {
 		}
 	}
 
-	public void sendSMSToCustomer(String text) {
+
+	public void sendSMSToCustomer(String text){
 		String url = "http://41.212.214.205:81/cgi-bin/BMP_SendTextMsg?"
-				+ "UserName=afrasia1&PassWord=4fr4s14&UserData=" + text
-				+ "&Concatenated=0&SenderId=23052581818&Deferred=false&Number=" + "23051234567" + "&Dsr=false";
-	}
-}
+				+ "UserName=afrasia1&PassWord=4fr4s14&UserData="
+				+ text
+				+ "&Concatenated=0&SenderId=23052581818&Deferred=false&Number="
+				+ "23051234567"
+				+ "&Dsr=false";
+	}	}

@@ -589,7 +589,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobRmAppRefId.setModifiedBy(accountCreationRequest.getData().getRmId());
 		mobRmAppRefId.setCreatedDate(new Date());
 		mobRmAppRefId.setModifiedDate(new Date());
-		mobRmAppRefId.setAppStatus("Under Processing");
+		mobRmAppRefId.setAppStatus("KYC Pending");
 		mobRmAppRefId=accountCreateDao.storeMobRmAppRefId(mobRmAppRefId);
 		return mobRmAppRefId;
 	}
