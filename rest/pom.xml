@@ -142,11 +142,6 @@
     		<artifactId>activation</artifactId>
     		<version>1.1.1</version>
 		</dependency>
-<<<<<<< HEAD
-
-=======
->>>>>>> 3c3378dfcb2e8b8535292dcd3897241e1bde6642
-
 	</dependencies>
 
 	<build>

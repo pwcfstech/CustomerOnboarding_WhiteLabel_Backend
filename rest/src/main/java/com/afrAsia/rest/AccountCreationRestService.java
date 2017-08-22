@@ -74,7 +74,7 @@ public class AccountCreationRestService {
 				if (accountCreationRequest.getData().getAppRefNo() == null) {
 					System.out.println(" ########### in create service ############## ");
 					accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
-<<<<<<< HEAD
+
 
 					//sendEmailToCustomer();
 
@@ -85,9 +85,7 @@ public class AccountCreationRestService {
 //					sendSMSToCustomer(smsContent);
 
 
-=======
-					//sendEmailToCustomer();
->>>>>>> 3c3378dfcb2e8b8535292dcd3897241e1bde6642
+
 				} else {
 					System.out.println(" ########### in update service ############## ");
 					System.out.println("accountCreationRequest.getData().getRecordId() in rest ============= "+accountCreationRequest.getData().getRecordId());
@@ -550,7 +548,7 @@ public class AccountCreationRestService {
 				return (customerType + ":Error in SSN");
 			}
 		}
-		if (applicant.getResidencyStatus().equals("NON_RES")) {
+		if (applicant.getResidencyStatus().equals("NON_RES") && age > 18) {
 			if (!CommonUtils.checkNullorBlank(applicant.getoAddr1()) || applicant.getoAddr1().length() > 105) {
 				return (customerType + ":Error in Overseas Address 1");
 			}

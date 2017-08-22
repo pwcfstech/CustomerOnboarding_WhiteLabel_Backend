@@ -56,11 +56,13 @@
 		<class>com.afrAsia.entities.jpa.ApplicationDetails</class>
 		<class>com.afrAsia.entities.jpa.ApplicationReference</class>
 		
+
 		<!-- KYC upload related classes -->
 		<class>com.afrAsia.entities.transactions.MobApplicantKycDocuments</class>
 
->>>>>>> 3c3378dfcb2e8b8535292dcd3897241e1bde6642
+
 		<class>com.afrAsia.entities.transactions.MobComments</class>
+
 		<properties>
 			<!-- <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" /> -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
