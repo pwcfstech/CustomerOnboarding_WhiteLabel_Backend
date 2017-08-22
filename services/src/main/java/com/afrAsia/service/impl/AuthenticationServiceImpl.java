@@ -163,13 +163,13 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		//rmDetailsService.saveRMDetails("ID" + userId, userId);
 		
 		/* LDAP */
-//		if (!tryLdapConnection(loginDataRequest.getUserId(), loginDataRequest.getPassword()))
-//		{
-//			throw new IllegalStateException("Could not authenticate with ldap.");
-//		}
-//		else{
-//			System.out.println("Authenticated with LDAP");
-//		}
+		/*if (!tryLdapConnection(loginDataRequest.getUserId(), loginDataRequest.getPassword()))
+		{
+			throw new IllegalStateException("Could not authenticate with ldap.");
+		}
+		else{
+			System.out.println("Authenticated with LDAP");
+		}*/
 		
 		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(userId); 
 		System.out.println("clientDetails =========== "+clientDetails);

@@ -13,9 +13,9 @@
 						http://www.springframework.org/schema/beans 			http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
 						http://www.springframework.org/schema/context 			http://www.springframework.org/schema/context/spring-context-4.1.xsd
 						http://www.springframework.org/schema/util 				http://www.springframework.org/schema/util/spring-util-4.1.xsd
-						http://www.springframework.org/schema/tx 					http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
-						http://www.springframework.org/schema/jdbc 					http://www.springframework.org/schema/tx/spring-jdbc-4.1.xsd
-						http://www.springframework.org/schema/aop 					http://www.springframework.org/schema/tx/spring-aop-4.1.xsd
+						http://www.springframework.org/schema/tx 				http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+						http://www.springframework.org/schema/jdbc 				http://www.springframework.org/schema/tx/spring-jdbc-4.1.xsd
+						http://www.springframework.org/schema/aop 				http://www.springframework.org/schema/tx/spring-aop-4.1.xsd
 						http://jax-ws.dev.java.net/spring/core					http://jax-ws.dev.java.net/spring/core.xsd
 						http://jax-ws.dev.java.net/spring/servlet				http://jax-ws.dev.java.net/spring/servlet.xsd">
 
@@ -23,7 +23,7 @@
 	<import resource="classpath*:**/applicationContext-configuration-authentication.xml"/>
 	<import resource="classpath*:**/applicationContext-exception-management.xml"/>
 	
-	<context:component-scan base-package="com.afrAsia"></context:component-scan>
+	<!--   <context:component-scan base-package="com.afrAsia"></context:component-scan> -->
 	
 	<!-- <wss:binding url="/DigitalTransaction">
         <wss:service>
@@ -82,6 +82,18 @@
 	<bean id="applicationDetailsRestService" class="com.afrAsia.rest.ApplicationDetailsRestService" >
 		<property name="applicationDetailsService" ref="applicationDetailsService" />
 	</bean>
+		
+	<util:properties id="mailProperties" location="file:mail.properties" ignore-resource-not-found="false" />
+	<!--  	<context:property-placeholder location="classpath:mail.properties" />-->
+	<bean id="mailConfig" class="com.afrAsia.Utils.AfrAsiaMailConfig">
+        <property name="mailhost" value="${mailhost}"/>    
+        <property name="mailport" value="${mailport}"/>
+        <property name="mailFrom" value="${mailFrom}"/>
+        <property name="mailPassword" value="${mailPassword}"/>
+        <property name="smtpAuthRequired" value="${smtpAuthRequired}"/>
+        <property name="smtpAuthstarttls" value="smtpAuthstarttls"/>
+    </bean>
+	
 	
 	<bean id="accountCreationRestService" class="com.afrAsia.rest.AccountCreationRestService" >
 		<property name="accountCreationService" ref="accountCreationService" />

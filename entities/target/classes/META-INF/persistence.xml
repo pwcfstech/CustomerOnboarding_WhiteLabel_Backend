@@ -59,6 +59,7 @@
 		<!-- KYC upload related classes -->
 		<class>com.afrAsia.entities.transactions.MobApplicantKycDocuments</class>
 
+
 		<class>com.afrAsia.entities.transactions.MobComments</class>
 
 		<properties>

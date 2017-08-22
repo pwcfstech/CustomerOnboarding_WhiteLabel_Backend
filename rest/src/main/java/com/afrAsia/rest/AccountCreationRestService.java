@@ -74,7 +74,18 @@ public class AccountCreationRestService {
 				if (accountCreationRequest.getData().getAppRefNo() == null) {
 					System.out.println(" ########### in create service ############## ");
 					accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
+
+
 					//sendEmailToCustomer();
+
+//					String smsContent = "Dear [First Name], thank you for your interest in AfrAsia Bank. "
+//							+ "Your application is currently under process with application number" 
+//							+ accountCreationResponse.getData().getRefNo() 
+//							+ ".We shall update you as soon as your account is opened. Regards, AfrAsia Bank Team";
+//					sendSMSToCustomer(smsContent);
+
+
+
 				} else {
 					System.out.println(" ########### in update service ############## ");
 					System.out.println("accountCreationRequest.getData().getRecordId() in rest ============= "+accountCreationRequest.getData().getRecordId());
@@ -110,6 +121,7 @@ public class AccountCreationRestService {
 						messageHeader.setError(error);
 						accountCreationResponse.setMsgHeader(messageHeader);
 					}
+
 				}
 
 				if (accountCreationResponse!=null) {
@@ -536,7 +548,7 @@ public class AccountCreationRestService {
 				return (customerType + ":Error in SSN");
 			}
 		}
-		if (applicant.getResidencyStatus().equals("NON_RES")) {
+		if (applicant.getResidencyStatus().equals("NON_RES") && age > 18) {
 			if (!CommonUtils.checkNullorBlank(applicant.getoAddr1()) || applicant.getoAddr1().length() > 105) {
 				return (customerType + ":Error in Overseas Address 1");
 			}

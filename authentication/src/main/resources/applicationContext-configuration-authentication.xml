@@ -260,6 +260,7 @@
 	</sec:http> -->
 	
 	<sec:http pattern="/v*/login" security="none"></sec:http>
+	<sec:http pattern="/v*/appversion" security="none"></sec:http>
 		
 	<!-- sec:http pattern="/v*/sign_in" security="none"></sec:http>
 

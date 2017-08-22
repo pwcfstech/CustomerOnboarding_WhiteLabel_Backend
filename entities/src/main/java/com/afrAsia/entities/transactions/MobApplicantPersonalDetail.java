@@ -27,8 +27,8 @@ public class MobApplicantPersonalDetail implements Serializable {
 	@Column(name = "CREATED_DATE")
 	private Date createdDate;
 
-	@Column(name = "CIF")					
-	private String custCif;
+	@Column(name="CIF")
+	private String custCif;   
 
 	@Temporal(TemporalType.DATE)
 	private Date dob;
