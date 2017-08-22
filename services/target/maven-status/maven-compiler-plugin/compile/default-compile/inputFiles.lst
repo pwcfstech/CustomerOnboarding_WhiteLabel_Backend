@@ -7,6 +7,7 @@ C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\
 C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\impl\ProductServiceImpl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\DashBoardService.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\impl\AddCommentServiceImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\impl\KYCServiceImpl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\AuthenticationService.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\impl\MasterDataServiceImpl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\UserService.java
@@ -15,6 +16,7 @@ C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\
 C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\ComplianceService.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\impl\DashBoardServiceImpl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\impl\DTDPSServiceImpl.java
+C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\KYCService.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\ApplicationDetailsService.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\impl\ComplianceServiceImpl.java
 C:\workspaces\AfrAsia\git\afrasia-platform-1\services\src\main\java\com\afrAsia\service\impl\AppVersionServiceImpl.java

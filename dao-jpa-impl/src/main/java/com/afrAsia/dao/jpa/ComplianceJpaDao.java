@@ -8,9 +8,9 @@ import com.afrAsia.entities.jpa.ApplicationReference;
 
 public interface ComplianceJpaDao extends ComplianceDao, BaseJpaDAO<Long, ApplicationReference> {
 
-	public List<Object> getDetailsByefaultByUnderProcessingStatus();
+	public List<Object> getDetailsByDefaultByUnderProcessingStatus();
 	
-	public List<Object> getDetailsByefaultByAccOpenedOrRejectedStatus();
+	public List<Object> getDetailsByDefaultByAccOpenedOrRejectedStatus();
 	
 	public List<Object> getDetailsByName(String name,String status);
 

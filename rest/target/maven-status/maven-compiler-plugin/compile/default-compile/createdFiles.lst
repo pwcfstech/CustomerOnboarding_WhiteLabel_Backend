@@ -16,4 +16,5 @@ com\afrAsia\rest\UserRestService.class
 com\afrAsia\rest\MasterDataRestService.class
 com\afrAsia\Utils\AfrAsiaMailConfig.class
 com\afrAsia\soap\DTDPSSoapService.class
+com\afrAsia\rest\KYCRestService.class
 com\afrAsia\Utils\AfrAsiaEmailUtility.class

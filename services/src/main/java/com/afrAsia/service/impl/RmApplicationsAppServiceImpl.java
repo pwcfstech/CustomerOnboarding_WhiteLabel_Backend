@@ -91,7 +91,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			
 			//System.out.println(" ====== ref id service impl is ========= " + apps.getRefNo());
 
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S");
 
 			String dateStr = outputs[1].toString();
 
@@ -103,7 +103,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			}
 
 			apps.setAppSubmittedDate(date);
-
+			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppStatus(outputs[2].toString());
 
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
@@ -169,7 +169,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			apps.setRefNo(outputs[0].toString());
 			//System.out.println(" ====== ref id service impl is ========= " + apps.getRefNo());
 
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S");
 
 			String dateStr = outputs[1].toString();
 
@@ -181,6 +181,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			}
 
 			apps.setAppSubmittedDate(date);
+			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppStatus(outputs[2].toString());
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
 			listOfApps.add(i, apps);
@@ -264,7 +265,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 
 			apps.setRefNo(outputs[0].toString());
 
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S");
 
 			String dateStr = outputs[1].toString();
 
@@ -276,6 +277,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			}
 
 			apps.setAppSubmittedDate(date);
+			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppStatus(outputs[2].toString());
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
 			listOfApps.add(i, apps);
@@ -335,7 +337,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 
 			apps.setRefNo(outputs[0].toString());
 
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S");
 
 			String dateStr = outputs[1].toString();
 
@@ -346,6 +348,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 			apps.setAppSubmittedDate(date);
+			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppStatus(outputs[2].toString());
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
 			listOfApps.add(i, apps);
@@ -423,7 +426,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			Object[] outputs = (Object[]) object;
 
 			apps.setRefNo(outputs[0].toString());
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S");
 
 			String dateStr = outputs[1].toString();
 
@@ -435,7 +438,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			}
 
 			apps.setAppSubmittedDate(date);
-
+			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppStatus(outputs[2].toString());
 
 			apps.setCustomerName(outputs[3].toString()+ " "+outputs[4].toString());
@@ -517,7 +520,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 
 			apps.setRefNo(outputs[0].toString());
 
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S");
 
 			String dateStr = outputs[1].toString();
 
@@ -529,7 +532,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			}
 
 			apps.setAppSubmittedDate(date);
-
+			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppStatus(outputs[2].toString());
 
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());

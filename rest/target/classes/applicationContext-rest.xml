@@ -85,6 +85,12 @@
 	
 	<bean id="accountCreationRestService" class="com.afrAsia.rest.AccountCreationRestService" >
 		<property name="accountCreationService" ref="accountCreationService" />
+		<property name="afrAsiaMailConfig" ref="mailConfig" />
+	</bean>
+	
+	<!-- Upload KYC document rest service bean -->
+	<bean id="kycRestService" class="com.afrAsia.rest.KYCRestService" >
+		<property name="kycService" ref="kycService" />
 	</bean>
 	
 	<!-- <bean id="dtdpsSoapService" class="com.afrAsia.soap.DTDPSSoapService" >
