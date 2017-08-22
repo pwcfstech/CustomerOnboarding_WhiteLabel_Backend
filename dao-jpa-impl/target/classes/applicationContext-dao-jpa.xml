@@ -62,10 +62,4 @@
 	<!-- Upload KYC document dao bean -->
 	<bean id="uploadKYCDao" class="com.afrAsia.dao.jpa.impl.UploadKYCDaoImpl"/>
 
-	<!-- Upload KYC document dao bean -->
-	<bean id="uploadKYCDao" class="com.afrAsia.dao.jpa.impl.UploadKYCDaoImpl"/>
-
-	<!-- Compliance service -->
-	<bean id="complianceJpaDao" class="com.afrAsia.dao.jpa.impl.ComplianceJpaDAOImpl"/>
-
 </beans>
