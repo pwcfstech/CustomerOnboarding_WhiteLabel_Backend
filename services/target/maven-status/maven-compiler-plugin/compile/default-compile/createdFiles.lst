@@ -8,6 +8,7 @@ com\afrAsia\service\MasterDataService.class
 com\afrAsia\service\impl\AuthenticationServiceImpl.class
 com\afrAsia\service\ApplicationDetailsService.class
 com\afrAsia\service\impl\DTDPSServiceImpl$1.class
+com\afrAsia\service\impl\KycDocDownloadServiceImpl.class
 com\afrAsia\service\impl\ProductServiceImpl.class
 com\afrAsia\service\UserService.class
 com\afrAsia\service\DashBoardService.class
@@ -16,6 +17,7 @@ com\afrAsia\service\ComplianceService.class
 com\afrAsia\service\impl\AccountCreationServiceImpl.class
 com\afrAsia\service\RmApplicationsAppService.class
 com\afrAsia\service\AppVersionService.class
+com\afrAsia\service\KycDocDownloadService.class
 com\afrAsia\service\KYCService.class
 com\afrAsia\service\impl\KYCServiceImpl$2.class
 com\afrAsia\service\impl\AppVersionServiceImpl.class

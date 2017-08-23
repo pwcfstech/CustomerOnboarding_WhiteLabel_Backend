@@ -132,4 +132,8 @@
 		<property name="uploadKYCDao" ref="uploadKYCDao" /> 
 		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" /> 
 	</bean>
+	
+	<bean id="kycDocDownloadService" class="com.afrAsia.service.impl.KycDocDownloadServiceImpl">
+		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" />
+	</bean>
 </beans>						

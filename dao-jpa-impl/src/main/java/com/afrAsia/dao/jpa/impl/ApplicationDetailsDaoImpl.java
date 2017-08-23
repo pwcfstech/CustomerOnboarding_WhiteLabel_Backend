@@ -106,6 +106,15 @@ public class ApplicationDetailsDaoImpl extends BaseJpaDAOImpl<Long, MobRmAppRefI
 		query.setParameter("appRefId", appRefId);
 		query.setParameter("applicantId", applicantId);
 		return (List<MobApplicantKycDocuments>) query.getResultList();
-		
 	}
+	
+	public MobApplicantKycDocuments getKycDocumentDetails(Long appRefId, Long applicantId, String docId){
+		String queryString = "FROM MobApplicantKycDocuments s where s.id.id = :appRefId and s.id.applicantId = :applicantId and s.id.docId = :docId";
+		Query query = getEntityManager().createQuery(queryString);
+		query.setParameter("appRefId", appRefId);
+		query.setParameter("applicantId", applicantId);
+		query.setParameter("docId", docId);
+		return (MobApplicantKycDocuments) query.getSingleResult();
+	}
+	
 }

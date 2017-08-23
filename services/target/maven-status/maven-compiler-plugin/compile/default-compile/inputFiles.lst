@@ -15,11 +15,13 @@ C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\ComplianceService.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\impl\KYCServiceImpl.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\RMDetailsService.java
+C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\KycDocDownloadService.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\impl\RMDetailsServiceImpl.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\AppVersionService.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\ApplicationDetailsService.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\UserService.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\impl\DTDPSServiceImpl.java
+C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\impl\KycDocDownloadServiceImpl.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\AccountCreationService.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\impl\RmApplicationsAppServiceImpl.java
 C:\PwC_Projects\AfrAsia\Development\github\AfrAsiaBackendCodeV2\afrasia-platform\services\src\main\java\com\afrAsia\service\impl\AccountCreationServiceImpl.java

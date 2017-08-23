@@ -105,6 +105,11 @@
 		<property name="kycService" ref="kycService" />
 	</bean>
 	
+	<!--  Download KYC document -->
+	<bean id="kycDocDownloadRestService" class="com.afrAsia.rest.KycDocDownloadRestService" >
+		<property name="kycDocDownloadService" ref="kycDocDownloadService" />
+	</bean>
+	
 	<!-- <bean id="dtdpsSoapService" class="com.afrAsia.soap.DTDPSSoapService" >
 		<property name="dtdpsService" ref="dtdpsService" />
 	</bean> -->

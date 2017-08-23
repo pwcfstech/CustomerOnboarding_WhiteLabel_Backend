@@ -14,6 +14,7 @@ com\afrAsia\entities\request\ComplianceReq.class
 com\afrAsia\entities\response\LoginDataResponse.class
 com\afrAsia\entities\jpa\MsgHeader.class
 com\afrAsia\entities\request\DeviceFootPrintReq$Data.class
+com\afrAsia\entities\request\KycDocDownloadRequest.class
 com\afrAsia\entities\base\BaseEntity.class
 com\afrAsia\entities\jpa\OAuthAccessToken.class
 com\afrAsia\entities\response\MastersDataResponse$Data$AccountType.class
@@ -49,6 +50,7 @@ com\afrAsia\entities\response\Data.class
 com\afrAsia\entities\transactions\MobApplPersonalDetailsHist.class
 com\afrAsia\entities\request\SearchParameterCompliance.class
 com\afrAsia\entities\request\DashboardRequest.class
+com\afrAsia\entities\request\KycDocDownloadRequest$Data.class
 com\afrAsia\entities\response\CategoryResponse.class
 com\afrAsia\entities\transactions\MobApplEmploymentDtlsHist.class
 com\afrAsia\entities\masters\UIDType.class

@@ -31,6 +31,8 @@ public interface ApplicationDetailsDao {
 	public MobApplicantAdditionalDtl getMobApplicantAdditionalDtl(Long appRefId, Long applicantId);
 
 	public List<MobApplicantKycDocuments> getMobApplicantKyc(Long appRefId, Long applicantId);
+	
+	public MobApplicantKycDocuments getKycDocumentDetails(Long appRefId, Long applicantId, String docId);
 
 	public List<MobComments> getComments(Long appRefId);
 

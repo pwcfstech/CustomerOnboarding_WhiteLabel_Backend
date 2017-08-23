@@ -1,5 +1,6 @@
 com\afrAsia\rest\ApplicationDetailsRestService.class
 com\afrAsia\rest\AuthenticationRestService.class
+com\afrAsia\rest\KycDocDownloadRestService.class
 com\afrAsia\rest\AccountCreationRestService.class
 com\afrAsia\rest\DTDPSRestService.class
 com\afrAsia\soap\IDTDPSSoapService.class
