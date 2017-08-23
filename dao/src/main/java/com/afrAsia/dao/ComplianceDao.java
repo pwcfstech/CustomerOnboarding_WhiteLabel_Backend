@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface ComplianceDao {
 	
-	public List<Object> getDetailsByefaultByUnderProcessingStatus();
+	public List<Object> getDetailsByDefaultByUnderProcessingStatus();
 	
-	public List<Object> getDetailsByefaultByAccOpenedOrRejectedStatus();
+	public List<Object> getDetailsByDefaultByAccOpenedOrRejectedStatus();
 	
 	public List<Object> getDetailsByName(String name,String status);
 

@@ -50,7 +50,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 		
 		//get Details By UnderProcessing Status																				
-		detailsByDefaultByUnderProcessingStatus = complianceDao.getDetailsByefaultByUnderProcessingStatus();
+		detailsByDefaultByUnderProcessingStatus = complianceDao.getDetailsByDefaultByUnderProcessingStatus();
 		
 		int i=0;
 				
@@ -66,7 +66,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 			
 			complianceApps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
 			
-			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
 			String dateSubmittedDate = outputs[4].toString();
 
@@ -81,11 +81,21 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 			complianceApps.setAppStatus(outputs[5].toString());
 			
-			complianceApps.setAccountNumber(outputs[6].toString());
+			try{
+				if(outputs[6].toString()!=null){
+					System.out.println("outputs[6].toString() in try  =========== "+outputs[6].toString());
+					complianceApps.setAccountNumber(outputs[6].toString());
+				}
+				else{
+					complianceApps.setAccountNumber(null);
+				}
+			}catch(NullPointerException e){
+				System.out.println("outputs[6].toString() in catch =========== ");
+			}
 			
-			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-MM-dd");
 
-			String dateCreationDate = outputs[4].toString();
+			String dateCreationDate = outputs[7].toString();
 
 			Date dateCreated= new Date();
 			try {
@@ -112,7 +122,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 		//get Details By AccOpened Or Rejected Status	
 		List<Object> detailsByefaultByAccOpenedOrRejectedStatus = new ArrayList<Object>(listOfApps);
 
-		detailsByefaultByAccOpenedOrRejectedStatus = complianceDao.getDetailsByefaultByAccOpenedOrRejectedStatus();
+		detailsByefaultByAccOpenedOrRejectedStatus = complianceDao.getDetailsByDefaultByAccOpenedOrRejectedStatus();
 		
 		for (Object object : detailsByefaultByAccOpenedOrRejectedStatus) {
 			
@@ -126,7 +136,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 			
 			complianceApps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
 			
-			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
 			String dateSubmittedDate = outputs[4].toString();
 
@@ -141,11 +151,21 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 			complianceApps.setAppStatus(outputs[5].toString());
 			
-			complianceApps.setAccountNumber(outputs[6].toString());
+			try{
+				if(outputs[6].toString()!=null){
+					System.out.println("outputs[6].toString() in try  =========== "+outputs[6].toString());
+					complianceApps.setAccountNumber(outputs[6].toString());
+				}
+				else{
+					complianceApps.setAccountNumber(null);
+				}
+			}catch(NullPointerException e){
+				System.out.println("outputs[6].toString() in catch =========== ");
+			}
 			
-			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-MM-dd");
 
-			String dateCreationDate = outputs[4].toString();
+			String dateCreationDate = outputs[7].toString();
 
 			Date dateCreated= new Date();
 			try {
@@ -197,7 +217,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 			
 			complianceApps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
 			
-			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
 			String dateSubmittedDate = outputs[4].toString();
 
@@ -212,11 +232,21 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 			complianceApps.setAppStatus(outputs[5].toString());
 			
-			complianceApps.setAccountNumber(outputs[6].toString());
+			try{
+				if(outputs[6].toString()!=null){
+					System.out.println("outputs[6].toString() in try  =========== "+outputs[6].toString());
+					complianceApps.setAccountNumber(outputs[6].toString());
+				}
+				else{
+					complianceApps.setAccountNumber(null);
+				}
+			}catch(NullPointerException e){
+				System.out.println("outputs[6].toString() in catch =========== ");
+			}
 			
-			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-MM-dd");
 
-			String dateCreationDate = outputs[4].toString();
+			String dateCreationDate = outputs[7].toString();
 
 			Date dateCreation= new Date();
 			try {
@@ -286,7 +316,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 			
 			complianceApps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
 			
-			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
 			String dateSubmittedDate = outputs[4].toString();
 
@@ -301,11 +331,21 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 			complianceApps.setAppStatus(outputs[5].toString());
 			
-			complianceApps.setAccountNumber(outputs[6].toString());
+			try{
+				if(outputs[6].toString()!=null){
+					System.out.println("outputs[6].toString() in try  =========== "+outputs[6].toString());
+					complianceApps.setAccountNumber(outputs[6].toString());
+				}
+				else{
+					complianceApps.setAccountNumber(null);
+				}
+			}catch(NullPointerException e){
+				System.out.println("outputs[6].toString() in catch =========== ");
+			}
 			
-			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-MM-dd");
 
-			String dateCreationDate = outputs[4].toString();
+			String dateCreationDate = outputs[7].toString();
 
 			Date dateCreation= new Date();
 			try {
@@ -371,7 +411,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 			
 			complianceApps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
 			
-			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
 			String dateSubmittedDate = outputs[4].toString();
 
@@ -386,11 +426,21 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 			complianceApps.setAppStatus(outputs[5].toString());
 			
-			complianceApps.setAccountNumber(outputs[6].toString());
+			try{
+				if(outputs[6].toString()!=null){
+					System.out.println("outputs[6].toString() in try  =========== "+outputs[6].toString());
+					complianceApps.setAccountNumber(outputs[6].toString());
+				}
+				else{
+					complianceApps.setAccountNumber(null);
+				}
+			}catch(NullPointerException e){
+				System.out.println("outputs[6].toString() in catch =========== ");
+			}
 			
-			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-MM-dd");
 
-			String dateCreationDate = outputs[4].toString();
+			String dateCreationDate = outputs[7].toString();
 
 			Date dateCreation= new Date();
 			try {

@@ -56,12 +56,10 @@
 	<!-- Add comments service -->
 	<bean id="addCommentJpaDao" class="com.afrAsia.dao.jpa.impl.AddCommentJpaDaoImpl"/>
 	
-
+	<!-- Compliance service -->
+	<bean id="complianceJpaDao" class="com.afrAsia.dao.jpa.impl.ComplianceJpaDAOImpl"/>
+	
 	<!-- Upload KYC document dao bean -->
 	<bean id="uploadKYCDao" class="com.afrAsia.dao.jpa.impl.UploadKYCDaoImpl"/>
 
-	<!-- Compliance service -->
-	<bean id="complianceJpaDao" class="com.afrAsia.dao.jpa.impl.ComplianceJpaDAOImpl"/>
-
-	
 </beans>
