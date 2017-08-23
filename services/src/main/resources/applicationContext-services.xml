@@ -128,7 +128,7 @@
 	</bean>
 	
 	<!-- Upload KYC document service bean -->
-	<bean id="kYCService" class="com.afrAsia.service.impl.KYCServiceImpl">
+	<bean id="kycService" class="com.afrAsia.service.impl.KYCServiceImpl">
 		<property name="uploadKYCDao" ref="uploadKYCJpaDao" /> 
 		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" /> 
 		<property name="dashBoardDao" ref="dashBoardJpaDao" /> 

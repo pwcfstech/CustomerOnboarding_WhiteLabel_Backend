@@ -19,7 +19,6 @@ com\afrAsia\service\RmApplicationsAppService.class
 com\afrAsia\service\AppVersionService.class
 com\afrAsia\service\KycDocDownloadService.class
 com\afrAsia\service\KYCService.class
-com\afrAsia\service\impl\KYCServiceImpl$2.class
 com\afrAsia\service\impl\AppVersionServiceImpl.class
 com\afrAsia\service\impl\ComplianceServiceImpl.class
 com\afrAsia\service\ProductService.class
