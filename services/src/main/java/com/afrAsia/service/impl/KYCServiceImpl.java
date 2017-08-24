@@ -244,7 +244,7 @@ public class KYCServiceImpl implements KYCService {
 			int noOfPages = Integer.parseInt(kycDataRequest.getNoOfPages());
 			
 			if (((kycDataRequest.getIsLastPage() && noOfPages == currentPageNo)
-					|| (!kycDataRequest.getIsLastPage() && noOfPages > currentPageNo))
+					|| (!kycDataRequest.getIsLastPage() && noOfPages >= currentPageNo))
 					&& ((kycDataRequest.getIgnorePrevious() && currentPageNo == 1)
 							|| (!kycDataRequest.getIgnorePrevious()))) {
 				isValid = true;
