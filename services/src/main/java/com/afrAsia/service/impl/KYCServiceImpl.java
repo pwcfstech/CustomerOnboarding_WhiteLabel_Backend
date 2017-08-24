@@ -343,31 +343,36 @@ public class KYCServiceImpl implements KYCService {
 				try {
 					System.out.println("Existing File name : " + f.getName());
 					reader = new PdfReader(f.getCanonicalPath());
-					stamper = new PdfStamper(reader, new FileOutputStream(directory + "/" + filename));
+					stamper = new PdfStamper(reader, new FileOutputStream(directory + "/tmp" + filename));
 					Image img = Image.getInstance(ImageIO.read(image), null);
 
 					if (reader.getNumberOfPages() >= currentPage) {
 						System.out.println("myPage : " + currentPage);
-						PdfContentByte under = stamper.getUnderContent(currentPage);
+						/*PdfContentByte under = stamper.getUnderContent(currentPage);
 						under.reset();
-						this.addImagetoCurrentPage(img, under);
+						this.addImagetoCurrentPage(img, under);*/
+						throw new Exception("Page : " + currentPage + " is already added in pdf.");
 						
 					} else if (reader.getNumberOfPages() + 1 == currentPage) {
 						System.out.println("add new page to reader : " + currentPage);
-						stamper.insertPage(reader.getNumberOfPages() + 1, reader.getPageSizeWithRotation(1));
+						stamper.insertPage(reader.getNumberOfPages() + 1,  reader.getPageSizeWithRotation(1));
 						PdfContentByte under = stamper.getUnderContent(currentPage);
 						this.addImagetoCurrentPage(img, under);
 						
 					} else {
-						throw new Exception("'currentPageNo' should be " + reader.getNumberOfPages() + 1);
+						throw new Exception("'currentPageNo' should be " + (reader.getNumberOfPages() + 1));
 					}
 					System.out.println("NumberOfPages : " + reader.getNumberOfPages());
 				} finally {
-					if (null != stamper) {
-						stamper.close();
-					}
+					if (null != stamper) stamper.close();
+					if (null != reader) reader.close();
 				}
-				this.deleteFiles(files);
+				//this.deleteFiles(files);
+				if(!("/tmp" + filename).equals(f.getName())) {
+					System.out.println("File deleting..."+f.getName()); 
+					f.delete();
+				}
+				new File(directory + "/tmp" + filename).renameTo(new File(directory + "/" + filename));
 			
 			} else if (!ignorePrevious && currentPage == 1 && files.length >= 1) {
 				this.deleteFiles(files);
