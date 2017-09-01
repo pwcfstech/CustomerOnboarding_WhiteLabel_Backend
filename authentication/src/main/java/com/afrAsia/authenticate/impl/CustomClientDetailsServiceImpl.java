@@ -6,6 +6,7 @@ import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
 
 import com.afrAsia.authenticate.CustomClientDetailsService;
+import com.afrAsia.authenticate.ldap.PersonRepoImpl;
 import com.afrAsia.dao.OAuthAuthorizationDAO;
 import com.afrAsia.dao.RMDetailsDao;
 import com.afrAsia.dao.UserDAO;
@@ -28,6 +29,18 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
     private UserDAO userDAO;
     
     private RMDetailsDao rmDetailsDAO;
+    
+    private PersonRepoImpl personRepo;
+    
+    public PersonRepoImpl getPersonRepo() 
+    {
+		return personRepo;
+	}
+    
+    public void setPersonRepo(PersonRepoImpl personRepo) 
+    {
+		this.personRepo = personRepo;
+	}
     
     public RMDetailsDao getRmDetailsDAO() 
     {
@@ -118,6 +131,11 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
     {
         try
         {
+        	String person = personRepo.findPerson(clientId);
+        	if (person == null || person.trim().isEmpty())
+        	{
+        		throw new ClientRegistrationException("No client with ID in LDAP.");
+        	}
         	OauthAuthorization oauthAuthorization = oAuthAuthorizationDAO.loadClientByClientId(clientId);
         
 	        CustomOauthAuthorization customOauthAuthorization = null;

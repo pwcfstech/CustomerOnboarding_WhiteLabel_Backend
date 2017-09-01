@@ -20,9 +20,11 @@
 						http://jax-ws.dev.java.net/spring/servlet				http://jax-ws.dev.java.net/spring/servlet.xsd">
 
 	<!-- Tomcat -->
+
 	<!-- <import resource="classpath*:**/applicationContext-services.xml"/>
 	<import resource="classpath*:**/applicationContext-configuration-authentication.xml"/>
 	<import resource="classpath*:**/applicationContext-exception-management.xml"/> -->
+
 	<!--  Weblogic -->
 	<import resource="applicationContext-services.xml"/>
 	<import resource="classpath*:**/*applicationContext-configuration-authentication.xml"/>

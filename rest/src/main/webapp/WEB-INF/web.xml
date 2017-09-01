@@ -6,27 +6,27 @@
 	<distributable />
 	<display-name>afrasia-services</display-name>
 
-	<!-- This is for weblogic  
-	<context-param>
+	
+	<!-- <context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath*:**/*applicationContext*.xml,
 					 classpath*:**/*applicationContext-configuration-authentication.xml
 		</param-value>
-	</context-param> -->
+	</context-param>  -->
 	
-	<!-- For WebLogic -->
-	 <!-- <context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/spring-servlet.xml,classspath:applicationContext-rest.xml,/WEBINF/applicationContext-configuration-authentication.xml
-		</param-value>
-	</context-param> -->
-	
-	<!-- tHIS IS for Tomcat  -->
+	<!-- This is for weblogic -->
 	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring-servlet.xml,classpath:applicationContext-rest.xml,/WEB-INF/applicationContext-configuration-authentication.xml
+		</param-value>
+	</context-param>
+	
+	<!-- This is for tomcat -->
+	<!-- <context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:applicationContext-rest.xml
 		</param-value>
-	</context-param>
+	</context-param> -->
 	
 	<context-param>
 		<param-name>log4j-config-location</param-name>

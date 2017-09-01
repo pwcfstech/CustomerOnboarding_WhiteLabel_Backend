@@ -39,10 +39,10 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.afrAsia</groupId>
 			<artifactId>entities</artifactId>
 			<version>${project.version}</version>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 </project>
