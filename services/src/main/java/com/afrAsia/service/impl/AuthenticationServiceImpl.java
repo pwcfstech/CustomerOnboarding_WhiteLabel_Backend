@@ -178,12 +178,9 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		
 		if (clientDetails == null)
 		{
-			/*rmDetails = customClientDetailsService.saveClientDetail(userId, userType,"rest_api", clientSecret, 
-				"standard_client", "client_credentials", null, "ROLE_USER", 
-				180, 180, null, null);	*/
 			rmDetails = customClientDetailsService.saveClientDetail(userId, userType,"rest_api", clientSecret, 
 					"standard_client", "client_credentials", null, "ROLE_USER", 
-					1800000000, 1800000000, null, null);	
+					1800000, 1800000, null, null);	
 		}
 		else{
 			LogoutRequest logOutRequest = new LogoutRequest();

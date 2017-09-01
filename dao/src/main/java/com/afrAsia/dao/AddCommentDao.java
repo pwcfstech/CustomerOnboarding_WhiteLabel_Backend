@@ -6,7 +6,9 @@ import com.afrAsia.entities.transactions.MobComments;
 
 public interface AddCommentDao {
 	
-	public List<String> getRmUserId(String id);
+	//public List<String> getRmUserId(String id);
+	
+	public String getRmId(String rmId);
 	
 	public List<Long> getAppId(Long appId);
 

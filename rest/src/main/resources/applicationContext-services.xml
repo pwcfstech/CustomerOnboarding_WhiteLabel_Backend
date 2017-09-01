@@ -15,10 +15,15 @@
 						http://www.springframework.org/schema/aop 					http://www.springframework.org/schema/tx/spring-aop-4.1.xsd">
 
 	
-
-	<import resource="classpath*:**/applicationContext-dao-jpa.xml"/>
+	<!-- Tomcat -->
+	<!-- <import resource="classpath*:**/applicationContext-dao-jpa.xml"/>
+	<import resource="classpath*:**/applicationContext-exception-management.xml"/> -->
 	
-	<import resource="classpath*:**/applicationContext-exception-management.xml"/>
+	<!--  Weblogic -->
+	<import resource="applicationContext-dao-jpa.xml"/>
+	<import resource="classpath*:**/*applicationContext-exception-management.xml"/>
+	
+	
 	
 	<util:properties id="ldapProperties" location="file:ldap.properties" ignore-resource-not-found="false" />
 	<bean id="dateDifferenceException" class="com.afrAsia.customexception.DateDifferenceException">
@@ -101,7 +106,8 @@
 		<property name="tokenStore" ref="tokenStore" />
 		<property name="supportRefreshToken" value="false" />
 		<property name="clientDetailsService" ref="clientDetails" />
-		<property name="accessTokenValiditySeconds" value="1800000" />
+		<property name="accessTokenValiditySeconds" value="1800000000" />
+		<!-- <property name="accessTokenValiditySeconds" value="180" /> -->
 	</bean>
 
 	<bean id="clientDetails"

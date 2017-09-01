@@ -62,7 +62,7 @@ public interface AccountCreateDao {
 
 	public Long getAppId(Long appId, String rmUserid);
 
-	public Integer updateAplicantRecordId(Long appId, Long recordId);
+	public void updateAplicantRecordId(Long appId, Long recordId);
 
 	public Long getRecordIdFromAccountDetails(Long appId);
 

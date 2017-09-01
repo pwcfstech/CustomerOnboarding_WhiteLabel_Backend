@@ -30,7 +30,9 @@ public class ProductServiceImpl implements ProductService {
 	private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
 	private ProductJpaDao productDao;
+
 	private ProductDetailsJpaDao productDetailsDao;
+
 	private CategoryJpaDAO categoryDao;
 
 	public ProductJpaDao getProductDao() {
@@ -60,24 +62,19 @@ public class ProductServiceImpl implements ProductService {
 	public GenericResponse getProducts() {
 
 		GenericResponse response = new GenericResponse();
-		
+
 		Data data = new Data();
-		
+
 		List<CategoryResponse> listOfCategoryResponse = new ArrayList<CategoryResponse>();
 
 		// fetch from DB
 		List<Product> listOfProducts = (List<Product>) productDao.getProducts();
-		
-		System.out.println("#### listOfProducts in service ::: "+listOfProducts);
+		logger.info("############ listOfProductsfrom DB in getProducts is : "+listOfProducts.toString());
 		
 		List<Category> listOfCategoriesFromDB = (List<Category>) categoryDao.getCategories();
-		
-		System.out.println("#### listOfCategories in service ::: "+listOfCategoriesFromDB);
-		
+
 		List<Category> categoryList = categoryDao.getCategory();
-		
-		System.out.println("#### categoryList in service ::: "+categoryList);
-		
+
 		Map<String, LinkedHashSet<ProductResponse>> categoryVsProductsMap = new LinkedHashMap<String, LinkedHashSet<ProductResponse>>();
 
 		for (Product product : listOfProducts) {
@@ -90,11 +87,9 @@ public class ProductServiceImpl implements ProductService {
 			productResponse.setProductName(product.getProductName());
 			productResponse.setProductDescription(product.getProductDescription());
 			productResponse.setProductImageURL(product.getProductImageURL());
-
 			productResponse.setAddnField1(product.getAddnField1());
 			productResponse.setAddnField2(product.getAddnField2());
 			productResponse.setAddnField3(product.getAddnField3());
-
 			productResponse.setProductBrochureLink(product.getProductBrochureLink());
 			productResponse.setProductDetailImageURL(product.getProductDetailImageURL());
 			productResponse.setProductLongDesc(product.getProductLongDesc());
@@ -112,26 +107,19 @@ public class ProductServiceImpl implements ProductService {
 		}
 
 		for (Category category : listOfCategoriesFromDB) {
-			
-			System.out.println("category ids are ::: "+category.getId());
-			
-			
+
 			CategoryResponse categoryResponse = new CategoryResponse();
 			categoryResponse.setCategoryName(category.getCategoryName());
 			categoryResponse.setCategoryDescription(category.getCategoryDescription());
-
 			categoryResponse.setProducts(categoryVsProductsMap.get(category.getId() + ""));
-			
-			System.out.println("categoryResponse.getProducts ====== "+categoryResponse.getProducts());
 
-			listOfCategoryResponse.add(categoryResponse);     
-			
+			listOfCategoryResponse.add(categoryResponse);
 			data.addCategory(listOfCategoryResponse);
-			
+
 		}
 		response.setData(data);
+		logger.info("############ response in getProducts is : "+response);
 		return response;
-
 	}
 
 	public GenericResponse getProductById(Long productID) {
@@ -140,54 +128,46 @@ public class ProductServiceImpl implements ProductService {
 		Data dataResponse = new Data();
 
 		List<ProductDetailsResponse> listProductDetailsResponse = new ArrayList<ProductDetailsResponse>();
-		
-		ProductDetails productDetailsforId=new ProductDetails();
-		List<Long> listProductDetails= productDetailsDao.getId(productID);
-		for(Long object:listProductDetails){
+
+		ProductDetails productDetailsforId = new ProductDetails();
+		List<Long> listProductDetails = productDetailsDao.getId(productID);
+		for (Long object : listProductDetails) {
 			productDetailsforId.setId(object);
 		}
-		try{	
-			if(productDetailsforId.getId() !=null && productDetailsforId.getId().equals(productID)){ 
+		try {
+			if (productDetailsforId.getId() != null && productDetailsforId.getId().equals(productID)) {
 				List<Object> productDetails = productDetailsDao.getProductById(productID);
-				int i=0;
-				
+				int i = 0;
+
 				for (Object object : productDetails) {
-					//System.out.println("#####	inside service "+productdetail.toString());
 					Object[] outputs = (Object[]) object;
 					ProductDetailsResponse productdetailsResponse = new ProductDetailsResponse();
 
 					productdetailsResponse.setFeature(outputs[1].toString());
-					System.out.println("feature in service impl : "+outputs[1].toString());
 					productdetailsResponse.setImageURL(outputs[4].toString());
-					System.out.println("ImageURL in service impl : "+outputs[4].toString());
 					productdetailsResponse.setInfoLink(outputs[3].toString());
-					System.out.println("InfoLink in service impl : "+outputs[3].toString());
 					productdetailsResponse.setLongDescription(outputs[2].toString());
-					System.out.println("LongDescription in service impl : "+outputs[2].toString()); 
-					listProductDetailsResponse.add(i,productdetailsResponse);
+					listProductDetailsResponse.add(i, productdetailsResponse);
 					i++;
-					System.out.println("#####inside for "+listProductDetailsResponse);
-				}		
+				}
 
-		    }
-			else{
-				MessageHeader messageHeader=new MessageHeader();
-				RequestError requestError=new RequestError();
-				requestError.setCustomCode("requested product id is not present for the given id , please pass another product id");
+			} else {
+				MessageHeader messageHeader = new MessageHeader();
+				RequestError requestError = new RequestError();
+				requestError.setCustomCode(
+						"requested product id is not present for the given id , please pass another product id");
 				messageHeader.setError(requestError);
 				response.setMsgHeader(messageHeader);
 				throw new IdNotFoundException("Provided product id is not present, please pass another id");
 			}
-		}catch(IdNotFoundException exceptionMessage){
-			System.out.println(" Exception got : "+exceptionMessage);
+		} catch (IdNotFoundException exceptionMessage) {
+			logger.error("############ exceptionMessage in getProductById is : "+exceptionMessage.getMessage());
+			System.out.println(" Exception got : " + exceptionMessage);
 		}
-		
-		
-				System.out.println("#####final list :"+listProductDetailsResponse.toString());
-		
-		
+
 		dataResponse.setProductDetails(listProductDetailsResponse);
 		response.setData(dataResponse);
+		logger.info("############ response in getProductById is : "+response);
 		return response;
 	}
 

@@ -14,6 +14,14 @@
 		</param-value>
 	</context-param> -->
 	
+	<!-- For WebLogic -->
+	 <!-- <context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring-servlet.xml,classspath:applicationContext-rest.xml,/WEBINF/applicationContext-configuration-authentication.xml
+		</param-value>
+	</context-param> -->
+	
+	<!-- tHIS IS for Tomcat  -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:applicationContext-rest.xml
@@ -22,7 +30,7 @@
 	
 	<context-param>
 		<param-name>log4j-config-location</param-name>
-		<param-value>WEB-INF/log4j.properties</param-value>
+		<param-value>classpath:log4j.properties</param-value>
 	</context-param>
 		
 	<listener>

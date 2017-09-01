@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import com.afrAsia.entities.request.GenericRequest;
 import com.afrAsia.entities.response.GenericResponse;
 import com.afrAsia.service.AddCommentService;
-import com.afrAsia.service.ProductService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,28 +43,29 @@ public class AddCommentRestService
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAppversion(String jsonInput) 
 	{
-		
+		logger.info("############ jsonInput is : "+jsonInput);
 		GenericRequest req = new GenericRequest();
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			req = mapper.readValue(jsonInput, GenericRequest.class);
 		} catch (JsonParseException e) {
+			logger.error("############ JsonParseException : "+e.getMessage());
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
+			logger.error("############ JsonMappingException : "+e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
+			logger.error("############ IOException : "+e.getMessage());
 			e.printStackTrace();
 		}
+		
 		Long appId=req.getData().getAppId(); 
-		System.out.println("appid is in rest ========== :: "+appId);
 		String comments=req.getData().getComment();
-		System.out.println("comments is in rest ========== :: "+comments);
 		String userId=req.getData().getUserId();
-		System.out.println("userId is in rest ========== :: "+userId);
 		String userCat=req.getData().getUserCat();
-		System.out.println("userCat is in rest ========== :: "+userCat);
 		
 		GenericResponse genericResponse=addCommentService.addComments(appId, comments, userId, userCat);
+		logger.info("############ genericResponse is : "+genericResponse);
 		return Response.ok(genericResponse, MediaType.APPLICATION_JSON).build();
 
 	}

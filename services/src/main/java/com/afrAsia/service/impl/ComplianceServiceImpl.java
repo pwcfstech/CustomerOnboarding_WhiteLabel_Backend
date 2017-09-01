@@ -280,29 +280,37 @@ public class ComplianceServiceImpl implements ComplianceService {
 		List<Object> listOfCustormerName = new ArrayList<Object>(listOfApps);
 
 		
-		int diffInDays = (int) ((endDate.getTime()-(startDate.getTime())) / (1000 * 60 * 60 * 24));
+		int diffInDays = (int) ((endDate.getTime()-(startDate.getTime())) / (1000 * 60 * 60 * 24)+1);
 
 		try{	
-			if(diffInDays <= 30){
-				System.out.println(" diffInDays in if "+ diffInDays);
-				listOfCustormerName = (List<Object>) complianceDao.getDetailsByDates(startDate, endDate, rmId);
+			if(endDate.getTime()>=startDate.getTime()){
+				if(diffInDays <= 30 && diffInDays>0){
+					System.out.println(" diffInDays in if "+ diffInDays);
+					listOfCustormerName = (List<Object>) complianceDao.getDetailsByDates(startDate, endDate, rmId);
 				}
 				else{
 					//System.out.println(" diffInDays in else "+ diffInDays);
 					MessageHeader messageHeader=new MessageHeader();
 					RequestError requestError=new RequestError();
-					requestError.setCustomCode(" difference between start date and end date is more than 30 days,"
-						+ "please pass dates such that difference should not exceed 30");
+					requestError.setCustomCode(" difference between start date and end date is more than 30 days");
 					messageHeader.setError(requestError); 
 					complianceResponse.setMessageHeader(messageHeader);	
-					throw new DateDifferenceException("difference between start date and end date is more than 30 days,"
-						+ "please pass dates such that difference should not exceed 30");
+					throw new DateDifferenceException("difference between start date and end date is more than 30 days");
 				}
+			}
+			else{
+				MessageHeader messageHeader=new MessageHeader();
+				RequestError requestError=new RequestError();
+				requestError.setRsn("start date is greater than end date");
+				messageHeader.setError(requestError); 
+				complianceResponse.setMessageHeader(messageHeader);	
+				throw new DateDifferenceException("start date is greater than end date");
+			}
 		}
 		catch(DateDifferenceException dateDifferenceExceptionMessage){
-			System.out.println(" Exception got due to larger difference betweenthe dates provided : "+dateDifferenceExceptionMessage);
+			System.out.println(" Exception got due to : "+dateDifferenceExceptionMessage);
 		}
-		
+
 		
 		for (Object object : listOfCustormerName) {
 			
@@ -338,9 +346,12 @@ public class ComplianceServiceImpl implements ComplianceService {
 				}
 				else{
 					complianceApps.setAccountNumber(null);
+					System.out.println("outputs[6].toString() in else , having null value =========== ");
 				}
 			}catch(NullPointerException e){
 				System.out.println("outputs[6].toString() in catch =========== ");
+				complianceApps.setAccountNumber(null);
+				System.out.println("################ complianceApps.getAccountNumber() : "+complianceApps.getAccountNumber());
 			}
 			
 			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-MM-dd");

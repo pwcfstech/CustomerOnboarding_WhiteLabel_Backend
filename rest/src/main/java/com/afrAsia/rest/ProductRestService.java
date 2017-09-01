@@ -45,61 +45,40 @@ public class ProductRestService
 	{
 		GenericResponse genericResponse=null;
 		if(productService.getProducts()==null){
-		System.out.println("productService.getProducts().......1.....there's no product");
 		genericResponse=null;
 		}
 		else{
 		genericResponse=productService.getProducts();
 		}
+		logger.info("############ genericResponse in getProdList is : "+genericResponse);
 		return Response.ok(genericResponse, MediaType.APPLICATION_JSON).build();
 
 	}
 	
 	@POST
 	@Path("/getProductDetailsApp")
-	//@Consumes(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProdDetails(String jsonInput) 
 	{
-		/*String productId = "";
-		logger.info(jsonInput);
-		System.out.println(jsonInput);*/
-		
+		logger.info("############ jsonInput from Request in getProdDetails is : "+jsonInput);
 		GenericRequest req = new GenericRequest();
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			System.out.println("jsonInput is ============="+jsonInput);
 			req = mapper.readValue(jsonInput, GenericRequest.class);
-			System.out.println("ProductID from req============="+req.getData().getProductID());
 		} catch (JsonParseException e) {
+			logger.error("############ JsonParseException : "+e.getMessage());
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
+			logger.error("############ JsonMappingException : "+e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
+			logger.error("############ IOException : "+e.getMessage());
 			e.printStackTrace();
 		}
-		System.out.println("ProductID is ==============");
 		String id=req.getData().getProductID(); 
-		System.out.println("ProductID=============="+id);
 		GenericResponse genericResponse=productService.getProductById(Long.parseLong(id));
+		logger.info("############ genericResponse in getProdDetails is : "+genericResponse);
 		return Response.ok(genericResponse, MediaType.APPLICATION_JSON).build();
-
 	}
-	/*public static void main(String[] args) throws Exception
-	{
-		GenericRequest req = new GenericRequest();
-		req.setMsgHeader(null);
-		Data data = new Data();
-		data.setProductID("prod1");
-		req.setData(data);
-		ObjectMapper mapper = new ObjectMapper();
-		String jsonInput = mapper.writeValueAsString(req);
-		System.out.println(mapper.writeValueAsString(req));
-		
-		GenericRequest req1 = mapper.readValue(jsonInput, GenericRequest.class);
-		System.out.println(req1.getData().getProductID());
-		
-	}*/
-
 }
