@@ -28,6 +28,7 @@
 		<property name="oAuthAuthorizationDAO" ref="oAuthAuthorizationDAO" />
 		<property name="userDAO" ref="userJpaDAO" />
 		<property name="rmDetailsDAO" ref="rmDetailsJpaDAO" />
+		<property name="personRepo" ref="personRepo" />
 	</bean>
 
 	<!-- Configure Authentication manager -->
