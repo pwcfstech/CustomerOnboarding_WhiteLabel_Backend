@@ -11,11 +11,13 @@ import javax.persistence.NoResultException;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.afrAsia.customexception.IdNotFoundException;
+import com.afrAsia.dao.RMDetailsDao;
 import com.afrAsia.dao.jpa.AccountCreateJpaDao;
 import com.afrAsia.dao.jpa.ApplicationDetailsJpaDAO;
 import com.afrAsia.dao.jpa.impl.AccountCreateJpaDaoImpl;
 import com.afrAsia.entities.jpa.MsgHeader;
 import com.afrAsia.entities.jpa.MsgHeader.Error;
+import com.afrAsia.entities.masters.RMDetails;
 import com.afrAsia.entities.request.AccountCreationRequest;
 import com.afrAsia.entities.request.AccountCreationRequest.AccountDetails;
 import com.afrAsia.entities.request.ApplicantDetails;
@@ -49,6 +51,16 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 	private AccountCreateJpaDao accountCreateDao = new AccountCreateJpaDaoImpl();
 
 	private ApplicationDetailsJpaDAO applicationDetailsDAO;
+	
+	private RMDetailsDao rmDetailsDAO;
+
+	public RMDetailsDao getRmDetailsDAO() {
+		return rmDetailsDAO;
+	}
+
+	public void setRmDetailsDAO(RMDetailsDao rmDetailsDAO) {
+		this.rmDetailsDAO = rmDetailsDAO;
+	}
 
 	public AccountCreateJpaDao getAccountCreateDao() {
 		return accountCreateDao;
@@ -1104,5 +1116,11 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		Integer numberOfRecords=accountCreateDao.updateAplicantRecordId(accountCreationRequest.getData().getAppRefNo(),recordId);
 		return numberOfRecords; 
 	}
+	
+	@Transactional(readOnly = false, rollbackFor = {Exception.class}) 
+	public RMDetails getRMDetails(String RMId){
+    	RMDetails rmDetails = rmDetailsDAO.getRMDetailByRMId(RMId);
+    	return rmDetails;
+    }
 
 }

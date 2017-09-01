@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.naming.NamingException;
 import javax.ws.rs.Consumes;
@@ -13,24 +14,22 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.mail.MessagingException;
 
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.CommonUtils;
-
 import com.afrAsia.Utils.AfrAsiaEmailUtility;
 import com.afrAsia.Utils.AfrAsiaMailConfig;
-
+import com.afrAsia.Utils.AfrAsiaSMSUtility;
 import com.afrAsia.entities.jpa.MsgHeader;
 import com.afrAsia.entities.jpa.MsgHeader.Error;
+import com.afrAsia.entities.masters.RMDetails;
 import com.afrAsia.entities.request.AccountCreationRequest;
 import com.afrAsia.entities.request.AccountCreationRequest.Data;
 import com.afrAsia.entities.request.ApplicantDetails;
 import com.afrAsia.entities.request.JointApplicants;
 import com.afrAsia.entities.request.NomineeInfo;
 import com.afrAsia.entities.response.AccountCreateResponse;
-
 import com.afrAsia.service.AccountCreationService;
 
 @Component
@@ -75,14 +74,17 @@ public class AccountCreationRestService {
 					System.out.println(" ########### in create service ############## ");
 					accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
 
+					Data accountCreationData = accountCreationRequest.getData();
+					String primApplicantName = accountCreationData.getPrimaryApplicantDetail().getFirstName();
+					String rmName = "";
+					RMDetails rmDetails = accountCreationService.getRMDetails(accountCreationData.getRmId());
+					if(rmDetails!=null)
+					{
+						rmName=rmDetails.getRmName();
+					}
+					sendEmailToCustomer(accountCreationRequest);
 
-					//sendEmailToCustomer();
-
-//					String smsContent = "Dear [First Name], thank you for your interest in AfrAsia Bank. "
-//							+ "Your application is currently under process with application number" 
-//							+ accountCreationResponse.getData().getRefNo() 
-//							+ ".We shall update you as soon as your account is opened. Regards, AfrAsia Bank Team";
-//					sendSMSToCustomer(smsContent);
+					//sendSMSToCustomer(accountCreationRequest,accountCreationResponse);
 
 
 
@@ -595,23 +597,31 @@ public class AccountCreationRestService {
 
 	}
 
-	public void sendEmailToCustomer(){
+	public void sendEmailToCustomer(AccountCreationRequest accountCreationRequest){
 		String host = afrAsiaMailConfig.getMailhost();
 		String port = afrAsiaMailConfig.getMailport();
 		String mailFrom = afrAsiaMailConfig.getMailFrom();
 		String password = afrAsiaMailConfig.getMailPassword();
 		String smtpAuthRequired=afrAsiaMailConfig.getSmtpAuthRequired();
 		String smtpAuthstarttls=afrAsiaMailConfig.getSmtpAuthRequired();
-		String toAddress="neha.marda@gmail.com";
-		String subject="Test Mail";
-
-		String message="Dear [First Name]," +
+		String subject="Welcome to AfrAsia";
+		
+		Data accountCreationData = accountCreationRequest.getData();
+		String primApplicantName = accountCreationData.getPrimaryApplicantDetail().getFirstName();
+		String toAddress = accountCreationData.getPrimaryApplicantDetail().getEmail();
+		String rmName = "";
+		RMDetails rmDetails = accountCreationService.getRMDetails(accountCreationData.getRmId());
+		if(rmDetails!=null)
+		{
+			rmName=rmDetails.getRmName();
+		}
+		String message="Dear "+primApplicantName+"," +
 				"Welcome to AfrAsia Bank and thank you for choosing us as your banking partner. Your application is currently under process with application number [XXX]. We shall update you as soon as your account is opened." +
 				"In the meantime, we invite you to browse our website www.afrasiabank.com for a detailed overview of our banking solutions, and our pioneering rewards programme, AfrAsia XtraMiles." +
 				"We remain at your disposal should you wish to discuss about your financial aspirations and how we can be of more relevance to you." +
 				"Thank you for your trust and we hope that our team measures up to your expectations." +
 				"Kind regards," + 
-				"Relationship manager (name)";
+				"Relationship manager ("+rmName+")";
 
 
 
@@ -631,14 +641,36 @@ public class AccountCreationRestService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 
-	public void sendSMSToCustomer(String text){
+	public void sendSMSToCustomer(AccountCreationRequest accountCreationRequest, AccountCreateResponse accountCreationResponse){
+		String primApplicantName = accountCreationRequest.getData().getPrimaryApplicantDetail().getFirstName();
+		String smsContent = "Dear "+primApplicantName+", thank you for your interest in AfrAsia Bank. "
+				+ "Your application is currently under process with application number" 
+				+ accountCreationResponse.getData().getRefNo() 
+				+ ".We shall update you as soon as your account is opened. Regards, AfrAsia Bank Team";
+		String mobNo = accountCreationRequest.getData().getPrimaryApplicantDetail().getMobNoCountryCode().toString()+accountCreationRequest.getData().getPrimaryApplicantDetail().getMobNo().toString();
 		String url = "http://41.212.214.205:81/cgi-bin/BMP_SendTextMsg?"
 				+ "UserName=afrasia1&PassWord=4fr4s14&UserData="
-				+ text
+				+ smsContent
 				+ "&Concatenated=0&SenderId=23052581818&Deferred=false&Number="
-				+ "23051234567"
+				+ mobNo
 				+ "&Dsr=false";
-	}	}
+		
+		try {
+			AfrAsiaSMSUtility.sendSMS(url);
+			System.out.println("SMS sent success");
+		}  catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}	
+}

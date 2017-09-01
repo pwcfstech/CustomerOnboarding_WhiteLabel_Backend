@@ -19,9 +19,14 @@
 						http://jax-ws.dev.java.net/spring/core					http://jax-ws.dev.java.net/spring/core.xsd
 						http://jax-ws.dev.java.net/spring/servlet				http://jax-ws.dev.java.net/spring/servlet.xsd">
 
-	<import resource="classpath*:**/applicationContext-services.xml"/>
+	<!-- <import resource="classpath*:**/applicationContext-services.xml"/>
 	<import resource="classpath*:**/applicationContext-configuration-authentication.xml"/>
-	<import resource="classpath*:**/applicationContext-exception-management.xml"/>
+	<import resource="classpath*:**/applicationContext-exception-management.xml"/> -->
+	<!--  Weblogic -->
+	<import resource="applicationContext-services.xml"/>
+	<import resource="classpath*:**/*applicationContext-configuration-authentication.xml"/>
+	<import resource="classpath*:**/*applicationContext-exception-management.xml"/>
+	
 	
 	<!--   <context:component-scan base-package="com.afrAsia"></context:component-scan> -->
 	

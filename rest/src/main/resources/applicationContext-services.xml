@@ -1,0 +1,145 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	
+	xsi:schemaLocation="http://www.springframework.org/schema/security/oauth2 	http://www.springframework.org/schema/security/spring-security-oauth2-2.0.xsd
+						http://www.springframework.org/schema/security 			http://www.springframework.org/schema/security/spring-security-3.2.xsd
+						http://www.springframework.org/schema/beans 			http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+						http://www.springframework.org/schema/context 			http://www.springframework.org/schema/context/spring-context-4.1.xsd
+						http://www.springframework.org/schema/util 				http://www.springframework.org/schema/util/spring-util-4.1.xsd
+						http://www.springframework.org/schema/tx 					http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+						http://www.springframework.org/schema/jdbc 					http://www.springframework.org/schema/tx/spring-jdbc-4.1.xsd
+						http://www.springframework.org/schema/aop 					http://www.springframework.org/schema/tx/spring-aop-4.1.xsd">
+
+	
+
+	<!-- <import resource="classpath*:**/applicationContext-dao-jpa.xml"/>
+	<import resource="classpath*:**/applicationContext-exception-management.xml"/> -->
+	
+	<!--  Weblogic -->
+	<import resource="applicationContext-dao-jpa.xml"/>
+	<import resource="classpath*:**/*applicationContext-exception-management.xml"/>
+	
+	
+	
+	<util:properties id="ldapProperties" location="file:ldap.properties" ignore-resource-not-found="false" />
+	<bean id="dateDifferenceException" class="com.afrAsia.customexception.DateDifferenceException">
+		<!-- <property name="dateDifferenceException" ref="dateDifferenceException" /> -->
+	</bean>
+	
+	<bean id="idNotFoundException" class="com.afrAsia.customexception.IdNotFoundException">
+		<!-- <property name="idNotFoundException" ref="idNotFoundException" /> -->
+	</bean>
+	
+	<bean id="userService" class="com.afrAsia.service.impl.UserServiceImpl">
+		<property name="userDAO" ref="userJpaDAO" />
+	</bean>
+	
+	
+	<bean id="dtdpsService" class="com.afrAsia.service.impl.DTDPSServiceImpl">
+		<property name="dtdpsDAO" ref="dtdpsJpaDAO" />
+	</bean>
+	<bean id="appVersionService" class="com.afrAsia.service.impl.AppVersionServiceImpl">
+		<property name="appVersionDAO" ref="appVersionJpaDAO" />
+	</bean>
+
+	<bean id="productService" class="com.afrAsia.service.impl.ProductServiceImpl">
+		<property name="categoryDao" ref="categoryJpaDAO" />
+		<property name="productDao" ref="productJpaDAO" />
+		<property name="productDetailsDao" ref="productDetailsJpaDao" />
+	</bean>
+	<bean id="masterDataService" class="com.afrAsia.service.impl.MasterDataServiceImpl">
+		<property name="accountClassDAO" ref="accountClassJpaDAO" />
+		<property name="categoryMasterDAO" ref="categoryMasterJpaDAO" />
+		<property name="countryDAO" ref="countryJpaDAO" />
+		<property name="employmentDAO" ref="employmentJpaDAO" />
+		<property name="maritalStatusDAO" ref="maritalStatusJpaDAO" />
+		<property name="prefixDAO" ref="prefixJpaDAO" />
+		<property name="rmDetailsDAO" ref="rmDetailsJpaDAO" />
+		<property name="uidTypeDAO" ref="uidTypeJpaDAO" />
+		<property name="accountTypeDAO" ref="accountTypeJpaDao" />
+		<property name="afrAsiaFirstDAO" ref="afrAsiaFirstJpaDao" />
+	</bean>
+
+	<bean id="dashBoardService" class="com.afrAsia.service.impl.DashBoardServiceImpl">
+		<property name="dashBoardDao" ref="dashBoardJpaDao" />
+	</bean>
+	
+	<bean id="rmApplicationsAppService" class="com.afrAsia.service.impl.RmApplicationsAppServiceImpl">
+		<property name="rmApplicationsAppDao" ref="rmApplicationsAppJpaDAO" />
+	</bean>
+	
+	<bean id="rmDetailsService" class="com.afrAsia.service.impl.RMDetailsServiceImpl">
+		<property name="rmDetailsDao" ref="rmDetailsDAO" />
+	</bean> 
+	
+	<bean id="addCommentService" class="com.afrAsia.service.impl.AddCommentServiceImpl">
+		<property name="addCommentDao" ref="addCommentJpaDao" />
+	</bean>
+	
+	<bean id="complianceService" class="com.afrAsia.service.impl.ComplianceServiceImpl">
+		<property name="complianceDao" ref="complianceJpaDao" />
+	</bean>
+	
+	<bean id="authenticationService" class="com.afrAsia.service.impl.AuthenticationServiceImpl" >
+		<property name="oAuthAuthorizationDAO" ref="oAuthAuthorizationDAO" />
+		<property name="rmDetailsService" ref="rmDetailsService" />
+		<property name="tokenServices" ref="tokenServices" />
+		<property name="oAuth2RequestFactory" ref="oAuth2RequestFactory" />
+		<property name="customClientDetailsService" ref="clientDetails" />
+		<property name="rmSessionDetailJpaDAO" ref="rmSessionDetailJpaDAO" />
+		<property name="url" value="#{ldapProperties[ldapUrl]}" />
+		<property name="authenticationType" value="#{ldapProperties[ldapAuthenticationType]}" />
+		<property name="contextFactory" value="#{ldapProperties[ldapContextFactory]}" />
+	</bean>
+	
+	<bean id="tokenStore"
+		class="org.springframework.security.oauth2.provider.token.store.JdbcTokenStore">
+		<constructor-arg ref="dataSource" />
+	</bean>
+
+	<bean id="tokenServices"
+		class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
+		<property name="tokenStore" ref="tokenStore" />
+		<property name="supportRefreshToken" value="false" />
+		<property name="clientDetailsService" ref="clientDetails" />
+		<property name="accessTokenValiditySeconds" value="1800000000" />
+		<!-- <property name="accessTokenValiditySeconds" value="180" /> -->
+	</bean>
+
+	<bean id="clientDetails"
+		class="com.afrAsia.authenticate.impl.CustomClientDetailsServiceImpl">
+		<property name="oAuthAuthorizationDAO" ref="oAuthAuthorizationDAO" />
+		<property name="userDAO" ref="userJpaDAO" />
+		<property name="rmDetailsDAO" ref="rmDetailsDAO" />
+	</bean>
+	
+	<bean id="oAuth2RequestFactory"
+		class="org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory">
+		<property name="checkUserScopes" value="true" />
+		<constructor-arg ref="clientDetails" />
+	</bean>
+	
+	<bean id="accountCreationService" class="com.afrAsia.service.impl.AccountCreationServiceImpl">
+		<property name="accountCreateDao" ref="accountCreateJpaDao" /> 
+		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" />
+	</bean>
+	
+	<bean id="applicationDetailsService" class="com.afrAsia.service.impl.ApplicationDetailsServiceImpl">
+		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" />
+	</bean>
+	
+	<!-- Upload KYC document service bean -->
+	<bean id="kycService" class="com.afrAsia.service.impl.KYCServiceImpl">
+		<property name="uploadKYCDao" ref="uploadKYCJpaDao" /> 
+		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" /> 
+		<property name="dashBoardDao" ref="dashBoardJpaDao" /> 
+	</bean>
+	
+	<bean id="kycDocDownloadService" class="com.afrAsia.service.impl.KycDocDownloadServiceImpl">
+		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" />
+	</bean>
+</beans>						

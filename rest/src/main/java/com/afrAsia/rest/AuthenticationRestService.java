@@ -10,9 +10,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.CommonUtils;
+import com.afrAsia.Utils.AfrAsiaLogger;
 import com.afrAsia.entities.request.LoginDataRequest;
 import com.afrAsia.entities.request.LoginRequest;
 import com.afrAsia.entities.request.LogoutRequest;
@@ -34,6 +36,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Path("{version}")
 public class AuthenticationRestService 
 {
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
 	private AuthenticationService authenticationService;
 	
 	public AuthenticationService getAuthenticationService() 
@@ -55,15 +61,17 @@ public class AuthenticationRestService
 		LoginResponse response = null;
 		try
 		{
-			System.out.println("try of rest ====== "+loginStringRequest);
+			
 			LoginRequest loginRequest = CommonUtils.jsonStringToObject(loginStringRequest, LoginRequest.class);
-			System.out.println("Value of login request::" + loginRequest.toString());
+			//System.out.println("Value of login request::" + loginRequest.toString());
+			infoLog.info("Value of login request::" + loginRequest.toString());
 			response = authenticationService.login(loginRequest);
 		}
 		catch (Exception e)
 		{
-			System.out.println("in catch of rest ====== ");
+			AfrAsiaLogger.infoLog("in catch of rest ====== ");
 			e.printStackTrace();
+			errorLog.error("error :", e);
 			MessageHeader msgHeader = new MessageHeader();
 			RequestError error = new RequestError();
 			error.setCd("401");
@@ -95,6 +103,7 @@ public class AuthenticationRestService
 		catch (Exception e)
 		{
 			e.printStackTrace();
+			AfrAsiaLogger.errorLog("error :", e);
 			MessageHeader msgHeader = new MessageHeader();
 			RequestError error = new RequestError();
 			error.setCd("401");
@@ -141,6 +150,6 @@ public class AuthenticationRestService
 		req.setData(data);
 		
 		ObjectMapper mapper = new ObjectMapper();
-		System.out.println(mapper.writeValueAsString(req));
+		AfrAsiaLogger.infoLog(mapper.writeValueAsString(req));
 	}
 }
