@@ -13,8 +13,7 @@ import java.util.Date;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.afrAsia.dao.jpa.ApplicationDetailsJpaDAO;
@@ -45,8 +44,12 @@ import com.itextpdf.text.pdf.PdfWriter;
  *
  */
 public class KYCServiceImpl implements KYCService {
-	private static final Logger logger = LoggerFactory.getLogger(KYCServiceImpl.class);
 
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
+	
 	private static final String SIGNATURE = "Signature";
 	private static final String STATUS_UNDER_PROCESSING = "Under Processing";
 	private static final String SIG_PATH = "C:/App_Share_IN/Afrasia_Docs/Signature/";
@@ -74,15 +77,15 @@ public class KYCServiceImpl implements KYCService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.afrAsia.service.KYCService#uploadKYC(com.afrAsia.entities.request.
+	 * com.afrAsia.service.KYCServiceuploadKYC(com.afrAsia.entities.request.
 	 * KYCDataRequest, java.io.InputStream)
 	 */
 	@Transactional(readOnly = false, rollbackFor = {Exception.class})
 	public KYCResponse uploadKYC(KYCDataRequest kycDataRequest, InputStream image) {
-		if (logger.isDebugEnabled()) {
-			logger.info("Enter : KYCService#uploadKYC()");
+		if (debugLog.isDebugEnabled()) {
+			debugLog.debug("Enter : KYCServiceuploadKYC()");
 		}
-		System.out.println("Enter : KYCService#uploadKYC()");
+		System.out.println("Enter : KYCServiceuploadKYC()");
 		KYCResponse response = new KYCResponse();
 		KYCDataResponse data = new KYCDataResponse();
 		if (this.validateKycRequest(kycDataRequest, image)) {
@@ -110,7 +113,9 @@ public class KYCServiceImpl implements KYCService {
 				System.out.println("appId : " + appId + ", applicantId : " + applicantId + ", docId : " + docId
 						+ ", ignorePrevious : " + ignorePrevious + ", isLastPage : " + isLastPage + ", noOfPages : "
 						+ noOfPages + ", currentPageNo : " + currentPageNo+", firstName : "+firstName+", lastName : "+lastName);
-				
+				infoLog.info("appId : " + appId + ", applicantId : " + applicantId + ", docId : " + docId
+						+ ", ignorePrevious : " + ignorePrevious + ", isLastPage : " + isLastPage + ", noOfPages : "
+						+ noOfPages + ", currentPageNo : " + currentPageNo+", firstName : "+firstName+", lastName : "+lastName);
 				// Signature file format :
 				// AppId_ApplicantId_FN_LN_DocumentId_Date(DD-MM-YYY)_Time(HH-MM).jpg
 				// Path : /Signature/ApplicantId
@@ -171,9 +176,9 @@ public class KYCServiceImpl implements KYCService {
 				}
 				data.setSuccess("1");
 			} catch (Exception e) {
-				logger.error("Error : KYCService#uploadKYC()", e);
+				errorLog.error("Error : KYCServiceuploadKYC()", e);
 				e.printStackTrace();
-				System.out.println("Error : KYCService#uploadKYC() "+ e);
+				System.out.println("Error : KYCServiceuploadKYC() "+ e);
 				MessageHeader msgHeader = new MessageHeader();
 				RequestError error = new RequestError();
 				error.setCd("002");
@@ -192,15 +197,17 @@ public class KYCServiceImpl implements KYCService {
 			msgHeader.setError(error);
 			response.setMsgHeader(msgHeader);
 			data.setSuccess("0");
-			if (logger.isDebugEnabled()) {
-				logger.info("Invalid input data in uploadKYC()");
+			if (debugLog.isDebugEnabled()) {
+				debugLog.debug("Invalid input data in uploadKYC()");
 			}
+			errorLog.error("Invalid input data in uploadKYC()");
 		}
 
 		response.setData(data);
-		if (logger.isDebugEnabled()) {
-			logger.info("Exit : KYCService#uploadKYC()");
+		if (debugLog.isDebugEnabled()) {
+			debugLog.debug("Exit : KYCServiceuploadKYC()");
 		}
+		infoLog.info("response in uploadKYC(),KYCServiceImpl : "+response);
 		return response;
 	}
 
@@ -252,6 +259,7 @@ public class KYCServiceImpl implements KYCService {
 			
 		}
 		System.out.println("isValid : " + isValid + " kycDataRequest : " + kycDataRequest + " image : " + image);
+		infoLog.info("isValid : " + isValid + " kycDataRequest : " + kycDataRequest + " image : " + image);
 		System.out.println("Exit : validateKycRequest()");
 		return isValid;
 	}
@@ -351,6 +359,7 @@ public class KYCServiceImpl implements KYCService {
 						/*PdfContentByte under = stamper.getUnderContent(currentPage);
 						under.reset();
 						this.addImagetoCurrentPage(img, under);*/
+						errorLog.error("Page : " + currentPage + " is already added in pdf.");
 						throw new Exception("Page : " + currentPage + " is already added in pdf.");
 						
 					} else if (reader.getNumberOfPages() + 1 == currentPage) {
@@ -360,6 +369,7 @@ public class KYCServiceImpl implements KYCService {
 						this.addImagetoCurrentPage(img, under);
 						
 					} else {
+						errorLog.error("'currentPageNo' should be " + (reader.getNumberOfPages() + 1));
 						throw new Exception("'currentPageNo' should be " + (reader.getNumberOfPages() + 1));
 					}
 					System.out.println("NumberOfPages : " + reader.getNumberOfPages());
@@ -378,6 +388,7 @@ public class KYCServiceImpl implements KYCService {
 				this.deleteFiles(files);
 				isNew = true;
 			} else if (!ignorePrevious && currentPage > 1 && files.length < 1) {
+				errorLog.error("No file exist! 'currentPageNo' should be 1 (one).");
 				throw new Exception("No file exist! 'currentPageNo' should be 1 (one).");
 			} else if (!ignorePrevious && currentPage == 1 && files.length < 1) {
 				isNew = true;
@@ -431,6 +442,7 @@ public class KYCServiceImpl implements KYCService {
 	private void deleteFiles(File[] files) {
 		System.out.println("Enter : deleteFiles()");
 		for (File f : files) {
+			infoLog.info("Deleted File name : " + f.getName());
 			System.out.println("Deleted File name : " + f.getName());
 			f.delete();
 		}
@@ -453,6 +465,7 @@ public class KYCServiceImpl implements KYCService {
 			document = new Document(PageSize.A4);
 			PdfWriter.getInstance(document, new FileOutputStream(directory + "/" + filename));
 			Image img = Image.getInstance(ImageIO.read(image), null);
+			
 			System.out.println("img.getHeight() : " + img.getHeight() + "img.getWidth() : " + img.getWidth());
 			if (img.getWidth() > PageSize.A4.getWidth() - 100) {
 				float scaler = ((PageSize.A4.getWidth() - 100) / img.getWidth()) * 100;
@@ -461,6 +474,7 @@ public class KYCServiceImpl implements KYCService {
 			} else {
 				img.setAbsolutePosition(50, PageSize.A4.getHeight() - 50 - img.getHeight());
 			}
+			infoLog.info("img.getHeight() : " + img.getHeight() + "img.getWidth() : " + img.getWidth());
 			System.out.println("img.getHeight() : " + img.getHeight() + "img.getWidth() : " + img.getWidth());
 			document.open();
 			document.add(img);
@@ -543,15 +557,15 @@ public class KYCServiceImpl implements KYCService {
 //	 * (non-Javadoc)
 //	 * 
 //	 * @see
-//	 * com.afrAsia.service.KYCService#uploadKYC(com.afrAsia.entities.request.
+//	 * com.afrAsia.service.KYCServiceuploadKYC(com.afrAsia.entities.request.
 //	 * KYCDataRequest, java.io.InputStream)
 //	 */
 //	@Transactional(readOnly = false, rollbackFor = {Exception.class})
 //	public KYCResponse uploadKYC(KYCDataRequest kycDataRequest, InputStream image) {
 //		if (logger.isDebugEnabled()) {
-//			logger.info("Enter : KYCService#uploadKYC()");
+//			logger.info("Enter : KYCServiceuploadKYC()");
 //		}
-//		System.out.println("Enter : KYCService#uploadKYC()");
+//		System.out.println("Enter : KYCServiceuploadKYC()");
 //		KYCResponse response = new KYCResponse();
 //		KYCDataResponse data = new KYCDataResponse();
 //		if (this.validateKycRequest(kycDataRequest, image)) {
@@ -635,9 +649,9 @@ public class KYCServiceImpl implements KYCService {
 //				uploadKYCDao.saveKYCDocLocation(kycDocs);
 //				data.setSuccess("1");
 //			} catch (Exception e) {
-//				logger.error("Error : KYCService#uploadKYC()", e);
+//				logger.error("Error : KYCServiceuploadKYC()", e);
 //				e.printStackTrace();
-//				System.out.println("Error : KYCService#uploadKYC() "+ e);
+//				System.out.println("Error : KYCServiceuploadKYC() "+ e);
 //				MessageHeader msgHeader = new MessageHeader();
 //				RequestError error = new RequestError();
 //				error.setCd("002");
@@ -663,7 +677,7 @@ public class KYCServiceImpl implements KYCService {
 //
 //		response.setData(data);
 //		if (logger.isDebugEnabled()) {
-//			logger.info("Exit : KYCService#uploadKYC()");
+//			logger.info("Exit : KYCServiceuploadKYC()");
 //		}
 //		return response;
 //	}

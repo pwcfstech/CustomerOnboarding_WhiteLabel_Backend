@@ -2,6 +2,8 @@ package com.afrAsia.service.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.afrAsia.dao.AccountTypeDao;
 import com.afrAsia.dao.AfrAsiaFirstDao;
 import com.afrAsia.dao.jpa.AccountClassJpaDAO;
@@ -26,6 +28,10 @@ import com.afrAsia.service.MasterDataService;
 
 public class MasterDataServiceImpl implements MasterDataService {
 
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
 	private AccountClassJpaDAO accountClassDAO;
 	private CategoryMasterJpaDAO categoryMasterDAO;
 	private CountryJpaDAO countryDAO;
@@ -102,42 +108,42 @@ public class MasterDataServiceImpl implements MasterDataService {
 	}
 
 	public List<AccountClass> getAccountClass() {
-
+		infoLog.info("accountClassDAO.getAccountClass() in MasterDataServiceImpl : "+accountClassDAO.getAccountClass());
 		return accountClassDAO.getAccountClass();
 	}
 
 	public List<CategoryMaster> getCategoryList() {
-
+		infoLog.info("categoryMasterDAO.getCategoryList() in MasterDataServiceImpl : "+categoryMasterDAO.getCategoryList());
 		return categoryMasterDAO.getCategoryList();
 	}
 
 	public List<Country> getCountryList() {
-
+		infoLog.info("(List<Country>) countryDAO.getCountry() in MasterDataServiceImpl : "+(List<Country>) countryDAO.getCountry());
 		return (List<Country>) countryDAO.getCountry();
 	}
 
 	public List<Employment> getEmployment() {
-
+		infoLog.info("(List<Employment>) employmentDAO.getEmployment() in MasterDataServiceImpl : "+(List<Employment>) employmentDAO.getEmployment());
 		return (List<Employment>) employmentDAO.getEmployment();
 	}
 
 	public List<MaritalStatus> getMaritalStatus() {
-
+		infoLog.info("maritalStatusDAO.getMaritalStatus() in MasterDataServiceImpl : "+maritalStatusDAO.getMaritalStatus());
 		return maritalStatusDAO.getMaritalStatus();
 	}
 
 	public List<Prefix> getPrefix() {
-
+		infoLog.info("prefixDAO.getPrefix() in MasterDataServiceImpl : "+prefixDAO.getPrefix());
 		return prefixDAO.getPrefix();
 	}
 
 	public List<RMDetails> getRMDetails() {
-
+		infoLog.info("rmDetailsDAO.getRMDetails() in MasterDataServiceImpl : "+rmDetailsDAO.getRMDetails());
 		return rmDetailsDAO.getRMDetails();
 	}
 
 	public List<UIDType> getUIDType() {
-
+		infoLog.info("uidTypeDAO.getUIDType() in MasterDataServiceImpl : "+uidTypeDAO.getUIDType());
 		return uidTypeDAO.getUIDType();
 	}
 

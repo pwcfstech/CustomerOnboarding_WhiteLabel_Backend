@@ -1,6 +1,5 @@
 package com.afrAsia.entities.response;
 
-import java.util.Date;
 /**
  * 
  * @author nyalfernandes
@@ -11,7 +10,7 @@ public class LoginDataResponse
 	private String success;
 	private String rmName;
 	private String oAuthToken;
-	private Date lastLoginTime;
+	private long lastLoginTime;
 	
 	public String getSuccess() {
 		return success;
@@ -31,14 +30,10 @@ public class LoginDataResponse
 	public void setoAuthToken(String oAuthToken) {
 		this.oAuthToken = oAuthToken;
 	}
-	public Date getLastLoginTime() {
+	public long getLastLoginTime() {
 		return lastLoginTime;
 	}
-	public void setLastLoginTime(Date lastLoginTime) {
+	public void setLastLoginTime(long lastLoginTime) {
 		this.lastLoginTime = lastLoginTime;
 	}
-	
-	
-	
-	
 }

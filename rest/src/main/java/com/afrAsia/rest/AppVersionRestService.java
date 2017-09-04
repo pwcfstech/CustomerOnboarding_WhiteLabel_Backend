@@ -10,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.CommonUtils;
@@ -27,6 +28,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Path("{version}")
 public class AppVersionRestService {
+	
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
 	private AppVersionService appVersionService;
 
 	public AppVersionService getAppVersionService() {
@@ -42,21 +48,23 @@ public class AppVersionRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAppversion(InputStream request) {
+		
+		infoLog.info(" request in getAppversion(),AppVersionRestService is : "+request);
 		DeviceFootPrintReq deviceFootPrintReq=null;
 		try{
 			 deviceFootPrintReq= new ObjectMapper().readValue(request, DeviceFootPrintReq.class);
 		
 		}catch(Exception e){
+			errorLog.error(" Exception for deviceFootPrintReq in getAppversion(),AppVersionRestService is :"+e.getMessage());
 			e.printStackTrace();
-			AfrAsiaLogger.errorLog("error :", e);
+			//AfrAsiaLogger.errorLog("error :", e);
 		}
 		DeviceFootPrintResponse deviceFootPrintResponse= new DeviceFootPrintResponse();
 		MsgHeader msgHeader= new MsgHeader();
 		Data data= new DeviceFootPrintResponse().new Data();
-		AfrAsiaLogger.debugLog(""+deviceFootPrintReq.toString());
+		//AfrAsiaLogger.debugLog(""+deviceFootPrintReq.toString());
+		debugLog.debug("deviceFootPrintReq : "+deviceFootPrintReq.toString());
 		
-		System.out.println(deviceFootPrintReq.toString());
-		System.out.println("here in rest Service");
 		try{
 			if (validateRequest(deviceFootPrintReq)) {
 				
@@ -65,7 +73,7 @@ public class AppVersionRestService {
 				try{
 					deviceFootPrint = appVersionService.getDeviceFootPrint(deviceId);
 				}catch(Exception e){
-					
+					errorLog.error(" Exception for deviceFootPrint in getAppversion(),AppVersionRestService is :"+e.getMessage());
 				}
 				if (deviceFootPrint == null) {
 					deviceFootPrint = new DeviceFootPrint();
@@ -80,7 +88,6 @@ public class AppVersionRestService {
 				AppVersion appVersion = appVersionService.getAppVersionDetails(deviceFootPrintReq.getData().getOsName(),
 						deviceFootPrintReq.getData().getAppVersionId());
 				if (appVersion!=null && "L".equalsIgnoreCase(appVersion.getStatus())) {
-					System.out.println("App version is latest ");
 					data.setAppVersionStatus("L");
 					data.setActiveVersionNo(appVersion.getAppVersionId().getAppVersionId());
 					data.setAppDownloadLink("null");
@@ -95,10 +102,8 @@ public class AppVersionRestService {
 					Date releaseDate = latestAppVersion.getReleaseDate();
 					Integer gracePeriod = latestAppVersion.getGracePeriod();
 					Integer actualGrace = gracePeriod;
-					System.out.println("releaseDate "+releaseDate+" gracePeriod "+gracePeriod);
 					if (gracePeriod != null) {
 						Date graceDate = CommonUtils.addDay(releaseDate, gracePeriod);
-						System.out.println("Gracedate "+graceDate);
 						Date sysdate = new Date();
 						Long diff = (graceDate.getTime() - sysdate.getTime());
 						actualGrace = (int) (diff / (1000l * 60L * 60L * 24L));
@@ -111,7 +116,6 @@ public class AppVersionRestService {
 					} else {
 						data.setAppUpgradeMessage("New APP IS AVAILABLE");
 					}
-					System.out.println("App version is deprecatd " + actualGrace);
 					data.setActiveVersionNo(latestAppVersion.getAppVersionId().getAppVersionId());
 					data.setAppDownloadLink(latestAppVersion.getDownloadUrl());
 					data.setAppVersionStatus("D");
@@ -127,15 +131,13 @@ public class AppVersionRestService {
 				error.setCd("404");
 				error.setRsn("invaild Request");
 				msgHeader.setError(error);*/
-				
-				
 			}
 		}catch(Exception e){
+			errorLog.error("Exception in getAppversion(),AppVersionRestService is :"+e.getMessage());
 			e.printStackTrace();
-			
 		}
 		//AppVersion appVersion = appVersionService.getLatestVersion("Android");
-		//System.out.println(appVersion.toString());
+		infoLog.info(" deviceFootPrintResponse in getAppversion(),AppVersionRestService is : "+deviceFootPrintResponse);
 		return Response.ok(deviceFootPrintResponse, MediaType.APPLICATION_JSON).build();
 
 	}
@@ -183,7 +185,7 @@ public class AppVersionRestService {
 		deviceFootPrint.setAppVersionId(deviceFootPrintReq.getData().getAppVersionId());
 		deviceFootPrint.setModifiedBy("Admin");// TODO Change
 		deviceFootPrint.setModifiedDate(new Date());
-
+		infoLog.info("deviceFootPrint in createDeviceFootPrintModel(),AppVersionRestService is : ");
 		return deviceFootPrint;
 	}
 	private boolean validateRequest(DeviceFootPrintReq deviceFootPrintReq) {
@@ -195,10 +197,10 @@ public class AppVersionRestService {
 				&& CommonUtils.checkNullorBlank(deviceFootPrintReq.getData().getDeviceModelNo())
 				&& CommonUtils.checkNullorBlank(deviceFootPrintReq.getData().getDeviceManufacturer())
 				&& CommonUtils.checkNullorBlank(deviceFootPrintReq.getData().getConnectionMode())) {
+			infoLog.info("valid Request from Device Footprint");
 			return true;
-
 		} else {
-			System.out.println("Invalid Request from Device Footprint ");
+			errorLog.error("Invalid Request from Device Footprint ");
 			return false;
 		}
 	}

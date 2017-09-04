@@ -2,13 +2,14 @@ package com.afrAsia.dao;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import com.afrAsia.entities.jpa.ApplicationReference;
 
 public interface DashBoardDao {
 	
-	public List<String> getId(String id);
+	//public List<String> getId(String id);
+	
+	public String getRmId(String rmUserId);
 
 	public Collection<ApplicationReference> getMonthly(String rmId);
 

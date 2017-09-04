@@ -2,31 +2,29 @@ package com.afrAsia.rest;
 
 import java.io.File;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.StreamingOutput;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import com.afrAsia.service.KycDocDownloadService;
 import com.afrAsia.entities.request.KycDocDownloadRequest;
+import com.afrAsia.service.KycDocDownloadService;
 
 /* Author : FS Tech/Neha Chandak */
 
 @Component
 @Path("{version}")
 public class KycDocDownloadRestService {
+	
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
 
 	private KycDocDownloadService kycDocDownloadService;
 
@@ -54,8 +52,7 @@ public class KycDocDownloadRestService {
 	public Response getKyCDoc(KycDocDownloadRequest kycDocDownloadRequest) {
 		// write model in the and user getter method extract the key e.g model.getkey()
 		// user service.getDocument( pass the key) path and set the path in filePath variable
-
-		System.out.println("KYC Request:" + kycDocDownloadRequest);
+		infoLog.info(" kycDocDownloadRequest in getKyCDoc(),KycDocDownloadRestService is : "+kycDocDownloadRequest);
 		String filepath = kycDocDownloadService.getKycDocPath(kycDocDownloadRequest.getData().getRefNo(), kycDocDownloadRequest.getData().getApplicantRefNo(),kycDocDownloadRequest.getData().getDocId());
 
 		//String filepath="C:/Users/nehac038/Documents/NehaDocsPersonal/ToPrint/Fitness.pdf";
@@ -77,7 +74,6 @@ public class KycDocDownloadRestService {
 	                } 
 	                catch (Exception e) 
 	                {
-	                	System.out.println("Exception occoured in getKycMathod :"+e);
 	                    throw new WebApplicationException("Invalid file Path");
 	                    return Response.serverError().build();
 	                }
@@ -97,10 +93,8 @@ public class KycDocDownloadRestService {
 			return response.header("content-disposition",downLoadfileName)
 					.build();
 		}catch(Exception e){
-			System.out.println("Exception occoured in getKycMathod :"+e);
+			errorLog.error(" Exception occoured in getKyCDoc(),KycDocDownloadRestService "+e.getMessage());
 			return Response.serverError().build();
-
-
 		}	
 	}
 }

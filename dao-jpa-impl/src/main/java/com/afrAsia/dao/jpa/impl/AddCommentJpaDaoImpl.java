@@ -14,14 +14,22 @@ public class AddCommentJpaDaoImpl extends BaseJpaDAOImpl<Long, MobComments> impl
 		getEntityManager().flush();
 		return mobComments;
 	}
-	
-	public List<String> getRmUserId(String userId){
+
+	/*public List<String> getRmUserId(String userId){
 		Query query = getEntityManager().createQuery("select ar.rmUserId from ApplicationReference ar "
 				+ "where ar.rmUserId=:rmid");
 		query.setParameter("rmid", userId);
 		
 		List<String> detailsByefault = query.getResultList();
 		return detailsByefault; 
+	}*/
+	
+	public String getRmId(String rmId){
+		Query query = getEntityManager()
+				.createQuery("select ar.id from RMDetails ar where ar.id=:rmUserId AND ar.userGroup=:rm");
+		query.setParameter("rmUserId", rmId);
+		query.setParameter("rm", "RM");
+		return (String) query.getSingleResult();
 	}
 	
 	public List<Long> getAppId(Long appId){

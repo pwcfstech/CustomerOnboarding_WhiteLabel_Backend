@@ -13,13 +13,21 @@ import com.afrAsia.entities.jpa.ApplicationReference;
 
 public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationReference> implements DashBoardJpaDao {
 
-	public List<String> getId(String id) {
+	/*public List<String> getId(String id) {
 		Query query = getEntityManager().createQuery("select ar.rmUserId from ApplicationReference ar "
 				+ "where ar.rmUserId=:rmid");
 		query.setParameter("rmid", id);
 
 		List<String> detailsByefault = query.getResultList();
 		return detailsByefault;
+	}*/
+	
+	public String getRmId(String rmUserId){
+		Query query = getEntityManager()
+				.createQuery("select ar.id from RMDetails ar where ar.id=:rmUserId AND ar.userGroup=:rm");
+		query.setParameter("rmUserId", rmUserId);
+		query.setParameter("rm", "RM");
+		return (String) query.getSingleResult(); 
 	}
 
 	public Collection<ApplicationReference> getMonthly(String rmId) {
@@ -127,8 +135,9 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 
 	public Collection<ApplicationReference> getLogged(String rmId) {
 
-		String queryString = "From ApplicationReference ar where ar.rmUserId=:rmID AND ar.updatedTime BETWEEN :stDate AND :edDate "
-				+ "AND lower(ar.appStatus) !=lower(:as)";
+		String queryString = "From ApplicationReference ar where ar.rmUserId=:rmID "
+				+ "AND trunc(ar.updatedTime) BETWEEN :stDate AND :edDate "
+				+ "AND lower(ar.appStatus) NOT IN (lower(:appStatus1),lower(:appStatus2))";
 
 		Query query = getEntityManager().createQuery(queryString);
 
@@ -141,7 +150,8 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 		query.setParameter("stDate", today30);
 		query.setParameter("rmID", rmId);
 		query.setParameter("edDate", today);
-		query.setParameter("as", "Require Attention");
+		query.setParameter("appStatus1", "Require Attention");
+		query.setParameter("appStatus2", "KYC Pending");
 
 		List<ApplicationReference> listOfEntries = query.getResultList();
 

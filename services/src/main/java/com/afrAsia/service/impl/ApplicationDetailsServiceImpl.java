@@ -3,6 +3,8 @@ package com.afrAsia.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.afrAsia.dao.jpa.ApplicationDetailsJpaDAO;
 import com.afrAsia.entities.jpa.MsgHeader;
 import com.afrAsia.entities.jpa.MsgHeader.Error;
@@ -11,10 +13,12 @@ import com.afrAsia.entities.request.ApplicationDetailsReq;
 import com.afrAsia.entities.request.JointApplicants;
 import com.afrAsia.entities.request.KycInfo;
 import com.afrAsia.entities.request.NomineeInfo;
+import com.afrAsia.entities.response.ApplicantDetailsResponse;
 import com.afrAsia.entities.response.ApplicationDetailsResponse;
 import com.afrAsia.entities.response.ApplicationDetailsResponse.Data;
 import com.afrAsia.entities.response.ApplicationDetailsResponse.Data.AccountDetails;
 import com.afrAsia.entities.response.ApplicationDetailsResponse.Data.Comments;
+import com.afrAsia.entities.response.JointApplicantsResponse;
 import com.afrAsia.entities.transactions.MobAccountAdditionalDetail;
 import com.afrAsia.entities.transactions.MobAccountDetail;
 import com.afrAsia.entities.transactions.MobApplicantAdditionalDtl;
@@ -27,7 +31,12 @@ import com.afrAsia.entities.transactions.MobRmAppRefId;
 import com.afrAsia.service.ApplicationDetailsService;
 
 public class ApplicationDetailsServiceImpl implements ApplicationDetailsService {
-	ApplicationDetailsJpaDAO applicationDetailsDAO;
+
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
+	private ApplicationDetailsJpaDAO applicationDetailsDAO;
 
 	public ApplicationDetailsJpaDAO getApplicationDetailsDAO() {
 		return applicationDetailsDAO;
@@ -42,9 +51,9 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 		Data data = new ApplicationDetailsResponse().new Data();
 		MsgHeader msgHdr = new MsgHeader();
 		AccountDetails accountDetails = new ApplicationDetailsResponse().new Data().new AccountDetails();
-		ApplicantDetails primaryApplicantDetails;
-		ApplicantDetails guardianDetails;
-		List<JointApplicants> jointApplicants = new ArrayList<JointApplicants>();
+		ApplicantDetailsResponse primaryApplicantDetails;
+		ApplicantDetailsResponse guardianDetails;
+		List<JointApplicantsResponse> jointApplicants = new ArrayList<JointApplicantsResponse>();
 		;
 
 		// Application reference number from request
@@ -57,10 +66,17 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				System.out.println("Data received from Rm Application table");
 				data.setRefNo(mobRmAppRefId.getId());
 				data.setAppStatus(mobRmAppRefId.getAppStatus());
-				data.setAppSubDate(mobRmAppRefId.getCreatedDate());
-				data.setPendingRMSince(mobRmAppRefId.getModifiedDate());
+				if(mobRmAppRefId.getCreatedDate()!=null)
+				{
+					data.setAppSubDate(mobRmAppRefId.getCreatedDate().getTime());
+				}
+				if(mobRmAppRefId.getModifiedDate()!=null)
+				{
+					data.setPendingRMSince(mobRmAppRefId.getModifiedDate().getTime());
+				}
 				System.out.println(mobRmAppRefId.toString());
 			} else {
+				errorLog.error("The application number does not exist. Please check again");
 				Error err = new MsgHeader().new Error();
 				err.setRsn("The application number does not exist. Please check again");
 				err.setCd("400");
@@ -71,6 +87,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			errorLog.error("No data from mobRmAppRefId");
 			System.out.println("No data from mobRmAppRefId");
 			Error err = new MsgHeader().new Error();
 			err.setRsn("The application number does not exist. Please check again");
@@ -105,6 +122,8 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				accountDetails.setMinNoSignatures(mobAccountDetail.getMinNoSignatures());
 				accountDetails.setOperatingInst(mobAccountDetail.getOperatingInst());
 				System.out.println(mobAccountDetail.toString());
+				infoLog.info("accountDetails in ApplicationDetailsServiceImpl" + accountDetails.toString());
+				infoLog.info("mobAccountDetail in ApplicationDetailsServiceImpl" + mobAccountDetail.toString());
 			} else {
 				System.out.println("No data from mobAccountDetail");
 			}
@@ -161,7 +180,8 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				}
 
 				accountDetails.setNomineeInfo(nomineeInfo);
-
+				infoLog.info("accountDetails in ApplicationDetailsServiceImpl" + accountDetails.toString());
+				infoLog.info("mobAccountAddnDetail in ApplicationDetailsServiceImpl" + mobAccountAddnDetail.toString());
 				System.out.println(mobAccountAddnDetail.toString());
 			} else {
 				System.out.println("No data from mobAccountAddnDetail");
@@ -174,6 +194,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 						"forPrincipalApplicant");
 				data.setPrimaryApplicantDetails(primaryApplicantDetails);
 			} else {
+				errorLog.error("Cannot get Principal Applicant Information");
 				System.out.println("Cannot get Principal Applicant Information");
 				Error err = new MsgHeader().new Error();
 				err.setRsn("Sorry, something went wrong. Cannot retrive applicant details. Please check again");
@@ -194,16 +215,16 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 
 			// Joint Applicant1 Details
 			if (mobAccountDetail.getJoint1ApplicantRefNo() != null) {
-				JointApplicants jointApplicantsDetail = new JointApplicants();
+				JointApplicantsResponse jointApplicantsDetail = new JointApplicantsResponse();
 				System.out.println("Joint 1");
-				ApplicantDetails jointApplicant = getApplicantDetails(data, appRefNo,
+				ApplicantDetailsResponse jointApplicant = getApplicantDetails(data, appRefNo,
 						mobAccountDetail.getJoint1ApplicantRefNo(), "forJointApplicant1");
 				jointApplicantsDetail.setJointApplicantDetail(jointApplicant);
 
 				// Checking if joint applicant 1 has guardian
 				if (mobAccountDetail.getJoint1GuardianRefNo() != null) {
 					System.out.println("Guardian Joint 1");
-					ApplicantDetails jointGuardian = getApplicantDetails(data, appRefNo,
+					ApplicantDetailsResponse jointGuardian = getApplicantDetails(data, appRefNo,
 							mobAccountDetail.getJoint1GuardianRefNo(), "forJointGuardian1");
 					jointApplicantsDetail.setGuardianDetail(jointGuardian);
 				}
@@ -211,16 +232,16 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			}
 			// Joint Applicant2 Details
 			if (mobAccountDetail.getJoint2ApplicantRefNo() != null) {
-				JointApplicants jointApplicantsDetail = new JointApplicants();
+				JointApplicantsResponse jointApplicantsDetail = new JointApplicantsResponse();
 				System.out.println("Joint 2");
-				ApplicantDetails jointApplicant = getApplicantDetails(data, appRefNo,
+				ApplicantDetailsResponse jointApplicant = getApplicantDetails(data, appRefNo,
 						mobAccountDetail.getJoint2ApplicantRefNo(), "forJointApplicant2");
 				jointApplicantsDetail.setJointApplicantDetail(jointApplicant);
 
 				// Checking if joint applicant 1 has guardian
 				if (mobAccountDetail.getJoint2GuardianRefNo() != null) {
 					System.out.println("Guardian Joint 2");
-					ApplicantDetails jointGuardian = getApplicantDetails(data, appRefNo,
+					ApplicantDetailsResponse jointGuardian = getApplicantDetails(data, appRefNo,
 							mobAccountDetail.getJoint2GuardianRefNo(), "forJointGuardian2");
 					jointApplicantsDetail.setGuardianDetail(jointGuardian);
 				}
@@ -228,16 +249,16 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			}
 			// Joint Applicant3 Details
 			if (mobAccountDetail.getJoint3ApplicantRefNo() != null) {
-				JointApplicants jointApplicantsDetail = new JointApplicants();
+				JointApplicantsResponse jointApplicantsDetail = new JointApplicantsResponse();
 				System.out.println("Joint 3");
-				ApplicantDetails jointApplicant = getApplicantDetails(data, appRefNo,
+				ApplicantDetailsResponse jointApplicant = getApplicantDetails(data, appRefNo,
 						mobAccountDetail.getJoint3ApplicantRefNo(), "forJointApplicant3");
 				jointApplicantsDetail.setJointApplicantDetail(jointApplicant);
 
 				// Checking if joint applicant 1 has guardian
 				if (mobAccountDetail.getJoint3GuardianRefNo() != null) {
 					System.out.println("Guardian Joint 3");
-					ApplicantDetails jointGuardian = getApplicantDetails(data, appRefNo,
+					ApplicantDetailsResponse jointGuardian = getApplicantDetails(data, appRefNo,
 							mobAccountDetail.getJoint3GuardianRefNo(), "forJointGuardian3");
 					jointApplicantsDetail.setGuardianDetail(jointGuardian);
 				}
@@ -245,16 +266,16 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			}
 			// Joint Applicant4 Details
 			if (mobAccountDetail.getJoint4ApplicantRefNo() != null) {
-				JointApplicants jointApplicantsDetail = new JointApplicants();
+				JointApplicantsResponse jointApplicantsDetail = new JointApplicantsResponse();
 				System.out.println("Joint 4");
-				ApplicantDetails jointApplicant = getApplicantDetails(data, appRefNo,
+				ApplicantDetailsResponse jointApplicant = getApplicantDetails(data, appRefNo,
 						mobAccountDetail.getJoint4ApplicantRefNo(), "forJointApplicant4");
 				jointApplicantsDetail.setJointApplicantDetail(jointApplicant);
 
 				// Checking if joint applicant 1 has guardian
 				if (mobAccountDetail.getJoint4GuardianRefNo() != null) {
 					System.out.println("Guardian Joint 4");
-					ApplicantDetails jointGuardian = getApplicantDetails(data, appRefNo,
+					ApplicantDetailsResponse jointGuardian = getApplicantDetails(data, appRefNo,
 							mobAccountDetail.getJoint4GuardianRefNo(), "forJointGuardian4");
 					jointApplicantsDetail.setGuardianDetail(jointGuardian);
 				}
@@ -262,16 +283,16 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			}
 			// Joint Applicant5 Details
 			if (mobAccountDetail.getJoint5ApplicantRefNo() != null) {
-				JointApplicants jointApplicantsDetail = new JointApplicants();
+				JointApplicantsResponse jointApplicantsDetail = new JointApplicantsResponse();
 				System.out.println("Joint 5");
-				ApplicantDetails jointApplicant = getApplicantDetails(data, appRefNo,
+				ApplicantDetailsResponse jointApplicant = getApplicantDetails(data, appRefNo,
 						mobAccountDetail.getJoint5ApplicantRefNo(), "forJointApplicant5");
 				jointApplicantsDetail.setJointApplicantDetail(jointApplicant);
 
 				// Checking if joint applicant 1 has guardian
 				if (mobAccountDetail.getJoint5GuardianRefNo() != null) {
 					System.out.println("Guardian Joint 5");
-					ApplicantDetails jointGuardian = getApplicantDetails(data, appRefNo,
+					ApplicantDetailsResponse jointGuardian = getApplicantDetails(data, appRefNo,
 							mobAccountDetail.getJoint5GuardianRefNo(), "forJointGuardian2");
 					jointApplicantsDetail.setGuardianDetail(jointGuardian);
 				}
@@ -282,8 +303,10 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			data.setJointApplicants(jointApplicants);
 			System.out.println("Data displayed" + data.toString());
 			applicationDetailsResponse.setData(data);
+			infoLog.info("applicationDetailsResponse in ApplicationDetailsServiceImpl is : "+applicationDetailsResponse);
 			return applicationDetailsResponse;
 		} catch (Exception e) {
+			errorLog.error("Sorry, something went wrong when trying to retrive data for this application. Please try again"+ e.getMessage());
 			e.printStackTrace();
 			Error err = new MsgHeader().new Error();
 			err.setRsn(
@@ -296,9 +319,9 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 		}
 	}
 
-	public ApplicantDetails getApplicantDetails(Data data, Long appRefNo, Long primaryApplicantRefNo, String forWhom) {
+	public ApplicantDetailsResponse getApplicantDetails(Data data, Long appRefNo, Long primaryApplicantRefNo, String forWhom) {
 		System.out.println("Applicant " + forWhom);
-		ApplicantDetails primaryApplicantDetails = new ApplicantDetails();
+		ApplicantDetailsResponse primaryApplicantDetails = new ApplicantDetailsResponse();
 
 		// 4. Get Primary Applicant Details
 		MobApplicantPersonalDetail mobApplicantPersonalDetail = applicationDetailsDAO
@@ -317,10 +340,16 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setLastName(mobApplicantPersonalDetail.getLastName());
 			primaryApplicantDetails.setNic(mobApplicantPersonalDetail.getNic());
 			primaryApplicantDetails.setPassportNo(mobApplicantPersonalDetail.getPassportNo());
-			primaryApplicantDetails.setPassportExpDate(mobApplicantPersonalDetail.getPassportExpiryDate());
+			if(mobApplicantPersonalDetail.getPassportExpiryDate()!=null)
+			{
+				primaryApplicantDetails.setPassportExpDate(mobApplicantPersonalDetail.getPassportExpiryDate().getTime());
+			}
 			primaryApplicantDetails.setNationality(mobApplicantPersonalDetail.getNationality());
 			primaryApplicantDetails.setEmail(mobApplicantPersonalDetail.getEmail());
-			primaryApplicantDetails.setDob(mobApplicantPersonalDetail.getDob());
+			if(mobApplicantPersonalDetail.getDob()!=null)
+			{
+				primaryApplicantDetails.setDob(mobApplicantPersonalDetail.getDob().getTime());
+			}
 			primaryApplicantDetails.setCountryBirth(mobApplicantPersonalDetail.getCountryBirth());
 			primaryApplicantDetails.setIsExistingCustomer(mobApplicantPersonalDetail.isExistingCustomer());
 			primaryApplicantDetails.setCustomerCIF(mobApplicantPersonalDetail.getCustCif());
@@ -329,9 +358,10 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setSex(mobApplicantPersonalDetail.getSex());
 			primaryApplicantDetails.setSignatoryType(mobApplicantPersonalDetail.getSignatoryType());
 			primaryApplicantDetails.setIsHnwi(mobApplicantPersonalDetail.getIsHnwi());
-
+			infoLog.info("mobApplicantPersonalDetail in ApplicationDetailsServiceImpl" + mobApplicantPersonalDetail.toString());
 			System.out.println(mobApplicantPersonalDetail.toString());
 		} else {
+			errorLog.error("No data from mobApplicantPersonalDetail "+ forWhom);
 			System.out.println("No data from mobApplicantPersonalDetail " + forWhom);
 		}
 
@@ -359,7 +389,9 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setFaxNo(mobApplicantCommDetail.getFaxNo());
 			primaryApplicantDetails.setFaxNoCallingCode(mobApplicantCommDetail.getFaxNoCc());
 			System.out.println(mobApplicantCommDetail.toString());
+			infoLog.info("mobApplicantCommDetail in ApplicationDetailsServiceImpl" + mobApplicantCommDetail.toString());
 		} else {
+			errorLog.error("No data from mobApplicantPersonalDetail "+ forWhom);
 			System.out.println("No data from mobApplicantPersonalDetail " + forWhom);
 		}
 
@@ -378,7 +410,10 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setEmployerCountry(mobApplicantEmploymentDtl.getEmployerCountry());
 			primaryApplicantDetails.setNoYearsService(mobApplicantEmploymentDtl.getNoOfYearsService());
 			primaryApplicantDetails.setBusinessSector(mobApplicantEmploymentDtl.getBusinessSector());
-			primaryApplicantDetails.setDateStarted(mobApplicantEmploymentDtl.getDateStarted());
+			if(mobApplicantEmploymentDtl.getDateStarted()!=null)
+			{
+				primaryApplicantDetails.setDateStarted(mobApplicantEmploymentDtl.getDateStarted().getTime());
+			}
 			primaryApplicantDetails.setNetMonthlyIncome(mobApplicantEmploymentDtl.getNetMonthlyIncome());
 			primaryApplicantDetails.setAnnualDepositTurnover(mobApplicantEmploymentDtl.getAnnDepositTurnovr());
 			primaryApplicantDetails.setAnnualCashDeposit(mobApplicantEmploymentDtl.getAnnCashDeposit());
@@ -386,7 +421,9 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setOtherIncomeSource(mobApplicantEmploymentDtl.getOtherSourcesIncome());
 			primaryApplicantDetails.setFundSources(mobApplicantEmploymentDtl.getFundSources());
 			System.out.println(mobApplicantEmploymentDtl.toString());
+			infoLog.info("mobApplicantAdditionalDtl in ApplicationDetailsServiceImpl" + mobApplicantEmploymentDtl.toString());
 		} else {
+			errorLog.error("No data from mobApplicantPersonalDetail "+ forWhom);
 			System.out.println("No data from mobApplicantPersonalDetail " + forWhom);
 		}
 
@@ -403,7 +440,10 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setoAddr3(mobApplicantAdditionalDtl.getOseasAddr3());
 			primaryApplicantDetails.setoCity(mobApplicantAdditionalDtl.getOseasCity());
 			primaryApplicantDetails.setoCountry(mobApplicantAdditionalDtl.getOseasCountry());
-			primaryApplicantDetails.setWorkPermitExpDate(mobApplicantAdditionalDtl.getWorkPermitExpDate());
+			if(mobApplicantAdditionalDtl.getWorkPermitExpDate()!=null)
+			{
+				primaryApplicantDetails.setWorkPermitExpDate(mobApplicantAdditionalDtl.getWorkPermitExpDate().getTime());
+			}
 			primaryApplicantDetails.setIncomeOtherCountryTaxable(mobApplicantAdditionalDtl.getIncomeOtherCountryTax());
 			primaryApplicantDetails.setCrsCountryResidence1(mobApplicantAdditionalDtl.getCountry1());
 			primaryApplicantDetails.setCrsCountryResidence2(mobApplicantAdditionalDtl.getCountry2());
@@ -411,10 +451,11 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setCrsTin1(mobApplicantAdditionalDtl.getTin1());
 			primaryApplicantDetails.setCrsTin2(mobApplicantAdditionalDtl.getTin2());
 			primaryApplicantDetails.setCrsTin3(mobApplicantAdditionalDtl.getTin3());
-
+			infoLog.info("mobApplicantAdditionalDtl in ApplicationDetailsServiceImpl" + mobApplicantAdditionalDtl.toString());
 			System.out.println(mobApplicantAdditionalDtl.toString());
 		} else {
 			System.out.println("No data from mobApplicantPersonalDetail " + forWhom);
+			errorLog.error("No data from mobApplicantPersonalDetail " + forWhom);
 		}
 
 		// get KYC
@@ -436,6 +477,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 		}
 
 		System.out.println("APPLICANT DETAILS" + primaryApplicantDetails.toString());
+		infoLog.info("APPLICANT DETAILS" + primaryApplicantDetails.toString());
 		return primaryApplicantDetails;
 	}
 }
