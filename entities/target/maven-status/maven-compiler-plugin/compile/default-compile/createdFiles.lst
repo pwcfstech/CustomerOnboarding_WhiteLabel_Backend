@@ -30,6 +30,7 @@ com\afrAsia\entities\response\MastersDataResponse$Data$RMDetails.class
 com\afrAsia\entities\jpa\AuthItem.class
 com\afrAsia\entities\response\AccountCreateResponse$Data.class
 com\afrAsia\entities\response\RequestSuccess.class
+com\ofss\fcubs\service\fcubscustomerservice\CustjointFullType.class
 com\afrAsia\entities\transactions\MobRmAppRefId.class
 com\afrAsia\entities\transactions\MobComments.class
 com\afrAsia\entities\request\AccountCreationRequest.class
@@ -41,6 +42,7 @@ com\afrAsia\entities\response\MastersDataResponse.class
 com\afrAsia\entities\response\PendingAction.class
 com\afrAsia\entities\response\RequestError.class
 com\afrAsia\entities\response\LogoutResponse.class
+com\ofss\fcubs\service\fcubscustomerservice\CustjointFullType$Custjoint.class
 com\afrAsia\entities\request\ProdCatListReq.class
 com\afrAsia\entities\jpa\DeviceFootPrint.class
 com\afrAsia\entities\transactions\MobApplicantAdditionalDtl.class

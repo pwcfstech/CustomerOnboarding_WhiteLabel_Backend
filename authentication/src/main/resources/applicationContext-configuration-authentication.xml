@@ -293,5 +293,11 @@
 
    <bean id="personRepo" class="com.afrAsia.authenticate.ldap.PersonRepoImpl">
       <property name="ldapTemplate" ref="ldapTemplate" />
+      <property name="ldapUrl" value="#{ldapProperties[ldapUrl]}" />
+      <property name="ldapUsername" value="#{ldapProperties[username]}" />
+      <property name="ldapPassword" value="#{ldapProperties[password]}" />
+      <property name="dnBase" value="#{ldapProperties[dnBase]}" />
+      <property name="ldapAuthenticationType" value="#{ldapProperties[ldapAuthenticationType]}" />
+      <property name="ldapContextFactory" value="#{ldapProperties[ldapContextFactory]}" />
    </bean>
 </beans>

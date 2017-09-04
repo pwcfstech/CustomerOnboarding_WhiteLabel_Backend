@@ -171,7 +171,7 @@
 				<!-- <packaging>war</packaging>  -->
 				<configuration>
 					<warName>ROOT</warName>
-					<outputDirectory>C:\Backbase Software\ApacheSetup\apache-tomcat-9.0.0.M19-windows-x64\apache-tomcat-9.0.0.M19\webapps</outputDirectory>
+					<outputDirectory>C:\Users\nyalf769\Documents\UBI\source\apache-tomcat-8.5.13 2\apache-tomcat-8.5.13\webapps\</outputDirectory>
 
 				</configuration>
 			</plugin>

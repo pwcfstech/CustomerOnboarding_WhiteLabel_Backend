@@ -1,7 +1,9 @@
 package com.afrAsia.authenticate;
 
+import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import com.afrAsia.entities.masters.RMDetails;
+import com.afrAsia.entities.request.LoginDataRequest;
 
 /**
  *
@@ -41,6 +43,8 @@ public interface  CustomClientDetailsService extends ClientDetailsService {
 	 */
 	public boolean isClientValid(String clientId);
 	public RMDetails getRMDetails(String clientId, String clientType);
+
+	public ClientDetails loadClientByClientId(LoginDataRequest loginDataRequest);
 
 
 }
