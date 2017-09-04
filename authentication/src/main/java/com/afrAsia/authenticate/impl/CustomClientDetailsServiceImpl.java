@@ -1,17 +1,22 @@
 package com.afrAsia.authenticate.impl;
 
+import java.util.Map;
+
 import javax.transaction.Transactional;
 
+import org.apache.log4j.Logger;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
 
 import com.afrAsia.authenticate.CustomClientDetailsService;
+import com.afrAsia.authenticate.LdapGroup;
 import com.afrAsia.authenticate.ldap.PersonRepoImpl;
 import com.afrAsia.dao.OAuthAuthorizationDAO;
 import com.afrAsia.dao.RMDetailsDao;
 import com.afrAsia.dao.UserDAO;
 import com.afrAsia.entities.jpa.OauthAuthorization;
 import com.afrAsia.entities.masters.RMDetails;
+import com.afrAsia.entities.request.LoginDataRequest;
 
 /**
  * The Class <Code> CustomClientDetailsServiceImpl </Code> service is custom
@@ -23,6 +28,10 @@ import com.afrAsia.entities.masters.RMDetails;
 public class CustomClientDetailsServiceImpl implements CustomClientDetailsService
 {
 
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
     /** The o auth authorization dao. */
     private OAuthAuthorizationDAO oAuthAuthorizationDAO; 
     
@@ -94,28 +103,18 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 //        User client = userDAO.findById(Integer.valueOf(clientId));
         OauthAuthorization oauthAuthorization = new OauthAuthorization();
         oauthAuthorization.setId(1L); 
-        System.out.println("######## id in service impl ================ "+oauthAuthorization.getId());
 
 //        User client = userDAO.findById(Integer.valueOf(clientId));
         oauthAuthorization.setId(System.currentTimeMillis());
         oauthAuthorization.setResourceIds(resourceId);
-        System.out.println("oauthAuthorization.getResourceIds() ========================== "+oauthAuthorization.getResourceIds());
         oauthAuthorization.setAuthorizedGrantTypes(authorizedGrantTypes);
-        System.out.println("oauthAuthorization.getAuthorizedGrantTypes() ========================== "+oauthAuthorization.getAuthorizedGrantTypes());
         oauthAuthorization.setAuthorities(authorities);
-        System.out.println("oauthAuthorization.getAuthorities() ========================== "+oauthAuthorization.getAuthorities());
         oauthAuthorization.setScope(scope);
-        System.out.println("oauthAuthorization.getScope() ========================== "+oauthAuthorization.getScope());
         oauthAuthorization.setClient(rmDetails);
-        System.out.println("oauthAuthorization.getClient() ========================== "+oauthAuthorization.getClient());
         oauthAuthorization.setClientSecret(clientSecret);
-        System.out.println("oauthAuthorization.getClientSecret() ========================== "+oauthAuthorization.getClientSecret());
         oauthAuthorization.setAccessTokenValidity(accessTokenValidity);
-        System.out.println("oauthAuthorization.getAccessTokenValidity() ========================== "+oauthAuthorization.getAccessTokenValidity());
         oauthAuthorization.setCreatedBy(clientId);
-        System.out.println("oauthAuthorization.getCreatedBy() ========================== "+oauthAuthorization.getCreatedBy());
         oAuthAuthorizationDAO.saveClientDetail(oauthAuthorization);
-        
         return rmDetails;
     }
 
@@ -131,12 +130,50 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
     {
         try
         {
-        	String person = personRepo.findPerson(clientId);
-        	if (person == null || person.trim().isEmpty())
+        	OauthAuthorization oauthAuthorization = oAuthAuthorizationDAO.loadClientByClientId(clientId);
+        	infoLog.info("############### oauthAuthorization in loadClientByClientId(),CustomClientDetailsServiceImpl"+oauthAuthorization);
+        	CustomOauthAuthorization customOauthAuthorization = null;
+	        if (oauthAuthorization != null)
+	        {
+	            customOauthAuthorization = new CustomOauthAuthorization(oauthAuthorization.getClient().getId(), oauthAuthorization.getResourceIds(), oauthAuthorization.getClientSecret(),
+	                    oauthAuthorization.getScope(), oauthAuthorization.getAuthorizedGrantTypes(), oauthAuthorization.getAuthorities(), oauthAuthorization.getAccessTokenValidity());
+	        }
+	        infoLog.info("customOauthAuthorization in loadClientByClientId(),CustomClientDetailsServiceImpl"+customOauthAuthorization);
+	        return customOauthAuthorization;
+        }
+        catch (Exception e)
+        {
+        	errorLog.error("Exception while loading client by id."+ e.getMessage());
+        	throw new ClientRegistrationException("Exception while loading client by id.", e);
+        }
+    }
+    
+    public RMDetails getRMDetails(String clientId, String clientType){
+    	RMDetails rmDetails = rmDetailsDAO.getRMDetailById(clientId, clientType);
+    	infoLog.info("rmDetails in getRMDetails(),CustomClientDetailsServiceImpl"+rmDetails);
+    	return rmDetails;
+    }
+
+	public ClientDetails loadClientByClientId(LoginDataRequest loginDataRequest) 
+	{
+		try
+        {
+        	Map<String, String> personMap = personRepo.findPerson(loginDataRequest.getUserId(), loginDataRequest.getPassword());
+        	if (personMap == null || personMap.isEmpty())
         	{
         		throw new ClientRegistrationException("No client with ID in LDAP.");
         	}
-        	OauthAuthorization oauthAuthorization = oAuthAuthorizationDAO.loadClientByClientId(clientId);
+        	
+        	String requestGroup = loginDataRequest.getUserType();
+        	LdapGroup ldapGroup = LdapGroup.parseRequestGroup(requestGroup);
+        	
+        	String group = personMap.get(PersonRepoImpl.LDAP_MEMBER_OF_ATTRIBUTE);
+        	if (ldapGroup == null || group == null || !group.contains(ldapGroup.getLdapGroup()))
+        	{
+        		throw new ClientRegistrationException("Client not part of the requested group " + ldapGroup);
+        	}
+        	
+        	OauthAuthorization oauthAuthorization = oAuthAuthorizationDAO.loadClientByClientId(loginDataRequest.getUserId());
         
 	        CustomOauthAuthorization customOauthAuthorization = null;
 	        if (oauthAuthorization != null)
@@ -150,10 +187,5 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
         {
         	throw new ClientRegistrationException("Exception while loading client by id.", e);
         }
-    }
-    
-    public RMDetails getRMDetails(String clientId, String clientType){
-    	RMDetails rmDetails = rmDetailsDAO.getRMDetailById(clientId, clientType);
-    	return rmDetails;
-    }
+	}
 }

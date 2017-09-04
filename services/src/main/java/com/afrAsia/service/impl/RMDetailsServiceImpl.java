@@ -4,12 +4,18 @@ import java.util.Date;
 
 import javax.transaction.Transactional;
 
+import org.apache.log4j.Logger;
+
 import com.afrAsia.dao.RMDetailsDao;
 import com.afrAsia.entities.masters.RMDetails;
 import com.afrAsia.service.RMDetailsService;
 
 public class RMDetailsServiceImpl implements RMDetailsService
 {
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
 	private RMDetailsDao rmDetailsDao;
 	
 	public RMDetailsDao getRmDetailsDao() {
@@ -29,8 +35,7 @@ public class RMDetailsServiceImpl implements RMDetailsService
 		rmDetails.setCreatedBy(rmId);
 		rmDetails.setCreatedDate(new Date());
 		rmDetailsDao.saveRmDetails(rmDetails);
-		
+		infoLog.info("rmDetails in saveRMDetails(),RMDetailsServiceImpl : "+rmDetails);
 		return rmDetails;
 	}
-
 }

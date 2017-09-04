@@ -13,17 +13,15 @@
 						http://www.springframework.org/schema/beans 			http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
 						http://www.springframework.org/schema/context 			http://www.springframework.org/schema/context/spring-context-4.1.xsd
 						http://www.springframework.org/schema/util 				http://www.springframework.org/schema/util/spring-util-4.1.xsd
-						http://www.springframework.org/schema/tx 				http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
-						http://www.springframework.org/schema/jdbc 				http://www.springframework.org/schema/tx/spring-jdbc-4.1.xsd
-						http://www.springframework.org/schema/aop 				http://www.springframework.org/schema/tx/spring-aop-4.1.xsd
+						http://www.springframework.org/schema/tx 					http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+						http://www.springframework.org/schema/jdbc 					http://www.springframework.org/schema/tx/spring-jdbc-4.1.xsd
+						http://www.springframework.org/schema/aop 					http://www.springframework.org/schema/tx/spring-aop-4.1.xsd
 						http://jax-ws.dev.java.net/spring/core					http://jax-ws.dev.java.net/spring/core.xsd
 						http://jax-ws.dev.java.net/spring/servlet				http://jax-ws.dev.java.net/spring/servlet.xsd">
 
 	<import resource="classpath*:**/applicationContext-services.xml"/>
 	<import resource="classpath*:**/applicationContext-configuration-authentication.xml"/>
 	<import resource="classpath*:**/applicationContext-exception-management.xml"/>
-	
-	<!--   <context:component-scan base-package="com.afrAsia"></context:component-scan> -->
 	
 	<!-- <wss:binding url="/DigitalTransaction">
         <wss:service>
@@ -66,49 +64,13 @@
 	<bean id="myTrackerRestService" class="com.afrAsia.rest.MyTrackerRestService" >
 		<property name="rmApplicationsAppService" ref="rmApplicationsAppService" />
 	</bean>
-	
-	<bean id="addCommentRestService" class="com.afrAsia.rest.AddCommentRestService" >
-		<property name="addCommentService" ref="addCommentService" />
-	</bean> 
-	
-	<bean id="complianceRestService" class="com.afrAsia.rest.ComplianceRestService" >
-		<property name="complianceService" ref="complianceService" />
-	</bean> 
-	
 	<bean id="authenticationRestService" class="com.afrAsia.rest.AuthenticationRestService" >
 		<property name="authenticationService" ref="authenticationService" />
 	</bean>
 	
-	<bean id="applicationDetailsRestService" class="com.afrAsia.rest.ApplicationDetailsRestService" >
-		<property name="applicationDetailsService" ref="applicationDetailsService" />
-	</bean>
-		
-	<util:properties id="mailProperties" location="file:mail.properties" ignore-resource-not-found="false" />
-	<!--  	<context:property-placeholder location="classpath:mail.properties" />-->
-	<bean id="mailConfig" class="com.afrAsia.Utils.AfrAsiaMailConfig">
-        <property name="mailhost" value="${mailhost}"/>    
-        <property name="mailport" value="${mailport}"/>
-        <property name="mailFrom" value="${mailFrom}"/>
-        <property name="mailPassword" value="${mailPassword}"/>
-        <property name="smtpAuthRequired" value="${smtpAuthRequired}"/>
-        <property name="smtpAuthstarttls" value="smtpAuthstarttls"/>
-    </bean>
-	
-	
-	<bean id="accountCreationRestService" class="com.afrAsia.rest.AccountCreationRestService" >
-		<property name="accountCreationService" ref="accountCreationService" />
-		<property name="afrAsiaMailConfig" ref="mailConfig" />
-	</bean>
-	
-	<!-- Upload KYC document rest service bean -->
-	<bean id="kycRestService" class="com.afrAsia.rest.KYCRestService" >
-		<property name="kycService" ref="kycService" />
-	</bean>
-	
-	<!--  Download KYC document -->
-	<bean id="kycDocDownloadRestService" class="com.afrAsia.rest.KycDocDownloadRestService" >
-		<property name="kycDocDownloadService" ref="kycDocDownloadService" />
-	</bean>
+	<!-- <bean id="myTrackerRestService" class="com.afrAsia.rest.MyTrackerRestService" >
+		<property name="myTrackerService" ref="myTrackerService" />
+	</bean> -->
 	
 	<!-- <bean id="dtdpsSoapService" class="com.afrAsia.soap.DTDPSSoapService" >
 		<property name="dtdpsService" ref="dtdpsService" />

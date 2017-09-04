@@ -36,7 +36,7 @@ public class MobAccountAdditionalDetail implements Serializable {
 	@Column(name = "CREATED_BY")
 	private String createdBy;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CREATED_DATE")
 	private Date createdDate;
 
@@ -61,7 +61,7 @@ public class MobAccountAdditionalDetail implements Serializable {
 	@Column(name = "MODIFIED_BY")
 	private String modifiedBy;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "MODIFIED_DATE")
 	private Date modifiedDate;
 

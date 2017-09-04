@@ -2,12 +2,14 @@ package com.afrAsia.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.afrAsia.customexception.IdNotFoundException;
+import javax.persistence.NoResultException;
+
+import org.apache.log4j.Logger;
+
 import com.afrAsia.dao.jpa.DashBoardJpaDao;
 import com.afrAsia.entities.jpa.ApplicationReference;
 import com.afrAsia.entities.response.AppLoggedSummary;
@@ -21,6 +23,10 @@ import com.afrAsia.service.DashBoardService;
 
 public class DashBoardServiceImpl implements DashBoardService {
 
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
 	private DashBoardJpaDao dashBoardDao;
 
 	public DashBoardJpaDao getDashBoardDao() {
@@ -44,7 +50,6 @@ public class DashBoardServiceImpl implements DashBoardService {
 
 		AverageProductivity averageProductivity = new AverageProductivity();
 
-
 		List<ApplicationReference> listMonthlyRecords = new ArrayList<ApplicationReference>();
 
 		List<ApplicationReference> listQuarterlyRecords = new ArrayList<ApplicationReference>();
@@ -58,16 +63,15 @@ public class DashBoardServiceImpl implements DashBoardService {
 		listMonthlyRecords = (List<ApplicationReference>) dashBoardDao.getMonthly(rmId);
 
 		double avgMonthly = (listMonthlyRecords.size()) ;
-		System.out.println("#########avgMonthly ============================= " + avgMonthly);
 
 		if (avgMonthly < 0.1) {
+			infoLog.info(" avgMonthly value is less than 0.1 ");
 			averageProductivity.setAvgMonthly(0.0);
-			// listOfAverageProductivity.setAvgMonthly(avgMonthly);
 		} else {
 			averageProductivity.setAvgMonthly(avgMonthly);
-			// listOfAverageProductivity.setAvgMonthly(avgMonthly);
+			infoLog.info(" avgMonthly value is : "+averageProductivity.getAvgMonthly());
 		}
-System.out.println("#########averageProductivity.getAvgMonthly() ============================= " + averageProductivity.getAvgMonthly());
+		
 		// set quarterly average record
 
 		listQuarterlyRecords = (List<ApplicationReference>) dashBoardDao.getQuarterly(rmId);
@@ -76,17 +80,14 @@ System.out.println("#########averageProductivity.getAvgMonthly() ===============
 		
 		avgQuarterly=round(avgQuarterly, 1);
 		
-		System.out.println("#########avgQuarterly ============================== " + avgQuarterly);
-		
-
 		if (avgQuarterly < 0.1) {
+			infoLog.info(" avgQuarterly value is less than 0.1 ");
 			averageProductivity.setAvgQuarterly(0.0);
-			// listOfAverageProductivity.setAvgQuarterly(avgQuarterly);
 		} else {
 			averageProductivity.setAvgQuarterly(avgQuarterly);
-			// listOfAverageProductivity.setAvgQuarterly(avgQuarterly);
+			infoLog.info(" avgQuarterly value is : "+averageProductivity.getAvgQuarterly());
 		}
-System.out.println("###############averageProductivity.getAvgQuarterly() ====="+averageProductivity.getAvgQuarterly());
+
 		// set Half Yearly average record
 
 		listHalfYearlyRecords = (List<ApplicationReference>) dashBoardDao.getHalfYeary(rmId);
@@ -95,14 +96,12 @@ System.out.println("###############averageProductivity.getAvgQuarterly() ====="+
 		
 		avgHalfYearly=round(avgHalfYearly, 1);
 		
-		//System.out.println("#########avgHalfYearly ================================= " + avgHalfYearly);
-
 		if (avgHalfYearly < 0.1) {
+			infoLog.info(" avgHalfYearly value is less than 0.1 ");
 			averageProductivity.setAvgHalfYearly(0.0);
-			// listOfAverageProductivity.add(averageProductivity);
 		} else {
 			averageProductivity.setAvgHalfYearly(avgHalfYearly);
-			// listOfAverageProductivity.add(averageProductivity);
+			infoLog.info(" AvgHalfYearly value is : "+averageProductivity.getAvgHalfYearly());
 		}
 
 		// set Yearly average record
@@ -110,19 +109,15 @@ System.out.println("###############averageProductivity.getAvgQuarterly() ====="+
 		listYearlyRecords = (List<ApplicationReference>) dashBoardDao.getYearly(rmId);
 
 		double avgYearly = (listYearlyRecords.size())  / 12D;
-		System.out.println(" before round up ========== "+avgYearly);
 		avgYearly=round(avgYearly, 1);
 		
-		System.out.println("#########avgYearly after round up====================== " + avgYearly);
-
 		if (avgYearly < 0.1) {
+			infoLog.info(" avgYearly value is less than 0.1 ");
 			averageProductivity.setAvgYearly(0.0);
-			// listOfAverageProductivity.add(averageProductivity);
 		} else {
 			averageProductivity.setAvgYearly(avgYearly);
-			// listOfAverageProductivity.add(averageProductivity);
+			infoLog.info(" avgYearly value is : "+averageProductivity.getAvgYearly());
 		}
-		System.out.println("##############listOfAverageProductivity " + averageProductivity);
 
 		return averageProductivity;
 	}
@@ -130,9 +125,6 @@ System.out.println("###############averageProductivity.getAvgQuarterly() ====="+
 	public AppLoggedSummary getAppLoggedSummary(String rmId) {
 
 		AppLoggedSummary appLoggedSummary = new AppLoggedSummary();
-
-		// List<AppLoggedSummary> listOfAppLoggedSummaries=new
-		// ArrayList<AppLoggedSummary>();
 
 		List<ApplicationReference> listOfLoggedUsers = new ArrayList<ApplicationReference>();
 
@@ -145,68 +137,61 @@ System.out.println("###############averageProductivity.getAvgQuarterly() ====="+
 		// check number of logged users in last 30 days
 
 		listOfLoggedUsers = (List<ApplicationReference>) dashBoardDao.getLogged(rmId);
-		System.out.println("###########listOfLoggedUsers " + listOfLoggedUsers);
 
 		int loggedUsers = listOfLoggedUsers.size();
 
 		if (loggedUsers == 0) {
+			infoLog.info(" loggedUsers is 0 ");
 			appLoggedSummary.setLogged(0);
-			// listOfAppLoggedSummaries.add(appLoggedSummary);
 		} else {
 			appLoggedSummary.setLogged(loggedUsers);
-			// listOfAppLoggedSummaries.add(appLoggedSummary);
+			infoLog.info(" loggedUsers is : "+appLoggedSummary.getLogged());
 		}
 
 		// check number of accounts opened in last 30 days
 
 		listOfAccountsOpened = (List<ApplicationReference>) dashBoardDao.getOpened(rmId);
-		System.out.println("###########listOfAccountsOpened " + listOfAccountsOpened);
 
 		int numberOfOpenedAccount = listOfAccountsOpened.size();
 
 		if (numberOfOpenedAccount == 0) {
+			infoLog.info(" numberOfOpenedAccount is 0 ");
 			appLoggedSummary.setOpened(0);
-			// listOfAppLoggedSummaries.add(appLoggedSummary);
 		} else {
 			appLoggedSummary.setOpened(numberOfOpenedAccount);
-			// listOfAppLoggedSummaries.add(appLoggedSummary);
+			infoLog.info(" numberOfOpenedAccount is : "+appLoggedSummary.getOpened());
 		}
 
 		// check number of Accounts UnderProcessing in last 30 days
 
 		listOfAccountsUnderProcessing = (List<ApplicationReference>) dashBoardDao.getUnderProcessing(rmId);
-		System.out.println("###########listOfAccountsUnderProcessing " + listOfAccountsUnderProcessing);
 
 		int numberOfAccountsUnderProcessing = listOfAccountsUnderProcessing.size();
 
 		if (numberOfAccountsUnderProcessing == 0) {
+			infoLog.info(" numberOfAccountsUnderProcessing is 0 ");
 			appLoggedSummary.setUnderProcessing(0);
-			// listOfAppLoggedSummaries.add(appLoggedSummary);
 		} else {
 			appLoggedSummary.setUnderProcessing(numberOfAccountsUnderProcessing);
-			// listOfAppLoggedSummaries.add(appLoggedSummary);
+			infoLog.info(" numberOfAccountsUnderProcessing is : "+appLoggedSummary.getUnderProcessing());
 		}
 
 		// check number of Accounts UnderProcessing in last 30 days
 
 		listOfRejectedAccounts = (List<ApplicationReference>) dashBoardDao.getRejected(rmId);
-		System.out.println("###########listOfRejectedAccounts " + listOfRejectedAccounts);
 
 		int numberOfAccountsRejected = listOfRejectedAccounts.size();
 
 		if (numberOfAccountsRejected == 0) {
+			infoLog.info(" numberOfAccountsRejected is 0 ");
 			appLoggedSummary.setRejected(0);
-			// listOfAppLoggedSummaries.add(appLoggedSummary);
 		} else {
 			appLoggedSummary.setRejected(numberOfAccountsRejected);
-			// listOfAppLoggedSummaries.add(appLoggedSummary);
+			infoLog.info(" numberOfAccountsRejected is : "+appLoggedSummary.getRejected());
 		}
-		System.out.println("###########listOfAppLoggedSummaries " + appLoggedSummary);
 
 		return appLoggedSummary;
 	}
-	
-	
 
 	public PendingAction getPendingAction(String rmId) {
 
@@ -215,8 +200,6 @@ System.out.println("###############averageProductivity.getAvgQuarterly() ====="+
 		List<Apps> listApps = new ArrayList<Apps>();
 		
 		Set<Apps> setOfApps = new LinkedHashSet<Apps>(listApps);
-
-		//Apps apps=new Apps();
 
 		List<Long> listOfReferenceNumber = new ArrayList<Long>();
 
@@ -227,12 +210,10 @@ System.out.println("###############averageProductivity.getAvgQuarterly() ====="+
 		// get number of application reference number
 
 		listOfReferenceNumber = (List<Long>) dashBoardDao.getRefNo(rmId);
-		System.out.println("#########listOfReferenceNumber " + listOfReferenceNumber);
 
 		for (Long id : listOfReferenceNumber) {
 			Apps apps=new Apps();
 			apps.setRefNo(id + "");
-			System.out.println("##################### apps " + apps.getRefNo());
 			listApps.add(apps);
 		}
 
@@ -245,7 +226,6 @@ System.out.println("###############averageProductivity.getAvgQuarterly() ====="+
 			Apps apps = listApps.get(i);
 			Object[] outputs = (Object[]) object;
 			apps.setCustomerName(outputs[0].toString() + " " /*+ outputs[1].toString() + " "*/ + outputs[1].toString());
-			System.out.println(" custermer name :: ====================="+apps.getCustomerName());
 			listApps.add(apps);   
 			i++;
 		}
@@ -253,30 +233,63 @@ System.out.println("###############averageProductivity.getAvgQuarterly() ====="+
 		// get number of pending dates
 
 		listOfPendingSinceStatus = (List<Date>) dashBoardDao.getPendingSinceStatus(rmId);
-		System.out.println("######### listOfPendingSinceStatus " + listOfPendingSinceStatus); 
 		for (Date date : listOfPendingSinceStatus) {
 			Apps apps = listApps.get(i);
 			apps.setPendingSince(date.getTime());
 			System.out.println("########### date :: " + apps.getPendingSince());
+			apps.setPendingSince(date.getTime());
 			listApps.add(apps);
 			i++;
 		}
 		
 		setOfApps.addAll(listApps);
 		pendingAction.setApps(setOfApps);
+		infoLog.info(" pendingAction is : "+pendingAction.getApps());
 		return pendingAction;
 	}
 
 	public DashboardResponse getDashBoardSummery(String rmId) {
 		DashboardResponse dashboardResponse = new DashboardResponse();
 		
-		List<String> id= dashBoardDao.getId(rmId);
+		/*List<String> id= dashBoardDao.getId(rmId);
 		
 		ApplicationReference applicationReference=new ApplicationReference();
 		for(String object:id){
 			applicationReference.setRmUserId(object);
+		}*/
+		// check whether the given RmId is present in DB or not 
+		//String rmUserIdFromDB=null;
+		try{			
+			//rmUserIdFromDB= dashBoardDao.getRmId(rmId);			
+			/*if(rmUserIdFromDB==null){
+						throw new IdNotFoundException("Provided RM user id is not present, please pass proper value");
+					}*/
+		}  
+		/*catch(IdNotFoundException exceptionMessage){
+					MessageHeader messageHeader=new MessageHeader();
+					RequestError requestError=new RequestError();
+					requestError.setRsn("Provided Rm user id is not present");
+					messageHeader.setError(requestError);
+					rmApplicationAppResponse.setMessageHeader(messageHeader);
+					return rmApplicationAppResponse;
+				}	*/
+		catch(NoResultException excpMessage){
+			MessageHeader messageHeader=new MessageHeader();
+			RequestError requestError=new RequestError();
+			requestError.setCustomCode("requested RM user is not present, please pass another RM userid");
+			messageHeader.setError(requestError);
+			dashboardResponse.setMessageHeader(messageHeader);
+			return dashboardResponse;
 		}
-		try{	
+
+		dashboardResponse.setAvgProductivity(getAvgProductivity(rmId));
+		infoLog.info(" AvgProductivity is : "+dashboardResponse.getAvgProductivity());
+		dashboardResponse.setAppLoggedSummary(getAppLoggedSummary(rmId));
+		infoLog.info(" AppLoggedSummary is : "+dashboardResponse.getAppLoggedSummary());
+		dashboardResponse.setPendingAction(getPendingAction(rmId));
+		infoLog.info(" PendingAction is : "+dashboardResponse.getPendingAction());
+		
+		/*try{	
 			if(applicationReference.getRmUserId() !=null && applicationReference.getRmUserId().equals(rmId)){ 
 				dashboardResponse.setAvgProductivity(getAvgProductivity(rmId));
 				dashboardResponse.setAppLoggedSummary(getAppLoggedSummary(rmId));
@@ -293,7 +306,7 @@ System.out.println("###############averageProductivity.getAvgQuarterly() ====="+
 		}catch(IdNotFoundException exceptionMessage){
 			System.out.println(" Exception got : "+exceptionMessage);
 		}
-		
+*/		infoLog.info(" dashboardResponse is : "+dashboardResponse.toString());
 		return dashboardResponse;
 	}
 }

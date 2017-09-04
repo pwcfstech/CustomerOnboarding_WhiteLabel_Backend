@@ -10,8 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.entities.request.GenericRequest;
@@ -26,7 +25,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ProductRestService 
 {
 
-	private static final Logger logger = LoggerFactory.getLogger(ProductRestService.class);
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
 	
 	private ProductService productService;
 
@@ -45,61 +46,40 @@ public class ProductRestService
 	{
 		GenericResponse genericResponse=null;
 		if(productService.getProducts()==null){
-		System.out.println("productService.getProducts().......1.....there's no product");
 		genericResponse=null;
 		}
 		else{
 		genericResponse=productService.getProducts();
 		}
+		infoLog.info(" genericResponse in getProdList(),,ProductRestService.java is : "+genericResponse);
 		return Response.ok(genericResponse, MediaType.APPLICATION_JSON).build();
 
 	}
 	
 	@POST
 	@Path("/getProductDetailsApp")
-	//@Consumes(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProdDetails(String jsonInput) 
 	{
-		/*String productId = "";
-		logger.info(jsonInput);
-		System.out.println(jsonInput);*/
-		
+		infoLog.info(" jsonInput from Request in getProdDetails(),ProductRestService.java is : "+jsonInput);
 		GenericRequest req = new GenericRequest();
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			System.out.println("jsonInput is ============="+jsonInput);
 			req = mapper.readValue(jsonInput, GenericRequest.class);
-			System.out.println("ProductID from req============="+req.getData().getProductID());
 		} catch (JsonParseException e) {
+			errorLog.error(" JsonParseException : "+e.getMessage());
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
+			errorLog.error(" JsonMappingException : "+e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
+			errorLog.error(" IOException : "+e.getMessage());
 			e.printStackTrace();
 		}
-		System.out.println("ProductID is ==============");
 		String id=req.getData().getProductID(); 
-		System.out.println("ProductID=============="+id);
 		GenericResponse genericResponse=productService.getProductById(Long.parseLong(id));
+		infoLog.info(" genericResponse in getProdDetails(),ProductRestService.java is : "+genericResponse);
 		return Response.ok(genericResponse, MediaType.APPLICATION_JSON).build();
-
 	}
-	/*public static void main(String[] args) throws Exception
-	{
-		GenericRequest req = new GenericRequest();
-		req.setMsgHeader(null);
-		Data data = new Data();
-		data.setProductID("prod1");
-		req.setData(data);
-		ObjectMapper mapper = new ObjectMapper();
-		String jsonInput = mapper.writeValueAsString(req);
-		System.out.println(mapper.writeValueAsString(req));
-		
-		GenericRequest req1 = mapper.readValue(jsonInput, GenericRequest.class);
-		System.out.println(req1.getData().getProductID());
-		
-	}*/
-
 }

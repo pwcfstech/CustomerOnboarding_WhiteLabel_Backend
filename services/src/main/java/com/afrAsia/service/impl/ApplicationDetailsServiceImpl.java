@@ -3,6 +3,8 @@ package com.afrAsia.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.afrAsia.dao.jpa.ApplicationDetailsJpaDAO;
 import com.afrAsia.entities.jpa.MsgHeader;
 import com.afrAsia.entities.jpa.MsgHeader.Error;
@@ -29,7 +31,12 @@ import com.afrAsia.entities.transactions.MobRmAppRefId;
 import com.afrAsia.service.ApplicationDetailsService;
 
 public class ApplicationDetailsServiceImpl implements ApplicationDetailsService {
-	ApplicationDetailsJpaDAO applicationDetailsDAO;
+
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
+	private ApplicationDetailsJpaDAO applicationDetailsDAO;
 
 	public ApplicationDetailsJpaDAO getApplicationDetailsDAO() {
 		return applicationDetailsDAO;
@@ -69,6 +76,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				}
 				System.out.println(mobRmAppRefId.toString());
 			} else {
+				errorLog.error("The application number does not exist. Please check again");
 				Error err = new MsgHeader().new Error();
 				err.setRsn("The application number does not exist. Please check again");
 				err.setCd("400");
@@ -79,6 +87,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			errorLog.error("No data from mobRmAppRefId");
 			System.out.println("No data from mobRmAppRefId");
 			Error err = new MsgHeader().new Error();
 			err.setRsn("The application number does not exist. Please check again");
@@ -113,6 +122,8 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				accountDetails.setMinNoSignatures(mobAccountDetail.getMinNoSignatures());
 				accountDetails.setOperatingInst(mobAccountDetail.getOperatingInst());
 				System.out.println(mobAccountDetail.toString());
+				infoLog.info("accountDetails in ApplicationDetailsServiceImpl" + accountDetails.toString());
+				infoLog.info("mobAccountDetail in ApplicationDetailsServiceImpl" + mobAccountDetail.toString());
 			} else {
 				System.out.println("No data from mobAccountDetail");
 			}
@@ -169,7 +180,8 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				}
 
 				accountDetails.setNomineeInfo(nomineeInfo);
-
+				infoLog.info("accountDetails in ApplicationDetailsServiceImpl" + accountDetails.toString());
+				infoLog.info("mobAccountAddnDetail in ApplicationDetailsServiceImpl" + mobAccountAddnDetail.toString());
 				System.out.println(mobAccountAddnDetail.toString());
 			} else {
 				System.out.println("No data from mobAccountAddnDetail");
@@ -182,6 +194,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 						"forPrincipalApplicant");
 				data.setPrimaryApplicantDetails(primaryApplicantDetails);
 			} else {
+				errorLog.error("Cannot get Principal Applicant Information");
 				System.out.println("Cannot get Principal Applicant Information");
 				Error err = new MsgHeader().new Error();
 				err.setRsn("Sorry, something went wrong. Cannot retrive applicant details. Please check again");
@@ -290,8 +303,10 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			data.setJointApplicants(jointApplicants);
 			System.out.println("Data displayed" + data.toString());
 			applicationDetailsResponse.setData(data);
+			infoLog.info("applicationDetailsResponse in ApplicationDetailsServiceImpl is : "+applicationDetailsResponse);
 			return applicationDetailsResponse;
 		} catch (Exception e) {
+			errorLog.error("Sorry, something went wrong when trying to retrive data for this application. Please try again"+ e.getMessage());
 			e.printStackTrace();
 			Error err = new MsgHeader().new Error();
 			err.setRsn(
@@ -343,9 +358,10 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setSex(mobApplicantPersonalDetail.getSex());
 			primaryApplicantDetails.setSignatoryType(mobApplicantPersonalDetail.getSignatoryType());
 			primaryApplicantDetails.setIsHnwi(mobApplicantPersonalDetail.getIsHnwi());
-
+			infoLog.info("mobApplicantPersonalDetail in ApplicationDetailsServiceImpl" + mobApplicantPersonalDetail.toString());
 			System.out.println(mobApplicantPersonalDetail.toString());
 		} else {
+			errorLog.error("No data from mobApplicantPersonalDetail "+ forWhom);
 			System.out.println("No data from mobApplicantPersonalDetail " + forWhom);
 		}
 
@@ -373,7 +389,9 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setFaxNo(mobApplicantCommDetail.getFaxNo());
 			primaryApplicantDetails.setFaxNoCallingCode(mobApplicantCommDetail.getFaxNoCc());
 			System.out.println(mobApplicantCommDetail.toString());
+			infoLog.info("mobApplicantCommDetail in ApplicationDetailsServiceImpl" + mobApplicantCommDetail.toString());
 		} else {
+			errorLog.error("No data from mobApplicantPersonalDetail "+ forWhom);
 			System.out.println("No data from mobApplicantPersonalDetail " + forWhom);
 		}
 
@@ -403,7 +421,9 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setOtherIncomeSource(mobApplicantEmploymentDtl.getOtherSourcesIncome());
 			primaryApplicantDetails.setFundSources(mobApplicantEmploymentDtl.getFundSources());
 			System.out.println(mobApplicantEmploymentDtl.toString());
+			infoLog.info("mobApplicantAdditionalDtl in ApplicationDetailsServiceImpl" + mobApplicantEmploymentDtl.toString());
 		} else {
+			errorLog.error("No data from mobApplicantPersonalDetail "+ forWhom);
 			System.out.println("No data from mobApplicantPersonalDetail " + forWhom);
 		}
 
@@ -431,10 +451,11 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setCrsTin1(mobApplicantAdditionalDtl.getTin1());
 			primaryApplicantDetails.setCrsTin2(mobApplicantAdditionalDtl.getTin2());
 			primaryApplicantDetails.setCrsTin3(mobApplicantAdditionalDtl.getTin3());
-
+			infoLog.info("mobApplicantAdditionalDtl in ApplicationDetailsServiceImpl" + mobApplicantAdditionalDtl.toString());
 			System.out.println(mobApplicantAdditionalDtl.toString());
 		} else {
 			System.out.println("No data from mobApplicantPersonalDetail " + forWhom);
+			errorLog.error("No data from mobApplicantPersonalDetail " + forWhom);
 		}
 
 		// get KYC
@@ -456,6 +477,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 		}
 
 		System.out.println("APPLICANT DETAILS" + primaryApplicantDetails.toString());
+		infoLog.info("APPLICANT DETAILS" + primaryApplicantDetails.toString());
 		return primaryApplicantDetails;
 	}
 }

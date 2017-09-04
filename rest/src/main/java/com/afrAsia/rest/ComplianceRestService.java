@@ -1,6 +1,8 @@
 package com.afrAsia.rest;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.ws.rs.Consumes;
@@ -10,15 +12,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.entities.request.ComplianceReq;
 import com.afrAsia.entities.response.ComplianceResponse;
 import com.afrAsia.entities.response.MessageHeader;
 import com.afrAsia.entities.response.RequestError;
-import com.afrAsia.entities.response.RmApplicationAppResponse;
 import com.afrAsia.service.ComplianceService;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -29,7 +29,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Path("{version}")
 public class ComplianceRestService {
 
-	private static final Logger logger = LoggerFactory.getLogger(ComplianceRestService.class);
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
 
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
 	Date startDate;
@@ -47,14 +49,15 @@ public class ComplianceRestService {
 	public void setComplianceService(ComplianceService complianceService) {
 		this.complianceService = complianceService;
 	}
-
-
+	
 	@POST
 	@Path("/getComplianceApplications/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDetailsByNameAndID(String jsonInput) {
 
+		infoLog.info("   jsonInput in getDetailsByNameAndID(),ComplianceRestService.java "+jsonInput);
+		
 		ComplianceReq complianceReq = new ComplianceReq();
 
 		ObjectMapper mapper = new ObjectMapper();
@@ -62,75 +65,95 @@ public class ComplianceRestService {
 			complianceReq = mapper.readValue(jsonInput, ComplianceReq.class);
 		} catch (JsonParseException e) {
 			e.printStackTrace();
+			errorLog.error("   JsonParseException in getDetailsByNameAndID(),ComplianceRestService.java ",e);
 		} catch (JsonMappingException e) {
+			errorLog.error("   JsonMappingException in getDetailsByNameAndID(),ComplianceRestService.java ",e);
 			e.printStackTrace();
 		} catch (IOException e) {
+			errorLog.error("   IOException in getDetailsByNameAndID(),ComplianceRestService.java "+e.getMessage());
 			e.printStackTrace();
 		}
 		
 		String custumerName=complianceReq.getSearchParameter().getCustName();
-		System.out.println("customer name is ========== "+custumerName);
-		this.startDate = complianceReq.getSearchParameter().getStartDate();
-		System.out.println("start date in rest ======"+this.startDate);
-		this.endDate = complianceReq.getSearchParameter().getEndDate();
-		System.out.println(" end date in rest ------"+this.endDate);
-		String status=complianceReq.getSearchParameter().getAppStatus();
 		
+		this.startDate = complianceReq.getSearchParameter().getStartDate();
+		if(this.startDate!=null){
+			SimpleDateFormat simpleDateFormatStartDate = new SimpleDateFormat("dd-MM-yyyy");			
+			String formattedStartDate = simpleDateFormatStartDate.format(this.startDate);
+			
+			Date dateSt1 = new Date();
+
+			try {
+				dateSt1 = simpleDateFormatStartDate.parse(formattedStartDate);
+			} catch (ParseException e1) {
+				errorLog.error("   date coud not be parsed in getDetailsByNameAndID method of MyTrackerRestService class ",e1);
+			}
+			this.startDate=dateSt1;
+			}
+		
+		this.endDate = complianceReq.getSearchParameter().getEndDate();
+		if(this.endDate!=null){
+			SimpleDateFormat simpleDateFormatStartEnd = new SimpleDateFormat("dd-MM-yyyy");
+			String formattedStartEnd = simpleDateFormatStartEnd.format(this.endDate);
+			Date dateEd1 = new Date();
+			try {
+				dateEd1 = simpleDateFormatStartEnd.parse(formattedStartEnd);
+			} catch (ParseException e) {
+				errorLog.error("   date can not be parsed in ");
+			}
+			
+			Long miliSecs=dateEd1.getTime();
+			dateEd1 = new Date(miliSecs+86399000L);
+			this.endDate=dateEd1;
+			}
+		
+		String status=complianceReq.getSearchParameter().getAppStatus();
 		
 		
 		if (custumerName.length() == 0 && this.startDate == null && this.endDate == null) {
 			
-			System.out.println("status : "+status);
-			System.out.println("fetching datas by default ...............");
-			
 			ComplianceResponse complianceResponseByDefault = 
 					(ComplianceResponse) complianceService.getDetailsBydefault();
+			infoLog.info("   complianceResponseByDefault in ComplianceRestService.java "+complianceResponseByDefault);
 			return Response.ok(complianceResponseByDefault, MediaType.APPLICATION_JSON).build();
 		}
 		
 		else if (custumerName.length() != 0 && this.startDate == null && this.endDate == null && status.length() != 0) {
 			
-			System.out.println(" cusomerName : "+custumerName+"status : "+status);
-			System.out.println("fetching datas by cusomerName ...............");
 			ComplianceResponse rmApplicationAppResponseByIdAndName = 
 					(ComplianceResponse) complianceService
 					.getDetailsByName(custumerName,status);
+			infoLog.info("   rmApplicationAppResponseByIdAndName in ComplianceRestService.java "+rmApplicationAppResponseByIdAndName);
 			return Response.ok(rmApplicationAppResponseByIdAndName, MediaType.APPLICATION_JSON).build();
 		}
 
 		else if (custumerName.length() == 0 && this.startDate != null && this.endDate != null && status.length() != 0) {
 			
-			System.out.println("StartDate : "+startDate+"endDate : "+endDate+"status : "+status);
-			System.out.println("fetching datas by dates ...............");
-			
 			ComplianceResponse rmApplicationAppResponseByDates=
 					(ComplianceResponse) complianceService
-					.getDetailsByDates(startDate, endDate, status);
+					.getDetailsByDates(this.startDate, this.endDate, status);
+			infoLog.info("   rmApplicationAppResponseByDates in ComplianceRestService.java "+rmApplicationAppResponseByDates);
 			return Response.ok(rmApplicationAppResponseByDates, MediaType.APPLICATION_JSON).build();
 		}
 
 		else if (custumerName.length() != 0 && this.startDate != null && this.endDate != null && status.length() != 0) {
 			
-			System.out.println(" AllCriteria , ........................");
-			System.out.println("custumerName : "+custumerName+"startDate : "+startDate+""
-								+ "endDate : "+endDate+"status : "+status );
-			
 			ComplianceResponse rmApplicationAppResponseByIdAndName = 
 					(ComplianceResponse) complianceService
 					.getDetailsByAllCriteria(custumerName,startDate, endDate, status);
+			infoLog.info("   rmApplicationAppResponseByIdAndName in ComplianceRestService.java "+rmApplicationAppResponseByIdAndName);
 			return Response.ok(rmApplicationAppResponseByIdAndName, MediaType.APPLICATION_JSON).build();
 		}
 
 		else {
-			System.out.println("in error ====== ");
 			ComplianceResponse emptyComplianceResponse = new ComplianceResponse();
 			MessageHeader messageHeader=new MessageHeader();
 			RequestError requestError=new RequestError();
 			requestError.setCustomCode("please pass proper values in the request");
 			messageHeader.setError(requestError);
+			infoLog.info("   emptyComplianceResponse in ComplianceRestService.java "+emptyComplianceResponse);
 			return Response.ok(emptyComplianceResponse, MediaType.APPLICATION_JSON).build(); 
 		}
-
 	}
 
 }

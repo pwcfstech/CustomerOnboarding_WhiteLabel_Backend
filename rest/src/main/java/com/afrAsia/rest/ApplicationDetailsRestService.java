@@ -7,27 +7,25 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.entities.jpa.MsgHeader;
 import com.afrAsia.entities.jpa.MsgHeader.Error;
-import com.afrAsia.service.ApplicationDetailsService;
 import com.afrAsia.entities.request.ApplicationDetailsReq;
 import com.afrAsia.entities.response.ApplicationDetailsResponse;
+import com.afrAsia.service.ApplicationDetailsService;
 
-
-//import com.afrAsia.entities.jpa.AppVersion;
-//import com.afrAsia.entities.jpa.DeviceFootPrint;
-//import com.afrAsia.entities.jpa.MsgHeader;
-//import com.afrAsia.entities.request.DeviceFootPrintReq;
-//import com.afrAsia.entities.response.DeviceFootPrintResponse;
-//import com.afrAsia.entities.response.DeviceFootPrintResponse.Data;
-//import com.afrAsia.service.AppVersionService;
 
 @Component
 
 @Path("{version}")
 public class ApplicationDetailsRestService {
+	
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
 	private ApplicationDetailsService applicationDetailsService;
 
 	public ApplicationDetailsService getApplicationDetailsService() {
@@ -43,10 +41,9 @@ public class ApplicationDetailsRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getApplicationDetails(ApplicationDetailsReq applicationDetailsReq) {
+		infoLog.info(" applicationDetailsReq in getApplicationDetails(),ApplicationDetailsRestService is : "+applicationDetailsReq);
 		ApplicationDetailsResponse applicationDetailsResponse = new ApplicationDetailsResponse();
 		MsgHeader msgHeader= new MsgHeader();
-		System.out.println(applicationDetailsReq.toString());
-		System.out.println("here in rest Service");
 		try{
 			if (validateRequest(applicationDetailsReq)) {
 				applicationDetailsResponse = applicationDetailsService.getApplicationDetails(applicationDetailsReq);
@@ -55,17 +52,19 @@ public class ApplicationDetailsRestService {
 					return Response.ok(applicationDetailsResponse, MediaType.APPLICATION_JSON).build();
 				}
 				else{
+					errorLog.error(" No data for this application reference no ");
 					Error error = new MsgHeader(). new Error();
 					error.setCd("404");
 					error.setRsn("No data for this application reference no.");
 					msgHeader.setError(error);
 					applicationDetailsResponse = new ApplicationDetailsResponse();
 					applicationDetailsResponse.setMsgHeader(msgHeader);
+					errorLog.error(" applicationDetailsResponse in getApplicationDetails(),ApplicationDetailsRestService : "+applicationDetailsResponse);
 					return Response.ok(applicationDetailsResponse, MediaType.APPLICATION_JSON).build();
 				}
 			}
 			else{
-				System.out.println("Invalid request");
+				errorLog.error(" Invalid request in getApplicationDetails(),ApplicationDetailsRestService");
 				Error error = new MsgHeader(). new Error();
 				error.setCd("404");
 				error.setRsn("Invalid Request");
@@ -74,6 +73,7 @@ public class ApplicationDetailsRestService {
 				return Response.ok(applicationDetailsResponse, MediaType.APPLICATION_JSON).build();	
 			}
 		}catch(Exception e){
+			errorLog.error(" Sorry, there was an error while getting application details. Please try again later ");
 			e.printStackTrace();
 			Error error = new MsgHeader(). new Error();
 			error.setCd("404");
@@ -87,9 +87,10 @@ public class ApplicationDetailsRestService {
 
 	private boolean validateRequest(ApplicationDetailsReq applicationDetailsReq) {
 		if (applicationDetailsReq != null && applicationDetailsReq.getData() != null){
+			infoLog.info(" validateRequest returned true");
 			return true;
 		} else {
-			System.out.println("Invalid Request from Get Application Details ");
+			errorLog.error(" Invalid Request from Get Application Details ");
 			return false;
 		}
 	}

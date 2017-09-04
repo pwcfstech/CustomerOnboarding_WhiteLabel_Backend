@@ -9,14 +9,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.entities.request.GenericRequest;
 import com.afrAsia.entities.response.GenericResponse;
 import com.afrAsia.service.AddCommentService;
-import com.afrAsia.service.ProductService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,7 +24,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class AddCommentRestService 
 {
 
-	private static final Logger logger = LoggerFactory.getLogger(AddCommentRestService.class);
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
 	
 	private AddCommentService addCommentService;
 
@@ -44,28 +44,29 @@ public class AddCommentRestService
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAppversion(String jsonInput) 
 	{
-		
+		infoLog.info(" jsonInput in AddCommentRestService is : "+jsonInput);
 		GenericRequest req = new GenericRequest();
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			req = mapper.readValue(jsonInput, GenericRequest.class);
 		} catch (JsonParseException e) {
+			errorLog.error(" JsonParseException in AddCommentRestService is : "+e.getMessage());
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
+			errorLog.error(" JsonMappingException in AddCommentRestService is : "+e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
+			errorLog.error(" IOException in AddCommentRestService is : "+e.getMessage());
 			e.printStackTrace();
 		}
+		
 		Long appId=req.getData().getAppId(); 
-		System.out.println("appid is in rest ========== :: "+appId);
 		String comments=req.getData().getComment();
-		System.out.println("comments is in rest ========== :: "+comments);
 		String userId=req.getData().getUserId();
-		System.out.println("userId is in rest ========== :: "+userId);
 		String userCat=req.getData().getUserCat();
-		System.out.println("userCat is in rest ========== :: "+userCat);
 		
 		GenericResponse genericResponse=addCommentService.addComments(appId, comments, userId, userCat);
+		infoLog.info(" genericResponse in AddCommentRestService is : "+genericResponse);
 		return Response.ok(genericResponse, MediaType.APPLICATION_JSON).build();
 
 	}

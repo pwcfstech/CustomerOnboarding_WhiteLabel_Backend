@@ -14,6 +14,7 @@ import javax.naming.Context;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 
+import org.apache.log4j.Logger;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -48,6 +49,10 @@ import com.afrAsia.service.RMDetailsService;
  */
 public class AuthenticationServiceImpl implements AuthenticationService
 {
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
 	private OAuthAuthorizationDAO oAuthAuthorizationDAO;
 	
 	private CustomClientDetailsService customClientDetailsService;
@@ -149,17 +154,12 @@ public class AuthenticationServiceImpl implements AuthenticationService
 	@Transactional(readOnly = false, rollbackFor = {Exception.class})
 	public LoginResponse login(LoginRequest loginRequest) 
 	{
-		System.out.println("in login ============ ");
 		LoginResponse response = new LoginResponse();
 		LoginDataResponse responseData = new LoginDataResponse();
 		
-		System.out.println("before loginDataRequest ============ ");
 		LoginDataRequest loginDataRequest = loginRequest.getData();
 		String userId = loginDataRequest.getUserId();
-		System.out.println("user id ==== "+userId);
-		System.out.println("password ==== "+loginDataRequest.getPassword());
 		String clientSecret = passwordEncoder.encode(loginDataRequest.getPassword());
-		System.out.println("clientSecret ==== "+clientSecret);
 		String userType = loginDataRequest.getUserType();
 		
 		//rmDetailsService.saveRMDetails("ID" + userId, userId);
@@ -172,20 +172,16 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		else{
 			System.out.println("Authenticated with LDAP");
 		}*/
-		
 		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(userId); 
-		System.out.println("clientDetails =========== "+clientDetails);
-		
+		infoLog.info("clientDetails in login(),AuthenticationServiceImpl is : "+clientDetails);
+
 		RMDetails rmDetails;
 		
 		if (clientDetails == null)
 		{
-			/*rmDetails = customClientDetailsService.saveClientDetail(userId, userType,"rest_api", clientSecret, 
-				"standard_client", "client_credentials", null, "ROLE_USER", 
-				180, 180, null, null);	*/
 			rmDetails = customClientDetailsService.saveClientDetail(userId, userType,"rest_api", clientSecret, 
 					"standard_client", "client_credentials", null, "ROLE_USER", 
-					1800000000, 1800000000, null, null);	
+					1800, 1800, null, null);	
 		}
 		else{
 			LogoutRequest logOutRequest = new LogoutRequest();
@@ -194,8 +190,8 @@ public class AuthenticationServiceImpl implements AuthenticationService
 			logoutDataRequest.setUserId(loginDataRequest.getUserId());
 			
 //			logout(logOutRequest, oauthToken);
-			
 			rmDetails = customClientDetailsService.getRMDetails(userId, userType);
+			infoLog.info("rmDetails in AuthenticationServiceImpl"+rmDetails);
 		}
 		
 		MobRmSessionDetail mobRmSessionDetail = new MobRmSessionDetail();
@@ -213,13 +209,16 @@ public class AuthenticationServiceImpl implements AuthenticationService
 				millis=mobRmPreviousSession.getCreatedDate().getTime();
 			responseData.setLastLoginTime(millis);
 			System.out.println("Previous Session Details::" + mobRmPreviousSession.toString());
+			if(mobRmPreviousSession.getCreatedDate()!=null)
+				responseData.setLastLoginTime(mobRmPreviousSession.getCreatedDate().getTime());
+			infoLog.info("Previous Session Details::" + mobRmPreviousSession.toString());
 		}
 		
 		responseData.setoAuthToken(token.getValue());
 		responseData.setRmName(rmDetails.getRmName());
 		responseData.setSuccess("true");
 		response.setData(responseData);
-				
+		infoLog.info("response in login(),AuthenticationServiceImpl : "+response);	
 		return response;
 	}
 
@@ -232,7 +231,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		data.setSuccess(check + "");
 		
 		response.setData(data);
-		
+		infoLog.info("response in logout(),AuthenticationServiceImpl : "+response);
 		return response;
 	}
 
@@ -261,9 +260,10 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		
 		ClientCredentialsTokenGranter tokenGranter = new ClientCredentialsTokenGranter(tokenServices, customClientDetailsService, oAuth2RequestFactory);
 		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(rmId);
+		infoLog.info("clientDetails in getTokenDetails(),AuthenticationServiceImpl is : "+clientDetails);
 		TokenRequest request  = oAuth2RequestFactory.createTokenRequest(requestParameters, clientDetails);
 		OAuth2AccessToken token = tokenGranter.grant(grantType, request);
-		
+		infoLog.info("token in getTokenDetails(),AuthenticationServiceImpl : "+token);
 		return token;
 }
 	
@@ -280,19 +280,15 @@ public class AuthenticationServiceImpl implements AuthenticationService
 	        env.put(Context.SECURITY_CREDENTIALS, password);
 	        
 	        DirContext ctx = new InitialDirContext(env);
-	        ctx.lookup(username);
+	        ctx.lookup("CN=Schema,CN=Configuration,DC=afrasiabank,DC=local");
 		}
 		catch (Exception e)
 		{
-			System.out.println("LDAP EXCEPTION" + e.getMessage());
+			errorLog.error("LDAP EXCEPTION" + e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
 		
 		return true;
-
-		
-		
 	}
-
 }

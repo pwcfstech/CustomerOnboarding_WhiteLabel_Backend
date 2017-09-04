@@ -31,14 +31,14 @@ public class MobComments implements Serializable {
 	@Column(name = "CREATED_BY")
 	private String commentedAddedBy;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CREATED_DATE")
 	private Date commentDate;
 
 	@Column(name = "MODIFIED_BY")
 	private String modifiedBy;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "MODIFIED_DATE")
 	private Date modifiedDate;
 

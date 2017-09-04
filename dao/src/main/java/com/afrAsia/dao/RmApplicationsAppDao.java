@@ -3,13 +3,12 @@ package com.afrAsia.dao;
 import java.util.Date;
 import java.util.List;
 
-import com.afrAsia.entities.jpa.ApplicationReference;
-import com.afrAsia.entities.response.Apps;
-
 public interface RmApplicationsAppDao {
 	
-	public List<String> getId(String id);
-
+	//public List<String> getId(String id);
+	
+	public String getRmId(String rmId);
+	
 	public List<Object> getDetailsByefault(String rmId);
 	
 	public List<Object> getDetailsByName(String name,String rmId);
