@@ -8,8 +8,7 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import com.afrAsia.customexception.DateDifferenceException;
 import com.afrAsia.dao.jpa.RmApplicationsAppJpaDAO;
@@ -21,8 +20,10 @@ import com.afrAsia.service.RmApplicationsAppService;
 
 public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 
-	private static final Logger logger = LoggerFactory.getLogger(RmApplicationsAppServiceImpl.class);
-
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
 	private RmApplicationsAppJpaDAO rmApplicationsAppDao;
 
 	/**
@@ -80,7 +81,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 		
 		// get all the details of records by default		
 		detailsByDefault = rmApplicationsAppDao.getDetailsByefault(rmId);
-		logger.info("############ records fetched from DB on the basis of RmId only : "+detailsByDefault.toString());
+		infoLog.info(" records fetched from DB on the basis of RmId only : "+detailsByDefault.toString());
 		
 		for (Object object : detailsByDefault) {
 			
@@ -98,7 +99,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				logger.error("############  date coud not be parsed in getDetailsByefault method of RmApplicationsAppServiceImpl class ");
+				errorLog.error("  date coud not be parsed in getDetailsByefault method of RmApplicationsAppServiceImpl class ");
 			}
 
 			apps.setAppSubmittedDate(date);
@@ -109,7 +110,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			i++;
 		}
 		rmApplicationAppResponse.setApps(listOfApps);
-		logger.info("############ response on the basis of RmId only : "+rmApplicationAppResponse);
+		infoLog.info(" response on the basis of RmId only : "+rmApplicationAppResponse);
 		
 		return rmApplicationAppResponse;
 	}
@@ -150,7 +151,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 
 		// get all records by name and Rm Id	
 		detailsByName = (List<Object>) rmApplicationsAppDao.getDetailsByName(name, rmId);
-		logger.info("############ records fetched from DB on the basis basis of name,rmId is : "+detailsByName.toString());  
+		infoLog.info(" records fetched from DB on the basis basis of name,rmId is : "+detailsByName.toString());  
 		int i = 0;
 		for (Object object : detailsByName) {
 
@@ -167,7 +168,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				logger.error("############   date coud not be parsed in getDetailsByName method of RmApplicationsAppServiceImpl class ");
+				errorLog.error("   date coud not be parsed in getDetailsByName method of RmApplicationsAppServiceImpl class ");
 			}
 
 			apps.setAppSubmittedDate(date);
@@ -177,7 +178,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			i++;
 		}
 		rmApplicationAppResponse.setApps(listOfApps);
-		logger.info("############ response on the basis of name,rmId is :: "+rmApplicationAppResponse);
+		infoLog.info(" response on the basis of name,rmId is :: "+rmApplicationAppResponse);
 		return rmApplicationAppResponse;
 	}
 
@@ -223,7 +224,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			if(endDate.getTime()>=startDate.getTime()){
 				if(diffInDays <= 31 && diffInDays > 0){
 					listOfCustormerName = (List<Object>) rmApplicationsAppDao.getDetailsByDates(startDate, endDate, rmId);
-					logger.info("############ records fetched from DB on the basis basis of startDate,endDate,rmId is : "+listOfCustormerName.toString());
+					infoLog.info(" records fetched from DB on the basis basis of startDate,endDate,rmId is : "+listOfCustormerName.toString());
 				}
 				else{
 					MessageHeader messageHeader=new MessageHeader();
@@ -244,7 +245,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			}
 		}catch(DateDifferenceException dateDifferenceExceptionMessage){
 			System.out.println(" Exception got due to : "+dateDifferenceExceptionMessage);
-			logger.error(" Exception got due to : "+dateDifferenceExceptionMessage);
+			errorLog.error(" Exception got due to : "+dateDifferenceExceptionMessage);
 		}
 		
 		int i = 0;
@@ -263,7 +264,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				logger.error("############   date coud not be parsed in getDetailsByDates method of RmApplicationsAppServiceImpl class ");
+				errorLog.error("   date coud not be parsed in getDetailsByDates method of RmApplicationsAppServiceImpl class ");
 			}
 
 			apps.setAppSubmittedDate(date);
@@ -273,7 +274,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			i++;
 		}
 		rmApplicationAppResponse.setApps(listOfApps);
-		logger.info("############ response on the basis of startDate,endDate,rmId is :: "+rmApplicationAppResponse);
+		infoLog.info(" response on the basis of startDate,endDate,rmId is :: "+rmApplicationAppResponse);
 		return rmApplicationAppResponse;
 	}
 
@@ -313,7 +314,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 		
 		// get all the records by status and rm id 	
 		detailsByStatus = (List<Object>) rmApplicationsAppDao.getDetailsByStatus(status, rmId);
-		logger.info("############ records fetched from DB on the basis basis of Status,rmId is : "+detailsByStatus.toString());
+		infoLog.info(" records fetched from DB on the basis basis of Status,rmId is : "+detailsByStatus.toString());
 		int i = 0;
 		for (Object object : detailsByStatus) {
 
@@ -330,7 +331,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				logger.error("############  date coud not be parsed in detailsByStatus method of RmApplicationsAppServiceImpl class ");
+				errorLog.error("  date coud not be parsed in detailsByStatus method of RmApplicationsAppServiceImpl class ");
 			}
 			apps.setAppSubmittedDate(date);
 			apps.setAppStatus(outputs[2].toString());
@@ -339,7 +340,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			i++;
 		}
 		rmApplicationAppResponse.setApps(listOfApps);
-		logger.info("############ response on the basis of status and rmId is :: "+rmApplicationAppResponse);
+		infoLog.info(" response on the basis of status and rmId is :: "+rmApplicationAppResponse);
 		return rmApplicationAppResponse;
 	}
 
@@ -391,7 +392,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				if(diffInDays <= 30 && diffInDays > 0){
 					detailsByAllCriteriaWithoutStatus = (List<Object>) rmApplicationsAppDao.getDetailsByAllCriteriaWithoutStatus
 							(name, startDate,endDate, rmId);
-					logger.info("############ records fetched from DB on the basis basis of name,startDate,endDate,rmId is : "
+					infoLog.info(" records fetched from DB on the basis basis of name,startDate,endDate,rmId is : "
 							+detailsByAllCriteriaWithoutStatus.toString());
 				}
 				else{
@@ -413,7 +414,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			}
 		}catch(DateDifferenceException dateDifferenceExceptionMessage){
 			System.out.println(" Exception got due to : "+dateDifferenceExceptionMessage);
-			logger.error(" Exception got due to : "+dateDifferenceExceptionMessage);
+			errorLog.error(" Exception got due to : "+dateDifferenceExceptionMessage);
 		}
 		
 		int i = 0;
@@ -431,7 +432,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				logger.error("############  date coud not be parsed in getDetailsByAllCriteriaWithoutStatus method of RmApplicationsAppServiceImpl class ");
+				errorLog.error("  date coud not be parsed in getDetailsByAllCriteriaWithoutStatus method of RmApplicationsAppServiceImpl class ");
 			}
 
 			apps.setAppSubmittedDate(date);
@@ -442,7 +443,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			i++;
 		}
 		rmApplicationAppResponse.setApps(listOfApps);
-		logger.info("############ response on the basis of name,startDate,endDate,rmId is :: "+rmApplicationAppResponse);
+		infoLog.info(" response on the basis of name,startDate,endDate,rmId is :: "+rmApplicationAppResponse);
 		return rmApplicationAppResponse;
 	}
 
@@ -495,7 +496,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				if(diffInDays <= 30 && diffInDays > 0){
 					detailsByAllCriteriaWithStatus = (List<Object>) rmApplicationsAppDao.getDetailsByAllCriteriaWithStatus(name, 
 							startDate,endDate, status, rmId);
-					logger.info("############ records fetched from DB on the basis basis of name,startDate,endDate,status,rmId is : "
+					infoLog.info(" records fetched from DB on the basis basis of name,startDate,endDate,status,rmId is : "
 							+detailsByAllCriteriaWithStatus.toString());
 				}
 				else{
@@ -517,7 +518,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			}
 		}catch(DateDifferenceException dateDifferenceExceptionMessage){
 			System.out.println(" Exception got due to : "+dateDifferenceExceptionMessage);
-			logger.error(" Exception got due to : "+dateDifferenceExceptionMessage);
+			errorLog.error(" Exception got due to : "+dateDifferenceExceptionMessage);
 		}
 		
 		int i = 0;
@@ -536,7 +537,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				logger.error("############  date coud not be parsed in getDetailsByAllCriteriaWithStatus method of RmApplicationsAppServiceImpl class ");
+				errorLog.error("  date coud not be parsed in getDetailsByAllCriteriaWithStatus method of RmApplicationsAppServiceImpl class ");
 			}
 
 			apps.setAppSubmittedDate(date);
@@ -547,7 +548,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			i++;
 		}
 		rmApplicationAppResponse.setApps(listOfApps);
-		logger.info("############ response on the basis of name,startDate,endDate,status,rmId is : "+rmApplicationAppResponse);
+		infoLog.info(" response on the basis of name,startDate,endDate,status,rmId is : "+rmApplicationAppResponse);
 		return rmApplicationAppResponse;
 	}
 }

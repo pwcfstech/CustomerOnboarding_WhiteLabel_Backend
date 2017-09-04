@@ -9,8 +9,7 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.afrAsia.customexception.IdNotFoundException;
@@ -24,7 +23,9 @@ import com.afrAsia.service.AddCommentService;
 
 public class AddCommentServiceImpl implements AddCommentService {
 
-	private static final Logger logger = LoggerFactory.getLogger(AddCommentServiceImpl.class);
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
 	
 	private AddCommentJpaDao addCommentDao;
 
@@ -46,7 +47,7 @@ public class AddCommentServiceImpl implements AddCommentService {
 		try {
 			createdDate = inputFormatter.parse(input);
 		} catch (ParseException e1) {
-			logger.error("############ ParseException : "+e1.getMessage());
+			errorLog.error(" ParseException : "+e1.getMessage());
 		}
 
 		String modifiedBy = null;
@@ -56,7 +57,7 @@ public class AddCommentServiceImpl implements AddCommentService {
 		try {
 			modifiedDate = inputFormatter.parse(input1);
 		} catch (ParseException e) {
-			logger.info("############ ParseException : "+e.getMessage());
+			infoLog.info(" ParseException : "+e.getMessage());
 		}
 
 		GenericResponse genericResponse = new GenericResponse();
@@ -122,7 +123,7 @@ public class AddCommentServiceImpl implements AddCommentService {
 					if (applicationReference1.getId() == appId){
 						// add comments 
 						addCommentDao.addComments(mobComments);
-						logger.info("############ comment added : ");
+						infoLog.info(" comment added : ");
 					}
 					else {
 						MessageHeader messageHeader = new MessageHeader();
@@ -135,7 +136,7 @@ public class AddCommentServiceImpl implements AddCommentService {
 						throw new IdNotFoundException("requested app id is not present");
 					}}
 				catch (IdNotFoundException exceptionMessage) {
-					logger.error("############ Exception got : " + exceptionMessage);
+					errorLog.error(" Exception got : " + exceptionMessage);
 					System.out.println(" Exception got : " + exceptionMessage);
 				}
 				/*}} else {

@@ -6,8 +6,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import com.afrAsia.customexception.IdNotFoundException;
 import com.afrAsia.dao.jpa.CategoryJpaDAO;
@@ -27,8 +26,10 @@ import com.afrAsia.service.ProductService;
 
 public class ProductServiceImpl implements ProductService {
 
-	private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
-
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
 	private ProductJpaDao productDao;
 
 	private ProductDetailsJpaDao productDetailsDao;
@@ -69,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
 
 		// fetch from DB
 		List<Product> listOfProducts = (List<Product>) productDao.getProducts();
-		logger.info("############ listOfProductsfrom DB in getProducts is : "+listOfProducts.toString());
+		infoLog.info(" listOfProductsfrom DB in getProducts is : "+listOfProducts.toString());
 		
 		List<Category> listOfCategoriesFromDB = (List<Category>) categoryDao.getCategories();
 
@@ -118,7 +119,7 @@ public class ProductServiceImpl implements ProductService {
 
 		}
 		response.setData(data);
-		logger.info("############ response in getProducts is : "+response);
+		infoLog.info(" response in getProducts is : "+response);
 		return response;
 	}
 
@@ -161,13 +162,13 @@ public class ProductServiceImpl implements ProductService {
 				throw new IdNotFoundException("Provided product id is not present, please pass another id");
 			}
 		} catch (IdNotFoundException exceptionMessage) {
-			logger.error("############ exceptionMessage in getProductById is : "+exceptionMessage.getMessage());
+			errorLog.error(" exceptionMessage in getProductById is : "+exceptionMessage.getMessage());
 			System.out.println(" Exception got : " + exceptionMessage);
 		}
 
 		dataResponse.setProductDetails(listProductDetailsResponse);
 		response.setData(dataResponse);
-		logger.info("############ response in getProductById is : "+response);
+		infoLog.info(" response in getProductById is : "+response);
 		return response;
 	}
 

@@ -2,7 +2,6 @@ package com.afrAsia.rest;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,10 +13,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.entities.response.DailyTxnDataListResponse;
@@ -28,6 +25,11 @@ import com.afrAsia.service.DTDPSService;
 @Path("DigitalTransaction")
 public class DTDPSRestService
 {
+	
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
     private DTDPSService dtdpsService;
 
     public DTDPSService getDtdpsService()
@@ -44,6 +46,7 @@ public class DTDPSRestService
     @Produces(MediaType.APPLICATION_XML)
     public DailyTxnDataListResponse getDigitalTransactions(@Context UriInfo uriInfo, @Context HttpHeaders httpHeader)
     {
+    	infoLog.info(" uriInfo in getDigitalTransactions(),DTDPSRestService is : "+uriInfo);
         DailyTxnDataListResponse listResponse = new DailyTxnDataListResponse();
         int errorCode = -3;
 
@@ -65,6 +68,7 @@ public class DTDPSRestService
         		if (userList == null || userList.isEmpty() || !userList.get(0).equals("UBI"))
         		{
         			errorCode = -2;
+        			errorLog.error(" USERNAME not entered");
         			throw new IllegalStateException("USERNAME not entered");
         		}
         		else
@@ -75,6 +79,7 @@ public class DTDPSRestService
         		if (passwordList == null || passwordList.isEmpty() || !passwordList.get(0).equals("uB1s3rv1c3"))
         		{
         			errorCode = -2;
+        			errorLog.error(" PASSWORD not entered");
         			throw new IllegalStateException("PASSWORD not entered");
         		}
         		else
@@ -85,7 +90,8 @@ public class DTDPSRestService
         		if (dateList == null || dateList.isEmpty())
         		{
         			errorCode = -1;
-        			throw new IllegalStateException("TRANSACTION_DATE not entered!");
+        			errorLog.error(" TRANSACTION_DATE not parsable!");
+        			throw new IllegalStateException("TRANSACTION_DATE not parsable!");
         		}
         		{
         			try
@@ -96,6 +102,7 @@ public class DTDPSRestService
         			catch (ParseException pe)
         			{
         				errorCode = -1;
+        				errorLog.error(" TRANSACTION_DATE not parsable!"+pe.getMessage());
         				throw new IllegalStateException("TRANSACTION_DATE not parsable!");
         			}
         		}
@@ -110,27 +117,22 @@ public class DTDPSRestService
         			catch(Exception e)
         			{
         				e.printStackTrace();
-        				System.out.println("ON_US_IND not parsable!");
+        				errorLog.error(" ON_US_IND not parsable!"+e.getMessage());
         			}
         		}
         	}
         	
-        	System.out.println("Username : " + username);
-        	System.out.println("Password : " + password);
-        	System.out.println("Date : " + date);
-        	
             List<DailyTxnDataResponse> response = dtdpsService.fetchTransactions(date, onUsInd);
             listResponse.setTransactions(response);
             
-//            System.out.println("Response size: " + listResponse);
         } 
         catch (Exception e)
         {
-        	System.out.println(e.getMessage());
+        	errorLog.error(" Exception in getDigitalTransactions(),DTDPSRestService is : "+e.getMessage());
             e.printStackTrace();
             listResponse.setErrorCode(errorCode);
         }
-
+        infoLog.info("listResponse in getDigitalTransactions(),DTDPSRestService is : "+listResponse);
         return listResponse;
     }
 }

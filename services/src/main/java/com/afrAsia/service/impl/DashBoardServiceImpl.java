@@ -8,8 +8,7 @@ import java.util.Set;
 
 import javax.persistence.NoResultException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import com.afrAsia.dao.jpa.DashBoardJpaDao;
 import com.afrAsia.entities.jpa.ApplicationReference;
@@ -24,7 +23,9 @@ import com.afrAsia.service.DashBoardService;
 
 public class DashBoardServiceImpl implements DashBoardService {
 
-	private static final Logger logger = LoggerFactory.getLogger(DashBoardServiceImpl.class);
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
 	
 	private DashBoardJpaDao dashBoardDao;
 
@@ -64,11 +65,11 @@ public class DashBoardServiceImpl implements DashBoardService {
 		double avgMonthly = (listMonthlyRecords.size()) ;
 
 		if (avgMonthly < 0.1) {
-			logger.info("############ avgMonthly value is less than 0.1 ");
+			infoLog.info(" avgMonthly value is less than 0.1 ");
 			averageProductivity.setAvgMonthly(0.0);
 		} else {
 			averageProductivity.setAvgMonthly(avgMonthly);
-			logger.info("############ avgMonthly value is : "+averageProductivity.getAvgMonthly());
+			infoLog.info(" avgMonthly value is : "+averageProductivity.getAvgMonthly());
 		}
 		
 		// set quarterly average record
@@ -80,11 +81,11 @@ public class DashBoardServiceImpl implements DashBoardService {
 		avgQuarterly=round(avgQuarterly, 1);
 		
 		if (avgQuarterly < 0.1) {
-			logger.info("############ avgQuarterly value is less than 0.1 ");
+			infoLog.info(" avgQuarterly value is less than 0.1 ");
 			averageProductivity.setAvgQuarterly(0.0);
 		} else {
 			averageProductivity.setAvgQuarterly(avgQuarterly);
-			logger.info("############ avgQuarterly value is : "+averageProductivity.getAvgQuarterly());
+			infoLog.info(" avgQuarterly value is : "+averageProductivity.getAvgQuarterly());
 		}
 
 		// set Half Yearly average record
@@ -96,11 +97,11 @@ public class DashBoardServiceImpl implements DashBoardService {
 		avgHalfYearly=round(avgHalfYearly, 1);
 		
 		if (avgHalfYearly < 0.1) {
-			logger.info("############ avgHalfYearly value is less than 0.1 ");
+			infoLog.info(" avgHalfYearly value is less than 0.1 ");
 			averageProductivity.setAvgHalfYearly(0.0);
 		} else {
 			averageProductivity.setAvgHalfYearly(avgHalfYearly);
-			logger.info("############ AvgHalfYearly value is : "+averageProductivity.getAvgHalfYearly());
+			infoLog.info(" AvgHalfYearly value is : "+averageProductivity.getAvgHalfYearly());
 		}
 
 		// set Yearly average record
@@ -111,11 +112,11 @@ public class DashBoardServiceImpl implements DashBoardService {
 		avgYearly=round(avgYearly, 1);
 		
 		if (avgYearly < 0.1) {
-			logger.info("############ avgYearly value is less than 0.1 ");
+			infoLog.info(" avgYearly value is less than 0.1 ");
 			averageProductivity.setAvgYearly(0.0);
 		} else {
 			averageProductivity.setAvgYearly(avgYearly);
-			logger.info("############ avgYearly value is : "+averageProductivity.getAvgYearly());
+			infoLog.info(" avgYearly value is : "+averageProductivity.getAvgYearly());
 		}
 
 		return averageProductivity;
@@ -140,11 +141,11 @@ public class DashBoardServiceImpl implements DashBoardService {
 		int loggedUsers = listOfLoggedUsers.size();
 
 		if (loggedUsers == 0) {
-			logger.info("############ loggedUsers is 0 ");
+			infoLog.info(" loggedUsers is 0 ");
 			appLoggedSummary.setLogged(0);
 		} else {
 			appLoggedSummary.setLogged(loggedUsers);
-			logger.info("############ loggedUsers is : "+appLoggedSummary.getLogged());
+			infoLog.info(" loggedUsers is : "+appLoggedSummary.getLogged());
 		}
 
 		// check number of accounts opened in last 30 days
@@ -154,11 +155,11 @@ public class DashBoardServiceImpl implements DashBoardService {
 		int numberOfOpenedAccount = listOfAccountsOpened.size();
 
 		if (numberOfOpenedAccount == 0) {
-			logger.info("############ numberOfOpenedAccount is 0 ");
+			infoLog.info(" numberOfOpenedAccount is 0 ");
 			appLoggedSummary.setOpened(0);
 		} else {
 			appLoggedSummary.setOpened(numberOfOpenedAccount);
-			logger.info("############ numberOfOpenedAccount is : "+appLoggedSummary.getOpened());
+			infoLog.info(" numberOfOpenedAccount is : "+appLoggedSummary.getOpened());
 		}
 
 		// check number of Accounts UnderProcessing in last 30 days
@@ -168,11 +169,11 @@ public class DashBoardServiceImpl implements DashBoardService {
 		int numberOfAccountsUnderProcessing = listOfAccountsUnderProcessing.size();
 
 		if (numberOfAccountsUnderProcessing == 0) {
-			logger.info("############ numberOfAccountsUnderProcessing is 0 ");
+			infoLog.info(" numberOfAccountsUnderProcessing is 0 ");
 			appLoggedSummary.setUnderProcessing(0);
 		} else {
 			appLoggedSummary.setUnderProcessing(numberOfAccountsUnderProcessing);
-			logger.info("############ numberOfAccountsUnderProcessing is : "+appLoggedSummary.getUnderProcessing());
+			infoLog.info(" numberOfAccountsUnderProcessing is : "+appLoggedSummary.getUnderProcessing());
 		}
 
 		// check number of Accounts UnderProcessing in last 30 days
@@ -182,11 +183,11 @@ public class DashBoardServiceImpl implements DashBoardService {
 		int numberOfAccountsRejected = listOfRejectedAccounts.size();
 
 		if (numberOfAccountsRejected == 0) {
-			logger.info("############ numberOfAccountsRejected is 0 ");
+			infoLog.info(" numberOfAccountsRejected is 0 ");
 			appLoggedSummary.setRejected(0);
 		} else {
 			appLoggedSummary.setRejected(numberOfAccountsRejected);
-			logger.info("############ numberOfAccountsRejected is : "+appLoggedSummary.getRejected());
+			infoLog.info(" numberOfAccountsRejected is : "+appLoggedSummary.getRejected());
 		}
 
 		return appLoggedSummary;
@@ -241,7 +242,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 		
 		setOfApps.addAll(listApps);
 		pendingAction.setApps(setOfApps);
-		logger.info("############ pendingAction is : "+pendingAction.getApps());
+		infoLog.info(" pendingAction is : "+pendingAction.getApps());
 		return pendingAction;
 	}
 
@@ -280,11 +281,11 @@ public class DashBoardServiceImpl implements DashBoardService {
 		}
 
 		dashboardResponse.setAvgProductivity(getAvgProductivity(rmId));
-		logger.info("############ AvgProductivity is : "+dashboardResponse.getAvgProductivity());
+		infoLog.info(" AvgProductivity is : "+dashboardResponse.getAvgProductivity());
 		dashboardResponse.setAppLoggedSummary(getAppLoggedSummary(rmId));
-		logger.info("############ AppLoggedSummary is : "+dashboardResponse.getAppLoggedSummary());
+		infoLog.info(" AppLoggedSummary is : "+dashboardResponse.getAppLoggedSummary());
 		dashboardResponse.setPendingAction(getPendingAction(rmId));
-		logger.info("############ PendingAction is : "+dashboardResponse.getPendingAction());
+		infoLog.info(" PendingAction is : "+dashboardResponse.getPendingAction());
 		
 		/*try{	
 			if(applicationReference.getRmUserId() !=null && applicationReference.getRmUserId().equals(rmId)){ 
@@ -303,7 +304,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 		}catch(IdNotFoundException exceptionMessage){
 			System.out.println(" Exception got : "+exceptionMessage);
 		}
-*/		logger.info("############ dashboardResponse is : "+dashboardResponse.toString());
+*/		infoLog.info(" dashboardResponse is : "+dashboardResponse.toString());
 		return dashboardResponse;
 	}
 }

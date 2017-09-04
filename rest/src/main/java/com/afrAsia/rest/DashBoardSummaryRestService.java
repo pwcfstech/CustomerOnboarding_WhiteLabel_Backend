@@ -8,8 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.entities.request.DashboardRequest;
@@ -23,7 +22,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Path("{version}")
 public class DashBoardSummaryRestService {
 
-	private static final Logger logger = LoggerFactory.getLogger(DashBoardSummaryRestService.class);
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
 
 	private DashBoardService dashBoardService;
 
@@ -40,7 +41,7 @@ public class DashBoardSummaryRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAppversion(String jsonInput) {
 
-		logger.info("############ jsonInput from Request in DashBoardSummaryRestService is : " + jsonInput);
+		infoLog.info(" jsonInput from Request in DashBoardSummaryRestService is : " + jsonInput);
 
 		DashboardRequest dashboardRequest = new DashboardRequest();
 
@@ -48,13 +49,13 @@ public class DashBoardSummaryRestService {
 		try {
 			dashboardRequest = mapper.readValue(jsonInput, DashboardRequest.class);
 		} catch (JsonParseException e) {
-			logger.error("############ JsonParseException : " + e.getMessage());
+			errorLog.error(" JsonParseException : " + e.getMessage());
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
-			logger.error("############ JsonMappingException : " + e.getMessage());
+			errorLog.error(" JsonMappingException : " + e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
-			logger.error("############ IOException : " + e.getMessage());
+			errorLog.error(" IOException : " + e.getMessage());
 			e.printStackTrace();
 		}
 
@@ -64,14 +65,12 @@ public class DashBoardSummaryRestService {
 
 		if (dashBoardService.getDashBoardSummery(rmId) == null
 				|| dashBoardService.getDashBoardSummery(rmId).equals(null)) {
-			logger.info("############ dashboardResponse is null : ");
+			infoLog.info(" dashboardResponse is null : ");
 			dashboardResponse = null;
 		} else {
 			dashboardResponse = dashBoardService.getDashBoardSummery(rmId);
 		}
-		logger.info("############ dashboardResponse : " + dashboardResponse);
+		infoLog.info(" dashboardResponse : " + dashboardResponse);
 		return Response.ok(dashboardResponse, MediaType.APPLICATION_JSON).build();
-
 	}
-
 }

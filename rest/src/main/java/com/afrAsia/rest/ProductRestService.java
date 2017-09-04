@@ -10,8 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.entities.request.GenericRequest;
@@ -26,7 +25,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ProductRestService 
 {
 
-	private static final Logger logger = LoggerFactory.getLogger(ProductRestService.class);
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
 	
 	private ProductService productService;
 
@@ -50,7 +51,7 @@ public class ProductRestService
 		else{
 		genericResponse=productService.getProducts();
 		}
-		logger.info("############ genericResponse in getProdList is : "+genericResponse);
+		infoLog.info(" genericResponse in getProdList(),,ProductRestService.java is : "+genericResponse);
 		return Response.ok(genericResponse, MediaType.APPLICATION_JSON).build();
 
 	}
@@ -61,24 +62,24 @@ public class ProductRestService
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProdDetails(String jsonInput) 
 	{
-		logger.info("############ jsonInput from Request in getProdDetails is : "+jsonInput);
+		infoLog.info(" jsonInput from Request in getProdDetails(),ProductRestService.java is : "+jsonInput);
 		GenericRequest req = new GenericRequest();
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			req = mapper.readValue(jsonInput, GenericRequest.class);
 		} catch (JsonParseException e) {
-			logger.error("############ JsonParseException : "+e.getMessage());
+			errorLog.error(" JsonParseException : "+e.getMessage());
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
-			logger.error("############ JsonMappingException : "+e.getMessage());
+			errorLog.error(" JsonMappingException : "+e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
-			logger.error("############ IOException : "+e.getMessage());
+			errorLog.error(" IOException : "+e.getMessage());
 			e.printStackTrace();
 		}
 		String id=req.getData().getProductID(); 
 		GenericResponse genericResponse=productService.getProductById(Long.parseLong(id));
-		logger.info("############ genericResponse in getProdDetails is : "+genericResponse);
+		infoLog.info(" genericResponse in getProdDetails(),ProductRestService.java is : "+genericResponse);
 		return Response.ok(genericResponse, MediaType.APPLICATION_JSON).build();
 	}
 }

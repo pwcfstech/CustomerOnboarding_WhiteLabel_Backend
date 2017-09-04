@@ -9,8 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.entities.request.GenericRequest;
@@ -25,7 +24,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class AddCommentRestService 
 {
 
-	private static final Logger logger = LoggerFactory.getLogger(AddCommentRestService.class);
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
 	
 	private AddCommentService addCommentService;
 
@@ -43,19 +44,19 @@ public class AddCommentRestService
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAppversion(String jsonInput) 
 	{
-		logger.info("############ jsonInput is : "+jsonInput);
+		infoLog.info(" jsonInput in AddCommentRestService is : "+jsonInput);
 		GenericRequest req = new GenericRequest();
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			req = mapper.readValue(jsonInput, GenericRequest.class);
 		} catch (JsonParseException e) {
-			logger.error("############ JsonParseException : "+e.getMessage());
+			errorLog.error(" JsonParseException in AddCommentRestService is : "+e.getMessage());
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
-			logger.error("############ JsonMappingException : "+e.getMessage());
+			errorLog.error(" JsonMappingException in AddCommentRestService is : "+e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
-			logger.error("############ IOException : "+e.getMessage());
+			errorLog.error(" IOException in AddCommentRestService is : "+e.getMessage());
 			e.printStackTrace();
 		}
 		
@@ -65,7 +66,7 @@ public class AddCommentRestService
 		String userCat=req.getData().getUserCat();
 		
 		GenericResponse genericResponse=addCommentService.addComments(appId, comments, userId, userCat);
-		logger.info("############ genericResponse is : "+genericResponse);
+		infoLog.info(" genericResponse in AddCommentRestService is : "+genericResponse);
 		return Response.ok(genericResponse, MediaType.APPLICATION_JSON).build();
 
 	}

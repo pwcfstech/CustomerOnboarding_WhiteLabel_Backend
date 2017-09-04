@@ -13,6 +13,7 @@ com\afrAsia\rest\KycDocDownloadRestService.class
 com\afrAsia\rest\AddCommentRestService.class
 com\afrAsia\rest\AppVersionRestService.class
 com\afrAsia\CommonUtils.class
+com\afrAsia\Utils\AfrAsiaSMSUtility.class
 com\afrAsia\rest\ProductRestService.class
 com\afrAsia\Utils\AfrAsiaEmailUtility$1.class
 com\afrAsia\rest\MasterDataRestService.class
