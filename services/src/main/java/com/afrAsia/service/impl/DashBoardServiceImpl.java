@@ -256,7 +256,7 @@ System.out.println("###############averageProductivity.getAvgQuarterly() ====="+
 		System.out.println("######### listOfPendingSinceStatus " + listOfPendingSinceStatus); 
 		for (Date date : listOfPendingSinceStatus) {
 			Apps apps = listApps.get(i);
-			apps.setPendingSince(date);
+			apps.setPendingSince(date.getTime());
 			System.out.println("########### date :: " + apps.getPendingSince());
 			listApps.add(apps);
 			i++;

@@ -1,6 +1,8 @@
 package com.afrAsia.service.impl;
 
 import java.security.SecureRandom;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -206,7 +208,10 @@ public class AuthenticationServiceImpl implements AuthenticationService
  		OAuth2AccessToken token = getTokenDetails(userId, clientSecret, "client_credentials");
  		
 		if(mobRmPreviousSession != null){
-			responseData.setLastLoginTime(mobRmPreviousSession.getCreatedDate());
+			long millis = 0l;
+			if(mobRmPreviousSession.getCreatedDate()!=null)
+				millis=mobRmPreviousSession.getCreatedDate().getTime();
+			responseData.setLastLoginTime(millis);
 			System.out.println("Previous Session Details::" + mobRmPreviousSession.toString());
 		}
 		

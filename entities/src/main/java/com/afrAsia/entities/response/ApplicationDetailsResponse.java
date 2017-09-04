@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.afrAsia.entities.jpa.MsgHeader;
-import com.afrAsia.entities.request.ApplicantDetails;
-import com.afrAsia.entities.request.JointApplicants;
+import com.afrAsia.entities.response.ApplicantDetailsResponse;
+import com.afrAsia.entities.response.JointApplicantsResponse;
 import com.afrAsia.entities.request.NomineeInfo;
 
 public class ApplicationDetailsResponse implements Serializable {
@@ -39,15 +39,16 @@ public class ApplicationDetailsResponse implements Serializable {
 
 		private Long refNo;
 		private String appStatus;
-		private Date appSubDate;
-		private Date pendingRMSince;
+		private Long appSubDate;
+		private Long pendingRMSince;
 		private String rvwBy;
 		List<Comments> comments;
 		AccountDetails accountDetails;
-		ApplicantDetails primaryApplicantDetails;
-		ApplicantDetails guardianDetails;
-		List<JointApplicants> jointApplicants;
-
+		ApplicantDetailsResponse primaryApplicantDetails;
+		ApplicantDetailsResponse guardianDetails;
+		List<JointApplicantsResponse> jointApplicants;
+		
+		
 		public Long getRefNo() {
 			return refNo;
 		}
@@ -64,19 +65,19 @@ public class ApplicationDetailsResponse implements Serializable {
 			this.appStatus = appStatus;
 		}
 
-		public Date getAppSubDate() {
+		public Long getAppSubDate() {
 			return appSubDate;
 		}
 
-		public void setAppSubDate(Date appSubDate) {
+		public void setAppSubDate(Long appSubDate) {
 			this.appSubDate = appSubDate;
 		}
 
-		public Date getPendingRMSince() {
+		public Long getPendingRMSince() {
 			return pendingRMSince;
 		}
 
-		public void setPendingRMSince(Date pendingRMSince) {
+		public void setPendingRMSince(Long pendingRMSince) {
 			this.pendingRMSince = pendingRMSince;
 		}
 
@@ -104,27 +105,27 @@ public class ApplicationDetailsResponse implements Serializable {
 			this.accountDetails = accountDetails;
 		}
 
-		public ApplicantDetails getPrimaryApplicantDetails() {
+		public ApplicantDetailsResponse getPrimaryApplicantDetails() {
 			return primaryApplicantDetails;
 		}
 
-		public void setPrimaryApplicantDetails(ApplicantDetails primaryApplicantDetails) {
+		public void setPrimaryApplicantDetails(ApplicantDetailsResponse primaryApplicantDetails) {
 			this.primaryApplicantDetails = primaryApplicantDetails;
 		}
 
-		public ApplicantDetails getGuardianDetails() {
+		public ApplicantDetailsResponse getGuardianDetails() {
 			return guardianDetails;
 		}
 
-		public void setGuardianDetails(ApplicantDetails guardianDetails) {
+		public void setGuardianDetails(ApplicantDetailsResponse guardianDetails) {
 			this.guardianDetails = guardianDetails;
 		}
 
-		public List<JointApplicants> getJointApplicants() {
+		public List<JointApplicantsResponse> getJointApplicants() {
 			return jointApplicants;
 		}
 
-		public void setJointApplicants(List<JointApplicants> jointApplicants) {
+		public void setJointApplicants(List<JointApplicantsResponse> jointApplicants) {
 			this.jointApplicants = jointApplicants;
 		}
 

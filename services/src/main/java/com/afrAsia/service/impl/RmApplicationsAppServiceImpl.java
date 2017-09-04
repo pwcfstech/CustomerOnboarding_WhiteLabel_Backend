@@ -102,7 +102,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 
-			apps.setAppSubmittedDate(date);
+			apps.setAppSubmittedDate(date.getTime());
 			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppStatus(outputs[2].toString());
 
@@ -180,7 +180,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 
-			apps.setAppSubmittedDate(date);
+			apps.setAppSubmittedDate(date.getTime());
 			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppStatus(outputs[2].toString());
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
@@ -276,7 +276,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 
-			apps.setAppSubmittedDate(date);
+			apps.setAppSubmittedDate(date.getTime());
 			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppStatus(outputs[2].toString());
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
@@ -347,7 +347,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			} catch (ParseException e) {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
-			apps.setAppSubmittedDate(date);
+			apps.setAppSubmittedDate(date.getTime());
 			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppStatus(outputs[2].toString());
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
@@ -437,7 +437,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 
-			apps.setAppSubmittedDate(date);
+			apps.setAppSubmittedDate(date.getTime());
 			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppStatus(outputs[2].toString());
 
@@ -531,7 +531,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				System.out.println(" ==================== date coud not be parsed =========== ");
 			}
 
-			apps.setAppSubmittedDate(date);
+			apps.setAppSubmittedDate(date.getTime());
 			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppStatus(outputs[2].toString());
 

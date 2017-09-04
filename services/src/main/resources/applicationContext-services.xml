@@ -121,6 +121,7 @@
 	<bean id="accountCreationService" class="com.afrAsia.service.impl.AccountCreationServiceImpl">
 		<property name="accountCreateDao" ref="accountCreateJpaDao" /> 
 		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" />
+		<property name="rmDetailsDAO" ref="rmDetailsDAO" />
 	</bean>
 	
 	<bean id="applicationDetailsService" class="com.afrAsia.service.impl.ApplicationDetailsServiceImpl">

@@ -11,9 +11,9 @@ public class Apps implements Serializable {
 
 	private String customerName;																
 
-	private Date pendingSince;
+	private long pendingSince;
 
-	private Date appSubmittedDate;
+	private long appSubmittedDate;
 
 	private String appStatus;
 
@@ -43,19 +43,19 @@ public class Apps implements Serializable {
 		this.customerName = customerName;
 	}
 
-	public Date getPendingSince() {
+	public long getPendingSince() {
 		return pendingSince;
 	}
 
-	public void setPendingSince(Date pendingSince) {
+	public void setPendingSince(long pendingSince) {
 		this.pendingSince = pendingSince;
 	}
 
-	public Date getAppSubmittedDate() {
+	public long getAppSubmittedDate() {
 		return appSubmittedDate;
 	}
 
-	public void setAppSubmittedDate(Date appSubmittedDate) {
+	public void setAppSubmittedDate(long appSubmittedDate) {
 		this.appSubmittedDate = appSubmittedDate;
 	}
 

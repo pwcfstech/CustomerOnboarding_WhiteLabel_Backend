@@ -74,14 +74,14 @@ public class AccountCreationRestService {
 					System.out.println(" ########### in create service ############## ");
 					accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
 
-					Data accountCreationData = accountCreationRequest.getData();
+					/*Data accountCreationData = accountCreationRequest.getData();
 					String primApplicantName = accountCreationData.getPrimaryApplicantDetail().getFirstName();
 					String rmName = "";
 					RMDetails rmDetails = accountCreationService.getRMDetails(accountCreationData.getRmId());
 					if(rmDetails!=null)
 					{
 						rmName=rmDetails.getRmName();
-					}
+					}*/
 					sendEmailToCustomer(accountCreationRequest);
 
 					//sendSMSToCustomer(accountCreationRequest,accountCreationResponse);
