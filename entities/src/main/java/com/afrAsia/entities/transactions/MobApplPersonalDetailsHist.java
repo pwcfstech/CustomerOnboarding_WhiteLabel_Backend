@@ -35,14 +35,14 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	@Column(name = "CREATED_BY")
 	private String createdBy;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CREATED_DATE")
 	private Date createdDate;
 
 	@Column(name = "CIF")
 	private String custCif;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "DOB") // changed by sameer
 	private Date dob;
 
@@ -73,7 +73,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	@Column(name = "MODIFIED_BY")
 	private String modifiedBy;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "MODIFIED_DATE")
 	private Date modifiedDate;
 
@@ -92,7 +92,7 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	@Column(name = "OTHER_BANK3")
 	private String otherBank3;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "PASSPORT_EXPIRY_DATE")
 	private Date passportExpiryDate;
 

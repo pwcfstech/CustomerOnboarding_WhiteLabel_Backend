@@ -4,17 +4,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.persistence.NoResultException;
+
+import org.apache.log4j.Logger;
 
 import com.afrAsia.customexception.DateDifferenceException;
-import com.afrAsia.customexception.IdNotFoundException;
 import com.afrAsia.dao.jpa.RmApplicationsAppJpaDAO;
-import com.afrAsia.entities.jpa.ApplicationReference;
 import com.afrAsia.entities.response.Apps;
 import com.afrAsia.entities.response.MessageHeader;
 import com.afrAsia.entities.response.RequestError;
@@ -23,8 +20,10 @@ import com.afrAsia.service.RmApplicationsAppService;
 
 public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 
-	private static final Logger logger = LoggerFactory.getLogger(RmApplicationsAppServiceImpl.class);
-
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
 	private RmApplicationsAppJpaDAO rmApplicationsAppDao;
 
 	/**
@@ -45,42 +44,45 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 	
 	
 	public RmApplicationAppResponse getDetailsByefault(String rmId) {
-		
-		System.out.println(" ################ in getDetailsByefault service impl ===== ");
 
 		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
 
 		List<Apps> listOfApps = new ArrayList<Apps>();
 
-		Set<Apps> setOfApps = new LinkedHashSet<Apps>(listOfApps);
-
 		List<Object> detailsByDefault = new ArrayList<Object>(listOfApps);
 
-		List<String> id= rmApplicationsAppDao.getId(rmId);
+		// check whether the given RmId is present in DB or not 
+		String rmUserIdFromDB=null;
+		try{			
+			//rmUserIdFromDB= rmApplicationsAppDao.getRmId(rmId);			
+			/*if(rmUserIdFromDB==null){
+				throw new IdNotFoundException("Provided RM user id is not present, please pass proper value");
+			}*/
+
+		}  
+		/*catch(IdNotFoundException exceptionMessage){
+			MessageHeader messageHeader=new MessageHeader();
+			RequestError requestError=new RequestError();
+			requestError.setRsn("Provided Rm user id is not present");
+			messageHeader.setError(requestError);
+			rmApplicationAppResponse.setMessageHeader(messageHeader);
+			return rmApplicationAppResponse;
+		}	*/
+		catch(NoResultException excpMessage){
+			MessageHeader messageHeader=new MessageHeader();
+			RequestError requestError=new RequestError();
+			requestError.setRsn("Provided Rm user id is not present");
+			messageHeader.setError(requestError);
+			rmApplicationAppResponse.setMessageHeader(messageHeader);
+			return rmApplicationAppResponse;
+		}
 		
 		int i=0;
 		
-		ApplicationReference applicationReference=new ApplicationReference();
-		for(String object:id){
-			applicationReference.setRmUserId(object);
-		}
+		// get all the details of records by default		
+		detailsByDefault = rmApplicationsAppDao.getDetailsByefault(rmId);
+		infoLog.info(" records fetched from DB on the basis of RmId only : "+detailsByDefault.toString());
 		
-		try{	
-			if(applicationReference.getRmUserId() !=null && applicationReference.getRmUserId().equals(rmId)){ 
-				detailsByDefault = rmApplicationsAppDao.getDetailsByefault(rmId);
-		    }
-			else{
-				MessageHeader messageHeader=new MessageHeader();
-				RequestError requestError=new RequestError();
-				requestError.setCustomCode("requested RM user is not present for the given id , please pass another RM userid");
-				messageHeader.setError(requestError);
-				rmApplicationAppResponse.setMessageHeader(messageHeader);
-				throw new IdNotFoundException("Provided Rm user id is not present, please pass another id");
-			}
-		}catch(IdNotFoundException exceptionMessage){
-			System.out.println(" Exception got : "+exceptionMessage);
-		}
-
 		for (Object object : detailsByDefault) {
 			
 			Apps apps = new Apps();
@@ -89,8 +91,6 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 
 			apps.setRefNo(outputs[0].toString());
 			
-			//System.out.println(" ====== ref id service impl is ========= " + apps.getRefNo());
-
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S");
 
 			String dateStr = outputs[1].toString();
@@ -99,67 +99,59 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				System.out.println(" ==================== date coud not be parsed =========== ");
+				errorLog.error("  date coud not be parsed in getDetailsByefault method of RmApplicationsAppServiceImpl class ");
 			}
 
 			apps.setAppSubmittedDate(date);
-			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppStatus(outputs[2].toString());
 
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
 			listOfApps.add(i, apps);
 			i++;
-
 		}
-		System.out.println("listOfApps=================" + listOfApps);
-		setOfApps.addAll(listOfApps);
-		System.out.println("setOfApps=================" + setOfApps);
-
-		
 		rmApplicationAppResponse.setApps(listOfApps);
-
+		infoLog.info(" response on the basis of RmId only : "+rmApplicationAppResponse);
+		
 		return rmApplicationAppResponse;
 	}
 
 	public RmApplicationAppResponse getDetailsByName(String name, String rmId) {
 		
-		System.out.println(" ################ in getDetailsByName service impl ===== ");
-		
 		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
 
 		List<Apps> listOfApps = new ArrayList<Apps>();
 
-		Set<Apps> setOfApps = new LinkedHashSet<Apps>(listOfApps);
-
 		List<Object> detailsByName = new ArrayList<Object>(listOfApps);
 
-		ApplicationReference applicationReference=new ApplicationReference();
-		
-		List<String> id= rmApplicationsAppDao.getId(rmId);
-		
-		for(String object:id){
-			applicationReference.setRmUserId(object);
-		}
-		
-		try{	
-			if(applicationReference.getRmUserId() !=null && applicationReference.getRmUserId().equals(rmId)){
-				System.out.println("name in service is  ===== "+name+"and rmid is ==== "+rmId);
-				detailsByName = (List<Object>) rmApplicationsAppDao.getDetailsByName(name, rmId);
-		    }  
-			else{
-				MessageHeader messageHeader=new MessageHeader();
-				RequestError requestError=new RequestError();
-				requestError.setCustomCode("requested RM user is not present , please pass another RM userid");
-				messageHeader.setError(requestError);
-				rmApplicationAppResponse.setMessageHeader(messageHeader);
-				System.out.println("rmApplicationAppResponse.getMessageHeader().getError().getCustomCode()========="
-						+ rmApplicationAppResponse.getMessageHeader().getError().getCustomCode());
-				throw new IdNotFoundException("Provided Rm user id is not present, please pass another id");
-			}
-		}catch(IdNotFoundException exceptionMessage){
-			System.out.println(" Exception got : "+exceptionMessage);
-		}
-		
+		// check whether the given RmId is present in DB or not 
+				String rmUserIdFromDB=null;
+				try{			
+					//rmUserIdFromDB= rmApplicationsAppDao.getRmId(rmId);			
+					/*if(rmUserIdFromDB==null){
+						throw new IdNotFoundException("Provided RM user id is not present, please pass proper value");
+					}*/
+
+				}  
+				/*catch(IdNotFoundException exceptionMessage){
+					MessageHeader messageHeader=new MessageHeader();
+					RequestError requestError=new RequestError();
+					requestError.setRsn("Provided Rm user id is not present");
+					messageHeader.setError(requestError);
+					rmApplicationAppResponse.setMessageHeader(messageHeader);
+					return rmApplicationAppResponse;
+				}	*/
+				catch(NoResultException excpMessage){
+					MessageHeader messageHeader=new MessageHeader();
+					RequestError requestError=new RequestError();
+					requestError.setRsn("Provided Rm user id is not present");
+					messageHeader.setError(requestError);
+					rmApplicationAppResponse.setMessageHeader(messageHeader);
+					return rmApplicationAppResponse;
+				}
+
+		// get all records by name and Rm Id	
+		detailsByName = (List<Object>) rmApplicationsAppDao.getDetailsByName(name, rmId);
+		infoLog.info(" records fetched from DB on the basis basis of name,rmId is : "+detailsByName.toString());  
 		int i = 0;
 		for (Object object : detailsByName) {
 
@@ -167,7 +159,6 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			Object[] outputs = (Object[]) object;
 
 			apps.setRefNo(outputs[0].toString());
-			//System.out.println(" ====== ref id service impl is ========= " + apps.getRefNo());
 
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S");
 
@@ -177,85 +168,85 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				System.out.println(" ==================== date coud not be parsed =========== ");
+				errorLog.error("   date coud not be parsed in getDetailsByName method of RmApplicationsAppServiceImpl class ");
 			}
 
 			apps.setAppSubmittedDate(date);
-			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppStatus(outputs[2].toString());
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
 			listOfApps.add(i, apps);
 			i++;
-
 		}
-		System.out.println("listOfApps=================" + listOfApps);
-		setOfApps.addAll(listOfApps);
-		System.out.println("setOfApps=================" + setOfApps);
 		rmApplicationAppResponse.setApps(listOfApps);
-
+		infoLog.info(" response on the basis of name,rmId is :: "+rmApplicationAppResponse);
 		return rmApplicationAppResponse;
 	}
 
 	public RmApplicationAppResponse getDetailsByDates(Date startDate, Date endDate, String rmId) {
 		
-		System.out.println(" ################ in getDetailsByDates service impl ===== ");
-		
 		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
 
 		List<Apps> listOfApps = new ArrayList<Apps>();
 
-		Set<Apps> setOfApps = new LinkedHashSet<Apps>(listOfApps);
-
 		List<Object> listOfCustormerName = new ArrayList<Object>(listOfApps);
 
 		
-		int diffInDays = (int) ((endDate.getTime()-(startDate.getTime())) / (1000 * 60 * 60 * 24));
-		System.out.println("==================== diffInDays ===================" +diffInDays);
+		int diffInDays = (int) ((endDate.getTime()-(startDate.getTime())) / (1000 * 60 * 60 * 24)+1);
+		
+		// check whether the given RmId is present in DB or not 
+		String rmUserIdFromDB=null;
+		try{			
+			//rmUserIdFromDB= rmApplicationsAppDao.getRmId(rmId);			
+			/*if(rmUserIdFromDB==null){
+						throw new IdNotFoundException("Provided RM user id is not present, please pass proper value");
+					}*/
 
-		
-		ApplicationReference applicationReference=new ApplicationReference();
-		
-		List<String> id= rmApplicationsAppDao.getId(rmId);
-		
-		for(String object:id){
-			applicationReference.setRmUserId(object);
-		}
-		
-		
-		
-		try{	
-			if(applicationReference.getRmUserId() !=null && applicationReference.getRmUserId().equals(rmId)){
-			if(diffInDays <= 30){
-				System.out.println(" diffInDays in if "+ diffInDays);
-				listOfCustormerName = (List<Object>) rmApplicationsAppDao.getDetailsByDates(startDate, endDate, rmId);
-				}
-				else{
-					//System.out.println(" diffInDays in else "+ diffInDays);
+		}  
+		/*catch(IdNotFoundException exceptionMessage){
 					MessageHeader messageHeader=new MessageHeader();
 					RequestError requestError=new RequestError();
-					requestError.setCustomCode(" difference between start date and end date is more than 30 days,"
-						+ "please pass dates such that difference should not exceed 30");
-					messageHeader.setError(requestError); 
-					rmApplicationAppResponse.setMessageHeader(messageHeader);	
-					throw new DateDifferenceException("difference between start date and end date is more than 30 days,"
-						+ "please pass dates such that difference should not exceed 30");
-				}
-		}
-		else{
+					requestError.setRsn("Provided Rm user id is not present");
+					messageHeader.setError(requestError);
+					rmApplicationAppResponse.setMessageHeader(messageHeader);
+					return rmApplicationAppResponse;
+				}	*/
+		catch(NoResultException excpMessage){
 			MessageHeader messageHeader=new MessageHeader();
 			RequestError requestError=new RequestError();
-			requestError.setCustomCode("requested RM user is not present , please pass another RM userid");
+			requestError.setRsn("Provided Rm user id is not present");
 			messageHeader.setError(requestError);
 			rmApplicationAppResponse.setMessageHeader(messageHeader);
-			throw new IdNotFoundException("Provided Rm user id is not present, please pass another id");
-		}
-		}catch(IdNotFoundException idNotFoundExceptionMessage){
-			System.out.println(" Exception got due to unavailability of id :: "+idNotFoundExceptionMessage);
-		}
-		catch(DateDifferenceException dateDifferenceExceptionMessage){
-			System.out.println(" Exception got due to larger difference betweenthe dates provided : "+dateDifferenceExceptionMessage);
+			return rmApplicationAppResponse;
 		}
 		
+		// get all the records by dates and rm id	
+		try{	
+			if(endDate.getTime()>=startDate.getTime()){
+				if(diffInDays <= 31 && diffInDays > 0){
+					listOfCustormerName = (List<Object>) rmApplicationsAppDao.getDetailsByDates(startDate, endDate, rmId);
+					infoLog.info(" records fetched from DB on the basis basis of startDate,endDate,rmId is : "+listOfCustormerName.toString());
+				}
+				else{
+					MessageHeader messageHeader=new MessageHeader();
+					RequestError requestError=new RequestError();
+					requestError.setRsn("difference between start date and end date is more than 30 days");
+					messageHeader.setError(requestError); 
+					rmApplicationAppResponse.setMessageHeader(messageHeader);	
+					throw new DateDifferenceException("difference between start date and end date is more than 30 days");
+				}
+			}
+			else{
+				MessageHeader messageHeader=new MessageHeader();
+				RequestError requestError=new RequestError();
+				requestError.setRsn("start date is greater than end date");
+				messageHeader.setError(requestError); 
+				rmApplicationAppResponse.setMessageHeader(messageHeader);	
+				throw new DateDifferenceException("start date is greater than end date");
+			}
+		}catch(DateDifferenceException dateDifferenceExceptionMessage){
+			System.out.println(" Exception got due to : "+dateDifferenceExceptionMessage);
+			errorLog.error(" Exception got due to : "+dateDifferenceExceptionMessage);
+		}
 		
 		int i = 0;
 		for (Object object : listOfCustormerName) {
@@ -273,62 +264,57 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				System.out.println(" ==================== date coud not be parsed =========== ");
+				errorLog.error("   date coud not be parsed in getDetailsByDates method of RmApplicationsAppServiceImpl class ");
 			}
 
 			apps.setAppSubmittedDate(date);
-			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppStatus(outputs[2].toString());
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
 			listOfApps.add(i, apps);
 			i++;
 		}
-		System.out.println("listOfApps=================" + listOfApps);
-		setOfApps.addAll(listOfApps);
-		System.out.println("setOfApps=================" + setOfApps);
 		rmApplicationAppResponse.setApps(listOfApps);
-
+		infoLog.info(" response on the basis of startDate,endDate,rmId is :: "+rmApplicationAppResponse);
 		return rmApplicationAppResponse;
 	}
 
 	public RmApplicationAppResponse getDetailsByStatus(String status, String rmId) {
 		
-		System.out.println(" ################ in getDetailsByStatus service impl ===== ");
-		
 		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
 
 		List<Apps> listOfApps = new ArrayList<Apps>();
 
-		Set<Apps> setOfApps = new LinkedHashSet<Apps>(listOfApps);
-
 		List<Object> detailsByStatus = new ArrayList<Object>(listOfApps);
 
-		ApplicationReference applicationReference=new ApplicationReference();
-		
-		List<String> id= rmApplicationsAppDao.getId(rmId);
-		
-		for(String object:id){
-			applicationReference.setRmUserId(object);
-		}
-		
-		try{	
-			if(applicationReference.getRmUserId() !=null && applicationReference.getRmUserId().equals(rmId)){
-				System.out.println("ststus in service is === "+ status +"and rmid is  ==="+rmId);
-				detailsByStatus = (List<Object>) rmApplicationsAppDao.getDetailsByStatus(status, rmId);
-		    }
-			else{
-				MessageHeader messageHeader=new MessageHeader();
-				RequestError requestError=new RequestError();
-				requestError.setCustomCode("requested RM user is not present , please pass another RM userid");
-				messageHeader.setError(requestError);
-				rmApplicationAppResponse.setMessageHeader(messageHeader);
-				throw new IdNotFoundException("Provided Rm user id is not present, please pass another id");
-			}
-		}catch(IdNotFoundException exceptionMessage){
-			System.out.println(" Exception got : "+exceptionMessage);
-		}
+		// check whether the given RmId is present in DB or not 
+		String rmUserIdFromDB=null;
+		try{			
+			//rmUserIdFromDB= rmApplicationsAppDao.getRmId(rmId);			
+			/*if(rmUserIdFromDB==null){
+				throw new IdNotFoundException("Provided RM user id is not present, please pass proper value");
+			}*/
 
+		}  
+		/*catch(IdNotFoundException exceptionMessage){
+			MessageHeader messageHeader=new MessageHeader();
+			RequestError requestError=new RequestError();
+			requestError.setRsn("Provided Rm user id is not present");
+			messageHeader.setError(requestError);
+			rmApplicationAppResponse.setMessageHeader(messageHeader);
+			return rmApplicationAppResponse;
+		}	*/
+		catch(NoResultException excpMessage){
+			MessageHeader messageHeader=new MessageHeader();
+			RequestError requestError=new RequestError();
+			requestError.setRsn("Provided Rm user id is not present");
+			messageHeader.setError(requestError);
+			rmApplicationAppResponse.setMessageHeader(messageHeader);
+			return rmApplicationAppResponse;
+		}
 		
+		// get all the records by status and rm id 	
+		detailsByStatus = (List<Object>) rmApplicationsAppDao.getDetailsByStatus(status, rmId);
+		infoLog.info(" records fetched from DB on the basis basis of Status,rmId is : "+detailsByStatus.toString());
 		int i = 0;
 		for (Object object : detailsByStatus) {
 
@@ -345,80 +331,92 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				System.out.println(" ==================== date coud not be parsed =========== ");
+				errorLog.error("  date coud not be parsed in detailsByStatus method of RmApplicationsAppServiceImpl class ");
 			}
 			apps.setAppSubmittedDate(date);
-			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppStatus(outputs[2].toString());
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
 			listOfApps.add(i, apps);
 			i++;
-
 		}
-		System.out.println("listOfApps=================" + listOfApps);
-		setOfApps.addAll(listOfApps);
-		System.out.println("setOfApps=================" + setOfApps);
 		rmApplicationAppResponse.setApps(listOfApps);
-
+		infoLog.info(" response on the basis of status and rmId is :: "+rmApplicationAppResponse);
 		return rmApplicationAppResponse;
-
 	}
 
 	public RmApplicationAppResponse getDetailsByAllCriteriaWithoutStatus(String name, Date startDate, Date endDate,
 			String rmId) {
+		
 		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
 
 		List<Apps> listOfApps = new ArrayList<Apps>();
 
-		Set<Apps> setOfApps = new LinkedHashSet<Apps>(listOfApps);
-
 		List<Object> detailsByAllCriteriaWithoutStatus = new ArrayList<Object>(listOfApps);
 
-		ApplicationReference applicationReference=new ApplicationReference();
-		
-		List<String> id= rmApplicationsAppDao.getId(rmId);
+		/*List<String> id= rmApplicationsAppDao.getId(rmId);
 		
 		for(String object:id){
 			applicationReference.setRmUserId(object);
+		}*/
+		
+		// check whether the given RmId is present in DB or not 
+		String rmUserIdFromDB=null;
+		try{			
+			//rmUserIdFromDB= rmApplicationsAppDao.getRmId(rmId);			
+			/*if(rmUserIdFromDB==null){
+				throw new IdNotFoundException("Provided RM user id is not present, please pass proper value");
+			}*/
+
+		}  
+		/*catch(IdNotFoundException exceptionMessage){
+			MessageHeader messageHeader=new MessageHeader();
+			RequestError requestError=new RequestError();
+			requestError.setRsn("Provided Rm user id is not present");
+			messageHeader.setError(requestError);
+			rmApplicationAppResponse.setMessageHeader(messageHeader);
+			return rmApplicationAppResponse;
+		}	*/
+		catch(NoResultException excpMessage){
+			MessageHeader messageHeader=new MessageHeader();
+			RequestError requestError=new RequestError();
+			requestError.setRsn("Provided Rm user id is not present");
+			messageHeader.setError(requestError);
+			rmApplicationAppResponse.setMessageHeader(messageHeader);
+			return rmApplicationAppResponse;
 		}
 		
-		int diffInDays = (int) ((endDate.getTime()-(startDate.getTime())) / (1000 * 60 * 60 * 24));
-		System.out.println("==================== diffInDays ====== before try =============" +diffInDays);
+		int diffInDays = (int) ((endDate.getTime()-(startDate.getTime())) / (1000 * 60 * 60 * 24)+1);
 		
 		try{	
-			if(applicationReference.getRmUserId() !=null && applicationReference.getRmUserId().equals(rmId)){
-				if(diffInDays <= 30){
+			if(endDate.getTime()>=startDate.getTime()){
+				if(diffInDays <= 30 && diffInDays > 0){
 					detailsByAllCriteriaWithoutStatus = (List<Object>) rmApplicationsAppDao.getDetailsByAllCriteriaWithoutStatus
 							(name, startDate,endDate, rmId);
-					}
-					else{
-						//System.out.println("==================== diffInDays ======in else =============" +diffInDays);
-						MessageHeader messageHeader=new MessageHeader();
-						RequestError requestError=new RequestError();
-						requestError.setCustomCode(" difference between start date and end date is more than 30 days,"
-							+ "please pass dates such that difference should not exceed 30");
-						messageHeader.setError(requestError);
-						rmApplicationAppResponse.setMessageHeader(messageHeader);	
-						throw new DateDifferenceException("difference between start date and end date is more than 30 days,"
-							+ "please pass dates such that difference should not exceed 30");
-					}
-		    }
+					infoLog.info(" records fetched from DB on the basis basis of name,startDate,endDate,rmId is : "
+							+detailsByAllCriteriaWithoutStatus.toString());
+				}
+				else{
+					MessageHeader messageHeader=new MessageHeader();
+					RequestError requestError=new RequestError();
+					requestError.setRsn("difference between start date and end date is more than 30 days");
+					messageHeader.setError(requestError); 
+					rmApplicationAppResponse.setMessageHeader(messageHeader);	
+					throw new DateDifferenceException("difference between start date and end date is more than 30 days");
+				}
+			}
 			else{
 				MessageHeader messageHeader=new MessageHeader();
 				RequestError requestError=new RequestError();
-				requestError.setCustomCode("requested RM user is not present , please pass another RM userid");
-				messageHeader.setError(requestError);
-				rmApplicationAppResponse.setMessageHeader(messageHeader);
-				throw new IdNotFoundException("Provided Rm user id is not present, please pass another id");
+				requestError.setRsn("start date is greater than end date");
+				messageHeader.setError(requestError); 
+				rmApplicationAppResponse.setMessageHeader(messageHeader);	
+				throw new DateDifferenceException("start date is greater than end date");
 			}
-		}catch(IdNotFoundException exceptionMessage){
-			System.out.println(" Exception got : "+exceptionMessage);
-		}
-		catch(DateDifferenceException exceptionMessage){
-			System.out.println(" Exception got : "+exceptionMessage);
+		}catch(DateDifferenceException dateDifferenceExceptionMessage){
+			System.out.println(" Exception got due to : "+dateDifferenceExceptionMessage);
+			errorLog.error(" Exception got due to : "+dateDifferenceExceptionMessage);
 		}
 		
-		System.out.println("################ listOfCustormerName in service impl "+detailsByAllCriteriaWithoutStatus);
 		int i = 0;
 		for (Object object : detailsByAllCriteriaWithoutStatus) {
 
@@ -434,82 +432,93 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				System.out.println(" ==================== date coud not be parsed =========== ");
+				errorLog.error("  date coud not be parsed in getDetailsByAllCriteriaWithoutStatus method of RmApplicationsAppServiceImpl class ");
 			}
 
 			apps.setAppSubmittedDate(date);
-			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppStatus(outputs[2].toString());
 
 			apps.setCustomerName(outputs[3].toString()+ " "+outputs[4].toString());
 			listOfApps.add(i, apps);
 			i++;
-
 		}
-		System.out.println("listOfApps=================" + listOfApps);
-		setOfApps.addAll(listOfApps);
-		System.out.println("setOfApps=================" + setOfApps);
 		rmApplicationAppResponse.setApps(listOfApps);
-
+		infoLog.info(" response on the basis of name,startDate,endDate,rmId is :: "+rmApplicationAppResponse);
 		return rmApplicationAppResponse;
 	}
 
 	public RmApplicationAppResponse getDetailsByAllCriteriaWithStatus(String name, Date startDate, Date endDate, String status,
 			String rmId) {
-		
-		//System.out.println(" ################ in getDetailsByAllCriteriaWithStatus service impl ===== ");
-		
+		System.out.println("hi in service ====== ");
 		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
 
 		List<Apps> listOfApps = new ArrayList<Apps>();
 
-		Set<Apps> setOfApps = new LinkedHashSet<Apps>(listOfApps);
-
 		List<Object> detailsByAllCriteriaWithStatus = new ArrayList<Object>(listOfApps);
 
-		ApplicationReference applicationReference=new ApplicationReference();
+		/*ApplicationReference applicationReference=new ApplicationReference();
 		
 		List<String> id= rmApplicationsAppDao.getId(rmId);
 		
 		for(String object:id){
 			applicationReference.setRmUserId(object);
+		}*/
+		// check whether the given RmId is present in DB or not 
+		String rmUserIdFromDB=null;
+		try{			
+			//rmUserIdFromDB= rmApplicationsAppDao.getRmId(rmId);			
+			/*if(rmUserIdFromDB==null){
+				throw new IdNotFoundException("Provided RM user id is not present, please pass proper value");
+			}*/
+
+		}  
+		/*catch(IdNotFoundException exceptionMessage){
+			MessageHeader messageHeader=new MessageHeader();
+			RequestError requestError=new RequestError();
+			requestError.setRsn("Provided Rm user id is not present");
+			messageHeader.setError(requestError);
+			rmApplicationAppResponse.setMessageHeader(messageHeader);
+			return rmApplicationAppResponse;
+		}	*/
+		catch(NoResultException excpMessage){
+			MessageHeader messageHeader=new MessageHeader();
+			RequestError requestError=new RequestError();
+			requestError.setRsn("Provided Rm user id is not present");
+			messageHeader.setError(requestError);
+			rmApplicationAppResponse.setMessageHeader(messageHeader);
+			return rmApplicationAppResponse;
 		}
 		
-		int diffInDays = (int) ((endDate.getTime()-(startDate.getTime())) / (1000 * 60 * 60 * 24));
-		System.out.println("==================== diffInDays ====== before try =============" +diffInDays);
+		int diffInDays = (int) ((endDate.getTime()-(startDate.getTime())) / (1000 * 60 * 60 * 24)+1);
 		
 		try{	
-			if(applicationReference.getRmUserId() !=null && applicationReference.getRmUserId().equals(rmId)){
-				if(diffInDays <= 30){
-					detailsByAllCriteriaWithStatus = (List<Object>) rmApplicationsAppDao.getDetailsByAllCriteriaWithStatus(name, startDate,endDate, status, rmId);
-					}
-					else{
-						//System.out.println("==================== diffInDays ======in else =============" +diffInDays);
-						MessageHeader messageHeader=new MessageHeader();
-						RequestError requestError=new RequestError();
-						requestError.setCustomCode(" difference between start date and end date is more than 30 days,"
-							+ "please pass dates such that difference should not exceed 30");
-						messageHeader.setError(requestError);
-						rmApplicationAppResponse.setMessageHeader(messageHeader);	
-						throw new DateDifferenceException("difference between start date and end date is more than 30 days,"
-							+ "please pass dates such that difference should not exceed 30");
-					}
-			
-		    }
+			if(endDate.getTime()>=startDate.getTime()){
+				if(diffInDays <= 30 && diffInDays > 0){
+					detailsByAllCriteriaWithStatus = (List<Object>) rmApplicationsAppDao.getDetailsByAllCriteriaWithStatus(name, 
+							startDate,endDate, status, rmId);
+					infoLog.info(" records fetched from DB on the basis basis of name,startDate,endDate,status,rmId is : "
+							+detailsByAllCriteriaWithStatus.toString());
+				}
+				else{
+					MessageHeader messageHeader=new MessageHeader();
+					RequestError requestError=new RequestError();
+					requestError.setRsn("difference between start date and end date is more than 30 days");
+					messageHeader.setError(requestError); 
+					rmApplicationAppResponse.setMessageHeader(messageHeader);	
+					throw new DateDifferenceException("difference between start date and end date is more than 30 days");
+				}
+			}
 			else{
 				MessageHeader messageHeader=new MessageHeader();
 				RequestError requestError=new RequestError();
-
-				requestError.setCustomCode("requested RM user is not present , please pass another RM userid");
-				messageHeader.setError(requestError);
-				rmApplicationAppResponse.setMessageHeader(messageHeader);
-				throw new IdNotFoundException("Provided Rm user id is not present, please pass another id");
+				requestError.setRsn("start date is greater than end date");
+				messageHeader.setError(requestError); 
+				rmApplicationAppResponse.setMessageHeader(messageHeader);	
+				throw new DateDifferenceException("start date is greater than end date");
 			}
-		}catch(IdNotFoundException exceptionMessage){
-			System.out.println(" Exception got : "+exceptionMessage);
-		}
-		catch(DateDifferenceException exceptionMessage){
-			System.out.println(" Exception got : "+exceptionMessage);
+		}catch(DateDifferenceException dateDifferenceExceptionMessage){
+			System.out.println(" Exception got due to : "+dateDifferenceExceptionMessage);
+			errorLog.error(" Exception got due to : "+dateDifferenceExceptionMessage);
 		}
 		
 		int i = 0;
@@ -528,24 +537,18 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				System.out.println(" ==================== date coud not be parsed =========== ");
+				errorLog.error("  date coud not be parsed in getDetailsByAllCriteriaWithStatus method of RmApplicationsAppServiceImpl class ");
 			}
 
 			apps.setAppSubmittedDate(date);
-			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppStatus(outputs[2].toString());
 
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
 			listOfApps.add(i, apps);
 			i++;
-
 		}
-		System.out.println("listOfApps=================" + listOfApps);
-		setOfApps.addAll(listOfApps);
-		System.out.println("setOfApps=================" + setOfApps);
 		rmApplicationAppResponse.setApps(listOfApps);
-
+		infoLog.info(" response on the basis of name,startDate,endDate,status,rmId is : "+rmApplicationAppResponse);
 		return rmApplicationAppResponse;
 	}
-
 }

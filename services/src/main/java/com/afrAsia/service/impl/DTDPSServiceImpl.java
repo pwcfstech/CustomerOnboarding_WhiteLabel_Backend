@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.apache.log4j.Logger;
+
 import com.afrAsia.dao.jpa.DTDPSJpaDAO;
 import com.afrAsia.entities.jpa.DigitalTxnDaily;
 import com.afrAsia.entities.response.DailyTxnDataResponse;
@@ -17,6 +19,10 @@ import com.afrAsia.service.DTDPSService;
  */
 public class DTDPSServiceImpl implements DTDPSService
 {
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
     private DTDPSJpaDAO dtdpsDAO;
 
     public DTDPSJpaDAO getDtdpsDAO()
@@ -54,7 +60,7 @@ public class DTDPSServiceImpl implements DTDPSService
                 }
             });
         }
-
+        infoLog.info("txnList in fetchTransactions(),DTDPSServiceImpl : "+txnList);
         return txnList;
     }
 

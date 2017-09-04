@@ -67,7 +67,7 @@ public interface AccountCreateJpaDao extends AccountCreateDao {
 	
 	public Long getAppId(Long appId, String rmUserId);
 
-	public Integer updateAplicantRecordId(Long appId, Long recordId);
+	public void updateAplicantRecordId(Long appId, Long recordId);
 
 	public MobApplicantRecordId updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails applicant,
 			Long appId, Long recordId, String typeOfApplicant);
@@ -76,10 +76,6 @@ public interface AccountCreateJpaDao extends AccountCreateDao {
 			Long mobApplicantPrimaryApplicantId, Long mobGuardianPrimaryApplicantId,
 			MobApplicantRecordId[] mobJoint, MobApplicantRecordId[] mobGuardianJoint, com.afrAsia.entities.request.AccountCreationRequest.AccountDetails accountDetails);
 	
-	public MobApplKycDocumentsHist storeMobApplKycDocumentsHist(MobApplKycDocumentsHist mobApplKycDocumentsHist);
-	
-	public MobApplicantKycDocuments storeMobApplicantKycDocuments(MobApplicantKycDocuments mobApplicantKycDocuments);
-
 	public void storeIntoMobApplKycDocumentsHist(Long appid);
 
 	public Long checkRecordId(Long appId, Long recordIdFromRequest);

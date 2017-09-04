@@ -1,0 +1,69 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	
+	xsi:schemaLocation="http://www.springframework.org/schema/security/oauth2 	http://www.springframework.org/schema/security/spring-security-oauth2-2.0.xsd
+						http://www.springframework.org/schema/security 			http://www.springframework.org/schema/security/spring-security-3.2.xsd
+						http://www.springframework.org/schema/beans 			http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+						http://www.springframework.org/schema/context 			http://www.springframework.org/schema/context/spring-context-4.1.xsd
+						http://www.springframework.org/schema/util 				http://www.springframework.org/schema/util/spring-util-4.1.xsd
+						http://www.springframework.org/schema/tx 					http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+						http://www.springframework.org/schema/jdbc 					http://www.springframework.org/schema/tx/spring-jdbc-4.1.xsd
+						http://www.springframework.org/schema/aop 					http://www.springframework.org/schema/tx/spring-aop-4.1.xsd">
+
+	<!-- Tomcat -->
+	<!-- <import resource="classpath*:**/applicationContext-dao-jpa-configuration.xml"/>
+	<import resource="classpath*:**/applicationContext-exception-management.xml"/> -->
+	
+	<!--  Weblogic -->
+	<import resource="applicationContext-dao-jpa-configuration.xml"/>
+	<import resource="classpath*:**/*applicationContext-exception-management.xml"/>
+	
+	<bean id="idNotFoundException" class="com.afrAsia.customexception.IdNotFoundException">
+		<!-- <property name="idNotFoundException" ref="idNotFoundException" /> -->
+	</bean>
+
+	<bean id="userJpaDAO" class="com.afrAsia.dao.jpa.impl.UserJpaDAOImpl" />
+	
+	<bean id="dtdpsJpaDAO" class="com.afrAsia.dao.jpa.impl.DTDPSJpaDAOImpl" />
+	<bean id="appVersionJpaDAO" class="com.afrAsia.dao.jpa.impl.AppVersionDaoImpl" />
+	<bean id="oAuthAuthorizationDAO" class="com.afrAsia.dao.jpa.impl.OAuthAuthorizationJpaDAOImpl" />
+	<bean id="categoryJpaDAO" class="com.afrAsia.dao.jpa.impl.CategoryJpaDaoImpl" />
+	<bean id="productJpaDAO" class="com.afrAsia.dao.jpa.impl.ProductJpaDaoImpl" />
+	<bean id="productDetailsJpaDao" class="com.afrAsia.dao.jpa.impl.ProductDetailsJpaDaoImpl" />
+	<bean id="accountClassJpaDAO" class="com.afrAsia.dao.jpa.impl.AccountClassJpaDaoImpl" />
+	<bean id="categoryMasterJpaDAO" class="com.afrAsia.dao.jpa.impl.CategoryMasterJpaDaoImpl" />
+	<bean id="countryJpaDAO" class="com.afrAsia.dao.jpa.impl.CountryJpaDaoImpl" />
+	<bean id="employmentJpaDAO" class="com.afrAsia.dao.jpa.impl.EmploymentJpaDaoImpl" />
+	<bean id="maritalStatusJpaDAO" class="com.afrAsia.dao.jpa.impl.MaritalStatusJpaDaoImpl" />
+	<bean id="prefixJpaDAO" class="com.afrAsia.dao.jpa.impl.PrefixJpaDaoImpl" />
+	<bean id="rmDetailsJpaDAO" class="com.afrAsia.dao.jpa.impl.RMDetailsJpaDaoImpl" />
+	<bean id="uidTypeJpaDAO" class="com.afrAsia.dao.jpa.impl.UIDTypeJpaDaoImpl" />
+	<bean id="accountCreateJpaDao" class="com.afrAsia.dao.jpa.impl.AccountCreateJpaDaoImpl" />
+	<bean id="applicationDetailsJpaDAO" class="com.afrAsia.dao.jpa.impl.ApplicationDetailsDaoImpl" />
+	<bean id="accountTypeJpaDao" class="com.afrAsia.dao.jpa.impl.AccountTypeJpaDaoImpl"/>
+	<bean id="afrAsiaFirstJpaDao" class="com.afrAsia.dao.jpa.impl.AfrAsiaFirstJpaDaoImpl"/>
+	<bean id="rmSessionDetailJpaDAO" class="com.afrAsia.dao.jpa.impl.RMSessionDetailJpaDaoImpl"/>
+	
+	<bean id="rmDetailsDAO" class="com.afrAsia.dao.jpa.impl.RMDetailsJpaDaoImpl" />
+	
+	<!-- Dashboard related class -->
+	<bean id="dashBoardJpaDao" class="com.afrAsia.dao.jpa.impl.DashBoardJpaDaoImpl" />
+	
+	<!-- My tracker for RM -->
+	<bean id="rmApplicationsAppJpaDAO" class="com.afrAsia.dao.jpa.impl.RmApplicationsAppJpaDAOImpl" />
+	
+	<!-- Add comments service -->
+	<bean id="addCommentJpaDao" class="com.afrAsia.dao.jpa.impl.AddCommentJpaDaoImpl"/>
+
+	<!-- Upload KYC document dao bean -->
+	<bean id="uploadKYCJpaDao" class="com.afrAsia.dao.jpa.impl.UploadKYCJpaDaoImpl"/>
+	
+	<!-- Compliance service -->
+	<bean id="complianceJpaDao" class="com.afrAsia.dao.jpa.impl.ComplianceJpaDAOImpl"/>
+
+</beans>

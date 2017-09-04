@@ -12,9 +12,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.xml.bind.DatatypeConverter;
 
+import org.apache.log4j.Logger;
 import org.glassfish.jersey.media.multipart.FormDataParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.CommonUtils;
@@ -35,8 +34,11 @@ import com.afrAsia.service.KYCService;
 @Component
 @Path("{version}")
 public class KYCRestService {
-	private static final Logger logger = LoggerFactory.getLogger(KYCRestService.class);
-
+	
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
 	private KYCService kycService;
 
 	public KYCService getKycService() {
@@ -52,16 +54,17 @@ public class KYCRestService {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response uploadKYC1(@FormDataParam("data") String request, @FormDataParam("file") InputStream image) {
+		infoLog.info("request in uploadKYC1(),KYCRestService is : "+request);
 		KYCResponse response = null;
 		try {
 			KYCDataRequest kycDataRequest = CommonUtils.jsonStringToObject(request, KYCDataRequest.class);
-			if (logger.isDebugEnabled()) {
-				logger.debug("Enter : uploadKYC()");
+			if (debugLog.isDebugEnabled()) {
+				debugLog.debug("Enter : uploadKYC()");
 			}
-			System.out.println("Enter : uploadKYC()"); 
+			debugLog.debug("Enter : uploadKYC()");
 			response = kycService.uploadKYC(kycDataRequest, image);
 		} catch (Exception e) {
-			logger.error("Error : uploadKYC()", e);
+			errorLog.error("Error : uploadKYC()", e);
 			MessageHeader msgHeader = new MessageHeader();
 			RequestError error = new RequestError();
 			error.setCd("401");
@@ -72,16 +75,16 @@ public class KYCRestService {
 			response = new KYCResponse();
 			response.setMsgHeader(msgHeader);
 			response.setData(null);
-			if (logger.isDebugEnabled()) {
-				logger.info("Exit : uploadKYC()");
+			if (debugLog.isDebugEnabled()) {
+				infoLog.info("Exit : uploadKYC()");
 			}
-			System.out.println("Error : uploadKYC()"+ e); 
+			infoLog.info("Exit : uploadKYC()");
 			return Response.status(Status.FORBIDDEN).entity(response).build();
 		}
-		if (logger.isDebugEnabled()) {
-			logger.info("Exit : uploadKYC()");
+		if (debugLog.isDebugEnabled()) {
+			infoLog.info("Exit : uploadKYC()");
 		}
-		System.out.println("Exit : uploadKYC()"); 
+		infoLog.info("Exit : uploadKYC()");
 		return Response.ok(response).build();
 	}
 
@@ -92,21 +95,20 @@ public class KYCRestService {
 	public Response uploadKYC2(KYCRequest kycRequest) {
 		KYCResponse response = null;
 		try {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Enter : uploadKYC()");
+			if (debugLog.isDebugEnabled()) {
+				debugLog.debug("Enter : uploadKYC()");
 			}
-			System.out.println("Enter : uploadKYC()");
+			debugLog.debug("Enter : uploadKYC()");
 			if (null != kycRequest) {
 				byte[] imageBytes = DatatypeConverter.parseBase64Binary(kycRequest.getData().getImage());
 				InputStream image = new ByteArrayInputStream(imageBytes);
-				System.out.println("kycService : " + kycService);
 				response = kycService.uploadKYC(kycRequest.getData(), image);
 			} else {
 				response = new KYCResponse();
 				KYCDataResponse data = new KYCDataResponse();
 				data.setSuccess("0");
 				response.setData(data);
-
+				errorLog.error("Invalid request for KYC upload.");
 				MessageHeader msgHeader = new MessageHeader();
 				RequestError error = new RequestError();
 				error.setCd("001");
@@ -117,7 +119,7 @@ public class KYCRestService {
 			}
 
 		} catch (Exception e) {
-			logger.error("Error : uploadKYC()", e);
+			errorLog.error("Error : uploadKYC()", e);
 			e.printStackTrace();
 			MessageHeader msgHeader = new MessageHeader();
 			RequestError error = new RequestError();
@@ -129,16 +131,16 @@ public class KYCRestService {
 			response = new KYCResponse();
 			response.setMsgHeader(msgHeader);
 			response.setData(null);
-			if (logger.isDebugEnabled()) {
-				logger.info("Exit : uploadKYC()");
+			if (debugLog.isDebugEnabled()) {
+				debugLog.debug("Exit : uploadKYC()");
 			}
-			System.out.println("Error : uploadKYC()" + e);
+			debugLog.debug("Exit : uploadKYC()");
 			return Response.status(Status.FORBIDDEN).entity(response).build();
 		}
-		if (logger.isDebugEnabled()) {
-			logger.info("Exit : uploadKYC()");
+		if (debugLog.isDebugEnabled()) {
+			debugLog.debug("Exit : uploadKYC()");
 		}
-		System.out.println("Exit : uploadKYC()");
+		debugLog.debug("Exit : uploadKYC()");
 		return Response.ok(response).build();
 	}
 
@@ -203,7 +205,6 @@ public class KYCRestService {
 //				if (logger.isDebugEnabled()) {
 //					logger.debug("Enter : uploadKYC()");
 //				}
-//				System.out.println("Enter : uploadKYC()"); 
 //				response = kycService.uploadKYC(kycDataRequest, image);
 //			} catch (Exception e) {
 //				logger.error("Error : uploadKYC()", e);

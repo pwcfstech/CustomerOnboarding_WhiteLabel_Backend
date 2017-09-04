@@ -11,5 +11,7 @@ public interface RMDetailsDao
 	
 	public RMDetails getRMDetailById(String rmId, String userType);
 	
+	public RMDetails getRMDetailByRMId(String rmId) ;
+	
 	public void saveRmDetails(RMDetails obj);
 }

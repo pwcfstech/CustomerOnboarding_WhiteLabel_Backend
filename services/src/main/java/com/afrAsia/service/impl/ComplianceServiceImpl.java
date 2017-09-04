@@ -8,8 +8,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import com.afrAsia.customexception.DateDifferenceException;
 import com.afrAsia.dao.jpa.ComplianceJpaDao;
@@ -21,8 +20,10 @@ import com.afrAsia.service.ComplianceService;
 
 public class ComplianceServiceImpl implements ComplianceService {
 
-	private static final Logger logger = LoggerFactory.getLogger(ComplianceServiceImpl.class);
-
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
 	private ComplianceJpaDao complianceDao;
 
 	public ComplianceJpaDao getComplianceDao() {
@@ -36,7 +37,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 	
 	public ComplianceResponse getDetailsBydefault() {
 		
-		System.out.println(" ################ in getDetailsByefault service impl ===== ");
+		System.out.println("  in getDetailsByefault service impl ===== ");
 
 		ComplianceResponse complianceResponse = new ComplianceResponse();
 
@@ -74,7 +75,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 			try {
 				dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 			} catch (ParseException e) {
-				System.out.println(" ==================== date coud not be parsed =========== ");
+				errorLog.error("dateSubmitted coud not be parsed in getDetailsBydefault(),ComplianceServiceImpl");
+				System.out.println("dateSubmitted coud not be parsed in getDetailsBydefault(),ComplianceServiceImpl");
 			}
 
 			complianceApps.setAppSubmittedDate(dateSubmitted);
@@ -101,7 +103,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 			try {
 				dateCreated = dateFormatCreationDate.parse(dateCreationDate);
 			} catch (ParseException e) {
-				System.out.println(" ==================== date coud not be parsed =========== ");
+				errorLog.error("dateCreated coud not be parsed in getDetailsBydefault(),ComplianceServiceImpl");
+				System.out.println("dateCreated coud not be parsed in getDetailsBydefault(),ComplianceServiceImpl");
 			}
 			
 			complianceApps.setAccountCreationDate(dateCreated);
@@ -109,14 +112,10 @@ public class ComplianceServiceImpl implements ComplianceService {
 			listOfApps.add(complianceApps);
 			setOfComplianceApps.add(complianceApps);
 			i++;
-
 		}
 		System.out.println("list of complianceApps 1================= "+listOfApps);
-		
 		setOfApps.addAll(listOfApps);
-		
 		System.out.println("setOfApps 1 =================="+setOfApps);
-		
 		System.out.println("setOfComplianceApps 1 =================="+setOfComplianceApps);
 		
 		//get Details By AccOpened Or Rejected Status	
@@ -144,7 +143,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 			try {
 				dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 			} catch (ParseException e) {
-				System.out.println(" ==================== date coud not be parsed =========== ");
+				errorLog.error("dateSubmitted coud not be parsed in getDetailsBydefault(),ComplianceServiceImpl");
+				System.out.println("dateSubmitted coud not be parsed in getDetailsBydefault(),ComplianceServiceImpl");
 			}
 
 			complianceApps.setAppSubmittedDate(dateSubmitted);
@@ -171,7 +171,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 			try {
 				dateCreated = dateFormatCreationDate.parse(dateCreationDate);
 			} catch (ParseException e) {
-				System.out.println(" ==================== date coud not be parsed =========== ");
+				errorLog.error("dateCreated coud not be parsed in getDetailsBydefault(),ComplianceServiceImpl");
+				System.out.println("dateCreated coud not be parsed in getDetailsBydefault(),ComplianceServiceImpl");
 			}
 			
 			complianceApps.setAccountCreationDate(dateCreated);
@@ -187,13 +188,13 @@ public class ComplianceServiceImpl implements ComplianceService {
 		System.out.println("setOfComplianceApps 2 =================" + setOfComplianceApps);
 
 		complianceResponse.setApps(listOfApps);
-
+		infoLog.info("complianceResponse in getDetailsBydefault(),ComplianceServiceImpl : "+complianceResponse.toString());
 		return complianceResponse;
 	}
 
 	public ComplianceResponse getDetailsByName(String name, String appStatus) {
 		
-		System.out.println(" ################ in getDetailsByName service impl ===== ");
+		System.out.println("  in getDetailsByName service impl ===== ");
 		
 		ComplianceResponse complianceResponse = new ComplianceResponse();
 
@@ -225,7 +226,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 			try {
 				dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 			} catch (ParseException e) {
-				System.out.println(" ==================== date coud not be parsed =========== ");
+				errorLog.error("dateSubmitted coud not be parsed in getDetailsByName(),ComplianceServiceImpl");
+				System.out.println("dateSubmitted coud not be parsed in getDetailsByName(),ComplianceServiceImpl");
 			}
 
 			complianceApps.setAppSubmittedDate(dateSubmitted);
@@ -252,7 +254,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 			try {
 				dateCreation = dateFormatCreationDate.parse(dateCreationDate);
 			} catch (ParseException e) {
-				System.out.println(" ==================== date coud not be parsed =========== ");
+				errorLog.error("dateCreation coud not be parsed in getDetailsByName() ComplianceServiceImpl");
+				System.out.println("dateCreation coud not be parsed in getDetailsByName() ComplianceServiceImpl");
 			}
 			
 			complianceApps.setAccountCreationDate(dateCreation);
@@ -263,13 +266,13 @@ public class ComplianceServiceImpl implements ComplianceService {
 		setOfApps.addAll(listOfApps);
 		System.out.println("setOfApps=================" + setOfApps);
 		complianceResponse.setApps(listOfApps);
-
+		infoLog.info("complianceResponse in getDetailsByName() ComplianceServiceImpl : "+complianceResponse.toString());
 		return complianceResponse;
 	}
 
 	public ComplianceResponse getDetailsByDates(Date startDate, Date endDate, String rmId) {
 		
-		System.out.println(" ################ in getDetailsByDates service impl ===== ");
+		System.out.println("  in getDetailsByDates service impl ===== ");
 		
 		ComplianceResponse complianceResponse = new ComplianceResponse();
 
@@ -280,29 +283,38 @@ public class ComplianceServiceImpl implements ComplianceService {
 		List<Object> listOfCustormerName = new ArrayList<Object>(listOfApps);
 
 		
-		int diffInDays = (int) ((endDate.getTime()-(startDate.getTime())) / (1000 * 60 * 60 * 24));
+		int diffInDays = (int) ((endDate.getTime()-(startDate.getTime())) / (1000 * 60 * 60 * 24)+1);
 
 		try{	
-			if(diffInDays <= 30){
-				System.out.println(" diffInDays in if "+ diffInDays);
-				listOfCustormerName = (List<Object>) complianceDao.getDetailsByDates(startDate, endDate, rmId);
+			if(endDate.getTime()>=startDate.getTime()){
+				if(diffInDays <= 30 && diffInDays>0){
+					System.out.println(" diffInDays in if "+ diffInDays);
+					listOfCustormerName = (List<Object>) complianceDao.getDetailsByDates(startDate, endDate, rmId);
 				}
 				else{
 					//System.out.println(" diffInDays in else "+ diffInDays);
 					MessageHeader messageHeader=new MessageHeader();
 					RequestError requestError=new RequestError();
-					requestError.setCustomCode(" difference between start date and end date is more than 30 days,"
-						+ "please pass dates such that difference should not exceed 30");
+					requestError.setCustomCode(" difference between start date and end date is more than 30 days");
 					messageHeader.setError(requestError); 
 					complianceResponse.setMessageHeader(messageHeader);	
-					throw new DateDifferenceException("difference between start date and end date is more than 30 days,"
-						+ "please pass dates such that difference should not exceed 30");
+					throw new DateDifferenceException("difference between start date and end date is more than 30 days");
 				}
+			}
+			else{
+				MessageHeader messageHeader=new MessageHeader();
+				RequestError requestError=new RequestError();
+				requestError.setRsn("start date is greater than end date");
+				messageHeader.setError(requestError); 
+				complianceResponse.setMessageHeader(messageHeader);	
+				throw new DateDifferenceException("start date is greater than end date");
+			}
 		}
 		catch(DateDifferenceException dateDifferenceExceptionMessage){
-			System.out.println(" Exception got due to larger difference betweenthe dates provided : "+dateDifferenceExceptionMessage);
+			errorLog.error(" Exception got in getDetailsByDates(),ComplianceServiceImpl is : "+dateDifferenceExceptionMessage);
+			System.out.println(" Exception got due to : "+dateDifferenceExceptionMessage);
 		}
-		
+
 		
 		for (Object object : listOfCustormerName) {
 			
@@ -324,7 +336,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 			try {
 				dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 			} catch (ParseException e) {
-				System.out.println(" ==================== date coud not be parsed =========== ");
+				errorLog.error("dateSubmitted coud not be parsed in getDetailsByDates(),ComplianceServiceImpl");
+				System.out.println("dateSubmitted coud not be parsed in getDetailsByDates(),ComplianceServiceImpl");
 			}
 
 			complianceApps.setAppSubmittedDate(dateSubmitted);
@@ -338,9 +351,12 @@ public class ComplianceServiceImpl implements ComplianceService {
 				}
 				else{
 					complianceApps.setAccountNumber(null);
+					System.out.println("outputs[6].toString() in else , having null value =========== ");
 				}
 			}catch(NullPointerException e){
 				System.out.println("outputs[6].toString() in catch =========== ");
+				complianceApps.setAccountNumber(null);
+				System.out.println(" complianceApps.getAccountNumber() : "+complianceApps.getAccountNumber());
 			}
 			
 			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -351,7 +367,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 			try {
 				dateCreation = dateFormatCreationDate.parse(dateCreationDate);
 			} catch (ParseException e) {
-				System.out.println(" ==================== date coud not be parsed =========== ");
+				errorLog.error("dateCreation coud not be parsed in getDetailsByDates(),ComplianceServiceImpl");
+				System.out.println("dateCreation coud not be parsed in getDetailsByDates(),ComplianceServiceImpl");
 			}
 			
 			complianceApps.setAccountCreationDate(dateCreation);
@@ -362,7 +379,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 		setOfApps.addAll(listOfApps);
 		System.out.println("setOfApps=================" + setOfApps);
 		complianceResponse.setApps(listOfApps);
-
+		infoLog.info("complianceResponse in getDetailsByDates() ,ComplianceServiceImpl : "+complianceResponse.toString());
 		return complianceResponse;
 	}
 
@@ -396,6 +413,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 					}
 		    }
 		catch(DateDifferenceException exceptionMessage){
+			errorLog.error(" Exception got in getDetailsByAllCriteria(),ComplianceServiceImpl is : "+exceptionMessage);
 			System.out.println(" Exception got : "+exceptionMessage);
 		}
 		
@@ -419,7 +437,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 			try {
 				dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 			} catch (ParseException e) {
-				System.out.println(" ==================== date coud not be parsed =========== ");
+				errorLog.error("dateSubmitted coud not be parsed in getDetailsByAllCriteria(),ComplianceServiceImpl");
+				System.out.println("dateSubmitted coud not be parsed in getDetailsByAllCriteria(),ComplianceServiceImpl");
 			}
 
 			complianceApps.setAppSubmittedDate(dateSubmitted);
@@ -446,7 +465,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 			try {
 				dateCreation = dateFormatCreationDate.parse(dateCreationDate);
 			} catch (ParseException e) {
-				System.out.println(" ==================== date coud not be parsed =========== ");
+				errorLog.error("dateCreation coud not be parsed in getDetailsByAllCriteria(),ComplianceServiceImpl");
+				System.out.println("dateCreation coud not be parsed in getDetailsByAllCriteria(),ComplianceServiceImpl");
 			}
 			
 			complianceApps.setAccountCreationDate(dateCreation);
@@ -458,7 +478,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 		setOfApps.addAll(listOfApps);
 		System.out.println("setOfApps=================" + setOfApps);
 		complianceResponse.setApps(listOfApps);
-
+		infoLog.info("complianceResponse in getDetailsByAllCriteria() ,ComplianceServiceImpl : "+complianceResponse.toString());
 		return complianceResponse;
 	}
 

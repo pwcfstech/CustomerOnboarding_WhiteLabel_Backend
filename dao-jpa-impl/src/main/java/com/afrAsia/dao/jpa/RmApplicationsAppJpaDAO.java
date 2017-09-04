@@ -8,7 +8,9 @@ import com.afrAsia.entities.jpa.ApplicationReference;
 
 public interface RmApplicationsAppJpaDAO extends RmApplicationsAppDao, BaseJpaDAO<Long, ApplicationReference> {
 
-	public List<String> getId(String id);
+	//public List<String> getId(String id);
+	
+	public String getRmId(String rmId);
 	
 	public List<Object> getDetailsByefault(String rmId);
 	

@@ -29,7 +29,7 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 	@Column(name = "CREATED_BY")
 	private String createdBy;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CREATED_DATE")
 	private Date createdDate;
 
@@ -42,7 +42,7 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 	@Column(name = "MODIFIED_BY")
 	private String modifiedBy;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "MODIFIED_DATE")
 	private Date modifiedDate;
 
@@ -76,7 +76,7 @@ public class MobApplAdditionalDtlsHist implements Serializable {
 	@Column(name = "US_SSN")
 	private String usSsn;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "WORK_PERMIT_EXP_DATE")
 	private Date workPermitExpDate;
 
