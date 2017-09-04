@@ -101,8 +101,7 @@
 		<property name="tokenStore" ref="tokenStore" />
 		<property name="supportRefreshToken" value="false" />
 		<property name="clientDetailsService" ref="clientDetails" />
-		<property name="accessTokenValiditySeconds" value="1800000000" />
-		<!-- <property name="accessTokenValiditySeconds" value="180" /> -->
+		<property name="accessTokenValiditySeconds" value="1800" /> 
 	</bean>
 
 	<bean id="clientDetails"

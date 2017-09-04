@@ -163,13 +163,13 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		//rmDetailsService.saveRMDetails("ID" + userId, userId);
 		
 		/* LDAP */
-		/*if (!tryLdapConnection(loginDataRequest.getUserId(), loginDataRequest.getPassword()))
+		if (!tryLdapConnection(loginDataRequest.getUserId(), loginDataRequest.getPassword()))
 		{
 			throw new IllegalStateException("Could not authenticate with ldap.");
 		}
 		else{
 			System.out.println("Authenticated with LDAP");
-		}*/
+		}
 		
 		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(userId); 
 		System.out.println("clientDetails =========== "+clientDetails);
@@ -178,21 +178,15 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		
 		if (clientDetails == null)
 		{
-			/*rmDetails = customClientDetailsService.saveClientDetail(userId, userType,"rest_api", clientSecret, 
-				"standard_client", "client_credentials", null, "ROLE_USER", 
-				180, 180, null, null);	*/
 			rmDetails = customClientDetailsService.saveClientDetail(userId, userType,"rest_api", clientSecret, 
 					"standard_client", "client_credentials", null, "ROLE_USER", 
-					1800000000, 1800000000, null, null);	
+					1800, 1800, null, null);	
 		}
 		else{
 			LogoutRequest logOutRequest = new LogoutRequest();
 			LogoutDataRequest logoutDataRequest = new LogoutDataRequest();
 			logoutDataRequest.setDeviceId(loginDataRequest.getDeviceId());
 			logoutDataRequest.setUserId(loginDataRequest.getUserId());
-			
-//			logout(logOutRequest, oauthToken);
-			
 			rmDetails = customClientDetailsService.getRMDetails(userId, userType);
 		}
 		
@@ -275,7 +269,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
 	        env.put(Context.SECURITY_CREDENTIALS, password);
 	        
 	        DirContext ctx = new InitialDirContext(env);
-	        ctx.lookup(username);
+	        ctx.lookup("OU=Datacenter,OU=AfrasiaBank Users,DC=afrasiabank,DC=local");
 		}
 		catch (Exception e)
 		{
