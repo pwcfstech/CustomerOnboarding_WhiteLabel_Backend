@@ -21,6 +21,15 @@ public class RMDetails extends BaseMaster  implements Serializable{
 	
 	@Column(name = "USER_GROUP")
 	private String userGroup;
+	
+	@Column(name = "RM_EMAIL_ID")
+	private String rmEmailId;
+	
+	@Column(name = "RM_MOB_NO")
+	private Integer rmMobNo;
+	
+	@Column(name = "FLEX_ID")
+	private String flex_Id;
 
 	public String getId() {
 		return id;
@@ -44,6 +53,30 @@ public class RMDetails extends BaseMaster  implements Serializable{
 
 	public void setUserGroup(String userGroup) {
 		this.userGroup = userGroup;
+	}
+
+	public String getRmEmailId() {
+		return rmEmailId;
+	}
+
+	public void setRmEmailId(String rmEmailId) {
+		this.rmEmailId = rmEmailId;
+	}
+
+	public Integer getRmMobNo() {
+		return rmMobNo;
+	}
+
+	public void setRmMobNo(Integer rmMobNo) {
+		this.rmMobNo = rmMobNo;
+	}
+
+	public String getFlex_Id() {
+		return flex_Id;
+	}
+
+	public void setFlex_Id(String flex_Id) {
+		this.flex_Id = flex_Id;
 	}
 
 	@Override

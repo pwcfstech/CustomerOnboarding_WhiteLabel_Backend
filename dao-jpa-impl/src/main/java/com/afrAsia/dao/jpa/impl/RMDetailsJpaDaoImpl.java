@@ -53,4 +53,31 @@ public class RMDetailsJpaDaoImpl extends BaseJpaDAOImpl<String, RMDetails>implem
 			flush();
 		}
 	}
+	
+	public List<RMDetails> getRMDetailListByRMId(String rmId) 
+	{
+		if (rmId == null || rmId.trim().isEmpty())
+		{
+			return null;
+		}
+		String query = "FROM RMDetails rm WHERE rm.id = :rmId";
+		Query q = getEntityManager().createQuery(query);
+		q.setParameter("rmId", rmId);
+		
+		return q.getResultList();
+		
+	}
+	
+	public void updateRmDetails(RMDetails rmDetails) {
+		//System.out.println("Value for RM Id table : " + mobRmAppRefId.toString());
+		
+		Query query = getEntityManager()
+				.createQuery("update RMDetails rd set rd.rmName=:rmName,rd.rmEmailId=:rmEmailId,rd.rmMobNo=:rmMobNo,rd.flex_Id=:flex_Id " + "where rd.id =:id ");
+		query.setParameter("rmName", rmDetails.getRmName());
+		query.setParameter("rmEmailId", rmDetails.getRmEmailId());
+		query.setParameter("rmMobNo", rmDetails.getRmMobNo());
+		query.setParameter("flex_Id", rmDetails.getFlex_Id());
+		query.setParameter("id", rmDetails.getId());
+		query.executeUpdate();
+	}
 }

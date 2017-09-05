@@ -1,5 +1,7 @@
 package com.afrAsia.authenticate.impl;
 
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
@@ -164,9 +166,32 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 	{
 		try
         {
+			
         	Map<String, String> personMap = personRepo.findPerson(loginDataRequest.getUserId(), loginDataRequest.getPassword());
-        	System.out.println("LDAP EMAIL" + personMap.get(PersonRepoImpl.LDAP_EMAIL_ATTRIBUTE));
-        	System.out.println("LDAP NAME" + personMap.get(PersonRepoImpl.LDAP_NAME_ATTRIBUTE));
+        	infoLog.info("LDAP EMAIL" + personMap.get(PersonRepoImpl.LDAP_EMAIL_ATTRIBUTE));
+        	infoLog.info("LDAP NAME" + personMap.get(PersonRepoImpl.LDAP_NAME_ATTRIBUTE));
+        	
+        	/*Start: Code Added by Avisha to add RM's email ID, Mob No and flex ID on 05/09*/        	
+        	RMDetails rmDetails = new RMDetails();
+			rmDetails.setId(loginDataRequest.getUserId());
+			rmDetails.setFlex_Id("FLex_ID");
+			rmDetails.setRmName(personMap.get(PersonRepoImpl.LDAP_NAME_ATTRIBUTE));
+			rmDetails.setRmEmailId(personMap.get(PersonRepoImpl.LDAP_EMAIL_ATTRIBUTE));
+			rmDetails.setRmMobNo(13413);
+			
+			List<RMDetails> rmDetailsLst = rmDetailsDAO.getRMDetailListByRMId(loginDataRequest.getUserId());
+			infoLog.info("RMDetailsList siz: "+rmDetailsLst.size());
+			if(rmDetailsLst!=null && rmDetailsLst.size()!=0)
+			{
+				rmDetailsDAO.updateRmDetails(rmDetails);
+			}
+			else
+			{
+				rmDetailsDAO.saveRmDetails(rmDetails);
+			}
+			/*End: Code Added by Avisha to add RM's email ID, Mob No and flex ID on 05/09*/
+			
+			
         	if (personMap == null || personMap.isEmpty())
         	{
         		throw new ClientRegistrationException("No client with ID in LDAP.");
