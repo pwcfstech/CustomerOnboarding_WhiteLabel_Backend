@@ -56,7 +56,7 @@ public class ComplianceRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDetailsByNameAndID(String jsonInput) {
 
-		infoLog.info("   jsonInput in getDetailsByNameAndID(),ComplianceRestService.java "+jsonInput);
+		infoLog.info("jsonInput in getDetailsByNameAndID(),ComplianceRestService.java "+jsonInput);
 		
 		ComplianceReq complianceReq = new ComplianceReq();
 
@@ -145,14 +145,30 @@ public class ComplianceRestService {
 			return Response.ok(rmApplicationAppResponseByIdAndName, MediaType.APPLICATION_JSON).build();
 		}
 
-		else {
+		else if((custumerName.length() != 0 && this.startDate == null && this.endDate == null && status.length() == 0)
+				|| (custumerName.length() == 0 && this.startDate != null && this.endDate == null && status.length() == 0)
+				|| (custumerName.length() == 0 && this.startDate == null && this.endDate != null && status.length() == 0)
+				|| (custumerName.length() != 0 && this.startDate != null && this.endDate == null && status.length() == 0)
+				|| (custumerName.length() != 0 && this.startDate == null && this.endDate != null && status.length() == 0)
+				|| (custumerName.length() != 0 && this.startDate != null && this.endDate != null && status.length() == 0)){
 			ComplianceResponse emptyComplianceResponse = new ComplianceResponse();
 			MessageHeader messageHeader=new MessageHeader();
 			RequestError requestError=new RequestError();
-			requestError.setCustomCode("please pass proper values in the request");
+			requestError.setCustomCode("please pass status");
 			messageHeader.setError(requestError);
-			infoLog.info("   emptyComplianceResponse in ComplianceRestService.java "+emptyComplianceResponse);
+			errorLog.error("status has not been passed in the request");
+			errorLog.error(" emptyComplianceResponse in ComplianceRestService.java "+emptyComplianceResponse);
 			return Response.ok(emptyComplianceResponse, MediaType.APPLICATION_JSON).build(); 
+		}
+		else{
+			ComplianceResponse emptyComplianceResponse = new ComplianceResponse();
+			MessageHeader messageHeader=new MessageHeader();
+			RequestError requestError=new RequestError();
+			requestError.setCustomCode("please pass proper request");
+			messageHeader.setError(requestError);
+			errorLog.error("please pass proper request");
+			errorLog.error(" emptyComplianceResponse in ComplianceRestService.java "+emptyComplianceResponse);
+			return Response.ok(emptyComplianceResponse, MediaType.APPLICATION_JSON).build();
 		}
 	}
 

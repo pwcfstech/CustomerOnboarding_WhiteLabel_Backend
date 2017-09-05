@@ -1116,8 +1116,13 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 	
 	@Transactional(readOnly = false, rollbackFor = {Exception.class}) 
 	public RMDetails getRMDetails(String RMId){
-    	RMDetails rmDetails = rmDetailsDAO.getRMDetailByRMId(RMId);
+		RMDetails rmDetails=null;
+		try{
+    	rmDetails = rmDetailsDAO.getRMDetailByRMId(RMId);
     	infoLog.info(" rmDetails in getRMDetails(),AccountCreationServiceImpl "+rmDetails);
+		}catch(NullPointerException e){
+		errorLog.error(" rmDetails in getRMDetails(),AccountCreationServiceImpl is null ");	
+		}
     	return rmDetails;
     }
 

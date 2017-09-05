@@ -18,7 +18,7 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 				.createQuery("select ar.id,marri1.recordId,apd.firstName,apd.lastName,ar.createdDate, "
 						+ "ar.appStatus,ar.accountNumber,ar.modifiedDate "
 						+ "from MobRmAppRefId ar, ApplicantPersonalDetails apd,MobAppRefRecordId marri1 "
-						+ "where ar.id=apd.id AND ar.id=marri.id " + "AND lower(apd.customerType) =lower(:custType) "
+						+ "where ar.id=apd.id AND ar.id=marri1.id " + "AND lower(apd.customerType) =lower(:custType) "
 						+ "AND marri1.createdDate=(select max(marri2.createdDate) from MobAppRefRecordId marri2 where marri2.id = marri1.id) "
 						+ "AND lower(ar.appStatus)=lower(:appStatus) " + "order by ar.createdDate ASC");
 
@@ -55,7 +55,7 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 				.createQuery("select ar.id,marri1.recordId,apd.firstName,apd.lastName,ar.createdDate, "
 						+ "ar.appStatus,ar.accountNumber,ar.modifiedDate "
 						+ "from MobRmAppRefId ar, ApplicantPersonalDetails apd,MobAppRefRecordId marri1 "
-						+ "where ar.id=apd.id AND ar.id=marri.id " + "AND lower(apd.customerType) =lower(:custType) "
+						+ "where ar.id=apd.id AND ar.id=marri1.id " + "AND lower(apd.customerType) =lower(:custType) "
 						+ "AND lower(ar.appStatus) in (lower(:appStatus1),lower(:appStatus2)) "
 						+ "AND marri1.createdDate=(select max(marri2.createdDate) from MobAppRefRecordId marri2 where marri2.id = marri1.id) "
 						+ "AND ar.modifiedDate between :startDate and :endDate " + "order by ar.createdDate desc");
@@ -102,7 +102,7 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 				.createQuery("select ar.id,marri1.recordId,apd.firstName,apd.lastName,ar.createdDate, "
 						+ "ar.appStatus,ar.accountNumber,ar.modifiedDate "
 						+ "from MobRmAppRefId ar, ApplicantPersonalDetails apd,MobAppRefRecordId marri1 "
-						+ "where ar.id=apd.id AND ar.id=marri.id " + "AND lower(ar.appStatus)=lower(:appStatus) "
+						+ "where ar.id=apd.id AND ar.id=marri1.id " + "AND lower(ar.appStatus)=lower(:appStatus) "
 						+ "AND lower(apd.customerType) =lower(:custType) "
 						+ "AND (lower(apd.firstName) || ' ' || lower(apd.lastName)) like lower(:name) "
 						+ "AND marri1.createdDate=(select max(marri2.createdDate) from MobAppRefRecordId marri2 where marri2.id = marri1.id) "
@@ -182,7 +182,7 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 				.createQuery("select ar.id,marri1.recordId,apd.firstName,apd.lastName,ar.createdDate, "
 						+ "ar.appStatus,ar.accountNumber,ar.modifiedDate "
 						+ "from MobRmAppRefId ar, ApplicantPersonalDetails apd,MobAppRefRecordId marri1 "
-						+ "where ar.id=apd.id AND ar.id=marri.id " + "AND lower(ar.appStatus)=lower(:appStatus) "
+						+ "where ar.id=apd.id AND ar.id=marri1.id " + "AND lower(ar.appStatus)=lower(:appStatus) "
 						+ "AND lower(apd.customerType) =lower(:custType) "
 						+ "AND ar.modifiedDate between :startDate and :endDate "
 						+ "AND (lower(apd.firstName) || ' ' || lower(apd.lastName)) like lower(:name) "
