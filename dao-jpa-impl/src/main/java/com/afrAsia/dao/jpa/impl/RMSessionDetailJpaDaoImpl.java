@@ -34,8 +34,6 @@ public class RMSessionDetailJpaDaoImpl extends BaseJpaDAOImpl<Long, MobRmSession
 		query.setParameter("createdDate", mobSessionData.getCreatedDate());
 		query.setParameter("rmId", rmId);
 		int result = query.executeUpdate();
-		System.out.println("Rows affected: " + result);
-		
 	}
 	
 	public MobRmSessionDetail getLastLoginTime(String rmId){
@@ -48,11 +46,9 @@ public class RMSessionDetailJpaDaoImpl extends BaseJpaDAOImpl<Long, MobRmSession
 		List<MobRmSessionDetail> sessionDetail = query.getResultList();
 		
 		if(sessionDetail.size() == 0){
-			System.out.println("Session details are null");
 			return null;
 		}
 		else {
-			System.out.println("Session details are::" + sessionDetail.toString());
 			return sessionDetail.get(0);
 		}
 	}

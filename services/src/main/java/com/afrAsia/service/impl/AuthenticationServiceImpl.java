@@ -162,17 +162,6 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		String clientSecret = passwordEncoder.encode(loginDataRequest.getPassword());
 		String userType = loginDataRequest.getUserType();
 		
-		//rmDetailsService.saveRMDetails("ID" + userId, userId);
-		
-		/* LDAP */
-//		if (!tryLdapConnection(loginDataRequest.getUserId(), loginDataRequest.getPassword()))
-//		{
-//			throw new IllegalStateException("Could not authenticate with ldap.");
-//		}
-//		else{
-//			System.out.println("Authenticated with LDAP");
-//
-//		}
 		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(loginDataRequest); 
 		infoLog.info("clientDetails in login(),AuthenticationServiceImpl is : "+clientDetails);
 
@@ -208,7 +197,6 @@ public class AuthenticationServiceImpl implements AuthenticationService
 			if(mobRmPreviousSession.getCreatedDate()!=null)
 				millis=mobRmPreviousSession.getCreatedDate().getTime();
 			responseData.setLastLoginTime(millis);
-			System.out.println("Previous Session Details::" + mobRmPreviousSession.toString());
 			if(mobRmPreviousSession.getCreatedDate()!=null)
 				responseData.setLastLoginTime(mobRmPreviousSession.getCreatedDate().getTime());
 			infoLog.info("Previous Session Details::" + mobRmPreviousSession.toString());

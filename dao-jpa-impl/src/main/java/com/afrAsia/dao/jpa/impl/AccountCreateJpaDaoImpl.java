@@ -173,7 +173,6 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 	
 	
 	public void updateMobRmAppRefId(Long appId, String rmId) {
-		//System.out.println("Value for RM Id table : " + mobRmAppRefId.toString());
 		
 		Query query = getEntityManager()
 				.createQuery("update MobRmAppRefId ma set ma.modifiedBy=:modifiedBy,ma.modifiedDate=:modifiedDate " + "where ma.id =:appid ");
@@ -185,7 +184,6 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 	}
 
 	public void updateAplicantRecordId(Long appId, Long recordId) {
-		System.out.println("appId ==== " + appId + " " + "recordId ======== " + recordId);
 
 		Query query = getEntityManager()
 				.createQuery("update MobApplicantRecordId ma set ma.recordId =:recordid " + "where ma.id =:appid ");
@@ -369,7 +367,6 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 			Long mobApplicantPrimaryApplicantId, Long mobGuardianPrimaryApplicantId,
 			MobApplicantRecordId[] mobJoint, MobApplicantRecordId[] mobGuardianJoint, 
 			AccountDetails accountDetails) {
-		System.out.println("appId ==== " + appId + " " + "recordId ======== " + recordId);
 
 		Query query6 = getEntityManager()
 				.createQuery("update MobAccountDetail ma set ma.recordId =:recordid,ma.accountCategory=:accountcategory,ma.accountType=:accounttype,"

@@ -163,7 +163,6 @@ public class ProductServiceImpl implements ProductService {
 			}
 		} catch (IdNotFoundException exceptionMessage) {
 			errorLog.error(" exceptionMessage in getProductById is : "+exceptionMessage.getMessage());
-			System.out.println(" Exception got : " + exceptionMessage);
 		}
 
 		dataResponse.setProductDetails(listProductDetailsResponse);

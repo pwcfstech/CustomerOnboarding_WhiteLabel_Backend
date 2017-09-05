@@ -11,7 +11,6 @@ public class AfrAsiaSMSUtility {
 			throws  IOException {
 		URL url = new URL(URL);
 		HttpURLConnection uc = (HttpURLConnection)url.openConnection();
-		System.out.println(uc.getResponseMessage());
 		uc.disconnect();
 	}
 }

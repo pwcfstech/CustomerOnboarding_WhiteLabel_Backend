@@ -385,9 +385,10 @@ public class AccountCreationRestService {
 		secondCalendar.setTime(currentDate); // set the time as the second
 												// java.util.Date
 		int year = Calendar.YEAR;
-		int month = Calendar.MONTH;
+		int day = Calendar.DAY_OF_YEAR;
 		int age = secondCalendar.get(year) - firstCalendar.get(year);
-		if (age > 0 && (secondCalendar.get(month) < firstCalendar.get(month))) {
+		infoLog.info(customerType +" : age in validateApplicant(),AccountCreationRestService.java at line 389 is : "+age);
+		if (age > 0 && (secondCalendar.get(day) < firstCalendar.get(day))) {
 			age--;
 		}
 
@@ -654,6 +655,7 @@ public class AccountCreationRestService {
 			}
 		}
 
+		infoLog.info(customerType +" : age in validateApplicant(),AccountCreationRestService.java at line 657 is : "+age);
 		// Check if guardian details are correct.
 		if (age < 18 && !customerType.equalsIgnoreCase("Guardian")) {
 			if (guardian == null) {
@@ -674,16 +676,30 @@ public class AccountCreationRestService {
 	public void sendEmailToCustomer(AccountCreationRequest accountCreationRequest, AccountCreateResponse accountCreationResponse){
 		
 		
+//		String host = afrAsiaMailConfig.getMailhost();
+//		String port = afrAsiaMailConfig.getMailport();
+//		String mailFrom = afrAsiaMailConfig.getMailFrom();
+//		String password = afrAsiaMailConfig.getMailPassword();
+//		String smtpAuthRequired=afrAsiaMailConfig.getSmtpAuthRequired();
+//		String smtpAuthstarttls=afrAsiaMailConfig.getSmtpAuthRequired();
+//		String subject="Welcome to AfrAsia";
+		
+		/*String host = "mail.afrasiabank.com";
+		String port = "25";
+		String mailFrom = "cx.pwc_dummy@afrasiabank.com";
+		String password = "Password07";
+		String smtpAuthRequired="false";
+		String smtpAuthstarttls="false";*/
+
 		String host = afrAsiaMailConfig.getMailhost();
 		String port = afrAsiaMailConfig.getMailport();
-
-		infoLog.info("Mail Port" + port);
 		String mailFrom = afrAsiaMailConfig.getMailFrom();
 		String password = afrAsiaMailConfig.getMailPassword();
 		String smtpAuthRequired=afrAsiaMailConfig.getSmtpAuthRequired();
 		String smtpAuthstarttls=afrAsiaMailConfig.getSmtpAuthRequired();
 		String subject="Welcome to AfrAsia";
 		
+		infoLog.info("Mail Port" + port);
 		infoLog.info("Host is:"+host);
 		
 		Data accountCreationData = accountCreationRequest.getData();

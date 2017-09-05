@@ -103,7 +103,6 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			}
 
 			apps.setAppSubmittedDate(date.getTime());
-			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppStatus(outputs[2].toString());
 
@@ -174,7 +173,6 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			}
 
 			apps.setAppSubmittedDate(date.getTime());
-			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppStatus(outputs[2].toString());
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
@@ -248,7 +246,6 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				throw new DateDifferenceException("start date is greater than end date");
 			}
 		}catch(DateDifferenceException dateDifferenceExceptionMessage){
-			System.out.println(" Exception got due to : "+dateDifferenceExceptionMessage);
 			errorLog.error(" Exception got due to : "+dateDifferenceExceptionMessage);
 		}
 		
@@ -272,7 +269,6 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			}
 
 			apps.setAppSubmittedDate(date.getTime());
-			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppStatus(outputs[2].toString());
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
@@ -340,7 +336,6 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				errorLog.error("  date coud not be parsed in detailsByStatus method of RmApplicationsAppServiceImpl class ");
 			}
 			apps.setAppSubmittedDate(date.getTime());
-			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppStatus(outputs[2].toString());
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
@@ -421,7 +416,6 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				throw new DateDifferenceException("start date is greater than end date");
 			}
 		}catch(DateDifferenceException dateDifferenceExceptionMessage){
-			System.out.println(" Exception got due to : "+dateDifferenceExceptionMessage);
 			errorLog.error(" Exception got due to : "+dateDifferenceExceptionMessage);
 		}
 		
@@ -444,7 +438,6 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			}
 
 			apps.setAppSubmittedDate(date.getTime());
-			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppStatus(outputs[2].toString());
 
@@ -459,7 +452,6 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 
 	public RmApplicationAppResponse getDetailsByAllCriteriaWithStatus(String name, Date startDate, Date endDate, String status,
 			String rmId) {
-		System.out.println("hi in service ====== ");
 		RmApplicationAppResponse rmApplicationAppResponse = new RmApplicationAppResponse();
 
 		List<Apps> listOfApps = new ArrayList<Apps>();
@@ -527,7 +519,6 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				throw new DateDifferenceException("start date is greater than end date");
 			}
 		}catch(DateDifferenceException dateDifferenceExceptionMessage){
-			System.out.println(" Exception got due to : "+dateDifferenceExceptionMessage);
 			errorLog.error(" Exception got due to : "+dateDifferenceExceptionMessage);
 		}
 		
@@ -551,7 +542,6 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			}
 
 			apps.setAppSubmittedDate(date.getTime());
-			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
 			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppStatus(outputs[2].toString());
 

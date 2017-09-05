@@ -25,7 +25,6 @@ public class AppVersionServiceImpl implements AppVersionService {
 	}
 
 	public AppVersion getAppVersionDetails(String platform, String appVersion) {
-		System.out.println("here in  Service");
 		return appVersionDAO.getAppVersionDetails(platform, appVersion);
 	}
 

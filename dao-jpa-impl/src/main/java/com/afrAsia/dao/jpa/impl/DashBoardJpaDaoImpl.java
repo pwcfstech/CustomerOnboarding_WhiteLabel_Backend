@@ -32,8 +32,6 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 
 	public Collection<ApplicationReference> getMonthly(String rmId) {
 
-		System.out.println("####### in jp dao impl , rm id is " + rmId);
-
 		String queryString = "from ApplicationReference ar where lower(ar.appStatus)=lower(:as) AND ar.rmUserId=:rmID "
 				+ "and ar.updatedTime between :stDate and :edDate ";
 
@@ -50,12 +48,7 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 		query.setParameter("stDate", today30);
 		query.setParameter("edDate", today);
 
-		System.out.println("stDate      ======== " + today30);
-		System.out.println("stDate      ======== " + today);
-
 		List<ApplicationReference> listOfEntries = query.getResultList();
-
-		System.out.println("######## in JpaDaoImpl , listOfEntries for monthly datas" + listOfEntries);
 
 		return listOfEntries;
 
@@ -79,8 +72,6 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 
 		List<ApplicationReference> listOfEntries = query.getResultList();
 
-		System.out.println("######## listOfEntries for quarterly datas" + listOfEntries);
-
 		return listOfEntries;
 
 	}
@@ -103,8 +94,6 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 
 		List<ApplicationReference> listOfEntries = query.getResultList();
 
-		System.out.println("######## listOfEntries for half yearly datas" + listOfEntries);
-
 		return listOfEntries;
 
 	}
@@ -126,8 +115,6 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 		query.setParameter("edDate", today);
 
 		List<ApplicationReference> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries for yearly datas" + listOfEntries);
 
 		return listOfEntries;
 
@@ -155,8 +142,6 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 
 		List<ApplicationReference> listOfEntries = query.getResultList();
 
-		System.out.println("######## listOfEntries for number of logged users data" + listOfEntries);
-
 		return listOfEntries;
 
 	}
@@ -179,8 +164,6 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 		query.setParameter("edDate", today);
 
 		List<ApplicationReference> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries for no of acc opened" + listOfEntries);
 
 		return listOfEntries;
 
@@ -206,8 +189,6 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 
 		List<ApplicationReference> listOfEntries = query.getResultList();
 
-		System.out.println("######## listOfEntries for under processing datas" + listOfEntries);
-
 		return listOfEntries;
 
 	}
@@ -232,8 +213,6 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 
 		List<ApplicationReference> listOfEntries = query.getResultList();
 
-		System.out.println("######## listOfEntries for rejected datas" + listOfEntries);
-
 		return listOfEntries;
 
 	}
@@ -251,8 +230,6 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 		query.setParameter("rmID", rmId);
 
 		List<Long> listOfEntries = query.getResultList();
-
-		System.out.println("######## listOfEntries for all ids for Require Attention datas" + listOfEntries);
 
 		return listOfEntries;
 
@@ -281,8 +258,6 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 
 		List<Object> listOfNames = query.getResultList();
 
-		System.out.println("####### customer names ::: " + listOfNames);
-
 		return listOfNames;
 	}
 
@@ -299,8 +274,6 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 		query.setParameter("rmID", rmId);
 
 		List<Date> listOfEntries = query.getResultList();
-
-		System.out.println("####### pending status datas ::: " + listOfEntries);
 
 		return listOfEntries;
 
@@ -319,13 +292,6 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 
 		List<Object> detailsByefault = query.getResultList();
 
-		for (Object object : detailsByefault) {
-			Object[] outputs = (Object[]) object;
-			System.out.println("rmid in dao =========== " + outputs[0].toString());
-			System.out.println("updatedTime in dao =========== " + outputs[1].toString());
-			System.out.println("name in dao =========== " + outputs[2].toString() + " " + outputs[3].toString());
-		}
-
 		return detailsByefault;
 
 	}
@@ -335,7 +301,6 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 	 */
 	@SuppressWarnings("unchecked")
 	public void updateAppStatus(ApplicationReference appRef) {
-		System.out.println("Enter : updateAppStatus() appRef : " + appRef);
 		if (null != appRef) {
 			Query query = getEntityManager().createQuery("select ar from ApplicationReference ar where ar.id=:apId");
 			query.setParameter("apId", appRef.getId());
@@ -349,6 +314,5 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 				getEntityManager().flush();
 			}
 		}
-		System.out.println("Exit : updateAppStatus()");
 	}
 }

@@ -28,7 +28,6 @@ public class RmApplicationsAppJpaDAOImpl extends BaseJpaDAOImpl<Long, Applicatio
 				.createQuery("select ar.id from RMDetails ar where ar.id=:rmUserId AND ar.userGroup=:rm");
 		query.setParameter("rmUserId", rmUserId);
 		query.setParameter("rm", "RM");
-		//System.out.println("query.getSingleResult() in dao =========== "+query.getSingleResult());
 		return (String) query.getSingleResult(); 
 	}
 
@@ -76,7 +75,6 @@ public class RmApplicationsAppJpaDAOImpl extends BaseJpaDAOImpl<Long, Applicatio
 	}
 	
 	public List<Object> getDetailsByStatus(String status, String rmId) {
-		System.out.println("in dao ========= getDetailsByStatus =========== ");
 		Query query = getEntityManager().createQuery("select ar.id, ar.createdTime, ar.appStatus,"
 				+ "apd.firstName,apd.lastName from ApplicationReference ar, ApplicantPersonalDetails apd " 
 				+ "where ar.id=apd.id AND ar.rmUserId=:rmid "

@@ -85,7 +85,6 @@ public class KYCServiceImpl implements KYCService {
 		if (debugLog.isDebugEnabled()) {
 			debugLog.debug("Enter : KYCServiceuploadKYC()");
 		}
-		System.out.println("Enter : KYCServiceuploadKYC()");
 		KYCResponse response = new KYCResponse();
 		KYCDataResponse data = new KYCDataResponse();
 		if (this.validateKycRequest(kycDataRequest, image)) {
@@ -101,18 +100,13 @@ public class KYCServiceImpl implements KYCService {
 				Long recordNo = kycDataRequest.getRecordNo();
 				String firstName = null;
 				String lastName = null;
-				System.out.println("appId : " + appId + ", applicantId : " + applicantId);
 				
 				MobApplicantPersonalDetail mobApplicantPersonalDetail =  applicationDetailsDAO.getMobApplicantPersonalDetails(appId,applicantId);
-				System.out.println("mobApplicantPersonalDetail : " + mobApplicantPersonalDetail);
 				if(null != mobApplicantPersonalDetail) {
 					firstName = mobApplicantPersonalDetail.getFirstName();
 					lastName = mobApplicantPersonalDetail.getLastName();
 				}
 				
-				System.out.println("appId : " + appId + ", applicantId : " + applicantId + ", docId : " + docId
-						+ ", ignorePrevious : " + ignorePrevious + ", isLastPage : " + isLastPage + ", noOfPages : "
-						+ noOfPages + ", currentPageNo : " + currentPageNo+", firstName : "+firstName+", lastName : "+lastName);
 				infoLog.info("appId : " + appId + ", applicantId : " + applicantId + ", docId : " + docId
 						+ ", ignorePrevious : " + ignorePrevious + ", isLastPage : " + isLastPage + ", noOfPages : "
 						+ noOfPages + ", currentPageNo : " + currentPageNo+", firstName : "+firstName+", lastName : "+lastName);
@@ -178,7 +172,6 @@ public class KYCServiceImpl implements KYCService {
 			} catch (Exception e) {
 				errorLog.error("Error : KYCServiceuploadKYC()", e);
 				e.printStackTrace();
-				System.out.println("Error : KYCServiceuploadKYC() "+ e);
 				MessageHeader msgHeader = new MessageHeader();
 				RequestError error = new RequestError();
 				error.setCd("002");
@@ -229,7 +222,6 @@ public class KYCServiceImpl implements KYCService {
 	 * @return
 	 */
 	private boolean validateKycRequest(KYCDataRequest kycDataRequest, InputStream image) {
-		System.out.println("Enter : validateKycRequest()");
 		boolean isValid = false;
 		if (null != kycDataRequest 
 				&& null != image 
@@ -258,9 +250,7 @@ public class KYCServiceImpl implements KYCService {
 			}
 			
 		}
-		System.out.println("isValid : " + isValid + " kycDataRequest : " + kycDataRequest + " image : " + image);
 		infoLog.info("isValid : " + isValid + " kycDataRequest : " + kycDataRequest + " image : " + image);
-		System.out.println("Exit : validateKycRequest()");
 		return isValid;
 	}
 	
@@ -302,8 +292,6 @@ public class KYCServiceImpl implements KYCService {
 	 */
 	private void writeImage(InputStream image, String directory, String filename, String type, final String startsWith)
 			throws IOException {
-		System.out.println(
-				"Enter : writeImage() --> directory : " + directory + " filename : " + filename + " type : " + type);
 		File directoryObj = new File(directory);
 		if (!directoryObj.exists()) {
 			directoryObj.mkdirs();
@@ -313,7 +301,6 @@ public class KYCServiceImpl implements KYCService {
 		}
 		File outputfile = new File(directory + "/" + filename);
 		ImageIO.write(ImageIO.read(image), type, outputfile);
-		System.out.println("Exit : writeImage()");
 	}
 
 	/**
@@ -329,8 +316,6 @@ public class KYCServiceImpl implements KYCService {
 	 */
 	private void writePDF(InputStream image, String directory, String filename, final String startsWith,
 			Boolean isLastPage, String noOfPages, String currentPageNo, Boolean ignorePrevious) throws Exception {
-		System.out.println("Enter : writePDF() --> directory : " + directory + " filename : " + filename
-				+ " isLastPage : " + isLastPage + " noOfPages : " + noOfPages + " currentPageNo : " + currentPageNo);
 
 		File directoryObj = new File(directory);
 		boolean isNew = false;
@@ -341,21 +326,17 @@ public class KYCServiceImpl implements KYCService {
 			File[] files = this.findExistingFiles(startsWith, directoryObj);
 			int currentPage = Integer.valueOf(currentPageNo);
 
-			System.out.println("files.length : " + files.length);
-
 			if (!ignorePrevious && currentPage > 1 && files.length >= 1) {
 				PdfReader reader = null;
 				PdfStamper stamper = null;
 				File f = files[0];
 
 				try {
-					System.out.println("Existing File name : " + f.getName());
 					reader = new PdfReader(f.getCanonicalPath());
 					stamper = new PdfStamper(reader, new FileOutputStream(directory + "/tmp" + filename));
 					Image img = Image.getInstance(ImageIO.read(image), null);
 
 					if (reader.getNumberOfPages() >= currentPage) {
-						System.out.println("myPage : " + currentPage);
 						/*PdfContentByte under = stamper.getUnderContent(currentPage);
 						under.reset();
 						this.addImagetoCurrentPage(img, under);*/
@@ -363,7 +344,6 @@ public class KYCServiceImpl implements KYCService {
 						throw new Exception("Page : " + currentPage + " is already added in pdf.");
 						
 					} else if (reader.getNumberOfPages() + 1 == currentPage) {
-						System.out.println("add new page to reader : " + currentPage);
 						stamper.insertPage(reader.getNumberOfPages() + 1,  reader.getPageSizeWithRotation(1));
 						PdfContentByte under = stamper.getUnderContent(currentPage);
 						this.addImagetoCurrentPage(img, under);
@@ -372,14 +352,12 @@ public class KYCServiceImpl implements KYCService {
 						errorLog.error("'currentPageNo' should be " + (reader.getNumberOfPages() + 1));
 						throw new Exception("'currentPageNo' should be " + (reader.getNumberOfPages() + 1));
 					}
-					System.out.println("NumberOfPages : " + reader.getNumberOfPages());
 				} finally {
 					if (null != stamper) stamper.close();
 					if (null != reader) reader.close();
 				}
 				//this.deleteFiles(files);
 				if(!("/tmp" + filename).equals(f.getName())) {
-					System.out.println("File deleting..."+f.getName()); 
 					f.delete();
 				}
 				new File(directory + "/tmp" + filename).renameTo(new File(directory + "/" + filename));
@@ -402,7 +380,6 @@ public class KYCServiceImpl implements KYCService {
 			this.createNewPDF(image, directory, filename);
 		}
 
-		System.out.println("Exit : writePDF()");
 	}
 
 	/**
@@ -440,13 +417,10 @@ public class KYCServiceImpl implements KYCService {
 	 * @param files
 	 */
 	private void deleteFiles(File[] files) {
-		System.out.println("Enter : deleteFiles()");
 		for (File f : files) {
 			infoLog.info("Deleted File name : " + f.getName());
-			System.out.println("Deleted File name : " + f.getName());
 			f.delete();
 		}
-		System.out.println("Exit : deleteFiles()");
 	}
 
 	/**
@@ -459,14 +433,12 @@ public class KYCServiceImpl implements KYCService {
 	 * @throws IOException
 	 */
 	private void createNewPDF(InputStream image, String directory, String filename)	throws DocumentException, FileNotFoundException, BadElementException, IOException {
-		System.out.println("Enter : createNewPDF()");
 		Document document = null;
 		try {
 			document = new Document(PageSize.A4);
 			PdfWriter.getInstance(document, new FileOutputStream(directory + "/" + filename));
 			Image img = Image.getInstance(ImageIO.read(image), null);
 			
-			System.out.println("img.getHeight() : " + img.getHeight() + "img.getWidth() : " + img.getWidth());
 			if (img.getWidth() > PageSize.A4.getWidth() - 100) {
 				float scaler = ((PageSize.A4.getWidth() - 100) / img.getWidth()) * 100;
 				img.scalePercent(scaler);
@@ -475,7 +447,6 @@ public class KYCServiceImpl implements KYCService {
 				img.setAbsolutePosition(50, PageSize.A4.getHeight() - 50 - img.getHeight());
 			}
 			infoLog.info("img.getHeight() : " + img.getHeight() + "img.getWidth() : " + img.getWidth());
-			System.out.println("img.getHeight() : " + img.getHeight() + "img.getWidth() : " + img.getWidth());
 			document.open();
 			document.add(img);
 		} finally {
@@ -483,7 +454,6 @@ public class KYCServiceImpl implements KYCService {
 				document.close();
 			}
 		}
-		System.out.println("Exit : createNewPDF()");
 	}
 
 }
@@ -565,7 +535,6 @@ public class KYCServiceImpl implements KYCService {
 //		if (logger.isDebugEnabled()) {
 //			logger.info("Enter : KYCServiceuploadKYC()");
 //		}
-//		System.out.println("Enter : KYCServiceuploadKYC()");
 //		KYCResponse response = new KYCResponse();
 //		KYCDataResponse data = new KYCDataResponse();
 //		if (this.validateKycRequest(kycDataRequest, image)) {
@@ -581,16 +550,13 @@ public class KYCServiceImpl implements KYCService {
 //				Long recordNo = kycDataRequest.getRecordNo();
 //				String firstName = null;
 //				String lastName = null;
-//				System.out.println("appId : " + appId + ", applicantId : " + applicantId);
 //				
 //				MobApplicantPersonalDetail mobApplicantPersonalDetail =  applicationDetailsDAO.getMobApplicantPersonalDetails(appId,applicantId);
-//				System.out.println("mobApplicantPersonalDetail : " + mobApplicantPersonalDetail);
 //				if(null != mobApplicantPersonalDetail) {
 //					firstName = mobApplicantPersonalDetail.getFirstName();
 //					lastName = mobApplicantPersonalDetail.getLastName();
 //				}
 //				
-//				System.out.println("appId : " + appId + ", applicantId : " + applicantId + ", docId : " + docId
 //						+ ", ignorePrevious : " + ignorePrevious + ", isLastPage : " + isLastPage + ", noOfPages : "
 //						+ noOfPages + ", currentPageNo : " + currentPageNo+", firstName : "+firstName+", lastName : "+lastName);
 //				
@@ -651,7 +617,6 @@ public class KYCServiceImpl implements KYCService {
 //			} catch (Exception e) {
 //				logger.error("Error : KYCServiceuploadKYC()", e);
 //				e.printStackTrace();
-//				System.out.println("Error : KYCServiceuploadKYC() "+ e);
 //				MessageHeader msgHeader = new MessageHeader();
 //				RequestError error = new RequestError();
 //				error.setCd("002");
@@ -688,7 +653,6 @@ public class KYCServiceImpl implements KYCService {
 //	 * @return
 //	 */
 //	private boolean validateKycRequest(KYCDataRequest kycDataRequest, InputStream image) {
-//		System.out.println("Enter : validateKycRequest()");
 //		boolean isValid = false;
 //		if (null != kycDataRequest 
 //				&& null != image 
@@ -705,8 +669,6 @@ public class KYCServiceImpl implements KYCService {
 //				&& !kycDataRequest.getRmId().isEmpty()) {
 //			isValid = true;
 //		}
-//		System.out.println("isValid : " + isValid + " kycDataRequest : " + kycDataRequest + " image : " + image);
-//		System.out.println("Exit : validateKycRequest()");
 //		return isValid;
 //	}
 //
@@ -720,8 +682,6 @@ public class KYCServiceImpl implements KYCService {
 //	 */
 //	private void writeImage(InputStream image, String directory, String filename, String type, final String startsWith)
 //			throws IOException {
-//		System.out.println(
-//				"Enter : writeImage() --> directory : " + directory + " filename : " + filename + " type : " + type);
 //		File directoryObj = new File(directory);
 //		if (!directoryObj.exists()) {
 //			directoryObj.mkdirs();
@@ -733,14 +693,12 @@ public class KYCServiceImpl implements KYCService {
 //			};
 //			File[] files = directoryObj.listFiles(beginswithm);
 //			for (File f : files) {
-//				System.out.println("File name to delete : " + f.getName());
 //				f.delete();
 //
 //			}
 //		}
 //		File outputfile = new File(directory + "/" + filename);
 //		ImageIO.write(ImageIO.read(image), type, outputfile);
-//		System.out.println("Exit : writeImage()");
 //	}
 //
 //	/**
@@ -755,8 +713,6 @@ public class KYCServiceImpl implements KYCService {
 //	 */
 //	private void writePDF(InputStream image, String directory, String filename, final String startsWith,
 //			Boolean isLastPage, String noOfPages, String currentPageNo) throws IOException {
-//		System.out.println("Enter : writePDF() --> directory : " + directory + " filename : " + filename
-//				+ " isLastPage : " + isLastPage + " noOfPages : " + noOfPages + " currentPageNo : " + currentPageNo);
 //		// Need to modify later
 //		File directoryObj = new File(directory);
 //		if (!directoryObj.exists()) {
@@ -769,13 +725,11 @@ public class KYCServiceImpl implements KYCService {
 //			};
 //			File[] files = directoryObj.listFiles(beginswithm);
 //			for (File f : files) {
-//				System.out.println("File name to delete : " + f.getName());
 //				f.delete();
 //			}
 //		}
 //		File outputfile = new File(directory + "/" + filename);
 //		ImageIO.write(ImageIO.read(image), "jpg", outputfile);
-//		System.out.println("Exit : writePDF()");
 //	}
 //
 //}
