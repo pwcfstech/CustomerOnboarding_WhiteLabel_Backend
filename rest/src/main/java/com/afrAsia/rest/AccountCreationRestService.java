@@ -673,33 +673,24 @@ public class AccountCreationRestService {
 	public void sendEmailToCustomer(AccountCreationRequest accountCreationRequest){
 		
 		
-//		String host = afrAsiaMailConfig.getMailhost();
-//		String port = afrAsiaMailConfig.getMailport();
-//		System.out.println("Mail Port" + port);
-//		String mailFrom = afrAsiaMailConfig.getMailFrom();
-//		String password = afrAsiaMailConfig.getMailPassword();
-//		String smtpAuthRequired=afrAsiaMailConfig.getSmtpAuthRequired();
-//		String smtpAuthstarttls=afrAsiaMailConfig.getSmtpAuthRequired();
-//		String subject="Welcome to AfrAsia";
-		
-		String host = "mail.afrasiabank.com";
-		String port = "25";
+		String host = afrAsiaMailConfig.getMailhost();
+		String port = afrAsiaMailConfig.getMailport();
 		System.out.println("Mail Port" + port);
-		String mailFrom = "cx.pwc_dummy@afrasiabank.com";
-		String password = "Password07";
-		String smtpAuthRequired="false";
-		String smtpAuthstarttls="false";
+		String mailFrom = afrAsiaMailConfig.getMailFrom();
+		String password = afrAsiaMailConfig.getMailPassword();
+		String smtpAuthRequired=afrAsiaMailConfig.getSmtpAuthRequired();
+		String smtpAuthstarttls=afrAsiaMailConfig.getSmtpAuthRequired();
 		String subject="Welcome to AfrAsia";
 		
 		Data accountCreationData = accountCreationRequest.getData();
 		String primApplicantName = accountCreationData.getPrimaryApplicantDetail().getFirstName();
-		String toAddress = "neha.marda@gmail.com";//accountCreationData.getPrimaryApplicantDetail().getEmail();
+		String toAddress = accountCreationData.getPrimaryApplicantDetail().getEmail();
 		String rmName = "";
-//		RMDetails rmDetails = accountCreationService.getRMDetails(accountCreationData.getRmId());
-//		if(rmDetails!=null)
-//		{
-//			rmName=rmDetails.getRmName();
-//		}
+		RMDetails rmDetails = accountCreationService.getRMDetails(accountCreationData.getRmId());
+		if(rmDetails!=null)
+		{
+			rmName=rmDetails.getRmName();
+		}
 		String message="Dear "+primApplicantName+"," +
 				"Welcome to AfrAsia Bank and thank you for choosing us as your banking partner. Your application is currently under process with application number [XXX]. We shall update you as soon as your account is opened." +
 				"In the meantime, we invite you to browse our website www.afrasiabank.com for a detailed overview of our banking solutions, and our pioneering rewards programme, AfrAsia XtraMiles." +

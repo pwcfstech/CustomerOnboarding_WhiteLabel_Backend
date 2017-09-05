@@ -204,7 +204,7 @@
 				<!-- <packaging>war</packaging> -->
 				<configuration>
 					<warName>ROOT</warName>
-					<outputDirectory>C:\apache-tomcat-8.0.32\webapps</outputDirectory>
+					<outputDirectory>C:\Backbase Software\ApacheSetup\apache-tomcat-9.0.0.M19-windows-x64\apache-tomcat-9.0.0.M19\webapps</outputDirectory>
 
 				</configuration>
 			</plugin>

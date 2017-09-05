@@ -160,6 +160,8 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 		try
         {
         	Map<String, String> personMap = personRepo.findPerson(loginDataRequest.getUserId(), loginDataRequest.getPassword());
+        	System.out.println("LDAP EMAIL" + personMap.get(PersonRepoImpl.LDAP_EMAIL_ATTRIBUTE));
+        	System.out.println("LDAP NAME" + personMap.get(PersonRepoImpl.LDAP_NAME_ATTRIBUTE));
         	if (personMap == null || personMap.isEmpty())
         	{
         		throw new ClientRegistrationException("No client with ID in LDAP.");

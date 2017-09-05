@@ -101,11 +101,7 @@
 		<property name="tokenStore" ref="tokenStore" />
 		<property name="supportRefreshToken" value="false" />
 		<property name="clientDetailsService" ref="clientDetails" />
-<<<<<<< HEAD
-		<property name="accessTokenValiditySeconds" value="1800" /> 
-=======
 		<property name="accessTokenValiditySeconds" value="1800" />
->>>>>>> 96f05b8135a672b08cffd527f8d35a16fecbb450
 	</bean>
 
 	<bean id="clientDetails"
@@ -124,6 +120,7 @@
 	<bean id="accountCreationService" class="com.afrAsia.service.impl.AccountCreationServiceImpl">
 		<property name="accountCreateDao" ref="accountCreateJpaDao" /> 
 		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" />
+		<property name="rmDetailsDAO" ref="rmDetailsDAO" />
 	</bean>
 	
 	<bean id="applicationDetailsService" class="com.afrAsia.service.impl.ApplicationDetailsServiceImpl">
