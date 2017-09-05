@@ -45,7 +45,6 @@ public class DTDPSServiceImpl implements DTDPSService
         }
 
         List<DigitalTxnDaily> dbTxnDataList = dtdpsDAO.getAllTransactionsOfDate(date, onUsInd);
-//        System.out.println(dbTxnDataList);
 
         if (dbTxnDataList != null)
         {

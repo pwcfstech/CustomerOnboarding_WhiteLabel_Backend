@@ -214,8 +214,6 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 	public void enterAccountDetails(AccountCreationRequest accountCreationRequest ,long appRefNo, long recordId, MobApplicantRecordId mobApplicantPrimary, MobApplicantRecordId mobGuardianPrimary, MobApplicantRecordId[] mobJoint, MobApplicantRecordId[] mobGuardianJoint, AccountDetails accountDetails)
 	{
 
-		//System.out.println("Account Details::" + accountDetails);
-
 		MobAccountDetail mobAccountDetail = new MobAccountDetail();
 		MobAccountAdditionalDetail mobAccountAdditionalDetail = new MobAccountAdditionalDetail();
 
@@ -232,7 +230,6 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobAccountDetail.setModifiedBy(accountCreationRequest.getData().getRmId());
 		mobAccountDetail.setCreatedDate(new Date());
 		mobAccountDetail.setModifiedDate(new Date());
-		//System.out.println("Mob Joint 0" + mobJoint[0]);
 		if(mobJoint[0] != null)
 			mobAccountDetail.setJoint1ApplicantRefNo(mobJoint[0].getApplicantId());
 		if(mobGuardianJoint[0] != null)
@@ -422,12 +419,12 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		Calendar secondCalendar = Calendar.getInstance();
 		secondCalendar.setTime(currentDate); //set the time as the second java.util.Date
 		int year = Calendar.YEAR;
-		int month = Calendar.MONTH;
+		int day = Calendar.DAY_OF_YEAR;
 		int age = secondCalendar.get(year) - firstCalendar.get(year);
-		if (age > 0 && (secondCalendar.get(month) < firstCalendar.get(month))) {
+		if (age > 0 && (secondCalendar.get(day) < firstCalendar.get(day))) {
 			age--;
 		} 
-
+		infoLog.info("age at line 427 "+age);
 		//Enter personal details of applicant
 		
 		/*Date date = new Date();
@@ -436,9 +433,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		Date date2=new Date();
 		try {
 			date2=sdf.parse(dateString);
-			System.out.println("date is : "+date2);
 		} catch (ParseException e) {
-			System.out.println("can not convert");
 		}*/
 
 		MobApplicantPersonalDetail mobApplicantPersonalDetail = new MobApplicantPersonalDetail();
@@ -503,13 +498,13 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		
 		mobApplicantPersonalDetail=accountCreateDao.storeMobApplicantPersonalDetail(mobApplicantPersonalDetail);
 
-
-		if(age > 18){
+		if(age >= 18){
 			mobApplicantPersonalDetail.setIsMinor(false);
 		}
 		else{
 			mobApplicantPersonalDetail.setIsMinor(true);
 		}
+		infoLog.info("is minor ::  "+mobApplicantPersonalDetail.getIsMinor());
 		infoLog.info(" mobApplicantPersonalDetail is : "+mobApplicantPersonalDetail.toString());
 
 		//Enter communication details of applicant
@@ -644,7 +639,6 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
 	@Transactional(readOnly = false, rollbackFor = {Exception.class})
 	public AccountCreateResponse updateAccount(AccountCreationRequest accountCreationRequest) {
-		System.out.println(" in updateAccount serviceImpl");
 		//1. Get app reference number and RM user Id from update request. Check if application there in MOB_RM_APP_REF_ID	
 
 		AccountCreateResponse accountCreateResponse=new AccountCreateResponse();
@@ -659,7 +653,6 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		try{			
 			appIdFromDb= accountCreateDao.getAppId(appId,rmUserId);			
 			if(appIdFromDb==null){
-				System.out.println(" Provided Rm user id and app ref id doestn't match, please pass proper values");
 				errorLog.error(" Provided Rm user id and app ref id doestn't match, please pass proper values");
 				MsgHeader messageHeader=new MsgHeader();
 				MsgHeader.Error error=new MsgHeader().new Error();

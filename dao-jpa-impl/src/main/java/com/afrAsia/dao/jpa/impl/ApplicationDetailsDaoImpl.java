@@ -28,7 +28,6 @@ public class ApplicationDetailsDaoImpl extends BaseJpaDAOImpl<Long, MobRmAppRefI
 		String queryString = "SELECT s FROM MobAccountDetail s where s.id = :appRefId";
 		Query query = getEntityManager().createQuery(queryString);
 		query.setParameter("appRefId", appRefId);
-		//System.out.println("######## query.getSingleResult() in ApplicationDetailsDaoImpl ========== "+query.getSingleResult());
 		return (MobAccountDetail) query.getSingleResult();
 	}
 	public MobAccountAdditionalDetail getMobAccountAdditionalDetails(Long appRefId){
@@ -48,7 +47,6 @@ public class ApplicationDetailsDaoImpl extends BaseJpaDAOImpl<Long, MobRmAppRefI
 		Query query = getEntityManager().createQuery(queryString);
 		query.setParameter("appRefId", appRefId);
 		query.setParameter("applicantId", applicantId);
-		//System.out.println("#################### MobApplicantPersonalDetail in dao impl ================ "+query.getSingleResult());
 		return (MobApplicantPersonalDetail) query.getSingleResult();	
 	}
 	public MobApplicantCommDetail getMobApplicantCommDetails(Long appRefId, Long applicantId){

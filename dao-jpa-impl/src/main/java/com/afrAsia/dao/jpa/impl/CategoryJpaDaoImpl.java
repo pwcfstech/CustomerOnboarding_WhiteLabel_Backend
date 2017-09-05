@@ -34,8 +34,6 @@ public class CategoryJpaDaoImpl extends BaseJpaDAOImpl<String, Category>implemen
 
 		List<Category> listOfNames = query1.getResultList();
 		
-		System.out.println("####### list of categories ::: " + listOfNames);
-
 		return listOfNames;
 	}
 

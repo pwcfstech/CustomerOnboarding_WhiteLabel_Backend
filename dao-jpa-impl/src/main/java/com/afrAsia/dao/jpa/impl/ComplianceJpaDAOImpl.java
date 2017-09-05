@@ -27,26 +27,7 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 
 		List<Object> detailsByefaultByUnderProcessingStatus = query.getResultList();
 
-		for (Object object : detailsByefaultByUnderProcessingStatus) {
-			Object[] outputs = (Object[]) object;
-			System.out.println(outputs[0].toString());
-			System.out.println(outputs[1].toString());
-			System.out.println(outputs[2].toString());
-			System.out.println(outputs[3].toString());
-			System.out.println(outputs[4].toString());
-			System.out.println(outputs[5].toString());
-			try {
-				if (outputs[6].toString() != null) {
-					System.out.println("outputs[6].toString() in try  =========== " + outputs[6].toString());
-				} else {
-					System.out.println("############## outputs[6] is null ");
-				}
-			} catch (NullPointerException e) {
-				System.out.println("outputs[6].toString() in catch =========== ");
-			}
-			System.out.println(outputs[7].toString());
-		}
-			return detailsByefaultByUnderProcessingStatus;
+		return detailsByefaultByUnderProcessingStatus;
 	}
 
 	public List<Object> getDetailsByDefaultByAccOpenedOrRejectedStatus() {
@@ -74,26 +55,7 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 
 		List<Object> detailsByDefaultByAccOpenedOrRejectedStatus = query.getResultList();
 
-		for (Object object : detailsByDefaultByAccOpenedOrRejectedStatus) {
-			Object[] outputs = (Object[]) object;
-			System.out.println(outputs[0].toString());
-			System.out.println(outputs[1].toString());
-			System.out.println(outputs[2].toString());
-			System.out.println(outputs[3].toString());
-			System.out.println(outputs[4].toString());
-			System.out.println(outputs[5].toString());
-			try {
-				if (outputs[6].toString() != null) {
-					System.out.println("outputs[6].toString() in try  =========== " + outputs[6].toString());
-				} else {
-					System.out.println("############## outputs[6] is null ");
-				}
-			} catch (NullPointerException e) {
-				System.out.println("outputs[6].toString() in catch =========== ");
-			}
-			System.out.println(outputs[7].toString());
-		}
-			return detailsByDefaultByAccOpenedOrRejectedStatus;
+		return detailsByDefaultByAccOpenedOrRejectedStatus;
 	}
 
 	public List<Object> getDetailsByName(String name, String appStatus) {
@@ -114,26 +76,7 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 
 		List<Object> detailsByName = query.getResultList();
 
-		for (Object object : detailsByName) {
-			Object[] outputs = (Object[]) object;
-			System.out.println(outputs[0].toString());
-			System.out.println(outputs[1].toString());
-			System.out.println(outputs[2].toString());
-			System.out.println(outputs[3].toString());
-			System.out.println(outputs[4].toString());
-			System.out.println(outputs[5].toString());
-			try {
-				if (outputs[6].toString() != null) {
-					System.out.println("outputs[6].toString() in try  =========== " + outputs[6].toString());
-				} else {
-					System.out.println("############## outputs[6] is null ");
-				}
-			} catch (NullPointerException e) {
-				System.out.println("outputs[6].toString() in catch =========== ");
-			}
-			System.out.println(outputs[7].toString());
-		}
-			return detailsByName;
+		return detailsByName;
 	}
 
 	public List<Object> getDetailsByDates(Date startDate, Date endDate, String appStatus) {
@@ -152,26 +95,6 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 		query.setParameter("endDate", endDate);
 
 		List<Object> getDetailsByDates = query.getResultList();
-
-		for (Object object : getDetailsByDates) {
-			Object[] outputs = (Object[]) object;
-			System.out.println(outputs[0].toString());
-			System.out.println(outputs[1].toString());
-			System.out.println(outputs[2].toString());
-			System.out.println(outputs[3].toString());
-			System.out.println(outputs[4].toString());
-			System.out.println(outputs[5].toString());
-			try {
-				if (outputs[6].toString() != null) {
-					System.out.println("outputs[6].toString() in try  =========== " + outputs[6].toString());
-				} else {
-					System.out.println("############## outputs[6] is null ");
-				}
-			} catch (NullPointerException e) {
-				System.out.println("outputs[6].toString() in catch =========== ");
-			}
-			System.out.println(outputs[7].toString());
-		}
 
 		return getDetailsByDates;
 	}
@@ -197,25 +120,6 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 
 		List<Object> detailsByAllCriteria = query.getResultList();
 
-		for (Object object : detailsByAllCriteria) {
-			Object[] outputs = (Object[]) object;
-			System.out.println(outputs[0].toString());
-			System.out.println(outputs[1].toString());
-			System.out.println(outputs[2].toString());
-			System.out.println(outputs[3].toString());
-			System.out.println(outputs[4].toString());
-			System.out.println(outputs[5].toString());
-			try {
-				if (outputs[6].toString() != null) {
-					System.out.println("outputs[6].toString() in try  =========== " + outputs[6].toString());
-				} else {
-					System.out.println("############## outputs[6] is null ");
-				}
-			} catch (NullPointerException e) {
-				System.out.println("outputs[6].toString() in catch =========== ");
-			}
-			System.out.println(outputs[7].toString());
-		}
-			return detailsByAllCriteria;
+		return detailsByAllCriteria;
 	}
 }

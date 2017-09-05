@@ -22,6 +22,7 @@ com\afrAsia\entities\response\DailyTxnDataResponse.class
 com\afrAsia\entities\jpa\MsgHeader$Error.class
 com\afrAsia\entities\response\RmApplicationAppResponse.class
 com\afrAsia\entities\response\DeviceFootPrintResponse.class
+com\afrAsia\entities\transactions\MobApplicationCompStatus.class
 com\afrAsia\entities\response\KYCResponse.class
 com\afrAsia\entities\masters\BaseMaster.class
 com\afrAsia\entities\transactions\HistTableCompositePK.class
@@ -30,7 +31,6 @@ com\afrAsia\entities\response\MastersDataResponse$Data$RMDetails.class
 com\afrAsia\entities\jpa\AuthItem.class
 com\afrAsia\entities\response\AccountCreateResponse$Data.class
 com\afrAsia\entities\response\RequestSuccess.class
-com\ofss\fcubs\service\fcubscustomerservice\CustjointFullType.class
 com\afrAsia\entities\transactions\MobRmAppRefId.class
 com\afrAsia\entities\transactions\MobComments.class
 com\afrAsia\entities\request\AccountCreationRequest.class
@@ -42,7 +42,6 @@ com\afrAsia\entities\response\MastersDataResponse.class
 com\afrAsia\entities\response\PendingAction.class
 com\afrAsia\entities\response\RequestError.class
 com\afrAsia\entities\response\LogoutResponse.class
-com\ofss\fcubs\service\fcubscustomerservice\CustjointFullType$Custjoint.class
 com\afrAsia\entities\request\ProdCatListReq.class
 com\afrAsia\entities\jpa\DeviceFootPrint.class
 com\afrAsia\entities\transactions\MobApplicantAdditionalDtl.class
@@ -62,6 +61,7 @@ com\afrAsia\entities\jpa\AuthItemChild.class
 com\afrAsia\entities\transactions\MobAccountAdditionalDetail.class
 com\afrAsia\entities\transactions\MobAppRefRecordId.class
 com\afrAsia\entities\transactions\KycTableCompositePK.class
+com\afrAsia\entities\response\JointApplicantsResponse.class
 com\afrAsia\entities\response\MessageHeader.class
 com\afrAsia\entities\response\MastersDataResponse$Data$MaritalStatus.class
 com\afrAsia\entities\request\MobCommentsRequest.class
@@ -93,6 +93,7 @@ com\afrAsia\entities\transactions\MobAccountDetailsHist.class
 com\afrAsia\entities\request\GenericRequest.class
 com\afrAsia\entities\request\ApplicationDetailsReq$Data.class
 com\afrAsia\entities\request\LoginDataRequest.class
+com\afrAsia\entities\response\ApplicantDetailsResponse.class
 com\afrAsia\entities\transactions\MobApplicantPersonalDetail.class
 com\afrAsia\entities\request\ProductDetailsReq.class
 com\afrAsia\entities\response\MastersResponse$RMDetails.class

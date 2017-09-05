@@ -21,7 +21,6 @@ public class AppVersionDaoImpl extends BaseJpaDAOImpl<String, AppVersion> implem
 	
 public AppVersion getLatestVersion(String platform) {
 		
-	System.out.println("here in JPADAO");
 		String queryString = "SELECT s FROM AppVersion s where s.appVersionId.platform = :platform and s.status=:status";
 		Query query = getEntityManager().createQuery(queryString);
 		

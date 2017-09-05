@@ -221,13 +221,11 @@ public class KYCRestService {
 //				if (logger.isDebugEnabled()) {
 //					logger.info("Exit : uploadKYC()");
 //				}
-//				System.out.println("Error : uploadKYC()"+ e); 
 //				return Response.status(Status.FORBIDDEN).entity(response).build();
 //			}
 //			if (logger.isDebugEnabled()) {
 //				logger.info("Exit : uploadKYC()");
 //			}
-//			System.out.println("Exit : uploadKYC()"); 
 //			return Response.ok(response).build();
 //		}
 //
@@ -241,7 +239,6 @@ public class KYCRestService {
 //				if (logger.isDebugEnabled()) {
 //					logger.debug("Enter : uploadKYC()");
 //				}
-//				System.out.println("Enter : uploadKYC()");
 //				if (null != kycRequest) {
 //					byte[] imageBytes = DatatypeConverter.parseBase64Binary(kycRequest.getData().getImage());
 //					InputStream image = new ByteArrayInputStream(imageBytes);
@@ -276,13 +273,11 @@ public class KYCRestService {
 //				if (logger.isDebugEnabled()) {
 //					logger.info("Exit : uploadKYC()");
 //				}
-//				System.out.println("Error : uploadKYC()" + e);
 //				return Response.status(Status.FORBIDDEN).entity(response).build();
 //			}
 //			if (logger.isDebugEnabled()) {
 //				logger.info("Exit : uploadKYC()");
 //			}
-//			System.out.println("Exit : uploadKYC()");
 //			return Response.ok(response).build();
 //		}
 
@@ -315,7 +310,6 @@ public class KYCRestService {
 		kycRequest.setData(data );
 		kycService = new KYCServiceImpl();
 		Response result = new KYCRestService().uploadKYC2(kycRequest);
-		System.out.println("Response : "+result.getEntity());
 	}*/
 
 	}

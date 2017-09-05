@@ -7,24 +7,25 @@ import com.afrAsia.dao.jpa.UploadKYCJpaDAO;
 
 import com.afrAsia.entities.transactions.MobApplicantKycDocuments;
 
-public class UploadKYCJpaDaoImpl extends BaseJpaDAOImpl<Long, MobApplicantKycDocuments> implements UploadKYCJpaDAO {
+public class UploadKYCJpaDaoImpl extends BaseJpaDAOImpl<Long, MobApplicantKycDocuments>implements UploadKYCJpaDAO {
 
-	/* (non-Javadoc)
-	 * @see com.afrAsia.dao.jpa.UploadKYCDao#saveKYCDocLocation(java.lang.Long, java.lang.Long, java.lang.String, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.afrAsia.dao.jpa.UploadKYCDao#saveKYCDocLocation(java.lang.Long,
+	 * java.lang.Long, java.lang.String, java.lang.String)
 	 */
 	@SuppressWarnings("rawtypes")
 	public void saveKYCDocLocation(MobApplicantKycDocuments kycDocs) {
 
-		System.out.println("Enter : UploadKYCDao#saveKYCDocLocation() kycDocs : " + kycDocs);
-
 		if (null != kycDocs && null != kycDocs.getId()) {
-			Query query = getEntityManager().createQuery("SELECT t FROM MobApplicantKycDocuments t WHERE t.id.id = :id AND t.id.applicantId = :applicantId AND t.id.docId = :docId");
+			Query query = getEntityManager().createQuery(
+					"SELECT t FROM MobApplicantKycDocuments t WHERE t.id.id = :id AND t.id.applicantId = :applicantId AND t.id.docId = :docId");
 			query.setParameter("id", kycDocs.getId().getId());
 			query.setParameter("applicantId", kycDocs.getId().getApplicantId());
 			query.setParameter("docId", kycDocs.getId().getDocId());
 			List result = query.getResultList();
-			System.out.println("Result : " + result);
-			
+
 			if (result != null && !result.isEmpty()) {
 				MobApplicantKycDocuments kycUpdateDocs = (MobApplicantKycDocuments) result.get(0);
 				kycUpdateDocs.setRecordId(kycDocs.getRecordId());
@@ -38,8 +39,5 @@ public class UploadKYCJpaDaoImpl extends BaseJpaDAOImpl<Long, MobApplicantKycDoc
 				getEntityManager().flush();
 			}
 		}
-
-		System.out.println("Exit : UploadKYCDao#saveKYCDocLocation()");
 	}
-
 }

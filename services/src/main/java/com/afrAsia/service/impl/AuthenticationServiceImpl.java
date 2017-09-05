@@ -170,7 +170,6 @@ public class AuthenticationServiceImpl implements AuthenticationService
 			throw new IllegalStateException("Could not authenticate with ldap.");
 		}
 		else{
-			System.out.println("Authenticated with LDAP");
 		}*/
 		
 		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(userId); 
@@ -209,7 +208,6 @@ public class AuthenticationServiceImpl implements AuthenticationService
 			if(mobRmPreviousSession.getCreatedDate()!=null)
 				millis=mobRmPreviousSession.getCreatedDate().getTime();
 			responseData.setLastLoginTime(millis);
-			System.out.println("Previous Session Details::" + mobRmPreviousSession.toString());
 			if(mobRmPreviousSession.getCreatedDate()!=null)
 				responseData.setLastLoginTime(mobRmPreviousSession.getCreatedDate().getTime());
 			infoLog.info("Previous Session Details::" + mobRmPreviousSession.toString());

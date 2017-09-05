@@ -1,33 +1,3 @@
-<<<<<<< HEAD
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\AccountClassDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\ProductDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\PrefixDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\ProductDetailsDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\CategoryMasterDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\OAuthAuthorizationDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\AccountTypeDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\MobRmAppRefIdDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\RMSessionDetailDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\AddCommentDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\ApplicationDetailsDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\EmploymentDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\RmApplicationsAppDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\MaritalStatusDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\UIDTypeDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\AppVersionDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\RMDetailsDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\core\UserType.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\AfrAsiaFirstDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\UserDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\CountryDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\DashBoardDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\ComplianceDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\BaseDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\CategoryDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\DTDPSDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\dao\AccountCreateDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao\src\main\java\com\afrAsia\core\UserType.java
-=======
 C:\workspaces\AfrAsia\git\afrAsia_28_8\afrasia-platform\dao\src\main\java\com\afrAsia\dao\AppVersionDao.java
 C:\workspaces\AfrAsia\git\afrAsia_28_8\afrasia-platform\dao\src\main\java\com\afrAsia\dao\MobRmAppRefIdDao.java
 C:\workspaces\AfrAsia\git\afrAsia_28_8\afrasia-platform\dao\src\main\java\com\afrAsia\dao\MaritalStatusDao.java
@@ -56,4 +26,3 @@ C:\workspaces\AfrAsia\git\afrAsia_28_8\afrasia-platform\dao\src\main\java\com\af
 C:\workspaces\AfrAsia\git\afrAsia_28_8\afrasia-platform\dao\src\main\java\com\afrAsia\dao\OAuthAuthorizationDAO.java
 C:\workspaces\AfrAsia\git\afrAsia_28_8\afrasia-platform\dao\src\main\java\com\afrAsia\dao\ApplicationDetailsDao.java
 C:\workspaces\AfrAsia\git\afrAsia_28_8\afrasia-platform\dao\src\main\java\com\afrAsia\dao\ProductDetailsDao.java
->>>>>>> d0e19368dcc3f96f8a3ed7ac0fb774755830de70

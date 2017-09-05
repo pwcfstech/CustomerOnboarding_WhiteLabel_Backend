@@ -236,7 +236,6 @@ public class DashBoardServiceImpl implements DashBoardService {
 		for (Date date : listOfPendingSinceStatus) {
 			Apps apps = listApps.get(i);
 			apps.setPendingSince(date.getTime());
-			System.out.println("########### date :: " + apps.getPendingSince());
 			apps.setPendingSince(date.getTime());
 			listApps.add(apps);
 			i++;
@@ -304,7 +303,6 @@ public class DashBoardServiceImpl implements DashBoardService {
 				throw new IdNotFoundException("Provided Rm user id is not present, please pass another id");
 			}
 		}catch(IdNotFoundException exceptionMessage){
-			System.out.println(" Exception got : "+exceptionMessage);
 		}
 */		infoLog.info(" dashboardResponse is : "+dashboardResponse.toString());
 		return dashboardResponse;

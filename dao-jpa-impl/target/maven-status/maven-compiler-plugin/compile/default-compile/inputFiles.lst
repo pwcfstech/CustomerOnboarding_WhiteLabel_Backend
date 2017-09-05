@@ -1,59 +1,3 @@
-<<<<<<< HEAD
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\MaritalStatusJpaDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\UploadKYCJpaDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\AccountClassJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\EmploymentJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\AccountTypeJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\MaritalStatusJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\PrefixJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\BaseJpaDAOImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\CategoryJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\ComplianceJpaDAOImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\AddCommentJpaDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\RMSessionDetailJpaDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\ProductDetailsJpaDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\UIDTypeJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\CategoryMasterJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\ApplicationDetailsDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\UIDTypeJpaDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\CategoryJpaDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\EmploymentJpaDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\AfrAsiaFirstJpaDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\MobRmAppRefIdJpaDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\AppVersionDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\DTDPSJpaDAOImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\ProductDetailsJpaDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\RmApplicationsAppJpaDAOImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\CountryJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\AccountCreateJpaDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\CountryJpaDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\RmApplicationsAppJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\ApplicationDetailsJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\UserJpaDAOImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\RMSessionDetailJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\AccountCreateJpaDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\DTDPSJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\AccountTypeJpaDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\MobRmAppRefIdJpaDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\PrefixJpaDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\AccountClassJpaDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\ComplianceJpaDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\ProductJpaDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\RMDetailsJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\AppVersionJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\OAuthAuthorizationJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\DashBoardJpaDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\OAuthAuthorizationJpaDAOImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\CategoryMasterJpaDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\RMDetailsJpaDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\AddCommentJpaDao.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\BaseJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\ProductJpaDaoImpl.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\AfrAsiaFirstJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\UserJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\UploadKYCJpaDAO.java
-C:\Users\nyalf769\Documents\Afr Asia\source\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\DashBoardJpaDaoImpl.java
-=======
 C:\workspaces\AfrAsia\git\afrAsia_28_8\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\EmploymentJpaDAO.java
 C:\workspaces\AfrAsia\git\afrAsia_28_8\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\CategoryJpaDAO.java
 C:\workspaces\AfrAsia\git\afrAsia_28_8\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\UIDTypeJpaDaoImpl.java
@@ -108,4 +52,3 @@ C:\workspaces\AfrAsia\git\afrAsia_28_8\afrasia-platform\dao-jpa-impl\src\main\ja
 C:\workspaces\AfrAsia\git\afrAsia_28_8\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\MobRmAppRefIdJpaDaoImpl.java
 C:\workspaces\AfrAsia\git\afrAsia_28_8\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\BaseJpaDAOImpl.java
 C:\workspaces\AfrAsia\git\afrAsia_28_8\afrasia-platform\dao-jpa-impl\src\main\java\com\afrAsia\dao\jpa\impl\CategoryJpaDaoImpl.java
->>>>>>> d0e19368dcc3f96f8a3ed7ac0fb774755830de70

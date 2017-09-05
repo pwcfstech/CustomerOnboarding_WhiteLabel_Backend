@@ -19,6 +19,8 @@ import javax.xml.bind.Marshaller;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.apache.log4j.Logger;
+
 import com.afrAsia.entities.response.DailyTxnDataListResponse;
 import com.afrAsia.entities.response.DailyTxnDataResponse;
 import com.afrAsia.service.DTDPSService;
@@ -27,6 +29,10 @@ import com.afrAsia.service.DTDPSService;
 @SOAPBinding(style=Style.RPC, use=Use.LITERAL, parameterStyle=ParameterStyle.WRAPPED)
 public class DTDPSSoapService implements IDTDPSSoapService
 {
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
+	
     private DTDPSService dtdpsService;
 
     @WebMethod(exclude = true)
@@ -68,6 +74,7 @@ public class DTDPSSoapService implements IDTDPSSoapService
         		if (username == null || username.trim().isEmpty() || !username.trim().equals("UBI"))
         		{
         			errorCode = -2;
+        			errorLog.error("'username' not entered or incorrect.");
         			throw new IllegalStateException("'username' not entered or incorrect.");
         		}
         		
@@ -75,12 +82,14 @@ public class DTDPSSoapService implements IDTDPSSoapService
         		if (password == null || password.trim().isEmpty() || !password.trim().equals("uB1s3rv1c3"))
         		{
         			errorCode = -2;
+        			errorLog.error("'password' not entered");        			
         			throw new IllegalStateException("'password' not entered");
         		}
         		
         		if (transactionDate == null || transactionDate.trim().isEmpty())
         		{
         			errorCode = -1;
+        			errorLog.error("'transactionDate' not entered!");
         			throw new IllegalStateException("'transactionDate' not entered!");
         		}
         		{
@@ -91,6 +100,7 @@ public class DTDPSSoapService implements IDTDPSSoapService
         			catch (ParseException pe)
         			{
         				errorCode = -1;
+        				errorLog.error("'transactionDate' not parsable!");
         				throw new IllegalStateException("'transactionDate' not parsable!");
         			}
         		}
@@ -105,20 +115,12 @@ public class DTDPSSoapService implements IDTDPSSoapService
         			catch(Exception e)
         			{
         				e.printStackTrace();
-        				System.out.println("ON_US_IND not parsable!");
+        				errorLog.error("ON_US_IND not parsable!");
         			}
         		}
         	
-        	
-        	System.out.println("Username : " + username);
-        	System.out.println("Password : " + password);
-        	System.out.println("Date : " + date);
-        	
             List<DailyTxnDataResponse> response = dtdpsService.fetchTransactions(date, onUsInd);
             listResponse.setTransactions(response);
-            
-//            System.out.println("Response size: " + listResponse);
-            
             
             JAXBContext context = JAXBContext.newInstance(DailyTxnDataListResponse.class);
     		Marshaller m = context.createMarshaller();
@@ -133,7 +135,7 @@ public class DTDPSSoapService implements IDTDPSSoapService
         } 
         catch (Exception e)
         {
-        	System.out.println(e.getMessage());
+        	errorLog.error("Exception in getDigitalTransaction : "+e.getMessage());
             e.printStackTrace();
             listResponse.setErrorCode(errorCode);
         }
@@ -145,7 +147,7 @@ public class DTDPSSoapService implements IDTDPSSoapService
         	}
         }
         
-        
+        infoLog.info("output : "+output);
         return output;
         
     }

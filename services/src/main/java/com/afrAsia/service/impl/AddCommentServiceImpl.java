@@ -137,7 +137,6 @@ public class AddCommentServiceImpl implements AddCommentService {
 					}}
 				catch (IdNotFoundException exceptionMessage) {
 					errorLog.error(" Exception got : " + exceptionMessage);
-					System.out.println(" Exception got : " + exceptionMessage);
 				}
 				/*}} else {
 				MessageHeader messageHeader = new MessageHeader();
@@ -151,9 +150,7 @@ public class AddCommentServiceImpl implements AddCommentService {
 				throw new IdNotFoundException("Provided Rm user id is not present, please pass another Rm user id");
 			}
 		} catch (IdNotFoundException exceptionMessage) {
-			System.out.println(" Exception got : " + exceptionMessage);
 		} catch (RMIdNotFoundException exceptionMessage) {
-			System.out.println(" Exception got : " + exceptionMessage);
 		}*/
 		return genericResponse;
 	}
