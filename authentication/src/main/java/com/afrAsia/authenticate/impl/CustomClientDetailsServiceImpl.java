@@ -129,11 +129,11 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 //        	String person = personRepo.findPerson(clientId);
 //        	if (person == null || person.trim().isEmpty())
 //        	{
-//        		System.out.println("################################## No client with ID in LDAP.");
+//        		System.out.println(" No client with ID in LDAP.");
 //        		throw new ClientRegistrationException("No client with ID in LDAP.");
 //        	}
         	OauthAuthorization oauthAuthorization = oAuthAuthorizationDAO.loadClientByClientId(clientId);
-        	infoLog.info("############### oauthAuthorization in loadClientByClientId(),CustomClientDetailsServiceImpl"+oauthAuthorization);
+        	infoLog.info(" oauthAuthorization in loadClientByClientId(),CustomClientDetailsServiceImpl"+oauthAuthorization);
         	CustomOauthAuthorization customOauthAuthorization = null;
 	        if (oauthAuthorization != null)
 	        {
