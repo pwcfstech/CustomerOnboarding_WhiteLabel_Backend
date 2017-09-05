@@ -85,7 +85,7 @@ public class AccountCreationRestService {
 					
 					accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
 
-					sendEmailToCustomer(accountCreationRequest);
+					sendEmailToCustomer(accountCreationRequest,accountCreationResponse);
 
 					//sendSMSToCustomer(accountCreationRequest,accountCreationResponse);
 
@@ -670,7 +670,7 @@ public class AccountCreationRestService {
 
 	}
 
-	public void sendEmailToCustomer(AccountCreationRequest accountCreationRequest){
+	public void sendEmailToCustomer(AccountCreationRequest accountCreationRequest, AccountCreateResponse accountCreationResponse){
 		
 		
 		String host = afrAsiaMailConfig.getMailhost();
@@ -697,7 +697,14 @@ public class AccountCreationRestService {
 		String primApplicantName = accountCreationData.getPrimaryApplicantDetail().getFirstName();
 		String toAddress = "neha.marda@gmail.com";//accountCreationData.getPrimaryApplicantDetail().getEmail();
 		String rmName = "";
-		String refNo = accountCreationData.getAppRefNo().toString();
+		infoLog.info("Ref No :"+accountCreationResponse.getData().getRefNo());
+		
+		String refNo = "";
+		if(accountCreationResponse.getData().getRefNo()!=null)
+		{
+			refNo=accountCreationResponse.getData().getRefNo().toString();
+		}
+				
 //		RMDetails rmDetails = accountCreationService.getRMDetails(accountCreationData.getRmId());
 //		if(rmDetails!=null)
 //		{
