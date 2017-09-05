@@ -140,7 +140,7 @@ public class ApplicationDetailsResponse implements Serializable {
 		public class Comments implements Serializable {
 			private String comment;
 			private String commentAddedBy;
-			private Date commentDate;
+			private Long commentDate;
 			private String userCat;
 
 			public String getComment() {
@@ -159,11 +159,11 @@ public class ApplicationDetailsResponse implements Serializable {
 				this.commentAddedBy = commentAddedBy;
 			}
 
-			public Date getCommentDate() {
+			public Long getCommentDate() {
 				return commentDate;
 			}
 
-			public void setCommentDate(Date commentDate) {
+			public void setCommentDate(Long commentDate) {
 				this.commentDate = commentDate;
 			}
 

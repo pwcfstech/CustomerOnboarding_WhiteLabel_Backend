@@ -673,39 +673,42 @@ public class AccountCreationRestService {
 	public void sendEmailToCustomer(AccountCreationRequest accountCreationRequest){
 		
 		
-//		String host = afrAsiaMailConfig.getMailhost();
-//		String port = afrAsiaMailConfig.getMailport();
-//		System.out.println("Mail Port" + port);
-//		String mailFrom = afrAsiaMailConfig.getMailFrom();
-//		String password = afrAsiaMailConfig.getMailPassword();
-//		String smtpAuthRequired=afrAsiaMailConfig.getSmtpAuthRequired();
-//		String smtpAuthstarttls=afrAsiaMailConfig.getSmtpAuthRequired();
-//		String subject="Welcome to AfrAsia";
+		String host = afrAsiaMailConfig.getMailhost();
+		String port = afrAsiaMailConfig.getMailport();
+		infoLog.info("Mail Port" + port);
+		String mailFrom = afrAsiaMailConfig.getMailFrom();
+		String password = afrAsiaMailConfig.getMailPassword();
+		String smtpAuthRequired=afrAsiaMailConfig.getSmtpAuthRequired();
+		String smtpAuthstarttls=afrAsiaMailConfig.getSmtpAuthRequired();
+		String subject="Welcome to AfrAsia";
 		
-		String host = "mail.afrasiabank.com";
+		infoLog.info("Host is:"+host);
+		
+		/*String host = "mail.afrasiabank.com";
 		String port = "25";
 		System.out.println("Mail Port" + port);
 		String mailFrom = "cx.pwc_dummy@afrasiabank.com";
 		String password = "Password07";
 		String smtpAuthRequired="false";
 		String smtpAuthstarttls="false";
-		String subject="Welcome to AfrAsia";
+		String subject="Welcome to AfrAsia";*/
 		
 		Data accountCreationData = accountCreationRequest.getData();
 		String primApplicantName = accountCreationData.getPrimaryApplicantDetail().getFirstName();
 		String toAddress = "neha.marda@gmail.com";//accountCreationData.getPrimaryApplicantDetail().getEmail();
 		String rmName = "";
+		String refNo = accountCreationData.getAppRefNo().toString();
 //		RMDetails rmDetails = accountCreationService.getRMDetails(accountCreationData.getRmId());
 //		if(rmDetails!=null)
 //		{
 //			rmName=rmDetails.getRmName();
 //		}
-		String message="Dear "+primApplicantName+"," +
-				"Welcome to AfrAsia Bank and thank you for choosing us as your banking partner. Your application is currently under process with application number [XXX]. We shall update you as soon as your account is opened." +
-				"In the meantime, we invite you to browse our website www.afrasiabank.com for a detailed overview of our banking solutions, and our pioneering rewards programme, AfrAsia XtraMiles." +
-				"We remain at your disposal should you wish to discuss about your financial aspirations and how we can be of more relevance to you." +
-				"Thank you for your trust and we hope that our team measures up to your expectations." +
-				"Kind regards," + 
+		String message="Dear "+primApplicantName+"," + "\n" + "\n" +
+				"Welcome to AfrAsia Bank and thank you for choosing us as your banking partner. Your application is currently under process with application number "+refNo+". We shall update you as soon as your account is opened."+ "\n" +
+				"In the meantime, we invite you to browse our website www.afrasiabank.com for a detailed overview of our banking solutions, and our pioneering rewards programme, AfrAsia XtraMiles."+ "\n" +
+				"We remain at your disposal should you wish to discuss about your financial aspirations and how we can be of more relevance to you."+ "\n" +
+				"Thank you for your trust and we hope that our team measures up to your expectations."+ "\n" + "\n" +
+				"Kind regards," + "\n" + 
 				"Relationship manager ("+rmName+")";
 
 

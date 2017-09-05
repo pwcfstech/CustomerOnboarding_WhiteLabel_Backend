@@ -106,7 +106,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				Comments comment = new ApplicationDetailsResponse().new Data().new Comments();
 				comment.setComment(s.getComment());
 				comment.setCommentAddedBy(s.getCommentedAddedBy());
-				comment.setCommentDate(s.getCommentDate());
+				comment.setCommentDate(s.getCommentDate().getTime());
 				comment.setUserCat(s.getUserCat());
 				comments.add(comment);
 			}
