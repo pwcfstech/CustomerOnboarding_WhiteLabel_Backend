@@ -11,7 +11,7 @@ import java.util.Map;
 public enum LdapGroup 
 {
 	RM_MOBILE("G-RMMobile", "RM"),
-	COMPLIANCE("G-RMMobile", "RM"),
+	COMPLIANCE("G-BackOfficeMobile", "COMP"),
 	;
 	
 	static Map<String, LdapGroup> ldapVsLdapGroup = new HashMap<String, LdapGroup>();
