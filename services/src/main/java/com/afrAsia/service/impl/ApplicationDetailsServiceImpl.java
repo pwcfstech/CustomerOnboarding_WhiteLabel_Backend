@@ -13,10 +13,12 @@ import com.afrAsia.entities.request.ApplicationDetailsReq;
 import com.afrAsia.entities.request.JointApplicants;
 import com.afrAsia.entities.request.KycInfo;
 import com.afrAsia.entities.request.NomineeInfo;
+import com.afrAsia.entities.response.ApplicantDetailsResponse;
 import com.afrAsia.entities.response.ApplicationDetailsResponse;
 import com.afrAsia.entities.response.ApplicationDetailsResponse.Data;
 import com.afrAsia.entities.response.ApplicationDetailsResponse.Data.AccountDetails;
 import com.afrAsia.entities.response.ApplicationDetailsResponse.Data.Comments;
+import com.afrAsia.entities.response.JointApplicantsResponse;
 import com.afrAsia.entities.transactions.MobAccountAdditionalDetail;
 import com.afrAsia.entities.transactions.MobAccountDetail;
 import com.afrAsia.entities.transactions.MobApplicantAdditionalDtl;
@@ -49,9 +51,9 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 		Data data = new ApplicationDetailsResponse().new Data();
 		MsgHeader msgHdr = new MsgHeader();
 		AccountDetails accountDetails = new ApplicationDetailsResponse().new Data().new AccountDetails();
-		ApplicantDetails primaryApplicantDetails;
-		ApplicantDetails guardianDetails;
-		List<JointApplicants> jointApplicants = new ArrayList<JointApplicants>();
+		ApplicantDetailsResponse primaryApplicantDetails;
+		ApplicantDetailsResponse guardianDetails;
+		List<JointApplicantsResponse> jointApplicants = new ArrayList<JointApplicantsResponse>();
 		;
 
 		// Application reference number from request
@@ -64,8 +66,14 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				System.out.println("Data received from Rm Application table");
 				data.setRefNo(mobRmAppRefId.getId());
 				data.setAppStatus(mobRmAppRefId.getAppStatus());
-				data.setAppSubDate(mobRmAppRefId.getCreatedDate());
-				data.setPendingRMSince(mobRmAppRefId.getModifiedDate());
+				if(mobRmAppRefId.getCreatedDate()!=null)
+				{
+					data.setAppSubDate(mobRmAppRefId.getCreatedDate().getTime());
+				}
+				if(mobRmAppRefId.getModifiedDate()!=null)
+				{
+					data.setPendingRMSince(mobRmAppRefId.getModifiedDate().getTime());
+				}
 				System.out.println(mobRmAppRefId.toString());
 			} else {
 				errorLog.error("The application number does not exist. Please check again");
@@ -207,16 +215,16 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 
 			// Joint Applicant1 Details
 			if (mobAccountDetail.getJoint1ApplicantRefNo() != null) {
-				JointApplicants jointApplicantsDetail = new JointApplicants();
+				JointApplicantsResponse jointApplicantsDetail = new JointApplicantsResponse();
 				System.out.println("Joint 1");
-				ApplicantDetails jointApplicant = getApplicantDetails(data, appRefNo,
+				ApplicantDetailsResponse jointApplicant = getApplicantDetails(data, appRefNo,
 						mobAccountDetail.getJoint1ApplicantRefNo(), "forJointApplicant1");
 				jointApplicantsDetail.setJointApplicantDetail(jointApplicant);
 
 				// Checking if joint applicant 1 has guardian
 				if (mobAccountDetail.getJoint1GuardianRefNo() != null) {
 					System.out.println("Guardian Joint 1");
-					ApplicantDetails jointGuardian = getApplicantDetails(data, appRefNo,
+					ApplicantDetailsResponse jointGuardian = getApplicantDetails(data, appRefNo,
 							mobAccountDetail.getJoint1GuardianRefNo(), "forJointGuardian1");
 					jointApplicantsDetail.setGuardianDetail(jointGuardian);
 				}
@@ -224,16 +232,16 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			}
 			// Joint Applicant2 Details
 			if (mobAccountDetail.getJoint2ApplicantRefNo() != null) {
-				JointApplicants jointApplicantsDetail = new JointApplicants();
+				JointApplicantsResponse jointApplicantsDetail = new JointApplicantsResponse();
 				System.out.println("Joint 2");
-				ApplicantDetails jointApplicant = getApplicantDetails(data, appRefNo,
+				ApplicantDetailsResponse jointApplicant = getApplicantDetails(data, appRefNo,
 						mobAccountDetail.getJoint2ApplicantRefNo(), "forJointApplicant2");
 				jointApplicantsDetail.setJointApplicantDetail(jointApplicant);
 
 				// Checking if joint applicant 1 has guardian
 				if (mobAccountDetail.getJoint2GuardianRefNo() != null) {
 					System.out.println("Guardian Joint 2");
-					ApplicantDetails jointGuardian = getApplicantDetails(data, appRefNo,
+					ApplicantDetailsResponse jointGuardian = getApplicantDetails(data, appRefNo,
 							mobAccountDetail.getJoint2GuardianRefNo(), "forJointGuardian2");
 					jointApplicantsDetail.setGuardianDetail(jointGuardian);
 				}
@@ -241,16 +249,16 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			}
 			// Joint Applicant3 Details
 			if (mobAccountDetail.getJoint3ApplicantRefNo() != null) {
-				JointApplicants jointApplicantsDetail = new JointApplicants();
+				JointApplicantsResponse jointApplicantsDetail = new JointApplicantsResponse();
 				System.out.println("Joint 3");
-				ApplicantDetails jointApplicant = getApplicantDetails(data, appRefNo,
+				ApplicantDetailsResponse jointApplicant = getApplicantDetails(data, appRefNo,
 						mobAccountDetail.getJoint3ApplicantRefNo(), "forJointApplicant3");
 				jointApplicantsDetail.setJointApplicantDetail(jointApplicant);
 
 				// Checking if joint applicant 1 has guardian
 				if (mobAccountDetail.getJoint3GuardianRefNo() != null) {
 					System.out.println("Guardian Joint 3");
-					ApplicantDetails jointGuardian = getApplicantDetails(data, appRefNo,
+					ApplicantDetailsResponse jointGuardian = getApplicantDetails(data, appRefNo,
 							mobAccountDetail.getJoint3GuardianRefNo(), "forJointGuardian3");
 					jointApplicantsDetail.setGuardianDetail(jointGuardian);
 				}
@@ -258,16 +266,16 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			}
 			// Joint Applicant4 Details
 			if (mobAccountDetail.getJoint4ApplicantRefNo() != null) {
-				JointApplicants jointApplicantsDetail = new JointApplicants();
+				JointApplicantsResponse jointApplicantsDetail = new JointApplicantsResponse();
 				System.out.println("Joint 4");
-				ApplicantDetails jointApplicant = getApplicantDetails(data, appRefNo,
+				ApplicantDetailsResponse jointApplicant = getApplicantDetails(data, appRefNo,
 						mobAccountDetail.getJoint4ApplicantRefNo(), "forJointApplicant4");
 				jointApplicantsDetail.setJointApplicantDetail(jointApplicant);
 
 				// Checking if joint applicant 1 has guardian
 				if (mobAccountDetail.getJoint4GuardianRefNo() != null) {
 					System.out.println("Guardian Joint 4");
-					ApplicantDetails jointGuardian = getApplicantDetails(data, appRefNo,
+					ApplicantDetailsResponse jointGuardian = getApplicantDetails(data, appRefNo,
 							mobAccountDetail.getJoint4GuardianRefNo(), "forJointGuardian4");
 					jointApplicantsDetail.setGuardianDetail(jointGuardian);
 				}
@@ -275,16 +283,16 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			}
 			// Joint Applicant5 Details
 			if (mobAccountDetail.getJoint5ApplicantRefNo() != null) {
-				JointApplicants jointApplicantsDetail = new JointApplicants();
+				JointApplicantsResponse jointApplicantsDetail = new JointApplicantsResponse();
 				System.out.println("Joint 5");
-				ApplicantDetails jointApplicant = getApplicantDetails(data, appRefNo,
+				ApplicantDetailsResponse jointApplicant = getApplicantDetails(data, appRefNo,
 						mobAccountDetail.getJoint5ApplicantRefNo(), "forJointApplicant5");
 				jointApplicantsDetail.setJointApplicantDetail(jointApplicant);
 
 				// Checking if joint applicant 1 has guardian
 				if (mobAccountDetail.getJoint5GuardianRefNo() != null) {
 					System.out.println("Guardian Joint 5");
-					ApplicantDetails jointGuardian = getApplicantDetails(data, appRefNo,
+					ApplicantDetailsResponse jointGuardian = getApplicantDetails(data, appRefNo,
 							mobAccountDetail.getJoint5GuardianRefNo(), "forJointGuardian2");
 					jointApplicantsDetail.setGuardianDetail(jointGuardian);
 				}
@@ -311,9 +319,9 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 		}
 	}
 
-	public ApplicantDetails getApplicantDetails(Data data, Long appRefNo, Long primaryApplicantRefNo, String forWhom) {
+	public ApplicantDetailsResponse getApplicantDetails(Data data, Long appRefNo, Long primaryApplicantRefNo, String forWhom) {
 		System.out.println("Applicant " + forWhom);
-		ApplicantDetails primaryApplicantDetails = new ApplicantDetails();
+		ApplicantDetailsResponse primaryApplicantDetails = new ApplicantDetailsResponse();
 
 		// 4. Get Primary Applicant Details
 		MobApplicantPersonalDetail mobApplicantPersonalDetail = applicationDetailsDAO
@@ -332,10 +340,16 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setLastName(mobApplicantPersonalDetail.getLastName());
 			primaryApplicantDetails.setNic(mobApplicantPersonalDetail.getNic());
 			primaryApplicantDetails.setPassportNo(mobApplicantPersonalDetail.getPassportNo());
-			primaryApplicantDetails.setPassportExpDate(mobApplicantPersonalDetail.getPassportExpiryDate());
+			if(mobApplicantPersonalDetail.getPassportExpiryDate()!=null)
+			{
+				primaryApplicantDetails.setPassportExpDate(mobApplicantPersonalDetail.getPassportExpiryDate().getTime());
+			}
 			primaryApplicantDetails.setNationality(mobApplicantPersonalDetail.getNationality());
 			primaryApplicantDetails.setEmail(mobApplicantPersonalDetail.getEmail());
-			primaryApplicantDetails.setDob(mobApplicantPersonalDetail.getDob());
+			if(mobApplicantPersonalDetail.getDob()!=null)
+			{
+				primaryApplicantDetails.setDob(mobApplicantPersonalDetail.getDob().getTime());
+			}
 			primaryApplicantDetails.setCountryBirth(mobApplicantPersonalDetail.getCountryBirth());
 			primaryApplicantDetails.setIsExistingCustomer(mobApplicantPersonalDetail.isExistingCustomer());
 			primaryApplicantDetails.setCustomerCIF(mobApplicantPersonalDetail.getCustCif());
@@ -396,7 +410,10 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setEmployerCountry(mobApplicantEmploymentDtl.getEmployerCountry());
 			primaryApplicantDetails.setNoYearsService(mobApplicantEmploymentDtl.getNoOfYearsService());
 			primaryApplicantDetails.setBusinessSector(mobApplicantEmploymentDtl.getBusinessSector());
-			primaryApplicantDetails.setDateStarted(mobApplicantEmploymentDtl.getDateStarted());
+			if(mobApplicantEmploymentDtl.getDateStarted()!=null)
+			{
+				primaryApplicantDetails.setDateStarted(mobApplicantEmploymentDtl.getDateStarted().getTime());
+			}
 			primaryApplicantDetails.setNetMonthlyIncome(mobApplicantEmploymentDtl.getNetMonthlyIncome());
 			primaryApplicantDetails.setAnnualDepositTurnover(mobApplicantEmploymentDtl.getAnnDepositTurnovr());
 			primaryApplicantDetails.setAnnualCashDeposit(mobApplicantEmploymentDtl.getAnnCashDeposit());
@@ -423,7 +440,10 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setoAddr3(mobApplicantAdditionalDtl.getOseasAddr3());
 			primaryApplicantDetails.setoCity(mobApplicantAdditionalDtl.getOseasCity());
 			primaryApplicantDetails.setoCountry(mobApplicantAdditionalDtl.getOseasCountry());
-			primaryApplicantDetails.setWorkPermitExpDate(mobApplicantAdditionalDtl.getWorkPermitExpDate());
+			if(mobApplicantAdditionalDtl.getWorkPermitExpDate()!=null)
+			{
+				primaryApplicantDetails.setWorkPermitExpDate(mobApplicantAdditionalDtl.getWorkPermitExpDate().getTime());
+			}
 			primaryApplicantDetails.setIncomeOtherCountryTaxable(mobApplicantAdditionalDtl.getIncomeOtherCountryTax());
 			primaryApplicantDetails.setCrsCountryResidence1(mobApplicantAdditionalDtl.getCountry1());
 			primaryApplicantDetails.setCrsCountryResidence2(mobApplicantAdditionalDtl.getCountry2());

@@ -1,6 +1,8 @@
 package com.afrAsia.service.impl;
 
 import java.security.SecureRandom;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -170,8 +172,10 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		else{
 			System.out.println("Authenticated with LDAP");
 		}*/
+		
 		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(userId); 
 		infoLog.info("clientDetails in login(),AuthenticationServiceImpl is : "+clientDetails);
+
 		RMDetails rmDetails;
 		
 		if (clientDetails == null)
@@ -201,7 +205,13 @@ public class AuthenticationServiceImpl implements AuthenticationService
  		OAuth2AccessToken token = getTokenDetails(userId, clientSecret, "client_credentials");
  		
 		if(mobRmPreviousSession != null){
-			responseData.setLastLoginTime(mobRmPreviousSession.getCreatedDate());
+			long millis = 0l;
+			if(mobRmPreviousSession.getCreatedDate()!=null)
+				millis=mobRmPreviousSession.getCreatedDate().getTime();
+			responseData.setLastLoginTime(millis);
+			System.out.println("Previous Session Details::" + mobRmPreviousSession.toString());
+			if(mobRmPreviousSession.getCreatedDate()!=null)
+				responseData.setLastLoginTime(mobRmPreviousSession.getCreatedDate().getTime());
 			infoLog.info("Previous Session Details::" + mobRmPreviousSession.toString());
 		}
 		
@@ -271,7 +281,8 @@ public class AuthenticationServiceImpl implements AuthenticationService
 	        env.put(Context.SECURITY_CREDENTIALS, password);
 	        
 	        DirContext ctx = new InitialDirContext(env);
-	        ctx.lookup(username);
+	        ctx.lookup("OU=Datacenter,OU=AfrasiaBank Users,DC=afrasiabank,DC=local");
+	        ctx.lookup("CN=Schema,CN=Configuration,DC=afrasiabank,DC=local");
 		}
 		catch (Exception e)
 		{

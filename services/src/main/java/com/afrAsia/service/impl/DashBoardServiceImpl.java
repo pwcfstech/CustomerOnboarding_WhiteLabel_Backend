@@ -235,7 +235,9 @@ public class DashBoardServiceImpl implements DashBoardService {
 		listOfPendingSinceStatus = (List<Date>) dashBoardDao.getPendingSinceStatus(rmId);
 		for (Date date : listOfPendingSinceStatus) {
 			Apps apps = listApps.get(i);
-			apps.setPendingSince(date);
+			apps.setPendingSince(date.getTime());
+			System.out.println("########### date :: " + apps.getPendingSince());
+			apps.setPendingSince(date.getTime());
 			listApps.add(apps);
 			i++;
 		}
@@ -256,7 +258,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 			applicationReference.setRmUserId(object);
 		}*/
 		// check whether the given RmId is present in DB or not 
-		String rmUserIdFromDB=null;
+		//String rmUserIdFromDB=null;
 		try{			
 			//rmUserIdFromDB= dashBoardDao.getRmId(rmId);			
 			/*if(rmUserIdFromDB==null){

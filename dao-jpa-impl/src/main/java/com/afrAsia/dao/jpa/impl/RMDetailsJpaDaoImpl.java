@@ -23,10 +23,9 @@ public class RMDetailsJpaDaoImpl extends BaseJpaDAOImpl<String, RMDetails>implem
 		{
 			return null;
 		}
-		String query = "FROM RMDetails rm WHERE rm.id = :rmId AND lower(rm.userGroup) = lower(:userGroup)";
+		String query = "FROM RMDetails rm WHERE rm.id = :rmId";
 		Query q = getEntityManager().createQuery(query);
 		q.setParameter("rmId", rmId);
-		q.setParameter("userGroup", userGroup);
 		
 		return (RMDetails) q.getSingleResult();
 		

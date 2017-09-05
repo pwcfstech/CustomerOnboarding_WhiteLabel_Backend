@@ -102,7 +102,9 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				errorLog.error("  date coud not be parsed in getDetailsByefault method of RmApplicationsAppServiceImpl class ");
 			}
 
-			apps.setAppSubmittedDate(date);
+			apps.setAppSubmittedDate(date.getTime());
+			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
+			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppStatus(outputs[2].toString());
 
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
@@ -171,7 +173,9 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				errorLog.error("   date coud not be parsed in getDetailsByName method of RmApplicationsAppServiceImpl class ");
 			}
 
-			apps.setAppSubmittedDate(date);
+			apps.setAppSubmittedDate(date.getTime());
+			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
+			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppStatus(outputs[2].toString());
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
 			listOfApps.add(i, apps);
@@ -267,7 +271,9 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				errorLog.error("   date coud not be parsed in getDetailsByDates method of RmApplicationsAppServiceImpl class ");
 			}
 
-			apps.setAppSubmittedDate(date);
+			apps.setAppSubmittedDate(date.getTime());
+			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
+			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppStatus(outputs[2].toString());
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
 			listOfApps.add(i, apps);
@@ -333,7 +339,9 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			} catch (ParseException e) {
 				errorLog.error("  date coud not be parsed in detailsByStatus method of RmApplicationsAppServiceImpl class ");
 			}
-			apps.setAppSubmittedDate(date);
+			apps.setAppSubmittedDate(date.getTime());
+			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
+			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppStatus(outputs[2].toString());
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
 			listOfApps.add(i, apps);
@@ -435,7 +443,9 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				errorLog.error("  date coud not be parsed in getDetailsByAllCriteriaWithoutStatus method of RmApplicationsAppServiceImpl class ");
 			}
 
-			apps.setAppSubmittedDate(date);
+			apps.setAppSubmittedDate(date.getTime());
+			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
+			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppStatus(outputs[2].toString());
 
 			apps.setCustomerName(outputs[3].toString()+ " "+outputs[4].toString());
@@ -540,7 +550,9 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				errorLog.error("  date coud not be parsed in getDetailsByAllCriteriaWithStatus method of RmApplicationsAppServiceImpl class ");
 			}
 
-			apps.setAppSubmittedDate(date);
+			apps.setAppSubmittedDate(date.getTime());
+			System.out.println("apps.getAppSubmittedDate() in service =========== "+apps.getAppSubmittedDate());
+			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppStatus(outputs[2].toString());
 
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
