@@ -122,23 +122,23 @@ public class MobAccountDetail implements Serializable {
 	@Column(name = "POWER_ATTN_GOV_COUNTRY_5")
 	private String powerAttnGovCountry5;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "POWER_ATTN_ISSUE_DATE_1")
 	private Date powerAttnIssueDate1;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "POWER_ATTN_ISSUE_DATE_2")
 	private Date powerAttnIssueDate2;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "POWER_ATTN_ISSUE_DATE_3")
 	private Date powerAttnIssueDate3;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "POWER_ATTN_ISSUE_DATE_4")
 	private Date powerAttnIssueDate4;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "POWER_ATTN_ISSUE_DATE_5")
 	private Date powerAttnIssueDate5;
 

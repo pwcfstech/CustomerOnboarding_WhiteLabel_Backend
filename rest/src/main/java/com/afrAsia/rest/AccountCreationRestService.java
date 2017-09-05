@@ -85,7 +85,7 @@ public class AccountCreationRestService {
 					
 					accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
 
-					sendEmailToCustomer(accountCreationRequest);
+					sendEmailToCustomer(accountCreationRequest,accountCreationResponse);
 
 					//sendSMSToCustomer(accountCreationRequest,accountCreationResponse);
 
@@ -670,7 +670,7 @@ public class AccountCreationRestService {
 
 	}
 
-	public void sendEmailToCustomer(AccountCreationRequest accountCreationRequest){
+	public void sendEmailToCustomer(AccountCreationRequest accountCreationRequest, AccountCreateResponse accountCreationResponse){
 		
 		
 		String host = afrAsiaMailConfig.getMailhost();
@@ -697,6 +697,15 @@ public class AccountCreationRestService {
 				"We remain at your disposal should you wish to discuss about your financial aspirations and how we can be of more relevance to you." +
 				"Thank you for your trust and we hope that our team measures up to your expectations." +
 				"Kind regards," + 
+		infoLog.info("Ref No :"+accountCreationResponse.getData().getRefNo());
+		
+		String refNo = "";
+		if(accountCreationResponse.getData().getRefNo()!=null)
+		{
+			refNo=accountCreationResponse.getData().getRefNo().toString();
+		}
+				
+				"Welcome to AfrAsia Bank and thank you for choosing us as your banking partner. Your application is currently under process with application number "+refNo+". We shall update you as soon as your account is opened."+ "\n" +
 				"Relationship manager ("+rmName+")";
 
 
