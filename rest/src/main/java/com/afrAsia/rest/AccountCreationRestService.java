@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 import javax.naming.NamingException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -86,7 +85,7 @@ public class AccountCreationRestService {
 					
 					accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
 
-					sendEmailToCustomer(accountCreationRequest,accountCreationResponse);
+					sendEmails(accountCreationRequest,accountCreationResponse);
 
 					//sendSMSToCustomer(accountCreationRequest,accountCreationResponse);
 
@@ -673,7 +672,7 @@ public class AccountCreationRestService {
 
 	}
 
-	public void sendEmailToCustomer(AccountCreationRequest accountCreationRequest, AccountCreateResponse accountCreationResponse){
+	public void sendEmails(AccountCreationRequest accountCreationRequest, AccountCreateResponse accountCreationResponse){
 		
 		
 //		String host = afrAsiaMailConfig.getMailhost();
@@ -704,13 +703,16 @@ public class AccountCreationRestService {
 		
 		Data accountCreationData = accountCreationRequest.getData();
 		String primApplicantName = accountCreationData.getPrimaryApplicantDetail().getFirstName();
-		String toAddress = accountCreationData.getPrimaryApplicantDetail().getEmail();
+		String toAddrClient = accountCreationData.getPrimaryApplicantDetail().getEmail();
 		String rmName = "";
+		String toAddrRM = "";
+		
 
 		RMDetails rmDetails = accountCreationService.getRMDetails(accountCreationData.getRmId());
 		if(rmDetails!=null)
 		{
 			rmName=rmDetails.getRmName();
+			toAddrRM=rmDetails.getRmEmailId();
 		}
 		
 		infoLog.info("Ref No :"+accountCreationResponse.getData().getRefNo());
@@ -721,7 +723,7 @@ public class AccountCreationRestService {
 			refNo=accountCreationResponse.getData().getRefNo().toString();
 		}
 				
-		String message="Dear "+primApplicantName+"," + "\n" + "\n" +
+		String messageToClient="Dear "+primApplicantName+"," + "\n" + "\n" +
 				"Welcome to AfrAsia Bank and thank you for choosing us as your banking partner. Your application is currently under process with application number "+refNo+". We shall update you as soon as your account is opened."+ "\n" +
 				"In the meantime, we invite you to browse our website www.afrasiabank.com for a detailed overview of our banking solutions, and our pioneering rewards programme, AfrAsia XtraMiles."+ "\n" +
 				"We remain at your disposal should you wish to discuss about your financial aspirations and how we can be of more relevance to you."+ "\n" +
@@ -729,29 +731,42 @@ public class AccountCreationRestService {
 				"Kind regards," + "\n" + 
 
 				"Relationship manager ("+rmName+")";
+		
+		String messageToRM="Dear "+rmName+"," + "\n" + "\n" +
+				"The application for applicant "+primApplicantName+"["+refNo+"]"+" has been successfuly submitted and is under review."+ "\n" + "\n" +
+				"Kind regards," + "\n" + 
+
+				"AfrAsia Bank";
 
 
 
 		try {
-			AfrAsiaEmailUtility.sendEmail(host, port, mailFrom, password, toAddress, subject, message, smtpAuthRequired, smtpAuthstarttls);
-			infoLog.info("EMail sent success");
-		} catch (AddressException e) {
-			errorLog.error("AddressException found in sendEmailToCustomer(),AccountCreationRestService.java: "+e.getMessage());
-			e.printStackTrace();
+			AfrAsiaEmailUtility.sendEmail(host, port, mailFrom, password, toAddrClient, subject, messageToClient, smtpAuthRequired, smtpAuthstarttls);
+			infoLog.info("Customer EMail sent success");
 		} catch (MessagingException e) {
-			errorLog.error("MessagingException found in sendEmailToCustomer(),AccountCreationRestService.java: "+e.getMessage());
-			e.printStackTrace();
+			errorLog.error("MessagingException found in sendEmails(),AccountCreationRestService.java: ",e);
 		} catch (IOException e) {
-			errorLog.error("IOException found in sendEmailToCustomer(),AccountCreationRestService.java: "+e.getMessage());
-			e.printStackTrace();
+			errorLog.error("IOException found in sendEmails(),AccountCreationRestService.java: ",e);
 		} catch (NamingException e) {
-			errorLog.error("NamingException found in sendEmailToCustomer(),AccountCreationRestService.java: "+e.getMessage());
-			e.printStackTrace();
+			errorLog.error("NamingException found in sendEmails(),AccountCreationRestService.java: ",e);
+		} catch (Exception e) {
+			errorLog.error("Exception found in sendEmails(),AccountCreationRestService.java : ",e);
 		}
-		catch (Exception e) {
-			errorLog.error("Exception found in sendEmailToCustomer(),AccountCreationRestService.java : "+e.getMessage());
-			e.printStackTrace();
+		
+		
+		try {
+			AfrAsiaEmailUtility.sendEmail(host, port, mailFrom, password, toAddrRM, subject, messageToRM, smtpAuthRequired, smtpAuthstarttls);
+			infoLog.info("RM EMail sent success");
+		} catch (MessagingException e) {
+			errorLog.error("MessagingException found in sendEmails(),AccountCreationRestService.java: ",e);
+		} catch (IOException e) {
+			errorLog.error("IOException found in sendEmails(),AccountCreationRestService.java: ",e);
+		} catch (NamingException e) {
+			errorLog.error("NamingException found in sendEmails(),AccountCreationRestService.java: ",e);
+		} catch (Exception e) {
+			errorLog.error("Exception found in sendEmails(),AccountCreationRestService.java : ",e);
 		}
+		
 	}
 
 
