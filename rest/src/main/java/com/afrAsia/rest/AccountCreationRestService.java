@@ -85,12 +85,9 @@ public class AccountCreationRestService {
 					
 					accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
 
-<<<<<<< HEAD
 					sendEmails(accountCreationRequest,accountCreationResponse);
 
-=======
-					sendEmailToCustomer(accountCreationRequest,accountCreationResponse);
->>>>>>> 0280a9cb3329f1f81be553df6ce12d8a75956be6
+					//sendEmailToCustomer(accountCreationRequest,accountCreationResponse);
 					//sendSMSToCustomer(accountCreationRequest,accountCreationResponse);
 
 				} else {
