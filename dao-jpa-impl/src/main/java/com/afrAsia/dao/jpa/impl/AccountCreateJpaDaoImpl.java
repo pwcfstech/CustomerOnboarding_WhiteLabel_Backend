@@ -144,9 +144,8 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 	public String getRMuserId(String rmUserId) {
 
 		Query query = getEntityManager()
-				.createQuery("select ar.id from RMDetails ar where ar.id=:rmUserId AND ar.userGroup=:rm");
+				.createQuery("select ar.id from RMDetails ar where ar.id=:rmUserId");
 		query.setParameter("rmUserId", rmUserId);
-		query.setParameter("rm", "RM");
 		return (String) query.getSingleResult();
 	}
 	
