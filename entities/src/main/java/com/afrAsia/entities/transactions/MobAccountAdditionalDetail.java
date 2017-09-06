@@ -143,6 +143,12 @@ public class MobAccountAdditionalDetail implements Serializable {
 	@Column(name = "AFRASIA_EVENT_ANS")
 	private String afrasiaEventAns;
 
+	@Column(name = "NOMINEE_CC1")
+	private Long nomineeCc1;
+	
+	@Column(name = "NOMINEE_CC2")
+	private Long nomineeCc2;
+	
 	public MobAccountAdditionalDetail() {
 	}
 
@@ -482,6 +488,22 @@ public class MobAccountAdditionalDetail implements Serializable {
 		this.afrasiaEventAns = afrasiaEventAns;
 	}
 
+	public Long getNomineeCc1() {
+		return nomineeCc1;
+	}
+
+	public void setNomineeCc1(Long nomineeCc1) {
+		this.nomineeCc1 = nomineeCc1;
+	}
+
+	public Long getNomineeCc2() {
+		return nomineeCc2;
+	}
+
+	public void setNomineeCc2(Long nomineeCc2) {
+		this.nomineeCc2 = nomineeCc2;
+	}
+
 	@Override
 	public String toString() {
 		return "MobAccountAdditionalDetail [id=" + id + ", authEmail1=" + authEmail1 + ", authEmail2=" + authEmail2
@@ -498,7 +520,8 @@ public class MobAccountAdditionalDetail implements Serializable {
 				+ ", recordId=" + recordId + ", stmtAddr1=" + stmtAddr1 + ", stmtAddr2=" + stmtAddr2 + ", stmtAddr3="
 				+ stmtAddr3 + ", stmtCity=" + stmtCity + ", stmtCountry=" + stmtCountry + ", stmtDelivery="
 				+ stmtDelivery + ", requireChqBook=" + requireChqBook + ", afrasiaEventQues=" + afrasiaEventQues
-				+ ", afrasiaEventAns=" + afrasiaEventAns + "]";
+				+ ", afrasiaEventAns=" + afrasiaEventAns + ", nomineeCc1=" + nomineeCc1 + ", nomineeCc2=" + nomineeCc2
+				+ "]";
 	}
 
 }
