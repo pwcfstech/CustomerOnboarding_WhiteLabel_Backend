@@ -157,6 +157,12 @@ public class MobAccountAddnDetailsHist implements Serializable {
 
 	@Column(name = "NOMINEE_EMAIL2")
 	private String nomineeEmail2;
+	
+	@Column(name = "NOMINEE_CC1")
+	private Long nomineeCc1;
+	
+	@Column(name = "NOMINEE_CC2")
+	private Long nomineeCc2;
 
 	public Long getId() {
 		return id;
@@ -494,6 +500,22 @@ public class MobAccountAddnDetailsHist implements Serializable {
 		this.nomineeEmail2 = nomineeEmail2;
 	}
 
+	public Long getNomineeCc1() {
+		return nomineeCc1;
+	}
+
+	public void setNomineeCc1(Long nomineeCc1) {
+		this.nomineeCc1 = nomineeCc1;
+	}
+
+	public Long getNomineeCc2() {
+		return nomineeCc2;
+	}
+
+	public void setNomineeCc2(Long nomineeCc2) {
+		this.nomineeCc2 = nomineeCc2;
+	}
+
 	@Override
 	public String toString() {
 		return "MobAccountAddnDetailsHist [id=" + id + ", recordId=" + recordId + ", authEmail1=" + authEmail1
@@ -510,7 +532,8 @@ public class MobAccountAddnDetailsHist implements Serializable {
 				+ ", stmtAddr1=" + stmtAddr1 + ", stmtAddr2=" + stmtAddr2 + ", stmtAddr3=" + stmtAddr3 + ", stmtCity="
 				+ stmtCity + ", stmtCountry=" + stmtCountry + ", stmtDelivery=" + stmtDelivery + ", requireChqBook="
 				+ requireChqBook + ", afrasiaEventQues=" + afrasiaEventQues + ", afrasiaEventAns=" + afrasiaEventAns
-				+ ", nomineeEmail1=" + nomineeEmail1 + ", nomineeEmail2=" + nomineeEmail2 + "]";
+				+ ", nomineeEmail1=" + nomineeEmail1 + ", nomineeEmail2=" + nomineeEmail2 + ", nomineeCc1=" + nomineeCc1
+				+ ", nomineeCc2=" + nomineeCc2 + "]";
 	}
 
 }

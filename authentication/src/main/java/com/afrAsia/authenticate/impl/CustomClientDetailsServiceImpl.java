@@ -1,6 +1,6 @@
 package com.afrAsia.authenticate.impl;
 
-import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -192,15 +192,18 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 			rmDetails.setFlex_Id("FLex_ID");
 			rmDetails.setRmName(personMap.get(PersonRepoImpl.LDAP_NAME_ATTRIBUTE));
 			rmDetails.setRmEmailId(personMap.get(PersonRepoImpl.LDAP_EMAIL_ATTRIBUTE));
-
 			List<RMDetails> rmDetailsLst = rmDetailsDAO.getRMDetailListByRMId(loginDataRequest.getUserId());
 			infoLog.info("RMDetailsList siz: "+rmDetailsLst.size());
 			if(rmDetailsLst!=null && rmDetailsLst.size()!=0)
 			{
+				rmDetails.setModifiedBy(loginDataRequest.getUserId());
+				rmDetails.setModifiedDate(new Date(System.currentTimeMillis()));
 				rmDetailsDAO.updateRmDetails(rmDetails);
 			}
 			else
 			{
+				rmDetails.setCreatedBy(loginDataRequest.getUserId());
+				rmDetails.setCreatedDate(new Date(System.currentTimeMillis()));
 				rmDetailsDAO.saveRmDetails(rmDetails);
 			}
 			/*End: Code Added by Avisha to add RM's email ID, Mob No and flex ID on 05/09*/
@@ -213,9 +216,6 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 				customOauthAuthorization = new CustomOauthAuthorization(oauthAuthorization.getClient().getId(), oauthAuthorization.getResourceIds(), oauthAuthorization.getClientSecret(),
 						oauthAuthorization.getScope(), oauthAuthorization.getAuthorizedGrantTypes(), oauthAuthorization.getAuthorities(), oauthAuthorization.getAccessTokenValidity());
 			}
-
-
-
 			return customOauthAuthorization;
 		}
 		catch (Exception e)

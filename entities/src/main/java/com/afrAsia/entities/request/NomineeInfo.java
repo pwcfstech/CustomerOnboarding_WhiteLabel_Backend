@@ -14,6 +14,7 @@ public class NomineeInfo implements Serializable {
 	private String nomineeId;
 	private Long nomineeCallbkNo;
 	private String nomineeEmail;
+	private Long nomineeCc;
 
 	public String getNomineeName() {
 		return nomineeName;
@@ -47,10 +48,18 @@ public class NomineeInfo implements Serializable {
 		this.nomineeEmail = nomineeEmail;
 	}
 
+	public Long getNomineeCc() {
+		return nomineeCc;
+	}
+
+	public void setNomineeCc(Long nomineeCc) {
+		this.nomineeCc = nomineeCc;
+	}
+
 	@Override
 	public String toString() {
 		return "NomineeInfo [nomineeName=" + nomineeName + ", nomineeId=" + nomineeId + ", nomineeCallbkNo="
-				+ nomineeCallbkNo + ", nomineeEmail=" + nomineeEmail + "]";
+				+ nomineeCallbkNo + ", nomineeEmail=" + nomineeEmail + ", nomineeCc=" + nomineeCc + "]";
 	}
 
 }

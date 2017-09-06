@@ -386,12 +386,14 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 				mobAccountAdditionalDetail.setNomineeName1(n.getNomineeName());
 				mobAccountAdditionalDetail.setNomineeCallbkNum1(n.getNomineeCallbkNo());	
 				mobAccountAdditionalDetail.setNomineeEmail1(n.getNomineeEmail());
+				mobAccountAdditionalDetail.setNomineeCc1(n.getNomineeCc());
 			}
 			if(cntr == 1){
 				mobAccountAdditionalDetail.setNomineeId2(n.getNomineeId());
 				mobAccountAdditionalDetail.setNomineeName2(n.getNomineeName());
 				mobAccountAdditionalDetail.setNomineeCallbkNum2(n.getNomineeCallbkNo());
 				mobAccountAdditionalDetail.setNomineeEmail2(n.getNomineeEmail());
+				mobAccountAdditionalDetail.setNomineeCc2(n.getNomineeCc());
 			}
 			cntr++;
 		}
@@ -1093,6 +1095,8 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobAccountAddnDetailsHist.setAfrasiaEventAns(mobAccountAdditionalDetail.getAfrasiaEventAns());
 		mobAccountAddnDetailsHist.setNomineeEmail1(mobAccountAdditionalDetail.getNomineeEmail1());
 		mobAccountAddnDetailsHist.setNomineeEmail2(mobAccountAdditionalDetail.getNomineeEmail2());
+		mobAccountAddnDetailsHist.setNomineeCc1(mobAccountAdditionalDetail.getNomineeCc1());
+		mobAccountAddnDetailsHist.setNomineeCc2(mobAccountAdditionalDetail.getNomineeCc2());
 		accountCreateDao.storeMobAccountAddnDetailsHist(mobAccountAddnDetailsHist);
 		infoLog.info(" mobAccountAddnDetailsHist "+mobAccountAddnDetailsHist.toString());
 		

@@ -162,6 +162,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				nomineeInfo1.setNomineeEmail(mobAccountAddnDetail.getNomineeEmail1());
 				nomineeInfo1.setNomineeId(mobAccountAddnDetail.getNomineeId1());
 				nomineeInfo1.setNomineeName(mobAccountAddnDetail.getNomineeName1());
+				nomineeInfo1.setNomineeCc(mobAccountAddnDetail.getNomineeCc1());
 				nomineeInfo.add(nomineeInfo1);
 
 				if (mobAccountAddnDetail.getNomineeName2() != null) {
@@ -170,6 +171,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 					nomineeInfo2.setNomineeEmail(mobAccountAddnDetail.getNomineeEmail2());
 					nomineeInfo2.setNomineeId(mobAccountAddnDetail.getNomineeId2());
 					nomineeInfo2.setNomineeName(mobAccountAddnDetail.getNomineeName2());
+					nomineeInfo2.setNomineeCc(mobAccountAddnDetail.getNomineeCc2());
 					nomineeInfo.add(nomineeInfo2);
 				}
 
