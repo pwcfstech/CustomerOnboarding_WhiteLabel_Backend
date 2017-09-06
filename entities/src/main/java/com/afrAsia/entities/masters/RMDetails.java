@@ -1,6 +1,7 @@
 package com.afrAsia.entities.masters;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,6 +31,50 @@ public class RMDetails extends BaseMaster  implements Serializable{
 	
 	@Column(name = "FLEX_ID")
 	private String flex_Id;
+
+	@Column(name = "CREATED_BY")
+	private String createdBy;
+	
+	@Column(name = "CREATED_DATE")
+	private Date createdDate;
+	
+	@Column(name = "MODIFIED_BY")
+	private String modifiedBy;
+	
+	@Column(name = "MODIFIED_DATE")
+	private Date modifiedDate;
+	
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
 
 	public String getId() {
 		return id;
@@ -81,8 +126,9 @@ public class RMDetails extends BaseMaster  implements Serializable{
 
 	@Override
 	public String toString() {
-		return "RMDetails [id=" + id + ", rmName=" + rmName + ", userGroup=" + userGroup + "]";
+		return "RMDetails [id=" + id + ", rmName=" + rmName + ", userGroup=" + userGroup + ", rmEmailId=" + rmEmailId
+				+ ", rmMobNo=" + rmMobNo + ", flex_Id=" + flex_Id + ", createdBy=" + createdBy + ", createdDate="
+				+ createdDate + ", modifiedBy=" + modifiedBy + ", modifiedDate=" + modifiedDate + "]";
 	}
-
 	
 }

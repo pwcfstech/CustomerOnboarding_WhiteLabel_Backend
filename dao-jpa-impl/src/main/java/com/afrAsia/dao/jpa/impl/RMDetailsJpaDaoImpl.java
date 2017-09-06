@@ -72,12 +72,14 @@ public class RMDetailsJpaDaoImpl extends BaseJpaDAOImpl<String, RMDetails>implem
 		//System.out.println("Value for RM Id table : " + mobRmAppRefId.toString());
 		
 		Query query = getEntityManager()
-				.createQuery("update RMDetails rd set rd.rmName=:rmName,rd.rmEmailId=:rmEmailId,rd.rmMobNo=:rmMobNo,rd.flex_Id=:flex_Id " + "where rd.id =:id ");
+				.createQuery("update RMDetails rd set rd.rmName=:rmName,rd.rmEmailId=:rmEmailId,rd.rmMobNo=:rmMobNo,rd.flex_Id=:flex_Id,rd.modifiedBy=:modifiedBy,rd.modifiedDate=:modifiedDate " + "where rd.id =:id ");
 		query.setParameter("rmName", rmDetails.getRmName());
 		query.setParameter("rmEmailId", rmDetails.getRmEmailId());
 		query.setParameter("rmMobNo", rmDetails.getRmMobNo());
 		query.setParameter("flex_Id", rmDetails.getFlex_Id());
 		query.setParameter("id", rmDetails.getId());
+		query.setParameter("modifiedBy", rmDetails.getModifiedBy());
+		query.setParameter("modifiedDate", rmDetails.getModifiedDate());
 		query.executeUpdate();
 	}
 }

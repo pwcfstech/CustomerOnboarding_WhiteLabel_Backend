@@ -1,6 +1,7 @@
 package com.afrAsia.authenticate.impl;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -178,14 +179,19 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 			rmDetails.setRmEmailId(personMap.get(PersonRepoImpl.LDAP_EMAIL_ATTRIBUTE));
 			rmDetails.setRmMobNo(13413);
 			
+			
 			List<RMDetails> rmDetailsLst = rmDetailsDAO.getRMDetailListByRMId(loginDataRequest.getUserId());
 			infoLog.info("RMDetailsList siz: "+rmDetailsLst.size());
 			if(rmDetailsLst!=null && rmDetailsLst.size()!=0)
 			{
+				rmDetails.setModifiedBy(loginDataRequest.getUserId());
+				rmDetails.setModifiedDate(new Date(System.currentTimeMillis()));
 				rmDetailsDAO.updateRmDetails(rmDetails);
 			}
 			else
 			{
+				rmDetails.setCreatedBy(loginDataRequest.getUserId());
+				rmDetails.setCreatedDate(new Date(System.currentTimeMillis()));
 				rmDetailsDAO.saveRmDetails(rmDetails);
 			}
 			/*End: Code Added by Avisha to add RM's email ID, Mob No and flex ID on 05/09*/
