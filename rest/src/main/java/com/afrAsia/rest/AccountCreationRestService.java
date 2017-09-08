@@ -523,7 +523,10 @@ public class AccountCreationRestService {
 			errorLog.error(customerType + ":Error in Mobile No in validateApplicant(),AccountCreationRestService.java");
 			return (customerType + ":Error in Mobile No");
 		}
-
+		if (applicant.getSex() == null) {
+			errorLog.error(customerType + ":Error in Sex in validateApplicant(),AccountCreationRestService.java");
+			return (customerType + ":Error in Sex");
+		}
 		if (age >= 18) {
 			if (!CommonUtils.checkNullorBlank(applicant.getEmploymentStatus())
 					|| applicant.getEmploymentStatus().length() > 1) {
@@ -602,11 +605,11 @@ public class AccountCreationRestService {
 		}
 
 		if (age >= 18) {
-			if (applicant.getNetMonthlyIncome() < 50000 || applicant.getNetMonthlyIncome() > 1000000000) {
+			if (applicant.getNetMonthlyIncome() < 0) {
 				errorLog.error(customerType + ":Error in Net Monthly Income in validateApplicant(),AccountCreationRestService.java");
 				return (customerType + ":Error in Net Monthly Income");
 			}
-			if (applicant.getAnnualDepositTurnover() < 1000000 || applicant.getAnnualDepositTurnover() > 1000000000) {
+			if (applicant.getAnnualDepositTurnover() < 0) {
 				errorLog.error(customerType + ":Error in Annual Deposit Turnover in validateApplicant(),AccountCreationRestService.java");
 				return (customerType + ":Error in Annual Deposit Turnover");
 			}
