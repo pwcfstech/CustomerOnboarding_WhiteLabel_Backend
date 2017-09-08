@@ -523,7 +523,7 @@ public class AccountCreationRestService {
 			errorLog.error(customerType + ":Error in Mobile No in validateApplicant(),AccountCreationRestService.java");
 			return (customerType + ":Error in Mobile No");
 		}
-		if (applicant.getSex() == null) {
+		if (!CommonUtils.checkNullorBlank(applicant.getSex())) {
 			errorLog.error(customerType + ":Error in Sex in validateApplicant(),AccountCreationRestService.java");
 			return (customerType + ":Error in Sex");
 		}
