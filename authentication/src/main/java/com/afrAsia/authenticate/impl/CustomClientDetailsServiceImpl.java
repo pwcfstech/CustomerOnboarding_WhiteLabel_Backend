@@ -166,7 +166,7 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 		try
 		{
 
-			Map<String, String> personMap = personRepo.findPerson(loginDataRequest.getUserId(), loginDataRequest.getPassword());
+			/*Map<String, String> personMap = personRepo.findPerson(loginDataRequest.getUserId(), loginDataRequest.getPassword());
 
 			if (personMap == null || personMap.isEmpty())
 			{
@@ -182,16 +182,16 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 				throw new ClientRegistrationException("Client not part of the requested group " + ldapGroup);
 			}
 
-			/** Add RM Details to table **/
+			*//** Add RM Details to table **//*
 			infoLog.info("LDAP EMAIL" + personMap.get(PersonRepoImpl.LDAP_EMAIL_ATTRIBUTE));
 			infoLog.info("LDAP NAME" + personMap.get(PersonRepoImpl.LDAP_NAME_ATTRIBUTE));
-
+*/
 			/*Start: Code Added by Avisha to add RM's email ID, Mob No and flex ID on 05/09*/        	
 			RMDetails rmDetails = new RMDetails();
 			rmDetails.setId(loginDataRequest.getUserId());
 			//rmDetails.setFlex_Id("FLex_ID");
 			rmDetails.setRmName("NAME");
-			rmDetails.setRmEmailId(personMap.get(PersonRepoImpl.LDAP_EMAIL_ATTRIBUTE));
+			//rmDetails.setRmEmailId(personMap.get(PersonRepoImpl.LDAP_EMAIL_ATTRIBUTE));
 			List<RMDetails> rmDetailsLst = rmDetailsDAO.getRMDetailListByRMId(loginDataRequest.getUserId());
 			infoLog.info("RMDetailsList siz: "+rmDetailsLst.size());
 			if(rmDetailsLst!=null && rmDetailsLst.size()!=0)
