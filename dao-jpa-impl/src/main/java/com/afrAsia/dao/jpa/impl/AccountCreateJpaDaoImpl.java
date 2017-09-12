@@ -18,12 +18,10 @@ import com.afrAsia.entities.transactions.MobAppRefRecordId;
 import com.afrAsia.entities.transactions.MobApplAdditionalDtlsHist;
 import com.afrAsia.entities.transactions.MobApplCommDetailsHist;
 import com.afrAsia.entities.transactions.MobApplEmploymentDtlsHist;
-import com.afrAsia.entities.transactions.MobApplKycDocumentsHist;
 import com.afrAsia.entities.transactions.MobApplPersonalDetailsHist;
 import com.afrAsia.entities.transactions.MobApplicantAdditionalDtl;
 import com.afrAsia.entities.transactions.MobApplicantCommDetail;
 import com.afrAsia.entities.transactions.MobApplicantEmploymentDtl;
-import com.afrAsia.entities.transactions.MobApplicantKycDocuments;
 import com.afrAsia.entities.transactions.MobApplicantPersonalDetail;
 import com.afrAsia.entities.transactions.MobApplicantRecordId;
 import com.afrAsia.entities.transactions.MobApplicantRecordIdHist;
@@ -502,7 +500,7 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 				+ "ma.optTranEmail=:optTranemail,ma.otpEmail=:otpemail,ma.otpSms=:otpsms,ma.pinViaPost=:pinViapost, "
 				+ "ma.pinViaSms=:pinViasms,ma.prefCommMode=:prefCommmode,ma.prepaidCards=:prepaidcards,ma.stmtAddr1=:stmtaddr1, "
 				+ "ma.stmtAddr2=:stmtaddr2,ma.stmtAddr3=:stmtaddr3,ma.stmtCity=:stmtcity,ma.stmtCountry=:stmtcountry, "
-				+ "ma.stmtDelivery=:stmtdelivery,ma.requireChqBook=:requireChqbook,ma.afrasiaEventQues=:afrasiaEventques,ma.afrasiaEventAns=:afrasiaEventans "
+				+ "ma.stmtDeliveryPo=:stmtdeliveryPo,ma.stmtDeliveryEstmt=:stmtdeliveryEstmt,ma.requireChqBook=:requireChqbook,ma.afrasiaEventQues=:afrasiaEventques,ma.afrasiaEventAns=:afrasiaEventans "
 				+ "where ma.id =:appid ");
 		
 		query7.setParameter("appid", appId);
@@ -567,7 +565,8 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		query7.setParameter("stmtaddr3", accountDetails.getStmtAddr3());
 		query7.setParameter("stmtcity", accountDetails.getStmtCity());
 		query7.setParameter("stmtcountry", accountDetails.getStmtCountry());
-		query7.setParameter("stmtdelivery", accountDetails.getStmtDelivery());		
+		query7.setParameter("stmtdeliveryPo", accountDetails.getStmtDeliveryPo());
+		query7.setParameter("stmtdeliveryEstmt", accountDetails.getStmtDeliveryEstmt());
 		
 		if(accountDetails.getRequireChequeBook() == null){
 			//mobAccountAdditionalDetail.setRequireChqBook(false);

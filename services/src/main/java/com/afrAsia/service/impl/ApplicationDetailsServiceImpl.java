@@ -127,7 +127,8 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			MobAccountAdditionalDetail mobAccountAddnDetail = applicationDetailsDAO
 					.getMobAccountAdditionalDetails(appRefNo);
 			if (mobAccountAddnDetail != null) {
-				accountDetails.setStmtDelivery(mobAccountAddnDetail.getStmtDelivery());
+				accountDetails.setStmtDeliveryPo(mobAccountAddnDetail.getStmtDeliveryPo());
+				accountDetails.setStmtDeliveryEstmt(mobAccountAddnDetail.getStmtDeliveryEstmt());
 				accountDetails.setStmtAddr1(mobAccountAddnDetail.getStmtAddr1());
 				accountDetails.setStmtAddr2(mobAccountAddnDetail.getStmtAddr2());
 				accountDetails.setStmtAddr3(mobAccountAddnDetail.getStmtAddr3());
