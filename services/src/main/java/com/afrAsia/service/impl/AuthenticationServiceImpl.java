@@ -164,21 +164,21 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		
 		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(loginDataRequest); 
 		infoLog.info("clientDetails in login(),AuthenticationServiceImpl is : "+clientDetails);
-
+		OAuth2AccessToken token = getTokenDetails(userId, clientSecret, "client_credentials");
 		RMDetails rmDetails;
 		
 		if (clientDetails == null)
 		{
 			rmDetails = customClientDetailsService.saveClientDetail(userId, userType,"rest_api", clientSecret, 
 					"standard_client", "client_credentials", null, "ROLE_USER", 
-					180, 180, null, null);	
+					60, 60, null, null);	
 		}
 		else{
 			LogoutRequest logOutRequest = new LogoutRequest();
 			LogoutDataRequest logoutDataRequest = new LogoutDataRequest();
 			logoutDataRequest.setDeviceId(loginDataRequest.getDeviceId());
 			logoutDataRequest.setUserId(loginDataRequest.getUserId());
-//			logout(logOutRequest, oauthToken);
+			logout(logOutRequest, token.getValue());
 			rmDetails = customClientDetailsService.getRMDetails(userId, userType);
 			infoLog.info("rmDetails in AuthenticationServiceImpl"+rmDetails);
 		}
@@ -190,7 +190,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		mobRmSessionDetail.setCreatedBy(loginDataRequest.getUserId());
 		MobRmSessionDetail mobRmPreviousSession = rmSessionDetailJpaDAO.setLoginTime(mobRmSessionDetail);
 	 		
- 		OAuth2AccessToken token = getTokenDetails(userId, clientSecret, "client_credentials");
+ 		token = getTokenDetails(userId, clientSecret, "client_credentials");
  		
 		if(mobRmPreviousSession != null){
 			long millis = 0l;
