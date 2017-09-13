@@ -8,6 +8,7 @@ import com.afrAsia.entities.transactions.MobAccountDetail;
 import com.afrAsia.entities.transactions.MobAccountDetailsHist;
 import com.afrAsia.entities.transactions.MobAppRefRecordId;
 import com.afrAsia.entities.transactions.MobApplAdditionalDtlsHist;
+import com.afrAsia.entities.transactions.MobApplCheck;
 import com.afrAsia.entities.transactions.MobApplCommDetailsHist;
 import com.afrAsia.entities.transactions.MobApplEmploymentDtlsHist;
 import com.afrAsia.entities.transactions.MobApplPersonalDetailsHist;
@@ -63,17 +64,25 @@ public interface AccountCreateDao {
 	public Long getAppId(Long appId, String rmUserid);
 
 	public void updateAplicantRecordId(Long appId, Long recordId);
+	
+	public void updateRecordIdInMobApplCheck(Long appId, Long recordId);
 
 	public Long getRecordIdFromAccountDetails(Long appId);
 
-	public MobApplicantRecordId updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails primaryApplicant,
-			Long appId, Long recordId, String typeOfApplicant);
+	public MobApplicantRecordId updateApplicant(AccountCreationRequest accountCreationRequest,
+			ApplicantDetails primaryApplicant, Long appId, Long recordId, String typeOfApplicant);
 
 	public void updateAccountDetails(AccountCreationRequest accountCreationRequest, Long appId, Long recordId,
-			Long mobApplicantPrimaryApplicantId, Long mobGuardianPrimaryApplicantId,
-			MobApplicantRecordId[] mobJoint, MobApplicantRecordId[] mobGuardianJoint, com.afrAsia.entities.request.AccountCreationRequest.AccountDetails accountDetails);
+			Long mobApplicantPrimaryApplicantId, Long mobGuardianPrimaryApplicantId, MobApplicantRecordId[] mobJoint,
+			MobApplicantRecordId[] mobGuardianJoint,
+			com.afrAsia.entities.request.AccountCreationRequest.AccountDetails accountDetails);
 
+	public void updateCommentInMobApplCheckComments(AccountCreationRequest accountCreationRequest);
+	
 	public void storeIntoMobApplKycDocumentsHist(Long appid);
+	
+	public void storeIntoMobApplCheckHist(Long appId,Long recordId);
+
 	public void updateMobRmAppRefId(Long appId, String rmId);
 
 }

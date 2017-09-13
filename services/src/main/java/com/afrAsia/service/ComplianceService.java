@@ -6,7 +6,7 @@ import com.afrAsia.entities.response.ComplianceResponse;
 
 public interface ComplianceService {
 	
-	public ComplianceResponse getDetailsBydefault() ;
+	public ComplianceResponse getDetailsByDefault() ;
 	
 	public ComplianceResponse getDetailsByName(String name,String status);
 

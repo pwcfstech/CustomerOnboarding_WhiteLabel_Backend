@@ -9,7 +9,7 @@ public class ComplianceResponse implements Serializable {
 
 	private MessageHeader messageHeader;
 
-	private List<ComplianceApps> apps;
+	private List<ComplianceApps> data;
 
 	public MessageHeader getMessageHeader() {
 		return messageHeader;
@@ -19,17 +19,17 @@ public class ComplianceResponse implements Serializable {
 		this.messageHeader = messageHeader;
 	}
 
-	public List<ComplianceApps> getApps() {
-		return apps;
+	public List<ComplianceApps> getData() {
+		return data;
 	}
 
-	public void setApps(List<ComplianceApps> apps) {
-		this.apps = apps;
+	public void setData(List<ComplianceApps> data) {
+		this.data = data;
 	}
 
 	@Override
 	public String toString() {
-		return "ComplianceResponse [messageHeader=" + messageHeader + ", apps=" + apps + "]";
+		return "ComplianceResponse [messageHeader=" + messageHeader + ", data=" + data + "]";
 	}
 
 }

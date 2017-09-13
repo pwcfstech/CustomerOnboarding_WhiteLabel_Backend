@@ -51,6 +51,8 @@ public class MasterDataRestService {
 	
 	public  Response getMasters(){
 		
+		infoLog.info("Enter in getMasters service");
+		
 		MastersDataResponse mastersDataResponse=new MastersDataResponse();
 		MsgHeader msgHeader= new MsgHeader();
 		Data data= new MastersDataResponse().new Data();
@@ -167,23 +169,22 @@ public class MasterDataRestService {
 		mastersDataResponse.setMsgHeader(msgHeader);
 		mastersDataResponse.setData(data);
 		
-		
+		debugLog.debug("mastersDataResponse :: "+mastersDataResponse.toString());
 		
 		}catch(Exception e){
-			infoLog.info(" Exception in in getMasters(),MasterDataRestService is : "+e.getMessage());
-			//AfrAsiaLogger.errorLog("Exception in MasterRest Service", e);
-			e.printStackTrace();
-			/*Error error= new MsgHeader().new Error();
+			errorLog.error(" Exception in getMasters service is : ",e);
+			MsgHeader msgHeader1=new MsgHeader();
+			MsgHeader.Error error= msgHeader1.new Error();
 			error.setCd("404");
-			error.setCustomCode("101");
+			error.setCustomCode("ERROR404");
 			error.setRsn("Master data service failing");
-			msgHeader.setError(error);*/
-			mastersDataResponse.setMsgHeader(msgHeader);
+			msgHeader.setError(error);
+			mastersDataResponse.setMsgHeader(msgHeader1);
 			mastersDataResponse.setData(null);
 			
 		}
-		
-		infoLog.info(" mastersDataResponse in getMasters(),MasterDataRestService is : "+mastersDataResponse);
+		infoLog.info("Exit from getMasters service");
+		debugLog.debug(" mastersDataResponse in getMasters service :: "+mastersDataResponse); 
 		return Response.ok(mastersDataResponse, MediaType.APPLICATION_JSON).build();
 	}
 }

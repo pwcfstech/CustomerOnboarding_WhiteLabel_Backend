@@ -593,4 +593,48 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		query.setParameter("appid",appId);
 		query.executeUpdate();
 	}
+
+	public void updateRecordIdInMobApplCheck(Long appId, Long recordId) {
+		Query query = getEntityManager()
+				.createQuery("update MobApplCheck ma set ma.recordId =:recordId " + "where ma.id =:appid ");
+		query.setParameter("appid", appId);
+		query.setParameter("recordId", recordId);
+		query.executeUpdate();
+		
+	}
+
+	public void updateCommentInMobApplCheckComments(AccountCreationRequest accountCreationRequest) {
+		// update MobApplicationCompStatus	
+				Query query = getEntityManager().createQuery("update MobApplCheckComments ma set ma.rmId=:rmId,ma.rmComment=:rmComment,"
+						+ "ma.createdBy=:createdBy,ma.createdDate=:createdDate,ma.modifiedBy=:modifiedBy,ma.modifiedDate=:modifieddate "
+						+ "where ma.id =:appId and ma.recordId=:recordId");
+				
+				query.setParameter("rmId", accountCreationRequest.getData().getRmId());
+				query.setParameter("rmComment", accountCreationRequest.getData().getComment());
+				query.setParameter("createdBy", accountCreationRequest.getData().getRmId());
+				query.setParameter("createdDate", new Date());
+				query.setParameter("modifiedBy", accountCreationRequest.getData().getRmId());
+				query.setParameter("modifiedDate", new Date());
+				query.setParameter("appId", accountCreationRequest.getData().getAppRefNo());
+				query.setParameter("recordId", accountCreationRequest.getData().getRecordId());
+				
+				query.executeUpdate();
+		
+	}
+
+	public void storeIntoMobApplCheckHist(Long appId, Long recordId) {
+		Query query = getEntityManager().createQuery(
+				"INSERT INTO MobApplCheckHist (recordId,isAppLocked,lockedBy,kycDone,kycStatus,kycUrl,kycDoneBy,kycDate,"
+				+ "wcDone,wcStatus,wcUrl,wcDoneBy,wcDate,ccDone,ccStatus,ccUrl,ccDoneBy,ccDate,icDone,icStatus,icUrl,icDoneBy,"
+				+ "icDate,createdBy,createdDate,modifiedBy,modifiedDate) "
+				+ "select i.recordId,i.isAppLocked,i.lockedBy,i.kycDone,i.kycStatus,i.kycUrl,i.kycDoneBy,i.kycDate,"
+				+ "i.wcDone,i.wcStatus,i.wcUrl,i.wcDoneBy,i.wcDate,i.ccDone,i.ccStatus,i.ccUrl,i.ccDoneBy,i.ccDate,i.icDone,i.icStatus,i.icUrl,i.icDoneBy,"
+				+ "i.icDate,i.createdBy,i.createdDate,i.modifiedBy,i.modifiedDate "
+				+ "from MobApplCheck i where i.id=:appid and i.recordId=:recordId ");
+				        
+		query.setParameter("appid",appId);
+		query.setParameter("recordId",recordId);
+		query.executeUpdate();
+		
+	}
 }

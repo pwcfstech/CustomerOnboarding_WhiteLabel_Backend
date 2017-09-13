@@ -4,15 +4,31 @@ import java.util.Date;
 import java.util.List;
 
 public interface ComplianceDao {
-	
-	public List<Object> getDetailsByDefaultByUnderProcessingStatus();
-	
-	public List<Object> getDetailsByDefaultByAccOpenedOrRejectedStatus();
-	
-	public List<Object> getDetailsByName(String name,String status);
 
-	public List<Object> getDetailsByDates(Date startDate,Date endDate,String status);
-	
-	public List<Object> getDetailsByAllCriteria(String name,Date startDate,Date endDate,String status);
-	
+	public List<Object> getDetailsByAccountRejectedDefault();
+
+	public List<Object> getDetailsByAccountOpenedDefault();
+
+	public List<Object> getDetailsByUnderProcessingDefault();
+
+	public List<Object> getDetailsByAccountRejectedName(String name);
+
+	public List<Object> getDetailsByAccountOpenedName(String name);
+
+	public List<Object> getDetailsByUnderProcessingName(String name);
+
+	public List<Object> getDetailsByAccountRejectedDates(Date startDate, Date endDate);
+
+	public List<Object> getDetailsByAccountOpenedDates(Date startDate, Date endDate);
+
+	public List<Object> getDetailsByUnderProcessingDates(Date startDate, Date endDate);
+
+	public List<Object> getDetailsByAccountRejectedAllCriteria(String name, Date startDate, Date endDate);
+
+	public List<Object> getDetailsByAccountOpenedAllCriteria(String name, Date startDate, Date endDate);
+
+	public List<Object> getDetailsByUnderProcessingAllCriteria(String name, Date startDate, Date endDate);
+
+	public void updateErrorMessage(Long id, Long recordId);
+
 }

@@ -54,14 +54,14 @@ public class KYCRestService {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response uploadKYC1(@FormDataParam("data") String request, @FormDataParam("file") InputStream image) {
-		infoLog.info("request in uploadKYC1(),KYCRestService is : "+request);
+		
+		infoLog.info("Enter : uploadKYC1");
+		debugLog.debug("request in uploadKYC Service is : "+request);
 		KYCResponse response = null;
 		try {
 			KYCDataRequest kycDataRequest = CommonUtils.jsonStringToObject(request, KYCDataRequest.class);
-			if (debugLog.isDebugEnabled()) {
-				debugLog.debug("Enter : uploadKYC()");
-			}
-			debugLog.debug("Enter : uploadKYC()");
+			
+			infoLog.info("Enter : uploadKYC()");
 			response = kycService.uploadKYC(kycDataRequest, image);
 		} catch (Exception e) {
 			errorLog.error("Error : uploadKYC()", e);
@@ -75,16 +75,11 @@ public class KYCRestService {
 			response = new KYCResponse();
 			response.setMsgHeader(msgHeader);
 			response.setData(null);
-			if (debugLog.isDebugEnabled()) {
-				infoLog.info("Exit : uploadKYC()");
-			}
-			infoLog.info("Exit : uploadKYC()");
+			infoLog.info("Exit : uploadKYC1");
 			return Response.status(Status.FORBIDDEN).entity(response).build();
 		}
-		if (debugLog.isDebugEnabled()) {
-			infoLog.info("Exit : uploadKYC()");
-		}
-		infoLog.info("Exit : uploadKYC()");
+		infoLog.info("Exit : uploadKYC1");
+		debugLog.debug("response : uploadKYC1 :: "+response);
 		return Response.ok(response).build();
 	}
 
@@ -93,12 +88,10 @@ public class KYCRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response uploadKYC2(KYCRequest kycRequest) {
+		infoLog.info("Enter : uploadKYC2");
+		debugLog.debug("kycRequest :uploadKYC2 :: "+kycRequest);
 		KYCResponse response = null;
 		try {
-			if (debugLog.isDebugEnabled()) {
-				debugLog.debug("Enter : uploadKYC()");
-			}
-			debugLog.debug("Enter : uploadKYC()");
 			if (null != kycRequest) {
 				byte[] imageBytes = DatatypeConverter.parseBase64Binary(kycRequest.getData().getImage());
 				InputStream image = new ByteArrayInputStream(imageBytes);
@@ -119,8 +112,7 @@ public class KYCRestService {
 			}
 
 		} catch (Exception e) {
-			errorLog.error("Error : uploadKYC()", e);
-			e.printStackTrace();
+			errorLog.error("Error : uploadKYC2", e);
 			MessageHeader msgHeader = new MessageHeader();
 			RequestError error = new RequestError();
 			error.setCd("401");
@@ -131,16 +123,11 @@ public class KYCRestService {
 			response = new KYCResponse();
 			response.setMsgHeader(msgHeader);
 			response.setData(null);
-			if (debugLog.isDebugEnabled()) {
-				debugLog.debug("Exit : uploadKYC()");
-			}
-			debugLog.debug("Exit : uploadKYC()");
+			infoLog.info("Exit : uploadKYC2()");
 			return Response.status(Status.FORBIDDEN).entity(response).build();
 		}
-		if (debugLog.isDebugEnabled()) {
-			debugLog.debug("Exit : uploadKYC()");
-		}
-		debugLog.debug("Exit : uploadKYC()");
+		infoLog.info("Exit : uploadKYC2");
+		debugLog.debug("response : uploadKYC2 :: "+response);
 		return Response.ok(response).build();
 	}
 

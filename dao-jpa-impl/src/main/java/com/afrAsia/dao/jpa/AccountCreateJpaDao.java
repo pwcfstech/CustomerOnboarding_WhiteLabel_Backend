@@ -9,6 +9,7 @@ import com.afrAsia.entities.transactions.MobAccountDetail;
 import com.afrAsia.entities.transactions.MobAccountDetailsHist;
 import com.afrAsia.entities.transactions.MobAppRefRecordId;
 import com.afrAsia.entities.transactions.MobApplAdditionalDtlsHist;
+import com.afrAsia.entities.transactions.MobApplCheck;
 import com.afrAsia.entities.transactions.MobApplCommDetailsHist;
 import com.afrAsia.entities.transactions.MobApplEmploymentDtlsHist;
 import com.afrAsia.entities.transactions.MobApplKycDocumentsHist;
@@ -69,6 +70,8 @@ public interface AccountCreateJpaDao extends AccountCreateDao {
 
 	public void updateAplicantRecordId(Long appId, Long recordId);
 
+	public void updateRecordIdInMobApplCheck(Long appId, Long recordId);
+	
 	public MobApplicantRecordId updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails applicant,
 			Long appId, Long recordId, String typeOfApplicant);
 
@@ -76,7 +79,11 @@ public interface AccountCreateJpaDao extends AccountCreateDao {
 			Long mobApplicantPrimaryApplicantId, Long mobGuardianPrimaryApplicantId,
 			MobApplicantRecordId[] mobJoint, MobApplicantRecordId[] mobGuardianJoint, com.afrAsia.entities.request.AccountCreationRequest.AccountDetails accountDetails);
 	
+	public void updateCommentInMobApplCheckComments(AccountCreationRequest accountCreationRequest);
+	
 	public void storeIntoMobApplKycDocumentsHist(Long appid);
+	
+	public void storeIntoMobApplCheckHist(Long appId,Long recordId);
 
 	public Long checkRecordId(Long appId, Long recordIdFromRequest);
 

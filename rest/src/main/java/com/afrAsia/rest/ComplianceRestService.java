@@ -54,9 +54,10 @@ public class ComplianceRestService {
 	@Path("/getComplianceApplications/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getDetailsByNameAndID(String jsonInput) {
+	public Response getDetailsBySearchCriteria(String jsonInput) {
 
-		infoLog.info("jsonInput in getDetailsByNameAndID(),ComplianceRestService.java "+jsonInput);
+		infoLog.info("Entered in Compliance Service");
+		debugLog.debug("jsonInput in Compliance Service ::  "+jsonInput);
 		
 		ComplianceReq complianceReq = new ComplianceReq();
 
@@ -64,14 +65,11 @@ public class ComplianceRestService {
 		try {
 			complianceReq = mapper.readValue(jsonInput, ComplianceReq.class);
 		} catch (JsonParseException e) {
-			e.printStackTrace();
-			errorLog.error("   JsonParseException in getDetailsByNameAndID(),ComplianceRestService.java ",e);
+			errorLog.error("   JsonParseException ",e);
 		} catch (JsonMappingException e) {
-			errorLog.error("   JsonMappingException in getDetailsByNameAndID(),ComplianceRestService.java ",e);
-			e.printStackTrace();
+			errorLog.error("   JsonMappingException ",e);
 		} catch (IOException e) {
-			errorLog.error("   IOException in getDetailsByNameAndID(),ComplianceRestService.java "+e.getMessage());
-			e.printStackTrace();
+			errorLog.error("   IOException ",e);
 		}
 		
 		String custumerName=complianceReq.getSearchParameter().getCustName();
@@ -85,8 +83,8 @@ public class ComplianceRestService {
 
 			try {
 				dateSt1 = simpleDateFormatStartDate.parse(formattedStartDate);
-			} catch (ParseException e1) {
-				errorLog.error("   date coud not be parsed in getDetailsByNameAndID method of MyTrackerRestService class ",e1);
+			} catch (ParseException e) {
+				errorLog.error("dateSt1 coud not be parsed ",e);
 			}
 			this.startDate=dateSt1;
 			}
@@ -99,7 +97,7 @@ public class ComplianceRestService {
 			try {
 				dateEd1 = simpleDateFormatStartEnd.parse(formattedStartEnd);
 			} catch (ParseException e) {
-				errorLog.error("   date can not be parsed in ");
+				errorLog.error("dateEd1 coud not be parsed in getDetailsBySearchCriteria method of MyTrackerRestService class ",e);
 			}
 			
 			Long miliSecs=dateEd1.getTime();
@@ -109,39 +107,42 @@ public class ComplianceRestService {
 		
 		String status=complianceReq.getSearchParameter().getAppStatus();
 		
-		
 		if (custumerName.length() == 0 && this.startDate == null && this.endDate == null) {
-			
+			infoLog.info("Fetching datas bydefault");
 			ComplianceResponse complianceResponseByDefault = 
-					(ComplianceResponse) complianceService.getDetailsBydefault();
-			infoLog.info("   complianceResponseByDefault in ComplianceRestService.java "+complianceResponseByDefault);
+					(ComplianceResponse) complianceService.getDetailsByDefault();
+			debugLog.debug(" complianceResponseByDefault  "+complianceResponseByDefault);
+			infoLog.info("Exiting from bydefault search of ComplianceRestService");
 			return Response.ok(complianceResponseByDefault, MediaType.APPLICATION_JSON).build();
 		}
 		
 		else if (custumerName.length() != 0 && this.startDate == null && this.endDate == null && status.length() != 0) {
-			
+			infoLog.info("Fetching datas by customer name");
 			ComplianceResponse rmApplicationAppResponseByIdAndName = 
 					(ComplianceResponse) complianceService
 					.getDetailsByName(custumerName,status);
-			infoLog.info("   rmApplicationAppResponseByIdAndName in ComplianceRestService.java "+rmApplicationAppResponseByIdAndName);
+			debugLog.debug(" rmApplicationAppResponseByIdAndName  "+rmApplicationAppResponseByIdAndName);
+			infoLog.info("Exiting from search by customer name of ComplianceRestService");
 			return Response.ok(rmApplicationAppResponseByIdAndName, MediaType.APPLICATION_JSON).build();
 		}
 
 		else if (custumerName.length() == 0 && this.startDate != null && this.endDate != null && status.length() != 0) {
-			
+			infoLog.info("Fetching datas by dates");
 			ComplianceResponse rmApplicationAppResponseByDates=
 					(ComplianceResponse) complianceService
 					.getDetailsByDates(this.startDate, this.endDate, status);
-			infoLog.info("   rmApplicationAppResponseByDates in ComplianceRestService.java "+rmApplicationAppResponseByDates);
+			debugLog.debug(" rmApplicationAppResponseByDates  "+rmApplicationAppResponseByDates);
+			infoLog.info("Exiting from search by dates of ComplianceRestService");
 			return Response.ok(rmApplicationAppResponseByDates, MediaType.APPLICATION_JSON).build();
 		}
 
 		else if (custumerName.length() != 0 && this.startDate != null && this.endDate != null && status.length() != 0) {
-			
+			infoLog.info("Fetching datas by all criteria");
 			ComplianceResponse rmApplicationAppResponseByIdAndName = 
 					(ComplianceResponse) complianceService
 					.getDetailsByAllCriteria(custumerName,startDate, endDate, status);
-			infoLog.info("   rmApplicationAppResponseByIdAndName in ComplianceRestService.java "+rmApplicationAppResponseByIdAndName);
+			debugLog.debug(" rmApplicationAppResponseByIdAndName  "+rmApplicationAppResponseByIdAndName);
+			infoLog.info("Exiting from search by all criteria of ComplianceRestService");
 			return Response.ok(rmApplicationAppResponseByIdAndName, MediaType.APPLICATION_JSON).build();
 		}
 
@@ -150,26 +151,30 @@ public class ComplianceRestService {
 				|| (custumerName.length() == 0 && this.startDate == null && this.endDate != null && status.length() == 0)
 				|| (custumerName.length() != 0 && this.startDate != null && this.endDate == null && status.length() == 0)
 				|| (custumerName.length() != 0 && this.startDate == null && this.endDate != null && status.length() == 0)
+				|| (custumerName.length() == 0 && this.startDate != null && this.endDate != null && status.length() == 0)
 				|| (custumerName.length() != 0 && this.startDate != null && this.endDate != null && status.length() == 0)){
 			ComplianceResponse emptyComplianceResponse = new ComplianceResponse();
 			MessageHeader messageHeader=new MessageHeader();
 			RequestError requestError=new RequestError();
-			requestError.setCustomCode("please pass status");
+			requestError.setCd("404");
+			requestError.setCustomCode("ERROR404");
+			requestError.setRsn("status has not been passed");
 			messageHeader.setError(requestError);
+			emptyComplianceResponse.setMessageHeader(messageHeader);
 			errorLog.error("status has not been passed in the request");
-			errorLog.error(" emptyComplianceResponse in ComplianceRestService.java "+emptyComplianceResponse);
+			debugLog.debug(" emptyComplianceResponse while status is null is :: "+emptyComplianceResponse);
 			return Response.ok(emptyComplianceResponse, MediaType.APPLICATION_JSON).build(); 
 		}
 		else{
 			ComplianceResponse emptyComplianceResponse = new ComplianceResponse();
 			MessageHeader messageHeader=new MessageHeader();
 			RequestError requestError=new RequestError();
-			requestError.setCustomCode("please pass proper request");
+			requestError.setRsn("please pass proper request");
 			messageHeader.setError(requestError);
+			emptyComplianceResponse.setMessageHeader(messageHeader);
 			errorLog.error("please pass proper request");
-			errorLog.error(" emptyComplianceResponse in ComplianceRestService.java "+emptyComplianceResponse);
+			debugLog.debug(" emptyComplianceResponse  "+emptyComplianceResponse);
 			return Response.ok(emptyComplianceResponse, MediaType.APPLICATION_JSON).build();
 		}
 	}
-
 }

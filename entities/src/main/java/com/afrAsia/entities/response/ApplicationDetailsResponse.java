@@ -8,6 +8,7 @@ import com.afrAsia.entities.request.NomineeInfo;
 
 public class ApplicationDetailsResponse implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private MsgHeader msgHeader;
 	private Data data;
 
@@ -34,7 +35,9 @@ public class ApplicationDetailsResponse implements Serializable {
 
 	public class Data implements Serializable {
 
+		private static final long serialVersionUID = 1L;
 		private Long refNo;
+		private Long recordId;
 		private String appStatus;
 		private Long appSubDate;
 		private Long pendingRMSince;
@@ -44,14 +47,21 @@ public class ApplicationDetailsResponse implements Serializable {
 		ApplicantDetailsResponse primaryApplicantDetails;
 		ApplicantDetailsResponse guardianDetails;
 		List<JointApplicantsResponse> jointApplicants;
-		
-		
+
 		public Long getRefNo() {
 			return refNo;
 		}
 
 		public void setRefNo(Long refNo) {
 			this.refNo = refNo;
+		}
+
+		public Long getRecordId() {
+			return recordId;
+		}
+
+		public void setRecordId(Long recordId) {
+			this.recordId = recordId;
 		}
 
 		public String getAppStatus() {
@@ -128,13 +138,15 @@ public class ApplicationDetailsResponse implements Serializable {
 
 		@Override
 		public String toString() {
-			return "Data [refNo=" + refNo + ", appStatus=" + appStatus + ", appSubDate=" + appSubDate
-					+ ", pendingRMSince=" + pendingRMSince + ", rvwBy=" + rvwBy + ", comments=" + comments
+			return "Data [refNo=" + refNo + ", recordId=" + recordId + ", appStatus=" + appStatus + ", appSubDate="
+					+ appSubDate + ", pendingRMSince=" + pendingRMSince + ", rvwBy=" + rvwBy + ", comments=" + comments
 					+ ", accountDetails=" + accountDetails + ", primaryApplicantDetails=" + primaryApplicantDetails
 					+ ", guardianDetails=" + guardianDetails + ", jointApplicants=" + jointApplicants + "]";
 		}
 
 		public class Comments implements Serializable {
+
+			private static final long serialVersionUID = 1L;
 			private String comment;
 			private String commentAddedBy;
 			private Long commentDate;
@@ -180,35 +192,36 @@ public class ApplicationDetailsResponse implements Serializable {
 		}
 
 		public class AccountDetails implements Serializable {
-			String account;
-			String accountType;
-			String mop;
+			private static final long serialVersionUID = 1L;
+			private String account;
+			private String accountType;
+			private String mop;
 			Boolean stmtDeliveryPo;
 			Boolean stmtDeliveryEstmt;
-			String stmtAddr1;
-			String stmtAddr2;
-			String stmtAddr3;
-			String stmtCity;
-			String stmtCountry;
-			Boolean needCreditCard;
-			Boolean needGlobalCustody;
-			Boolean needForexBanking;
-			Boolean needPrepaidCard;
-			Boolean needInternetBanking;
-			String internetBankingUn;
-			Boolean otpOverEmail;
-			Boolean otpOverSMS;
-			Boolean pinViaSMS;
-			Boolean pinViaPost;
-			String prefCommMode;
-			String whrDidYouHearAbtAfrAsia;
-			Boolean agreeCommEmail;
-			Boolean agreeCommSMS;
-			Boolean optTransactionsThruEmail;
-			String authEmail1;
-			String authEmail2;
-			String authEmail3;
-			Boolean optCallBackServices;
+			private String stmtAddr1;
+			private String stmtAddr2;
+			private String stmtAddr3;
+			private String stmtCity;
+			private String stmtCountry;
+			private Boolean needCreditCard;
+			private Boolean needGlobalCustody;
+			private Boolean needForexBanking;
+			private Boolean needPrepaidCard;
+			private Boolean needInternetBanking;
+			private String internetBankingUn;
+			private Boolean otpOverEmail;
+			private Boolean otpOverSMS;
+			private Boolean pinViaSMS;
+			private Boolean pinViaPost;
+			private String prefCommMode;
+			private String whrDidYouHearAbtAfrAsia;
+			private Boolean agreeCommEmail;
+			private Boolean agreeCommSMS;
+			private Boolean optTransactionsThruEmail;
+			private String authEmail1;
+			private String authEmail2;
+			private String authEmail3;
+			private Boolean optCallBackServices;
 			List<NomineeInfo> nomineeInfo;
 
 			private String afrasiaEventQues;
@@ -216,44 +229,20 @@ public class ApplicationDetailsResponse implements Serializable {
 			private Long minNoSignatures;
 			private String operatingInst;
 
-			public String getAfrasiaEventQues() {
-				return afrasiaEventQues;
-			}
-
-			public void setAfrasiaEventQues(String afrasiaEventQues) {
-				this.afrasiaEventQues = afrasiaEventQues;
-			}
-
-			public String getAfrasiaEventAns() {
-				return afrasiaEventAns;
-			}
-
-			public void setAfrasiaEventAns(String afrasiaEventAns) {
-				this.afrasiaEventAns = afrasiaEventAns;
-			}
-
-			public Long getMinNoSignatures() {
-				return minNoSignatures;
-			}
-
-			public void setMinNoSignatures(Long minNoSignatures) {
-				this.minNoSignatures = minNoSignatures;
-			}
-
-			public String getOperatingInst() {
-				return operatingInst;
-			}
-
-			public void setOperatingInst(String operatingInst) {
-				this.operatingInst = operatingInst;
-			}
-
 			public String getAccount() {
 				return account;
 			}
 
 			public void setAccount(String account) {
 				this.account = account;
+			}
+
+			public String getAccountType() {
+				return accountType;
+			}
+
+			public void setAccountType(String accountType) {
+				this.accountType = accountType;
 			}
 
 			public String getMop() {
@@ -264,12 +253,20 @@ public class ApplicationDetailsResponse implements Serializable {
 				this.mop = mop;
 			}
 
-			public String getAccountType() {
-				return accountType;
+			public Boolean getStmtDeliveryPo() {
+				return stmtDeliveryPo;
 			}
 
-			public void setAccountType(String accountType) {
-				this.accountType = accountType;
+			public void setStmtDeliveryPo(Boolean stmtDeliveryPo) {
+				this.stmtDeliveryPo = stmtDeliveryPo;
+			}
+
+			public Boolean getStmtDeliveryEstmt() {
+				return stmtDeliveryEstmt;
+			}
+
+			public void setStmtDeliveryEstmt(Boolean stmtDeliveryEstmt) {
+				this.stmtDeliveryEstmt = stmtDeliveryEstmt;
 			}
 
 			public String getStmtAddr1() {
@@ -312,68 +309,12 @@ public class ApplicationDetailsResponse implements Serializable {
 				this.stmtCountry = stmtCountry;
 			}
 
-			public String getInternetBankingUn() {
-				return internetBankingUn;
+			public Boolean getNeedCreditCard() {
+				return needCreditCard;
 			}
 
-			public void setInternetBankingUn(String internetBankingUn) {
-				this.internetBankingUn = internetBankingUn;
-			}
-
-			public String getPrefCommMode() {
-				return prefCommMode;
-			}
-
-			public void setPrefCommMode(String prefCommMode) {
-				this.prefCommMode = prefCommMode;
-			}
-
-			public String getWhrDidYouHearAbtAfrAsia() {
-				return whrDidYouHearAbtAfrAsia;
-			}
-
-			public void setWhrDidYouHearAbtAfrAsia(String whrDidYouHearAbtAfrAsia) {
-				this.whrDidYouHearAbtAfrAsia = whrDidYouHearAbtAfrAsia;
-			}
-
-			public String getAuthEmail1() {
-				return authEmail1;
-			}
-
-			public void setAuthEmail1(String authEmail1) {
-				this.authEmail1 = authEmail1;
-			}
-
-			public String getAuthEmail2() {
-				return authEmail2;
-			}
-
-			public void setAuthEmail2(String authEmail2) {
-				this.authEmail2 = authEmail2;
-			}
-
-			public String getAuthEmail3() {
-				return authEmail3;
-			}
-
-			public void setAuthEmail3(String authEmail3) {
-				this.authEmail3 = authEmail3;
-			}
-
-			public List<NomineeInfo> getNomineeInfo() {
-				return nomineeInfo;
-			}
-
-			public void setNomineeInfo(List<NomineeInfo> nomineeInfo) {
-				this.nomineeInfo = nomineeInfo;
-			}
-
-			public Boolean getOtpOverEmail() {
-				return otpOverEmail;
-			}
-
-			public void setOtpOverEmail(Boolean otpOverEmail) {
-				this.otpOverEmail = otpOverEmail;
+			public void setNeedCreditCard(Boolean needCreditCard) {
+				this.needCreditCard = needCreditCard;
 			}
 
 			public Boolean getNeedGlobalCustody() {
@@ -408,6 +349,22 @@ public class ApplicationDetailsResponse implements Serializable {
 				this.needInternetBanking = needInternetBanking;
 			}
 
+			public String getInternetBankingUn() {
+				return internetBankingUn;
+			}
+
+			public void setInternetBankingUn(String internetBankingUn) {
+				this.internetBankingUn = internetBankingUn;
+			}
+
+			public Boolean getOtpOverEmail() {
+				return otpOverEmail;
+			}
+
+			public void setOtpOverEmail(Boolean otpOverEmail) {
+				this.otpOverEmail = otpOverEmail;
+			}
+
 			public Boolean getOtpOverSMS() {
 				return otpOverSMS;
 			}
@@ -432,6 +389,22 @@ public class ApplicationDetailsResponse implements Serializable {
 				this.pinViaPost = pinViaPost;
 			}
 
+			public String getPrefCommMode() {
+				return prefCommMode;
+			}
+
+			public void setPrefCommMode(String prefCommMode) {
+				this.prefCommMode = prefCommMode;
+			}
+
+			public String getWhrDidYouHearAbtAfrAsia() {
+				return whrDidYouHearAbtAfrAsia;
+			}
+
+			public void setWhrDidYouHearAbtAfrAsia(String whrDidYouHearAbtAfrAsia) {
+				this.whrDidYouHearAbtAfrAsia = whrDidYouHearAbtAfrAsia;
+			}
+
 			public Boolean getAgreeCommEmail() {
 				return agreeCommEmail;
 			}
@@ -448,6 +421,38 @@ public class ApplicationDetailsResponse implements Serializable {
 				this.agreeCommSMS = agreeCommSMS;
 			}
 
+			public Boolean getOptTransactionsThruEmail() {
+				return optTransactionsThruEmail;
+			}
+
+			public void setOptTransactionsThruEmail(Boolean optTransactionsThruEmail) {
+				this.optTransactionsThruEmail = optTransactionsThruEmail;
+			}
+
+			public String getAuthEmail1() {
+				return authEmail1;
+			}
+
+			public void setAuthEmail1(String authEmail1) {
+				this.authEmail1 = authEmail1;
+			}
+
+			public String getAuthEmail2() {
+				return authEmail2;
+			}
+
+			public void setAuthEmail2(String authEmail2) {
+				this.authEmail2 = authEmail2;
+			}
+
+			public String getAuthEmail3() {
+				return authEmail3;
+			}
+
+			public void setAuthEmail3(String authEmail3) {
+				this.authEmail3 = authEmail3;
+			}
+
 			public Boolean getOptCallBackServices() {
 				return optCallBackServices;
 			}
@@ -456,36 +461,44 @@ public class ApplicationDetailsResponse implements Serializable {
 				this.optCallBackServices = optCallBackServices;
 			}
 
-			public Boolean getNeedCreditCard() {
-				return needCreditCard;
+			public List<NomineeInfo> getNomineeInfo() {
+				return nomineeInfo;
 			}
 
-			public void setNeedCreditCard(Boolean needCreditCard) {
-				this.needCreditCard = needCreditCard;
+			public void setNomineeInfo(List<NomineeInfo> nomineeInfo) {
+				this.nomineeInfo = nomineeInfo;
 			}
 
-			public Boolean getOptTransactionsThruEmail() {
-				return optTransactionsThruEmail;
+			public String getAfrasiaEventQues() {
+				return afrasiaEventQues;
 			}
 
-			public void setOptTransactionsThruEmail(boolean optTransactionsThruEmail) {
-				this.optTransactionsThruEmail = optTransactionsThruEmail;
+			public void setAfrasiaEventQues(String afrasiaEventQues) {
+				this.afrasiaEventQues = afrasiaEventQues;
 			}
 
-			public Boolean getStmtDeliveryPo() {
-				return stmtDeliveryPo;
+			public String getAfrasiaEventAns() {
+				return afrasiaEventAns;
 			}
 
-			public void setStmtDeliveryPo(Boolean stmtDeliveryPo) {
-				this.stmtDeliveryPo = stmtDeliveryPo;
+			public void setAfrasiaEventAns(String afrasiaEventAns) {
+				this.afrasiaEventAns = afrasiaEventAns;
 			}
 
-			public Boolean getStmtDeliveryEstmt() {
-				return stmtDeliveryEstmt;
+			public Long getMinNoSignatures() {
+				return minNoSignatures;
 			}
 
-			public void setStmtDeliveryEstmt(Boolean stmtDeliveryEstmt) {
-				this.stmtDeliveryEstmt = stmtDeliveryEstmt;
+			public void setMinNoSignatures(Long minNoSignatures) {
+				this.minNoSignatures = minNoSignatures;
+			}
+
+			public String getOperatingInst() {
+				return operatingInst;
+			}
+
+			public void setOperatingInst(String operatingInst) {
+				this.operatingInst = operatingInst;
 			}
 
 			@Override
