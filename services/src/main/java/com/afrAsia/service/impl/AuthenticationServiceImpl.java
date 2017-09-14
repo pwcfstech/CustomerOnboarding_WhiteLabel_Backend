@@ -6,19 +6,27 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 /* LDAP */
 
 import javax.naming.Context;
+import javax.naming.NamingEnumeration;
+import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
+import javax.naming.directory.SearchControls;
+import javax.naming.directory.SearchResult;
+import javax.naming.ldap.InitialLdapContext;
+import javax.naming.ldap.LdapContext;
 
 import org.apache.log4j.Logger;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.ClientRegistrationException;
 import org.springframework.security.oauth2.provider.TokenRequest;
 import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenGranter;
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
@@ -39,8 +47,11 @@ import com.afrAsia.entities.response.LoginDataResponse;
 import com.afrAsia.entities.response.LoginResponse;
 import com.afrAsia.entities.response.LogoutDataResponse;
 import com.afrAsia.entities.response.LogoutResponse;
+import com.afrAsia.entities.response.MessageHeader;
+import com.afrAsia.entities.response.RequestError;
 import com.afrAsia.service.AuthenticationService;
 import com.afrAsia.service.RMDetailsService;
+import com.afrAsia.dao.RMDetailsDao;
 
 /**
  * 
@@ -67,6 +78,8 @@ public class AuthenticationServiceImpl implements AuthenticationService
 	
 	private RMSessionDetailJpaDAO rmSessionDetailJpaDAO;
 	
+	private RMDetailsDao rmDetailsDAO;
+	
 	/* LDAP */
 	private String authenticationType;
 	
@@ -74,6 +87,14 @@ public class AuthenticationServiceImpl implements AuthenticationService
 	
 	private String contextFactory;
 	
+	
+	public RMDetailsDao getRmDetailsDAO() {
+		return rmDetailsDAO;
+	}
+
+	public void setRmDetailsDAO(RMDetailsDao rmDetailsDAO) {
+		this.rmDetailsDAO = rmDetailsDAO;
+	}
 	
 	public RMSessionDetailJpaDAO getRmSessionDetailJpaDAO() {
 		return rmSessionDetailJpaDAO;
@@ -152,7 +173,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
 	}
 
 	@Transactional(readOnly = false, rollbackFor = {Exception.class})
-	public LoginResponse login(LoginRequest loginRequest) 
+	public LoginResponse login(LoginRequest loginRequest) throws Exception
 	{
 		LoginResponse response = new LoginResponse();
 		LoginDataResponse responseData = new LoginDataResponse();
@@ -162,52 +183,68 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		String clientSecret = passwordEncoder.encode(loginDataRequest.getPassword());
 		String userType = loginDataRequest.getUserType();
 		
-		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(loginDataRequest); 
-		infoLog.info("clientDetails in login(),AuthenticationServiceImpl is : "+clientDetails);
-
-		RMDetails rmDetails;
 		
-		if (clientDetails == null)
-		{
-			rmDetails = customClientDetailsService.saveClientDetail(userId, userType,"rest_api", clientSecret, 
-					"standard_client", "client_credentials", null, "ROLE_USER", 
-					1800, 1800, null, null);	
+		if(tryLdapConnection(loginDataRequest.getUserId(),loginDataRequest.getPassword())){
+			ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(userId); 
+			infoLog.info("clientDetails in login(),AuthenticationServiceImpl is : "+clientDetails);
+
+			RMDetails rmDetails;
+			
+			if (clientDetails == null)
+			{
+				rmDetails = customClientDetailsService.saveClientDetail(userId, userType,"rest_api", clientSecret, 
+						"standard_client", "client_credentials", null, "ROLE_USER", 
+						1800, 1800, null, null);	
+			}
+			else{
+				LogoutRequest logOutRequest = new LogoutRequest();
+				LogoutDataRequest logoutDataRequest = new LogoutDataRequest();
+				logoutDataRequest.setDeviceId(loginDataRequest.getDeviceId());
+				logoutDataRequest.setUserId(loginDataRequest.getUserId());
+				//logout(logOutRequest, oauthToken);
+				rmDetails = customClientDetailsService.getRMDetails(userId, userType);
+				infoLog.info("rmDetails in AuthenticationServiceImpl"+rmDetails);
+			}
+			
+			MobRmSessionDetail mobRmSessionDetail = new MobRmSessionDetail();
+			mobRmSessionDetail.setDeviceId(loginDataRequest.getDeviceId());
+			mobRmSessionDetail.setRmId(loginDataRequest.getUserId());		
+			mobRmSessionDetail.setCreatedDate(new Date());
+			mobRmSessionDetail.setCreatedBy(loginDataRequest.getUserId());
+			MobRmSessionDetail mobRmPreviousSession = rmSessionDetailJpaDAO.setLoginTime(mobRmSessionDetail);
+		 		
+	 		OAuth2AccessToken token = getTokenDetails(userId, clientSecret, "client_credentials");
+	 		
+			if(mobRmPreviousSession != null){
+				long millis = 0l;
+				if(mobRmPreviousSession.getCreatedDate()!=null)
+					millis=mobRmPreviousSession.getCreatedDate().getTime();
+				responseData.setLastLoginTime(millis);
+				if(mobRmPreviousSession.getCreatedDate()!=null)
+					responseData.setLastLoginTime(mobRmPreviousSession.getCreatedDate().getTime());
+				infoLog.info("Previous Session Details::" + mobRmPreviousSession.toString());
+			}
+			
+			responseData.setoAuthToken(token.getValue());
+			responseData.setRmName(rmDetails.getRmName());
+			responseData.setSuccess("true");
+			response.setData(responseData);
+			infoLog.info("response in login(),AuthenticationServiceImpl : "+response);	
+			return response;
 		}
 		else{
-			LogoutRequest logOutRequest = new LogoutRequest();
-			LogoutDataRequest logoutDataRequest = new LogoutDataRequest();
-			logoutDataRequest.setDeviceId(loginDataRequest.getDeviceId());
-			logoutDataRequest.setUserId(loginDataRequest.getUserId());
-//			logout(logOutRequest, oauthToken);
-			rmDetails = customClientDetailsService.getRMDetails(userId, userType);
-			infoLog.info("rmDetails in AuthenticationServiceImpl"+rmDetails);
+			MessageHeader msgHeader = new MessageHeader();
+			RequestError error = new RequestError();
+			error.setCd("403");
+			error.setCustomCode("ERR401");
+			error.setRsn("Login failed.");
+			msgHeader.setError(error);
+			response.setMsgHeader(msgHeader);
+			response.setData(null);
+			return response;
 		}
 		
-		MobRmSessionDetail mobRmSessionDetail = new MobRmSessionDetail();
-		mobRmSessionDetail.setDeviceId(loginDataRequest.getDeviceId());
-		mobRmSessionDetail.setRmId(loginDataRequest.getUserId());		
-		mobRmSessionDetail.setCreatedDate(new Date());
-		mobRmSessionDetail.setCreatedBy(loginDataRequest.getUserId());
-		MobRmSessionDetail mobRmPreviousSession = rmSessionDetailJpaDAO.setLoginTime(mobRmSessionDetail);
-	 		
- 		OAuth2AccessToken token = getTokenDetails(userId, clientSecret, "client_credentials");
- 		
-		if(mobRmPreviousSession != null){
-			long millis = 0l;
-			if(mobRmPreviousSession.getCreatedDate()!=null)
-				millis=mobRmPreviousSession.getCreatedDate().getTime();
-			responseData.setLastLoginTime(millis);
-			if(mobRmPreviousSession.getCreatedDate()!=null)
-				responseData.setLastLoginTime(mobRmPreviousSession.getCreatedDate().getTime());
-			infoLog.info("Previous Session Details::" + mobRmPreviousSession.toString());
-		}
 		
-		responseData.setoAuthToken(token.getValue());
-		responseData.setRmName(rmDetails.getRmName());
-		responseData.setSuccess("true");
-		response.setData(responseData);
-		infoLog.info("response in login(),AuthenticationServiceImpl : "+response);	
-		return response;
 	}
 
 	public LogoutResponse logout(LogoutRequest logoutRequest, String oauthToken) 
@@ -253,9 +290,78 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		OAuth2AccessToken token = tokenGranter.grant(grantType, request);
 		infoLog.info("token in getTokenDetails(),AuthenticationServiceImpl : "+token);
 		return token;
-}
+	}
 	
-	private boolean tryLdapConnection(String username, String password)
+	private boolean tryLdapConnection(String username, String password) throws Exception {
+		try {
+			Hashtable<String, String> env = new Hashtable<String, String>();
+
+			env.put(Context.INITIAL_CONTEXT_FACTORY, contextFactory);
+	        env.put(Context.PROVIDER_URL, url);
+	        env.put(Context.SECURITY_AUTHENTICATION, authenticationType);
+	        env.put(Context.SECURITY_PRINCIPAL, username);
+	        env.put(Context.SECURITY_CREDENTIALS, password);
+
+			LdapContext ctx = new InitialLdapContext(env, null);
+			ctx.setRequestControls(null);
+
+			NamingEnumeration<?> namingEnum = ctx.search("ou=AfrasiaBank Users,dc=afrasiabank,DC=local", "(memberOf=CN=G-RMMobile,OU=Groups,OU=AfrasiaBank Users,DC=afrasiabank,DC=local)", getSearchControls());	
+			
+			while (namingEnum != null && namingEnum.hasMoreElements())
+			{
+				SearchResult result = (SearchResult) namingEnum.next ();    
+	            Attributes attrs = result.getAttributes();
+	            String name = attrs.get("cn").toString();
+	            String mail = attrs.get("mail").toString();
+	 
+	            
+	            if(name.contains(username)){
+	            	System.out.println("Name matched" + name + "Mail" + mail);
+	            	name = name.substring(4);
+		            mail = mail.substring(6);
+	            	
+	            	/*Start: Code Added by Avisha to add RM's email ID, Mob No and flex ID on 05/09*/        	
+	    			RMDetails rmDetails = new RMDetails();
+	    			rmDetails.setId(username);
+	    			rmDetails.setRmName(name);
+	    			rmDetails.setRmEmailId(mail);
+	    			List<RMDetails> rmDetailsLst = rmDetailsDAO.getRMDetailListByRMId(username);
+	    			infoLog.info("RMDetailsList siz: "+rmDetailsLst.size());
+	    			if(rmDetailsLst!=null && rmDetailsLst.size()!=0)
+	    			{
+	    				rmDetails.setModifiedBy(username);
+	    				rmDetails.setModifiedDate(new Date(System.currentTimeMillis()));
+	    				rmDetailsDAO.updateRmDetails(rmDetails);
+	    			}
+	    			else
+	    			{
+	    				rmDetails.setCreatedBy(username);
+	    				rmDetails.setCreatedDate(new Date(System.currentTimeMillis()));
+	    				rmDetailsDAO.saveRmDetails(rmDetails);
+	    			}
+	    			/*End: Code Added by Avisha to add RM's email ID, Mob No and flex ID on 05/09*/
+
+	            	return true;
+	            	
+	            }       
+			}
+		} catch (Exception e) {
+			System.out.println("LDAP EXCEPTION" + e.getMessage());
+			e.printStackTrace();
+			throw new Exception();
+		}
+		throw new Exception();
+	}
+
+	private SearchControls getSearchControls() 
+	{
+		SearchControls searchControls = new SearchControls();
+		searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+		searchControls.setTimeLimit(30000);
+		return searchControls;
+	}
+	
+	private boolean tryLdapConnection1(String username, String password)
 	{
 		try
 		{

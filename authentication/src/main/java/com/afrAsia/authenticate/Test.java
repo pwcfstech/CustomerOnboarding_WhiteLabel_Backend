@@ -19,7 +19,7 @@ public class Test {
 			// execute blocks of code
 			isRequestSuccessful = true;
 			System.out.println("Done");
-			tryLdapConnection("RMTestmob1", "Qwerty@1234");
+			tryLdapConnection("RMTestmob1", "Password10");
 		} catch (Exception e) {
 			e.printStackTrace();
 			// show pop up
@@ -42,13 +42,24 @@ public class Test {
 			LdapContext ctx = new InitialLdapContext(env, null);
 			ctx.setRequestControls(null);
 
-			NamingEnumeration<?> namingEnum = ctx.search("ou=Datacenter,ou=AfrasiaBank Users,dc=afrasiabank,DC=local", "(objectclass=user)", getSearchControls());
+			NamingEnumeration<?> namingEnum = ctx.search("ou=AfrasiaBank Users,dc=afrasiabank,DC=local", "(memberOf=CN=G-RMMobile,OU=Groups,OU=AfrasiaBank Users,DC=afrasiabank,DC=local)", getSearchControls());	
 			
 			while (namingEnum != null && namingEnum.hasMoreElements())
 			{
 				SearchResult result = (SearchResult) namingEnum.next ();    
-	            Attributes attrs = result.getAttributes ();
-	            System.out.println(attrs.get("cn"));
+	            Attributes attrs = result.getAttributes();
+	            String nameT = attrs.get("cn").toString();
+	            String mailT = attrs.get("mail").toString();
+	            
+	            String name = nameT.substring(4);
+	            String mail = mailT.substring(6);
+	            
+	            
+	            if(name.contains(username)){
+	            	System.out.println("Name matched" + name + "Mail" + mail);
+	            	break;
+	            }
+	            
 			}
 		} catch (Exception e) {
 			System.out.println("LDAP EXCEPTION" + e.getMessage());

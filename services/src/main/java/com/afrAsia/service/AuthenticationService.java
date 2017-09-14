@@ -13,7 +13,7 @@ import com.afrAsia.entities.response.LogoutResponse;
  */
 public interface AuthenticationService 
 {
-	public LoginResponse login(LoginRequest loginRequest);
+	public LoginResponse login(LoginRequest loginRequest) throws Exception;
 	
 	public LogoutResponse logout(LogoutRequest logoutRequest, String oauthToken);
 	
