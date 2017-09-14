@@ -82,9 +82,7 @@ public class KYCServiceImpl implements KYCService {
 	 */
 	@Transactional(readOnly = false, rollbackFor = {Exception.class})
 	public KYCResponse uploadKYC(KYCDataRequest kycDataRequest, InputStream image) {
-		if (debugLog.isDebugEnabled()) {
-			debugLog.debug("Enter : KYCServiceuploadKYC()");
-		}
+		
 		KYCResponse response = new KYCResponse();
 		KYCDataResponse data = new KYCDataResponse();
 		if (this.validateKycRequest(kycDataRequest, image)) {
@@ -107,7 +105,7 @@ public class KYCServiceImpl implements KYCService {
 					lastName = mobApplicantPersonalDetail.getLastName();
 				}
 				
-				infoLog.info("appId : " + appId + ", applicantId : " + applicantId + ", docId : " + docId
+				debugLog.debug("appId : " + appId + ", applicantId : " + applicantId + ", docId : " + docId
 						+ ", ignorePrevious : " + ignorePrevious + ", isLastPage : " + isLastPage + ", noOfPages : "
 						+ noOfPages + ", currentPageNo : " + currentPageNo+", firstName : "+firstName+", lastName : "+lastName);
 				// Signature file format :
@@ -190,17 +188,11 @@ public class KYCServiceImpl implements KYCService {
 			msgHeader.setError(error);
 			response.setMsgHeader(msgHeader);
 			data.setSuccess("0");
-			if (debugLog.isDebugEnabled()) {
-				debugLog.debug("Invalid input data in uploadKYC()");
-			}
 			errorLog.error("Invalid input data in uploadKYC()");
 		}
 
 		response.setData(data);
-		if (debugLog.isDebugEnabled()) {
-			debugLog.debug("Exit : KYCServiceuploadKYC()");
-		}
-		infoLog.info("response in uploadKYC(),KYCServiceImpl : "+response);
+		debugLog.debug("response : "+response);
 		return response;
 	}
 
@@ -250,7 +242,7 @@ public class KYCServiceImpl implements KYCService {
 			}
 			
 		}
-		infoLog.info("isValid : " + isValid + " kycDataRequest : " + kycDataRequest + " image : " + image);
+		debugLog.debug("isValid : " + isValid + " kycDataRequest : " + kycDataRequest + " image : " + image);
 		return isValid;
 	}
 	
@@ -418,7 +410,7 @@ public class KYCServiceImpl implements KYCService {
 	 */
 	private void deleteFiles(File[] files) {
 		for (File f : files) {
-			infoLog.info("Deleted File name : " + f.getName());
+			debugLog.debug("Deleted File name : " + f.getName());
 			f.delete();
 		}
 	}
@@ -446,7 +438,7 @@ public class KYCServiceImpl implements KYCService {
 			} else {
 				img.setAbsolutePosition(50, PageSize.A4.getHeight() - 50 - img.getHeight());
 			}
-			infoLog.info("img.getHeight() : " + img.getHeight() + "img.getWidth() : " + img.getWidth());
+			debugLog.debug("img.getHeight() : " + img.getHeight() + "img.getWidth() : " + img.getWidth());
 			document.open();
 			document.add(img);
 		} finally {

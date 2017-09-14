@@ -1,8 +1,6 @@
 package com.afrAsia.service.impl;
 
 import java.security.SecureRandom;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -163,7 +161,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		String userType = loginDataRequest.getUserType();
 		
 		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(loginDataRequest); 
-		infoLog.info("clientDetails in login(),AuthenticationServiceImpl is : "+clientDetails);
+		debugLog.debug("clientDetails  : "+clientDetails);
 
 		RMDetails rmDetails;
 		
@@ -180,7 +178,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
 			logoutDataRequest.setUserId(loginDataRequest.getUserId());
 //			logout(logOutRequest, oauthToken);
 			rmDetails = customClientDetailsService.getRMDetails(userId, userType);
-			infoLog.info("rmDetails in AuthenticationServiceImpl"+rmDetails);
+			debugLog.debug("rmDetails :: "+rmDetails);
 		}
 		
 		MobRmSessionDetail mobRmSessionDetail = new MobRmSessionDetail();
@@ -199,14 +197,14 @@ public class AuthenticationServiceImpl implements AuthenticationService
 			responseData.setLastLoginTime(millis);
 			if(mobRmPreviousSession.getCreatedDate()!=null)
 				responseData.setLastLoginTime(mobRmPreviousSession.getCreatedDate().getTime());
-			infoLog.info("Previous Session Details::" + mobRmPreviousSession.toString());
+			debugLog.debug("Previous Session Details ::" + mobRmPreviousSession.toString());
 		}
 		
 		responseData.setoAuthToken(token.getValue());
 		responseData.setRmName(rmDetails.getRmName());
 		responseData.setSuccess("true");
 		response.setData(responseData);
-		infoLog.info("response in login(),AuthenticationServiceImpl : "+response);	
+		debugLog.debug("response  : "+response);	
 		return response;
 	}
 
@@ -219,7 +217,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		data.setSuccess(check + "");
 		
 		response.setData(data);
-		infoLog.info("response in logout(),AuthenticationServiceImpl : "+response);
+		debugLog.debug("response : "+response);
 		return response;
 	}
 
@@ -248,10 +246,9 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		
 		ClientCredentialsTokenGranter tokenGranter = new ClientCredentialsTokenGranter(tokenServices, customClientDetailsService, oAuth2RequestFactory);
 		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(rmId);
-		infoLog.info("clientDetails in getTokenDetails(),AuthenticationServiceImpl is : "+clientDetails);
 		TokenRequest request  = oAuth2RequestFactory.createTokenRequest(requestParameters, clientDetails);
 		OAuth2AccessToken token = tokenGranter.grant(grantType, request);
-		infoLog.info("token in getTokenDetails(),AuthenticationServiceImpl : "+token);
+		debugLog.debug("clientDetails : "+clientDetails+","+"token : "+token);
 		return token;
 }
 	

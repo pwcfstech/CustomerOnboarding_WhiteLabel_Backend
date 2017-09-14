@@ -1,22 +1,17 @@
 package com.afrAsia.authenticate.impl;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpOutputMessage;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpResponse;
-import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.error.OAuth2ExceptionRenderer;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.ServletWebRequest;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CustomOAuth2ExceptionRenderer.
  * 
@@ -27,6 +22,10 @@ public class CustomOAuth2ExceptionRenderer implements OAuth2ExceptionRenderer
 
     /** The Constant UNAUTHORIZED. */
     public static final String UNAUTHORIZED = "error=\"unauthorized\"";
+    
+    final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
 
     public void handleHttpEntityResponse(HttpEntity<?> responseEntity, ServletWebRequest webRequest) throws Exception
     {
@@ -122,6 +121,7 @@ public class CustomOAuth2ExceptionRenderer implements OAuth2ExceptionRenderer
     private HttpOutputMessage createHttpOutputMessage(NativeWebRequest webRequest) throws Exception
     {
         HttpServletResponse servletResponse = (HttpServletResponse) webRequest.getNativeResponse();
+        debugLog.debug("servletResponse :: "+servletResponse);
         return new ServletServerHttpResponse(servletResponse);
     }
 

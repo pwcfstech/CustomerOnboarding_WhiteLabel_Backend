@@ -172,7 +172,8 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 	public void updateMobRmAppRefId(Long appId, String rmId) {
 		
 		Query query = getEntityManager()
-				.createQuery("update MobRmAppRefId ma set ma.modifiedBy=:modifiedBy,ma.modifiedDate=:modifiedDate " + "where ma.id =:appid ");
+				.createQuery("update MobRmAppRefId ma set ma.modifiedBy=:modifiedBy,ma.modifiedDate=:modifiedDate " 
+		+ "where ma.id =:appid ");
 		query.setParameter("appid", appId);
 		query.setParameter("modifiedBy", rmId);
 		query.setParameter("modifiedDate", new Date());

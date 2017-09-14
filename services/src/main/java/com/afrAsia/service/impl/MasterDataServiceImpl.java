@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.afrAsia.dao.AccountTypeDao;
 import com.afrAsia.dao.AfrAsiaFirstDao;
+import com.afrAsia.dao.BankDao;
 import com.afrAsia.dao.jpa.AccountClassJpaDAO;
 import com.afrAsia.dao.jpa.CategoryMasterJpaDAO;
 import com.afrAsia.dao.jpa.CountryJpaDAO;
@@ -17,6 +18,7 @@ import com.afrAsia.dao.jpa.UIDTypeJpaDAO;
 import com.afrAsia.entities.masters.AccountClass;
 import com.afrAsia.entities.masters.AccountType;
 import com.afrAsia.entities.masters.AfrAsiaFirst;
+import com.afrAsia.entities.masters.Bank;
 import com.afrAsia.entities.masters.CategoryMaster;
 import com.afrAsia.entities.masters.Country;
 import com.afrAsia.entities.masters.Employment;
@@ -31,7 +33,7 @@ public class MasterDataServiceImpl implements MasterDataService {
 	final static Logger debugLog = Logger.getLogger("debugLogger");
 	final static Logger infoLog = Logger.getLogger("infoLogger");
 	final static Logger errorLog = Logger.getLogger("errorLogger");
-	
+
 	private AccountClassJpaDAO accountClassDAO;
 	private CategoryMasterJpaDAO categoryMasterDAO;
 	private CountryJpaDAO countryDAO;
@@ -42,6 +44,7 @@ public class MasterDataServiceImpl implements MasterDataService {
 	private UIDTypeJpaDAO uidTypeDAO;
 	private AccountTypeDao accountTypeDAO;
 	private AfrAsiaFirstDao afrAsiaFirstDAO;
+	private BankDao bankDAO;
 
 	public AccountClassJpaDAO getAccountClassDAO() {
 		return accountClassDAO;
@@ -107,46 +110,6 @@ public class MasterDataServiceImpl implements MasterDataService {
 		this.uidTypeDAO = uidTypeDAO;
 	}
 
-	public List<AccountClass> getAccountClass() {
-		infoLog.info("accountClassDAO.getAccountClass() in MasterDataServiceImpl : "+accountClassDAO.getAccountClass());
-		return accountClassDAO.getAccountClass();
-	}
-
-	public List<CategoryMaster> getCategoryList() {
-		infoLog.info("categoryMasterDAO.getCategoryList() in MasterDataServiceImpl : "+categoryMasterDAO.getCategoryList());
-		return categoryMasterDAO.getCategoryList();
-	}
-
-	public List<Country> getCountryList() {
-		infoLog.info("(List<Country>) countryDAO.getCountry() in MasterDataServiceImpl : "+(List<Country>) countryDAO.getCountry());
-		return (List<Country>) countryDAO.getCountry();
-	}
-
-	public List<Employment> getEmployment() {
-		infoLog.info("(List<Employment>) employmentDAO.getEmployment() in MasterDataServiceImpl : "+(List<Employment>) employmentDAO.getEmployment());
-		return (List<Employment>) employmentDAO.getEmployment();
-	}
-
-	public List<MaritalStatus> getMaritalStatus() {
-		infoLog.info("maritalStatusDAO.getMaritalStatus() in MasterDataServiceImpl : "+maritalStatusDAO.getMaritalStatus());
-		return maritalStatusDAO.getMaritalStatus();
-	}
-
-	public List<Prefix> getPrefix() {
-		infoLog.info("prefixDAO.getPrefix() in MasterDataServiceImpl : "+prefixDAO.getPrefix());
-		return prefixDAO.getPrefix();
-	}
-
-	public List<RMDetails> getRMDetails() {
-		infoLog.info("rmDetailsDAO.getRMDetails() in MasterDataServiceImpl : "+rmDetailsDAO.getRMDetails());
-		return rmDetailsDAO.getRMDetails();
-	}
-
-	public List<UIDType> getUIDType() {
-		infoLog.info("uidTypeDAO.getUIDType() in MasterDataServiceImpl : "+uidTypeDAO.getUIDType());
-		return uidTypeDAO.getUIDType();
-	}
-
 	public AccountTypeDao getAccountTypeDAO() {
 		return accountTypeDAO;
 	}
@@ -162,13 +125,67 @@ public class MasterDataServiceImpl implements MasterDataService {
 	public void setAfrAsiaFirstDAO(AfrAsiaFirstDao afrAsiaFirstDAO) {
 		this.afrAsiaFirstDAO = afrAsiaFirstDAO;
 	}
-	
+
 	public List<AccountType> getAccountType() {
 		return accountTypeDAO.getAccountType();
 	}
 
 	public List<AfrAsiaFirst> getAfrAsiaFirst() {
-		return afrAsiaFirstDAO.getAfrAsiaFirst();	
+		return afrAsiaFirstDAO.getAfrAsiaFirst();
+	}
+
+	public BankDao getBankDAO() {
+		return bankDAO;
+	}
+
+	public void setBankDAO(BankDao bankDAO) {
+		this.bankDAO = bankDAO;
+	}
+
+	public List<AccountClass> getAccountClass() {
+		debugLog.debug("accountClassDAO.getAccountClass()  " + accountClassDAO.getAccountClass());
+		return accountClassDAO.getAccountClass();
+	}
+
+	public List<CategoryMaster> getCategoryList() {
+		debugLog.debug("categoryMasterDAO.getCategoryList()  " + categoryMasterDAO.getCategoryList());
+		return categoryMasterDAO.getCategoryList();
+	}
+
+	public List<Country> getCountryList() {
+		debugLog.debug("(List<Country>) countryDAO.getCountry()  " + (List<Country>) countryDAO.getCountry());
+		return (List<Country>) countryDAO.getCountry();
+	}
+
+	public List<Employment> getEmployment() {
+		debugLog.debug("(List<Employment>) employmentDAO.getEmployment()  "
+				+ (List<Employment>) employmentDAO.getEmployment());
+		return (List<Employment>) employmentDAO.getEmployment();
+	}
+
+	public List<MaritalStatus> getMaritalStatus() {
+		debugLog.debug("maritalStatusDAO.getMaritalStatus()  " + maritalStatusDAO.getMaritalStatus());
+		return maritalStatusDAO.getMaritalStatus();
+	}
+
+	public List<Prefix> getPrefix() {
+		debugLog.debug("prefixDAO.getPrefix()  " + prefixDAO.getPrefix());
+		return prefixDAO.getPrefix();
+	}
+
+	public List<RMDetails> getRMDetails() {
+		debugLog.debug("rmDetailsDAO.getRMDetails()  " + rmDetailsDAO.getRMDetails());
+		return rmDetailsDAO.getRMDetails();
+	}
+
+	public List<UIDType> getUIDType() {
+		debugLog.debug("uidTypeDAO.getUIDType()  " + uidTypeDAO.getUIDType());
+		return uidTypeDAO.getUIDType();
+	}
+
+	public List<Bank> getBankList() {
+		debugLog.debug("bankDAO.getBank()  " + bankDAO.getBank());
+		return (List<Bank>) bankDAO.getBank();
 	}
 
 }

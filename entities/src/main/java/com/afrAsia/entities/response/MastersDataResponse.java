@@ -47,26 +47,19 @@ public class MastersDataResponse implements Serializable {
 
 		private List<Title> title;
 
-		private List <UIDType> uidType;
+		private List<UIDType> uidType;
 
 		private List<MaritalStatus> maritalStatus;
 
 		private List<Employment> employment;
 
 		private List<RMDetails> rmDetails;
-		
+
 		private List<AccountType> accountType;
-		
+
 		private List<AfrAsiaFirst> afrAsiaFirst;
-		
-		
-		@Override
-		public String toString() {
-			return "Data [country=" + country + ", category=" + category + ", accountClass=" + accountClass + ", title="
-					+ title + ", uidType=" + uidType + ", maritalStatus=" + maritalStatus + ", employment=" + employment
-					+ ", rmDetails=" + rmDetails + ", accountType=" + accountType + ", afrAsiaFirst=" + afrAsiaFirst
-					+ "]";
-		}
+
+		private List<Bank> bank;
 
 		public List<Country> getCountry() {
 			return country;
@@ -148,6 +141,22 @@ public class MastersDataResponse implements Serializable {
 			this.afrAsiaFirst = afrAsiaFirst;
 		}
 
+		public List<Bank> getBank() {
+			return bank;
+		}
+
+		public void setBank(List<Bank> bank) {
+			this.bank = bank;
+		}
+
+		@Override
+		public String toString() {
+			return "Data [country=" + country + ", category=" + category + ", accountClass=" + accountClass + ", title="
+					+ title + ", uidType=" + uidType + ", maritalStatus=" + maritalStatus + ", employment=" + employment
+					+ ", rmDetails=" + rmDetails + ", accountType=" + accountType + ", afrAsiaFirst=" + afrAsiaFirst
+					+ ", bank=" + bank + "]";
+		}
+
 		public class Country implements Serializable {
 
 			private static final long serialVersionUID = 1L;
@@ -155,7 +164,7 @@ public class MastersDataResponse implements Serializable {
 			private String description;
 			private String callingCode;
 			private String dialingCode;
-			
+
 			public String getCountryCode() {
 				return countryCode;
 			}
@@ -190,10 +199,10 @@ public class MastersDataResponse implements Serializable {
 
 			@Override
 			public String toString() {
-				return "Country [countryCode=" + countryCode + ", description=" + description + ", callingCode=" + callingCode
-						+ ", dialingCode=" + dialingCode + "]";
+				return "Country [countryCode=" + countryCode + ", description=" + description + ", callingCode="
+						+ callingCode + ", dialingCode=" + dialingCode + "]";
 			}
-			
+
 		}
 
 		public class Category implements Serializable {
@@ -222,7 +231,7 @@ public class MastersDataResponse implements Serializable {
 			public String toString() {
 				return "Category [custCat=" + custCat + ", custCatDesc=" + custCatDesc + "]";
 			}
-			
+
 		}
 
 		public class AccountClass implements Serializable {
@@ -261,7 +270,6 @@ public class MastersDataResponse implements Serializable {
 				return "AccountClass [accountClass=" + accountClass + ", acClassType=" + acClassType + ", description="
 						+ description + "]";
 			}
-			
 
 		}
 
@@ -311,9 +319,6 @@ public class MastersDataResponse implements Serializable {
 						+ ", prefix3=" + prefix3 + "]";
 			}
 
-			
-			
-
 		}
 
 		public class UIDType implements Serializable {
@@ -333,7 +338,7 @@ public class MastersDataResponse implements Serializable {
 			public String toString() {
 				return "UIDType [typeValue=" + typeValue + "]";
 			}
-			
+
 		}
 
 		public class MaritalStatus implements Serializable {
@@ -362,7 +367,7 @@ public class MastersDataResponse implements Serializable {
 			public String toString() {
 				return "MaritalStatus [code=" + code + ", description=" + description + "]";
 			}
-			
+
 		}
 
 		public class Employment implements Serializable {
@@ -391,7 +396,7 @@ public class MastersDataResponse implements Serializable {
 			public String toString() {
 				return "Employment [description=" + description + ", code=" + code + "]";
 			}
-			
+
 		}
 
 		public class RMDetails implements Serializable {
@@ -420,19 +425,19 @@ public class MastersDataResponse implements Serializable {
 			public String toString() {
 				return "RMDetails [rmId=" + rmId + ", rmName=" + rmName + "]";
 			}
-			
+
 		}
-		
+
 		public class AccountType extends BaseMaster implements Serializable {
 
 			private static final long serialVersionUID = 1L;
 
 			private String id;
-			
+
 			private String name;
-			
+
 			private String nonResident;
-			
+
 			private String resident;
 
 			public String getId() {
@@ -469,10 +474,11 @@ public class MastersDataResponse implements Serializable {
 
 			@Override
 			public String toString() {
-				return "AccountType [id=" + id + ", name=" + name + ", nonResident=" + nonResident + ", resident=" + resident
-						+ "]";
+				return "AccountType [id=" + id + ", name=" + name + ", nonResident=" + nonResident + ", resident="
+						+ resident + "]";
 			}
-			}
+		}
+
 		public class AfrAsiaFirst extends BaseMaster implements Serializable {
 
 			private static final long serialVersionUID = 1L;
@@ -509,12 +515,39 @@ public class MastersDataResponse implements Serializable {
 
 			@Override
 			public String toString() {
-				return "AfrAsiaFirst [id=" + id + ", description=" + description + ", additionalField=" + additionalField + "]";
+				return "AfrAsiaFirst [id=" + id + ", description=" + description + ", additionalField="
+						+ additionalField + "]";
+			}
+		}
+
+		public class Bank implements Serializable {
+
+			private static final long serialVersionUID = 1L;
+
+			private String bankCode;
+			private String bankName;
+
+			public String getBankCode() {
+				return bankCode;
+			}
+
+			public void setBankCode(String bankCode) {
+				this.bankCode = bankCode;
+			}
+
+			public String getBankName() {
+				return bankName;
+			}
+
+			public void setBankName(String bankName) {
+				this.bankName = bankName;
+			}
+
+			@Override
+			public String toString() {
+				return "Bank [bankCode=" + bankCode + ", bankName=" + bankName + "]";
 			}
 
 		}
-
 	}
-
-	
 }

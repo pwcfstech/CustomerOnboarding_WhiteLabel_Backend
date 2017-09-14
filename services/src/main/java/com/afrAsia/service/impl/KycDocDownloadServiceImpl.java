@@ -26,7 +26,7 @@ public class KycDocDownloadServiceImpl implements KycDocDownloadService {
 	@Transactional(readOnly = false, rollbackFor = {Exception.class})
 	public String getKycDocPath(Long appRefId, Long applicantId, String docId) {
 		MobApplicantKycDocuments mobApplicantKycDoc = applicationDetailsDAO.getKycDocumentDetails(appRefId,applicantId,docId);
-		infoLog.info("KYC Table entry::" + mobApplicantKycDoc + "doc url" + mobApplicantKycDoc.getDocUrl());
+		debugLog.debug("KYC Table entry::" + mobApplicantKycDoc + "doc url" + mobApplicantKycDoc.getDocUrl());
 		return mobApplicantKycDoc.getDocUrl();
 	}
 }

@@ -70,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
 
 		// fetch from DB
 		List<Product> listOfProducts = (List<Product>) productDao.getProducts();
-		infoLog.info(" listOfProductsfrom DB in getProducts is : "+listOfProducts.toString());
+		debugLog.debug(" listOfProductsfrom DB  : "+listOfProducts.toString());
 		
 		List<Category> listOfCategoriesFromDB = (List<Category>) categoryDao.getCategories();
 
@@ -119,7 +119,7 @@ public class ProductServiceImpl implements ProductService {
 
 		}
 		response.setData(data);
-		infoLog.info(" response in getProducts is : "+response);
+		debugLog.debug(" response : "+response);
 		return response;
 	}
 
@@ -167,7 +167,7 @@ public class ProductServiceImpl implements ProductService {
 
 		dataResponse.setProductDetails(listProductDetailsResponse);
 		response.setData(dataResponse);
-		infoLog.info(" response in getProductById is : "+response);
+		debugLog.debug(" response :: "+response);
 		return response;
 	}
 

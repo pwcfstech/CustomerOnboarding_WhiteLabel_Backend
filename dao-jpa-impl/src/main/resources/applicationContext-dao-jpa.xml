@@ -34,6 +34,7 @@
 	<bean id="accountClassJpaDAO" class="com.afrAsia.dao.jpa.impl.AccountClassJpaDaoImpl" />
 	<bean id="categoryMasterJpaDAO" class="com.afrAsia.dao.jpa.impl.CategoryMasterJpaDaoImpl" />
 	<bean id="countryJpaDAO" class="com.afrAsia.dao.jpa.impl.CountryJpaDaoImpl" />
+	<bean id="bankJpaDAO" class="com.afrAsia.dao.jpa.impl.BankJpaDaoImpl" />
 	<bean id="employmentJpaDAO" class="com.afrAsia.dao.jpa.impl.EmploymentJpaDaoImpl" />
 	<bean id="maritalStatusJpaDAO" class="com.afrAsia.dao.jpa.impl.MaritalStatusJpaDaoImpl" />
 	<bean id="prefixJpaDAO" class="com.afrAsia.dao.jpa.impl.PrefixJpaDaoImpl" />

@@ -61,6 +61,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 		// 1. Get data from MobRMAppRefId
 		try {
 			MobRmAppRefId mobRmAppRefId = applicationDetailsDAO.getApplicationDetails(appRefNo);
+			debugLog.debug("mobRmAppRefId :: "+mobRmAppRefId);
 			if (mobRmAppRefId != null) {
 				// fetch record id from DB on the basis of the application reference number
 				MobAppRefRecordId mobAppRefRecordId=applicationDetailsDAO.getRecordId(appRefNo);
@@ -86,8 +87,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				return applicationDetailsResponse;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			errorLog.error("No data from mobRmAppRefId");
+			errorLog.error("The application number does not exist. Please check again",e);
 			Error err = new MsgHeader().new Error();
 			err.setRsn("The application number does not exist. Please check again");
 			err.setCd("404");
@@ -111,6 +111,8 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			}
 			data.setComments(comments);
 
+			debugLog.debug("data :: "+data);
+			
 			// 2. Get Basic account details
 			MobAccountDetail mobAccountDetail = applicationDetailsDAO.getMobAccountDetails(appRefNo);
 			if (mobAccountDetail != null) {
@@ -119,8 +121,8 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				accountDetails.setMop(mobAccountDetail.getMop());
 				accountDetails.setMinNoSignatures(mobAccountDetail.getMinNoSignatures());
 				accountDetails.setOperatingInst(mobAccountDetail.getOperatingInst());
-				infoLog.info("accountDetails in ApplicationDetailsServiceImpl" + accountDetails.toString());
-				infoLog.info("mobAccountDetail in ApplicationDetailsServiceImpl" + mobAccountDetail.toString());
+				debugLog.debug("accountDetails " + accountDetails.toString());
+				debugLog.debug("mobAccountDetail " + mobAccountDetail.toString());
 			} else {
 				errorLog.error("No data from mobAccountDetail");
 			}
@@ -179,8 +181,8 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				}
 
 				accountDetails.setNomineeInfo(nomineeInfo);
-				infoLog.info("accountDetails in ApplicationDetailsServiceImpl" + accountDetails.toString());
-				infoLog.info("mobAccountAddnDetail in ApplicationDetailsServiceImpl" + mobAccountAddnDetail.toString());
+				debugLog.debug("accountDetails " + accountDetails.toString());
+				debugLog.debug("mobAccountAddnDetail " + mobAccountAddnDetail.toString());
 			} else {
 				errorLog.error("No data from mobAccountAddnDetail");
 			}
@@ -287,7 +289,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			data.setAccountDetails(accountDetails);
 			data.setJointApplicants(jointApplicants);
 			applicationDetailsResponse.setData(data);
-			infoLog.info("applicationDetailsResponse in ApplicationDetailsServiceImpl is : "+applicationDetailsResponse);
+			debugLog.debug("applicationDetailsResponse  is : "+applicationDetailsResponse);
 			return applicationDetailsResponse;
 		} catch (Exception e) {
 			errorLog.error("Sorry, something went wrong when trying to retrive data for this application. Please try again"+ e.getMessage());
@@ -340,7 +342,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setSex(mobApplicantPersonalDetail.getSex());
 			primaryApplicantDetails.setSignatoryType(mobApplicantPersonalDetail.getSignatoryType());
 			primaryApplicantDetails.setIsHnwi(mobApplicantPersonalDetail.getIsHnwi());
-			infoLog.info("mobApplicantPersonalDetail in ApplicationDetailsServiceImpl" + mobApplicantPersonalDetail.toString());
+			debugLog.debug("mobApplicantPersonalDetail " + mobApplicantPersonalDetail.toString());
 		} else {
 			errorLog.error("No data from mobApplicantPersonalDetail "+ forWhom);
 		}
@@ -367,7 +369,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setMobNoCountryCode(mobApplicantCommDetail.getMobNoCc());
 			primaryApplicantDetails.setFaxNo(mobApplicantCommDetail.getFaxNo());
 			primaryApplicantDetails.setFaxNoCallingCode(mobApplicantCommDetail.getFaxNoCc());
-			infoLog.info("mobApplicantCommDetail in ApplicationDetailsServiceImpl" + mobApplicantCommDetail.toString());
+			debugLog.debug("mobApplicantCommDetail " + mobApplicantCommDetail.toString());
 		} else {
 			errorLog.error("No data from mobApplicantPersonalDetail "+ forWhom);
 		}
@@ -396,7 +398,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setAnnualCashWithdrawl(mobApplicantEmploymentDtl.getAnnCashWithdrawl());
 			primaryApplicantDetails.setOtherIncomeSource(mobApplicantEmploymentDtl.getOtherSourcesIncome());
 			primaryApplicantDetails.setFundSources(mobApplicantEmploymentDtl.getFundSources());
-			infoLog.info("mobApplicantAdditionalDtl in ApplicationDetailsServiceImpl" + mobApplicantEmploymentDtl.toString());
+			debugLog.debug("mobApplicantAdditionalDtl " + mobApplicantEmploymentDtl.toString());
 		} else {
 			errorLog.error("No data from mobApplicantPersonalDetail "+ forWhom);
 		}
@@ -424,7 +426,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setCrsTin1(mobApplicantAdditionalDtl.getTin1());
 			primaryApplicantDetails.setCrsTin2(mobApplicantAdditionalDtl.getTin2());
 			primaryApplicantDetails.setCrsTin3(mobApplicantAdditionalDtl.getTin3());
-			infoLog.info("mobApplicantAdditionalDtl in ApplicationDetailsServiceImpl" + mobApplicantAdditionalDtl.toString());
+			debugLog.debug("mobApplicantAdditionalDtl " + mobApplicantAdditionalDtl.toString());
 		} else {
 			errorLog.error("No data from mobApplicantPersonalDetail " + forWhom);
 		}
@@ -447,7 +449,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setKycInfo(null);
 		}
 
-		infoLog.info("APPLICANT DETAILS" + primaryApplicantDetails.toString());
+		debugLog.debug("APPLICANT DETAILS" + primaryApplicantDetails.toString());
 		return primaryApplicantDetails;
 	}
 }

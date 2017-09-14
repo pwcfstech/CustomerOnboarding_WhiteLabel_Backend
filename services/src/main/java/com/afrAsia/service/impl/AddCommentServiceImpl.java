@@ -47,7 +47,7 @@ public class AddCommentServiceImpl implements AddCommentService {
 		try {
 			createdDate = inputFormatter.parse(input);
 		} catch (ParseException e1) {
-			errorLog.error(" ParseException : "+e1.getMessage());
+			errorLog.error(" ParseException for createdDate : ",e1);
 		}
 
 		String modifiedBy = null;
@@ -57,7 +57,7 @@ public class AddCommentServiceImpl implements AddCommentService {
 		try {
 			modifiedDate = inputFormatter.parse(input1);
 		} catch (ParseException e) {
-			infoLog.info(" ParseException : "+e.getMessage());
+			errorLog.error(" ParseException for modifiedDate : ",e);
 		}
 
 		GenericResponse genericResponse = new GenericResponse();
@@ -70,6 +70,8 @@ public class AddCommentServiceImpl implements AddCommentService {
 		mobComments.setCommentedAddedBy(rmId);
 
 		List<Long> appids = addCommentDao.getAppId(appId);
+		debugLog.debug("appids :: "+appids);
+		
 		ApplicationReference applicationReference1 = new ApplicationReference();
 
 		for (Long object : appids) {
@@ -102,6 +104,7 @@ public class AddCommentServiceImpl implements AddCommentService {
 					return genericResponse;
 				}	*/
 				catch(NoResultException excpMessage){
+					errorLog.error("excpMessage :: "+excpMessage);
 					MessageHeader messageHeader = new MessageHeader();
 					RequestError requestError = new RequestError();
 					requestError.setRsn("requested app id is not present , please pass another id");

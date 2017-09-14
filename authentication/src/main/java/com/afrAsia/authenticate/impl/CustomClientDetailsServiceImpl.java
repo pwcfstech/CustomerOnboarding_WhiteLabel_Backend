@@ -2,7 +2,6 @@ package com.afrAsia.authenticate.impl;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -11,7 +10,6 @@ import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
 
 import com.afrAsia.authenticate.CustomClientDetailsService;
-import com.afrAsia.authenticate.LdapGroup;
 import com.afrAsia.authenticate.ldap.PersonRepoImpl;
 import com.afrAsia.dao.OAuthAuthorizationDAO;
 import com.afrAsia.dao.RMDetailsDao;
@@ -138,14 +136,14 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 			//        		throw new ClientRegistrationException("No client with ID in LDAP.");
 			//        	}
 			OauthAuthorization oauthAuthorization = oAuthAuthorizationDAO.loadClientByClientId(clientId);
-			infoLog.info(" oauthAuthorization in loadClientByClientId(),CustomClientDetailsServiceImpl"+oauthAuthorization);
+			debugLog.debug(" oauthAuthorization "+oauthAuthorization);
 			CustomOauthAuthorization customOauthAuthorization = null;
 			if (oauthAuthorization != null)
 			{
 				customOauthAuthorization = new CustomOauthAuthorization(oauthAuthorization.getClient().getId(), oauthAuthorization.getResourceIds(), oauthAuthorization.getClientSecret(),
 						oauthAuthorization.getScope(), oauthAuthorization.getAuthorizedGrantTypes(), oauthAuthorization.getAuthorities(), oauthAuthorization.getAccessTokenValidity());
 			}
-			infoLog.info("customOauthAuthorization in loadClientByClientId(),CustomClientDetailsServiceImpl"+customOauthAuthorization);
+			debugLog.debug("customOauthAuthorization "+customOauthAuthorization);
 			return customOauthAuthorization;
 		}
 		catch (Exception e)
@@ -157,7 +155,7 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 
 	public RMDetails getRMDetails(String clientId, String clientType){
 		RMDetails rmDetails = rmDetailsDAO.getRMDetailById(clientId, clientType);
-		infoLog.info("rmDetails in getRMDetails(),CustomClientDetailsServiceImpl"+rmDetails);
+		debugLog.debug("rmDetails "+rmDetails);
 		return rmDetails;
 	}
 
@@ -193,7 +191,7 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 			rmDetails.setRmName("NAME");
 			//rmDetails.setRmEmailId(personMap.get(PersonRepoImpl.LDAP_EMAIL_ATTRIBUTE));
 			List<RMDetails> rmDetailsLst = rmDetailsDAO.getRMDetailListByRMId(loginDataRequest.getUserId());
-			infoLog.info("RMDetailsList siz: "+rmDetailsLst.size());
+			debugLog.debug("RMDetailsList siz: "+rmDetailsLst.size());
 			if(rmDetailsLst!=null && rmDetailsLst.size()!=0)
 			{
 				rmDetails.setModifiedBy(loginDataRequest.getUserId());

@@ -333,7 +333,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 		}
 		listOfComplianceApps.add(complianceApps);
 		complianceResponse.setData(listOfComplianceApps);
-		infoLog.info(
+		debugLog.debug(
 				"complianceResponse : " + complianceResponse.toString());
 		return complianceResponse;
 	}
@@ -436,15 +436,11 @@ public class ComplianceServiceImpl implements ComplianceService {
 				}
 
 				accountsCreated.setAppSubmittedDate(dateSubmitted);
-				infoLog.info("accountsCreated.toString() :: " + accountsCreated.toString());
 				listAccountsCreated.add(h, accountsCreated);
-				infoLog.info("listAccountsCreated :: " + listAccountsCreated.toString());
 				h++;
 				complianceApps.setAccountsCreated(listAccountsCreated);
-				infoLog.info("complianceApps :: " + complianceApps.toString());
 			}
 			listOfComplianceApps.add(complianceApps);
-			infoLog.info("listOfComplianceApps :: " + listOfComplianceApps.toString());
 		}
 		int k = 0;
 		if (appStatus.equalsIgnoreCase("Under Processing")) {
@@ -651,8 +647,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 			listOfComplianceApps.add(complianceApps);
 		}
 		complianceResponse.setData(listOfComplianceApps);
-		infoLog.info(
-				"complianceResponse in getDetailsByName() ComplianceServiceImpl : " + complianceResponse.toString());
+		debugLog.debug(
+				"complianceResponse  : " + complianceResponse.toString());
 		return complianceResponse;
 	}
 
@@ -970,8 +966,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 		}
 		
 		complianceResponse.setData(listOfComplianceApps);
-		infoLog.info(
-				"complianceResponse in getDetailsByDates() ComplianceServiceImpl : " + complianceResponse.toString());
+		debugLog.debug(
+				"complianceResponse :: " + complianceResponse.toString());
 		return complianceResponse;
 	}
 
@@ -1291,7 +1287,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 			listOfComplianceApps.add(complianceApps);
 		}
 		complianceResponse.setData(listOfComplianceApps);
-		infoLog.info("complianceResponse in getDetailsByAllCriteria() ComplianceServiceImpl : "
+		debugLog.debug("complianceResponse :: "
 				+ complianceResponse.toString());
 		return complianceResponse;
 	}

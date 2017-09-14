@@ -39,14 +39,13 @@ public class UserServiceImpl implements UserService
     {
         User u = new User();
         u.setName(name);
-        infoLog.info("user is saved in saveUser(), UserServiceImpl");
+        debugLog.debug("user is saved ");
         userDAO.persist(u);
     }
 
     public Collection<User> fetchUsers()
     {
-    	infoLog.info("user is fetched in fetchUsers(), UserServiceImpl");
+    	debugLog.debug("user is fetched ");
         return userDAO.findAll();
     }
-
 }

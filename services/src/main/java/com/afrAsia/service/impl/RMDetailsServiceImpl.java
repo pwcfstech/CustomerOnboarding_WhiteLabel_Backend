@@ -35,7 +35,7 @@ public class RMDetailsServiceImpl implements RMDetailsService
 		rmDetails.setCreatedBy(rmId);
 		rmDetails.setCreatedDate(new Date());
 		rmDetailsDao.saveRmDetails(rmDetails);
-		infoLog.info("rmDetails in saveRMDetails(),RMDetailsServiceImpl : "+rmDetails);
+		debugLog.debug("rmDetails :: "+rmDetails);
 		return rmDetails;
 	}
 }
