@@ -1,8 +1,6 @@
 package com.afrAsia.service.impl;
 
 import java.security.SecureRandom;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -26,7 +24,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.ClientDetails;
-import org.springframework.security.oauth2.provider.ClientRegistrationException;
 import org.springframework.security.oauth2.provider.TokenRequest;
 import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenGranter;
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
@@ -35,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.afrAsia.authenticate.CustomClientDetailsService;
 import com.afrAsia.dao.OAuthAuthorizationDAO;
+import com.afrAsia.dao.RMDetailsDao;
 import com.afrAsia.dao.jpa.RMSessionDetailJpaDAO;
 import com.afrAsia.entities.jpa.MobRmSessionDetail;
 import com.afrAsia.entities.masters.RMDetails;
@@ -51,7 +49,6 @@ import com.afrAsia.entities.response.MessageHeader;
 import com.afrAsia.entities.response.RequestError;
 import com.afrAsia.service.AuthenticationService;
 import com.afrAsia.service.RMDetailsService;
-import com.afrAsia.dao.RMDetailsDao;
 
 /**
  * 
@@ -183,9 +180,9 @@ public class AuthenticationServiceImpl implements AuthenticationService
 		String clientSecret = passwordEncoder.encode(loginDataRequest.getPassword());
 		String userType = loginDataRequest.getUserType();
 		
-		
 		if(tryLdapConnection(loginDataRequest.getUserId(),loginDataRequest.getPassword())){
 			ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(userId); 
+			OAuth2AccessToken token = getTokenDetails(userId, clientSecret, "client_credentials");
 			infoLog.info("clientDetails in login(),AuthenticationServiceImpl is : "+clientDetails);
 
 			RMDetails rmDetails;
@@ -201,7 +198,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
 				LogoutDataRequest logoutDataRequest = new LogoutDataRequest();
 				logoutDataRequest.setDeviceId(loginDataRequest.getDeviceId());
 				logoutDataRequest.setUserId(loginDataRequest.getUserId());
-				//logout(logOutRequest, oauthToken);
+				logout(logOutRequest, token.getValue());
 				rmDetails = customClientDetailsService.getRMDetails(userId, userType);
 				infoLog.info("rmDetails in AuthenticationServiceImpl"+rmDetails);
 			}
@@ -213,7 +210,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
 			mobRmSessionDetail.setCreatedBy(loginDataRequest.getUserId());
 			MobRmSessionDetail mobRmPreviousSession = rmSessionDetailJpaDAO.setLoginTime(mobRmSessionDetail);
 		 		
-	 		OAuth2AccessToken token = getTokenDetails(userId, clientSecret, "client_credentials");
+	 		token = getTokenDetails(userId, clientSecret, "client_credentials");
 	 		
 			if(mobRmPreviousSession != null){
 				long millis = 0l;
@@ -243,8 +240,6 @@ public class AuthenticationServiceImpl implements AuthenticationService
 			response.setData(null);
 			return response;
 		}
-		
-		
 	}
 
 	public LogoutResponse logout(LogoutRequest logoutRequest, String oauthToken) 
