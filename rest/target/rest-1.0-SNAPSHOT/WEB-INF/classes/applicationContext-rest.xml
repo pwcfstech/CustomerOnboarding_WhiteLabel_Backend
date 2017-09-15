@@ -90,14 +90,8 @@
 	<bean id="applicationDetailsRestService" class="com.afrAsia.rest.ApplicationDetailsRestService" >
 		<property name="applicationDetailsService" ref="applicationDetailsService" />
 	</bean>
-	
-	<bean id="mailProperties"
-    	class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
- 
-    	<property name="location" value="classpath:mail.properties" />
-	</bean>
 		
-	<!-- <util:properties id="mailProperties" location="classpath:mail.properties" ignore-resource-not-found="false" /> -->
+	<util:properties id="mailProperties" location="file:mail.properties" ignore-resource-not-found="false" />
 	<!--  	<context:property-placeholder location="classpath:mail.properties" />-->
 	<bean id="mailConfig" class="com.afrAsia.Utils.AfrAsiaMailConfig">
         <property name="mailhost" value="${mailhost}"/>    

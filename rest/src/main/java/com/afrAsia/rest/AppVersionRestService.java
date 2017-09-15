@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.CommonUtils;
+import com.afrAsia.Utils.AfrAsiaLogger;
 import com.afrAsia.entities.jpa.AppVersion;
 import com.afrAsia.entities.jpa.DeviceFootPrint;
 import com.afrAsia.entities.jpa.MsgHeader;
@@ -48,16 +49,18 @@ public class AppVersionRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAppversion(InputStream request) {
 		
-		infoLog.info("Entered in appversion Service");
-		debugLog.debug(" request of appversion Service :: "+request);
+		infoLog.info(" request in getAppversion(),AppVersionRestService is : "+request);
 		DeviceFootPrintReq deviceFootPrintReq=null;
 		try{
 			 deviceFootPrintReq= new ObjectMapper().readValue(request, DeviceFootPrintReq.class);
+		
 		}catch(Exception e){
-			errorLog.error(" Exception for deviceFootPrintReq  is :",e);
+			errorLog.error(" Exception for deviceFootPrintReq in getAppversion(),AppVersionRestService is :"+e.getMessage());
+			e.printStackTrace();
 			//AfrAsiaLogger.errorLog("error :", e);
 		}
 		DeviceFootPrintResponse deviceFootPrintResponse= new DeviceFootPrintResponse();
+		MsgHeader msgHeader= new MsgHeader();
 		Data data= new DeviceFootPrintResponse().new Data();
 		//AfrAsiaLogger.debugLog(""+deviceFootPrintReq.toString());
 		debugLog.debug("deviceFootPrintReq : "+deviceFootPrintReq.toString());
@@ -66,12 +69,11 @@ public class AppVersionRestService {
 			if (validateRequest(deviceFootPrintReq)) {
 				
 				String deviceId = deviceFootPrintReq.getData().getDeviceId();
-				debugLog.debug("deviceId :: "+deviceId);
 				DeviceFootPrint deviceFootPrint = null;
 				try{
 					deviceFootPrint = appVersionService.getDeviceFootPrint(deviceId);
 				}catch(Exception e){
-					errorLog.error(" Exception for deviceFootPrint  is :",e);
+					errorLog.error(" Exception for deviceFootPrint in getAppversion(),AppVersionRestService is :"+e.getMessage());
 				}
 				if (deviceFootPrint == null) {
 					deviceFootPrint = new DeviceFootPrint();
@@ -97,7 +99,6 @@ public class AppVersionRestService {
 				}else{
 					AppVersion latestAppVersion = appVersionService
 							.getLatestVersion(deviceFootPrintReq.getData().getOsName());
-					debugLog.debug("latestAppVersion :: "+latestAppVersion);
 					Date releaseDate = latestAppVersion.getReleaseDate();
 					Integer gracePeriod = latestAppVersion.getGracePeriod();
 					Integer actualGrace = gracePeriod;
@@ -108,14 +109,11 @@ public class AppVersionRestService {
 						actualGrace = (int) (diff / (1000l * 60L * 60L * 24L));
 						if (actualGrace <= 0) {
 							actualGrace = 0;
-							errorLog.error("PLEASE UPDATE YOUR APP TO LOGIN");
 							data.setAppUpgradeMessage("PLEASE UPDATE YOUR APP TO LOGIN");
 						} else {
-							infoLog.info("New APP IS AVAILABLE");
 							data.setAppUpgradeMessage("New APP IS AVAILABLE");
 						}
 					} else {
-						infoLog.info("New APP IS AVAILABLE");
 						data.setAppUpgradeMessage("New APP IS AVAILABLE");
 					}
 					data.setActiveVersionNo(latestAppVersion.getAppVersionId().getAppVersionId());
@@ -135,18 +133,17 @@ public class AppVersionRestService {
 				msgHeader.setError(error);*/
 			}
 		}catch(Exception e){
-			errorLog.error("Exception  is :",e);
+			errorLog.error("Exception in getAppversion(),AppVersionRestService is :"+e.getMessage());
+			e.printStackTrace();
 		}
 		//AppVersion appVersion = appVersionService.getLatestVersion("Android");
-		errorLog.error("Exit from app version service :");
-		debugLog.debug(" deviceFootPrintResponse  is : "+deviceFootPrintResponse);
+		infoLog.info(" deviceFootPrintResponse in getAppversion(),AppVersionRestService is : "+deviceFootPrintResponse);
 		return Response.ok(deviceFootPrintResponse, MediaType.APPLICATION_JSON).build();
 
 	}
 	
 	private DeviceFootPrint createDeviceFootPrintModel(DeviceFootPrintReq deviceFootPrintReq,
 			DeviceFootPrint deviceFootPrint) {
-		
 		deviceFootPrint.setDeviceId(deviceFootPrintReq.getData().getDeviceId());
 		deviceFootPrint.setDeviceName(deviceFootPrintReq.getData().getDeviceName());
 		deviceFootPrint.setDualSim(CommonUtils.dbEqBoolean(deviceFootPrintReq.getData().getDualSim()));
@@ -186,9 +183,9 @@ public class AppVersionRestService {
 		deviceFootPrint.setMnc(deviceFootPrintReq.getData().getMnc());
 		deviceFootPrint.setgSMsignalStrength(deviceFootPrintReq.getData().getgSMsignalStrength());
 		deviceFootPrint.setAppVersionId(deviceFootPrintReq.getData().getAppVersionId());
-		deviceFootPrint.setModifiedBy("Admin");
+		deviceFootPrint.setModifiedBy("Admin");// TODO Change
 		deviceFootPrint.setModifiedDate(new Date());
-		debugLog.debug("deviceFootPrint in createDeviceFootPrintModel(),AppVersionRestService is : "+deviceFootPrint);
+		infoLog.info("deviceFootPrint in createDeviceFootPrintModel(),AppVersionRestService is : ");
 		return deviceFootPrint;
 	}
 	private boolean validateRequest(DeviceFootPrintReq deviceFootPrintReq) {
@@ -200,10 +197,10 @@ public class AppVersionRestService {
 				&& CommonUtils.checkNullorBlank(deviceFootPrintReq.getData().getDeviceModelNo())
 				&& CommonUtils.checkNullorBlank(deviceFootPrintReq.getData().getDeviceManufacturer())
 				&& CommonUtils.checkNullorBlank(deviceFootPrintReq.getData().getConnectionMode())) {
-			infoLog.info("validateRequest() returning true");
+			infoLog.info("valid Request from Device Footprint");
 			return true;
 		} else {
-			errorLog.error("validateRequest() returning false");
+			errorLog.error("Invalid Request from Device Footprint ");
 			return false;
 		}
 	}

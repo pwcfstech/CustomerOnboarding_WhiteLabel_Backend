@@ -350,8 +350,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobAccountAdditionalDetail.setModifiedBy(accountCreationRequest.getData().getRmId());
 		mobAccountAdditionalDetail.setCreatedDate(new Date());
 		mobAccountAdditionalDetail.setModifiedDate(new Date());
-		mobAccountAdditionalDetail.setStmtDeliveryPo(accountDetails.getStmtDeliveryPo());
-		mobAccountAdditionalDetail.setStmtDeliveryEstmt(accountDetails.getStmtDeliveryEstmt());
+		mobAccountAdditionalDetail.setStmtDelivery(accountDetails.getStmtDelivery());
 		mobAccountAdditionalDetail.setStmtAddr1(accountDetails.getStmtAddr1());
 		mobAccountAdditionalDetail.setStmtAddr2(accountDetails.getStmtAddr2());
 		mobAccountAdditionalDetail.setStmtAddr3(accountDetails.getStmtAddr3());
@@ -1101,8 +1100,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobAccountAddnDetailsHist.setStmtAddr3(mobAccountAdditionalDetail.getStmtAddr3());
 		mobAccountAddnDetailsHist.setStmtCity(mobAccountAdditionalDetail.getStmtCity());
 		mobAccountAddnDetailsHist.setStmtCountry(mobAccountAdditionalDetail.getStmtCountry());
-		mobAccountAddnDetailsHist.setStmtDeliveryPo(mobAccountAdditionalDetail.getStmtDeliveryPo());
-		mobAccountAddnDetailsHist.setStmtDeliveryEstmt(mobAccountAdditionalDetail.getStmtDeliveryEstmt());
+		mobAccountAddnDetailsHist.setStmtDelivery(mobAccountAdditionalDetail.getStmtDelivery());
 		mobAccountAddnDetailsHist.setRequireChqBook(mobAccountAdditionalDetail.getRequireChqBook());
 		mobAccountAddnDetailsHist.setAfrasiaEventQues(mobAccountAdditionalDetail.getAfrasiaEventQues());
 		mobAccountAddnDetailsHist.setAfrasiaEventAns(mobAccountAdditionalDetail.getAfrasiaEventAns());

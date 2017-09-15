@@ -46,10 +46,8 @@ public class DTDPSRestService
     @Produces(MediaType.APPLICATION_XML)
     public DailyTxnDataListResponse getDigitalTransactions(@Context UriInfo uriInfo, @Context HttpHeaders httpHeader)
     {
-    	infoLog.info("Entered in getDigitalTransactions(),DTDPSRestService");
-    	debugLog.debug(" uriInfo :: "+uriInfo+" ,"+"httpHeader :: "+httpHeader);
-        
-    	DailyTxnDataListResponse listResponse = new DailyTxnDataListResponse();
+    	infoLog.info(" uriInfo in getDigitalTransactions(),DTDPSRestService is : "+uriInfo);
+        DailyTxnDataListResponse listResponse = new DailyTxnDataListResponse();
         int errorCode = -3;
 
         try
@@ -118,25 +116,23 @@ public class DTDPSRestService
         			}
         			catch(Exception e)
         			{
-        				errorLog.error(" ON_US_IND not parsable! ",e);
+        				e.printStackTrace();
+        				errorLog.error(" ON_US_IND not parsable!"+e.getMessage());
         			}
         		}
-        		debugLog.debug(" dateList :: "+dateList.toString()+" ,"+"userList :: "+userList.toString()
-				+" passwordList :: "+passwordList.toString()+" ,"+"onUsIndList :: "+onUsIndList.toString());
         	}
         	
             List<DailyTxnDataResponse> response = dtdpsService.fetchTransactions(date, onUsInd);
             listResponse.setTransactions(response);
-            debugLog.debug("listResponse :: "+listResponse);
+            
         } 
         catch (Exception e)
         {
-        	errorLog.error(" Exception in getDigitalTransactions(),DTDPSRestService is : ",e);
+        	errorLog.error(" Exception in getDigitalTransactions(),DTDPSRestService is : "+e.getMessage());
+            e.printStackTrace();
             listResponse.setErrorCode(errorCode);
-            debugLog.debug("ErrorCode in listResponse :: "+listResponse.getErrorCode());
         }
-        infoLog.info("Exit from getDigitalTransactions(),DTDPSRestService");
-        debugLog.debug("listResponse in getDigitalTransactions(),DTDPSRestService is : "+listResponse);
+        infoLog.info("listResponse in getDigitalTransactions(),DTDPSRestService is : "+listResponse);
         return listResponse;
     }
 }

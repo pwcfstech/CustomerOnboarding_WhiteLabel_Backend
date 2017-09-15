@@ -42,20 +42,22 @@ public class AddCommentRestService
 	@Path("/addComments")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addComments(String jsonInput) 
+	public Response getAppversion(String jsonInput) 
 	{
-		infoLog.info("Enter in addComments service");
-		debugLog.debug(" jsonInput for addComments service: "+jsonInput);
+		infoLog.info(" jsonInput in AddCommentRestService is : "+jsonInput);
 		GenericRequest req = new GenericRequest();
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			req = mapper.readValue(jsonInput, GenericRequest.class);
 		} catch (JsonParseException e) {
-			errorLog.error(" JsonParseException  is : ",e);
+			errorLog.error(" JsonParseException in AddCommentRestService is : "+e.getMessage());
+			e.printStackTrace();
 		} catch (JsonMappingException e) {
-			errorLog.error(" JsonMappingException  is : ",e);
+			errorLog.error(" JsonMappingException in AddCommentRestService is : "+e.getMessage());
+			e.printStackTrace();
 		} catch (IOException e) {
-			errorLog.error(" IOException  is : ",e);
+			errorLog.error(" IOException in AddCommentRestService is : "+e.getMessage());
+			e.printStackTrace();
 		}
 		
 		Long appId=req.getData().getAppId(); 
@@ -64,8 +66,8 @@ public class AddCommentRestService
 		String userCat=req.getData().getUserCat();
 		
 		GenericResponse genericResponse=addCommentService.addComments(appId, comments, userId, userCat);
-		infoLog.info("Exit from addComments service");
-		debugLog.debug(" genericResponse  is : "+genericResponse);
+		infoLog.info(" genericResponse in AddCommentRestService is : "+genericResponse);
 		return Response.ok(genericResponse, MediaType.APPLICATION_JSON).build();
+
 	}
 }

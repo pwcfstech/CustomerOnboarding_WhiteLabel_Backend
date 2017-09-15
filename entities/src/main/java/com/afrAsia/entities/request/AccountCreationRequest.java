@@ -116,8 +116,7 @@ public class AccountCreationRequest implements Serializable {
 		private String account;
 		private String accountType;
 		private String mop;
-		private Boolean stmtDeliveryPo;
-		private Boolean stmtDeliveryEstmt;
+		private String stmtDelivery;
 		private String stmtAddr1;
 		private String stmtAddr2;
 		private String stmtAddr3;
@@ -165,6 +164,12 @@ public class AccountCreationRequest implements Serializable {
 		}
 		public void setMop(String mop) {
 			this.mop = mop;
+		}
+		public String getStmtDelivery() {
+			return stmtDelivery;
+		}
+		public void setStmtDelivery(String stmtDelivery) {
+			this.stmtDelivery = stmtDelivery;
 		}
 		public String getStmtAddr1() {
 			return stmtAddr1;
@@ -346,37 +351,23 @@ public class AccountCreationRequest implements Serializable {
 		public void setNomineeInfo(List<NomineeInfo> nomineeInfo) {
 			this.nomineeInfo = nomineeInfo;
 		}
-		public Boolean getStmtDeliveryPo() {
-			return stmtDeliveryPo;
-		}
-		public void setStmtDeliveryPo(Boolean stmtDeliveryPo) {
-			this.stmtDeliveryPo = stmtDeliveryPo;
-		}
-		public Boolean getStmtDeliveryEstmt() {
-			return stmtDeliveryEstmt;
-		}
-		public void setStmtDeliveryEstmt(Boolean stmtDeliveryEstmt) {
-			this.stmtDeliveryEstmt = stmtDeliveryEstmt;
-		}
 		@Override
 		public String toString() {
 			return "AccountDetails [account=" + account + ", accountType=" + accountType + ", mop=" + mop
-					+ ", stmtDeliveryPo=" + stmtDeliveryPo + ", stmtDeliveryEstmt=" + stmtDeliveryEstmt + ", stmtAddr1="
-					+ stmtAddr1 + ", stmtAddr2=" + stmtAddr2 + ", stmtAddr3=" + stmtAddr3 + ", stmtCity=" + stmtCity
-					+ ", stmtCountry=" + stmtCountry + ", needCreditCard=" + needCreditCard + ", needGlobalCustody="
-					+ needGlobalCustody + ", needForexBanking=" + needForexBanking + ", needPrepaidCard="
-					+ needPrepaidCard + ", needInternetBanking=" + needInternetBanking + ", internetBankingUn="
-					+ internetBankingUn + ", otpOverEmail=" + otpOverEmail + ", otpOverSMS=" + otpOverSMS
-					+ ", pinViaSMS=" + pinViaSMS + ", pinViaPost=" + pinViaPost + ", prefCommMode=" + prefCommMode
-					+ ", whrDidYouHearAbtAfrAsia=" + whrDidYouHearAbtAfrAsia + ", agreeCommEmail=" + agreeCommEmail
-					+ ", agreeCommSMS=" + agreeCommSMS + ", optTransactionsThruEmail=" + optTransactionsThruEmail
-					+ ", authEmail1=" + authEmail1 + ", authEmail2=" + authEmail2 + ", authEmail3=" + authEmail3
-					+ ", optCallBackServices=" + optCallBackServices + ", afrasiaEventQues=" + afrasiaEventQues
-					+ ", afrasiaEventAns=" + afrasiaEventAns + ", requireChequeBook=" + requireChequeBook
-					+ ", minNoSignatures=" + minNoSignatures + ", operatingInst=" + operatingInst + ", nomineeInfo="
-					+ nomineeInfo + "]";
+					+ ", stmtDelivery=" + stmtDelivery + ", stmtAddr1=" + stmtAddr1 + ", stmtAddr2=" + stmtAddr2
+					+ ", stmtAddr3=" + stmtAddr3 + ", stmtCity=" + stmtCity + ", stmtCountry=" + stmtCountry
+					+ ", needCreditCard=" + needCreditCard + ", needGlobalCustody=" + needGlobalCustody
+					+ ", needForexBanking=" + needForexBanking + ", needPrepaidCard=" + needPrepaidCard
+					+ ", needInternetBanking=" + needInternetBanking + ", internetBankingUn=" + internetBankingUn
+					+ ", otpOverEmail=" + otpOverEmail + ", otpOverSMS=" + otpOverSMS + ", pinViaSMS=" + pinViaSMS
+					+ ", pinViaPost=" + pinViaPost + ", prefCommMode=" + prefCommMode + ", whrDidYouHearAbtAfrAsia="
+					+ whrDidYouHearAbtAfrAsia + ", agreeCommEmail=" + agreeCommEmail + ", agreeCommSMS=" + agreeCommSMS
+					+ ", optTransactionsThruEmail=" + optTransactionsThruEmail + ", authEmail1=" + authEmail1
+					+ ", authEmail2=" + authEmail2 + ", authEmail3=" + authEmail3 + ", optCallBackServices="
+					+ optCallBackServices + ", afrasiaEventQues=" + afrasiaEventQues + ", afrasiaEventAns="
+					+ afrasiaEventAns + ", requireChequeBook=" + requireChequeBook + ", minNoSignatures="
+					+ minNoSignatures + ", operatingInst=" + operatingInst + ", nomineeInfo=" + nomineeInfo + "]";
 		}
-		
 
 
 		}

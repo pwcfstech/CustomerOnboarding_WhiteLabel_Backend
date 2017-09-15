@@ -8,7 +8,9 @@ import org.apache.log4j.Logger;
 import com.afrAsia.dao.jpa.ApplicationDetailsJpaDAO;
 import com.afrAsia.entities.jpa.MsgHeader;
 import com.afrAsia.entities.jpa.MsgHeader.Error;
+import com.afrAsia.entities.request.ApplicantDetails;
 import com.afrAsia.entities.request.ApplicationDetailsReq;
+import com.afrAsia.entities.request.JointApplicants;
 import com.afrAsia.entities.request.KycInfo;
 import com.afrAsia.entities.request.NomineeInfo;
 import com.afrAsia.entities.response.ApplicantDetailsResponse;
@@ -19,7 +21,6 @@ import com.afrAsia.entities.response.ApplicationDetailsResponse.Data.Comments;
 import com.afrAsia.entities.response.JointApplicantsResponse;
 import com.afrAsia.entities.transactions.MobAccountAdditionalDetail;
 import com.afrAsia.entities.transactions.MobAccountDetail;
-import com.afrAsia.entities.transactions.MobAppRefRecordId;
 import com.afrAsia.entities.transactions.MobApplicantAdditionalDtl;
 import com.afrAsia.entities.transactions.MobApplicantCommDetail;
 import com.afrAsia.entities.transactions.MobApplicantEmploymentDtl;
@@ -63,10 +64,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			MobRmAppRefId mobRmAppRefId = applicationDetailsDAO.getApplicationDetails(appRefNo);
 			debugLog.debug("mobRmAppRefId :: "+mobRmAppRefId);
 			if (mobRmAppRefId != null) {
-				// fetch record id from DB on the basis of the application reference number
-				MobAppRefRecordId mobAppRefRecordId=applicationDetailsDAO.getRecordId(appRefNo);
 				data.setRefNo(mobRmAppRefId.getId());
-				data.setRecordId(mobAppRefRecordId.getRecordId());
 				data.setAppStatus(mobRmAppRefId.getAppStatus());
 				if(mobRmAppRefId.getCreatedDate()!=null)
 				{
@@ -131,8 +129,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			MobAccountAdditionalDetail mobAccountAddnDetail = applicationDetailsDAO
 					.getMobAccountAdditionalDetails(appRefNo);
 			if (mobAccountAddnDetail != null) {
-				accountDetails.setStmtDeliveryPo(mobAccountAddnDetail.getStmtDeliveryPo());
-				accountDetails.setStmtDeliveryEstmt(mobAccountAddnDetail.getStmtDeliveryEstmt());
+				accountDetails.setStmtDelivery(mobAccountAddnDetail.getStmtDelivery());
 				accountDetails.setStmtAddr1(mobAccountAddnDetail.getStmtAddr1());
 				accountDetails.setStmtAddr2(mobAccountAddnDetail.getStmtAddr2());
 				accountDetails.setStmtAddr3(mobAccountAddnDetail.getStmtAddr3());

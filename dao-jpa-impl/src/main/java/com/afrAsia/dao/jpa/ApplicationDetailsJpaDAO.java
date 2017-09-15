@@ -6,7 +6,6 @@ import com.afrAsia.dao.ApplicationDetailsDao;
 import com.afrAsia.entities.transactions.MobRmAppRefId;
 import com.afrAsia.entities.transactions.MobAccountAdditionalDetail;
 import com.afrAsia.entities.transactions.MobAccountDetail;
-import com.afrAsia.entities.transactions.MobAppRefRecordId;
 import com.afrAsia.entities.transactions.MobApplicantAdditionalDtl;
 import com.afrAsia.entities.transactions.MobApplicantCommDetail;
 import com.afrAsia.entities.transactions.MobApplicantEmploymentDtl;
@@ -21,7 +20,6 @@ public interface ApplicationDetailsJpaDAO extends ApplicationDetailsDao {
 	public MobAccountDetail getMobAccountDetails(Long appRefId);			
 	public MobAccountAdditionalDetail getMobAccountAdditionalDetails(Long appRefId);
 	public List<MobApplicantRecordId> getMobApplicantRecordId(Long appRefId);
-	public MobAppRefRecordId getRecordId(Long appRefId);
 	public MobApplicantPersonalDetail getMobApplicantPersonalDetails(Long appRefId, Long applicantId);
 	public MobApplicantCommDetail getMobApplicantCommDetails(Long appRefId, Long applicantId);
 	public MobApplicantEmploymentDtl getMobApplicantEmploymentDtl(Long appRefId, Long applicantId);				

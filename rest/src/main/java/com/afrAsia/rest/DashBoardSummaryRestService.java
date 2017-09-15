@@ -41,8 +41,7 @@ public class DashBoardSummaryRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAppversion(String jsonInput) {
 
-		infoLog.info("Entered in DashBoardSummary Service");
-		debugLog.debug(" jsonInput from Request in DashBoardSummary Service is : " + jsonInput);
+		infoLog.info(" jsonInput from Request in DashBoardSummaryRestService is : " + jsonInput);
 
 		DashboardRequest dashboardRequest = new DashboardRequest();
 
@@ -50,11 +49,14 @@ public class DashBoardSummaryRestService {
 		try {
 			dashboardRequest = mapper.readValue(jsonInput, DashboardRequest.class);
 		} catch (JsonParseException e) {
-			errorLog.error(" JsonParseException : " ,e);
+			errorLog.error(" JsonParseException : " + e.getMessage());
+			e.printStackTrace();
 		} catch (JsonMappingException e) {
-			errorLog.error(" JsonMappingException : " ,e);
+			errorLog.error(" JsonMappingException : " + e.getMessage());
+			e.printStackTrace();
 		} catch (IOException e) {
-			errorLog.error(" IOException : ",e);
+			errorLog.error(" IOException : " + e.getMessage());
+			e.printStackTrace();
 		}
 
 		String rmId = dashboardRequest.getRmId().toString();
@@ -63,13 +65,12 @@ public class DashBoardSummaryRestService {
 
 		if (dashBoardService.getDashBoardSummery(rmId) == null
 				|| dashBoardService.getDashBoardSummery(rmId).equals(null)) {
-			infoLog.info(" dashboardResponse is null ");
+			infoLog.info(" dashboardResponse is null : ");
 			dashboardResponse = null;
 		} else {
 			dashboardResponse = dashBoardService.getDashBoardSummery(rmId);
 		}
-		debugLog.debug(" dashboardResponse : " + dashboardResponse);
-		infoLog.info("Exit from DashBoardSummary Service");
+		infoLog.info(" dashboardResponse : " + dashboardResponse);
 		return Response.ok(dashboardResponse, MediaType.APPLICATION_JSON).build();
 	}
 }

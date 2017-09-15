@@ -3,8 +3,6 @@ package com.afrAsia.entities.jpa;
 import java.io.Serializable;
 
 public class MsgHeader implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
 	private Error error;
 	
 	

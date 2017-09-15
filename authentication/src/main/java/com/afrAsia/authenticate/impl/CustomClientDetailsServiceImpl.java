@@ -181,9 +181,9 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 			}
 
 			*//** Add RM Details to table **//*
-			infoLog.info("LDAP EMAIL" + personMap.get(PersonRepoImpl.LDAP_EMAIL_ATTRIBUTE));
-			infoLog.info("LDAP NAME" + personMap.get(PersonRepoImpl.LDAP_NAME_ATTRIBUTE));
-*/
+			debugLog.debug("LDAP EMAIL" + personMap.get(PersonRepoImpl.LDAP_EMAIL_ATTRIBUTE));
+			debugLog.debug("LDAP NAME" + personMap.get(PersonRepoImpl.LDAP_NAME_ATTRIBUTE));*/
+
 			/*Start: Code Added by Avisha to add RM's email ID, Mob No and flex ID on 05/09*/        	
 			RMDetails rmDetails = new RMDetails();
 			rmDetails.setId(loginDataRequest.getUserId());

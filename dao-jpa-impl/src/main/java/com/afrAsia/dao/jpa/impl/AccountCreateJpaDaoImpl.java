@@ -18,10 +18,12 @@ import com.afrAsia.entities.transactions.MobAppRefRecordId;
 import com.afrAsia.entities.transactions.MobApplAdditionalDtlsHist;
 import com.afrAsia.entities.transactions.MobApplCommDetailsHist;
 import com.afrAsia.entities.transactions.MobApplEmploymentDtlsHist;
+import com.afrAsia.entities.transactions.MobApplKycDocumentsHist;
 import com.afrAsia.entities.transactions.MobApplPersonalDetailsHist;
 import com.afrAsia.entities.transactions.MobApplicantAdditionalDtl;
 import com.afrAsia.entities.transactions.MobApplicantCommDetail;
 import com.afrAsia.entities.transactions.MobApplicantEmploymentDtl;
+import com.afrAsia.entities.transactions.MobApplicantKycDocuments;
 import com.afrAsia.entities.transactions.MobApplicantPersonalDetail;
 import com.afrAsia.entities.transactions.MobApplicantRecordId;
 import com.afrAsia.entities.transactions.MobApplicantRecordIdHist;
@@ -501,7 +503,7 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 				+ "ma.optTranEmail=:optTranemail,ma.otpEmail=:otpemail,ma.otpSms=:otpsms,ma.pinViaPost=:pinViapost, "
 				+ "ma.pinViaSms=:pinViasms,ma.prefCommMode=:prefCommmode,ma.prepaidCards=:prepaidcards,ma.stmtAddr1=:stmtaddr1, "
 				+ "ma.stmtAddr2=:stmtaddr2,ma.stmtAddr3=:stmtaddr3,ma.stmtCity=:stmtcity,ma.stmtCountry=:stmtcountry, "
-				+ "ma.stmtDeliveryPo=:stmtdeliveryPo,ma.stmtDeliveryEstmt=:stmtdeliveryEstmt,ma.requireChqBook=:requireChqbook,ma.afrasiaEventQues=:afrasiaEventques,ma.afrasiaEventAns=:afrasiaEventans "
+				+ "ma.stmtDelivery=:stmtdelivery,ma.requireChqBook=:requireChqbook,ma.afrasiaEventQues=:afrasiaEventques,ma.afrasiaEventAns=:afrasiaEventans "
 				+ "where ma.id =:appid ");
 		
 		query7.setParameter("appid", appId);
@@ -566,8 +568,7 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		query7.setParameter("stmtaddr3", accountDetails.getStmtAddr3());
 		query7.setParameter("stmtcity", accountDetails.getStmtCity());
 		query7.setParameter("stmtcountry", accountDetails.getStmtCountry());
-		query7.setParameter("stmtdeliveryPo", accountDetails.getStmtDeliveryPo());
-		query7.setParameter("stmtdeliveryEstmt", accountDetails.getStmtDeliveryEstmt());
+		query7.setParameter("stmtdelivery", accountDetails.getStmtDelivery());		
 		
 		if(accountDetails.getRequireChequeBook() == null){
 			//mobAccountAdditionalDetail.setRequireChqBook(false);
@@ -594,35 +595,6 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		query.setParameter("appid",appId);
 		query.executeUpdate();
 	}
-
-	public void updateRecordIdInMobApplCheck(Long appId, Long recordId) {
-		Query query = getEntityManager()
-				.createQuery("update MobApplCheck ma set ma.recordId =:recordId " + "where ma.id =:appid ");
-		query.setParameter("appid", appId);
-		query.setParameter("recordId", recordId);
-		query.executeUpdate();
-		
-	}
-
-	public void updateCommentInMobApplCheckComments(AccountCreationRequest accountCreationRequest) {
-		// update MobApplicationCompStatus	
-				Query query = getEntityManager().createQuery("update MobApplCheckComments ma set ma.rmId=:rmId,ma.rmComment=:rmComment,"
-						+ "ma.createdBy=:createdBy,ma.createdDate=:createdDate,ma.modifiedBy=:modifiedBy,ma.modifiedDate=:modifieddate "
-						+ "where ma.id =:appId and ma.recordId=:recordId");
-				
-				query.setParameter("rmId", accountCreationRequest.getData().getRmId());
-				query.setParameter("rmComment", accountCreationRequest.getData().getComment());
-				query.setParameter("createdBy", accountCreationRequest.getData().getRmId());
-				query.setParameter("createdDate", new Date());
-				query.setParameter("modifiedBy", accountCreationRequest.getData().getRmId());
-				query.setParameter("modifiedDate", new Date());
-				query.setParameter("appId", accountCreationRequest.getData().getAppRefNo());
-				query.setParameter("recordId", accountCreationRequest.getData().getRecordId());
-				
-				query.executeUpdate();
-		
-	}
-
 	public void storeIntoMobApplCheckHist(Long appId, Long recordId) {
 		Query query = getEntityManager().createQuery(
 				"INSERT INTO MobApplCheckHist (recordId,isAppLocked,lockedBy,kycDone,kycStatus,kycUrl,kycDoneBy,kycDate,"

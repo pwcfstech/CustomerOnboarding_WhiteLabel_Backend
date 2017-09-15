@@ -169,6 +169,7 @@ public class MasterDataRestService {
 
 			}
 			data.setUidType(uidTypeResList);
+
 			for (Bank bank : bankList) {
 				com.afrAsia.entities.response.MastersDataResponse.Data.Bank bankRes = new MastersDataResponse().new Data().new Bank();
 				bankRes.setBankCode(bank.getBankCode());
@@ -193,10 +194,10 @@ public class MasterDataRestService {
 			msgHeader1.setError(error);
 			mastersDataResponse.setMsgHeader(msgHeader1);
 			mastersDataResponse.setData(null);
-
 		}
 		infoLog.info("Exit from getMasters service");
 		debugLog.debug(" mastersDataResponse in getMasters service :: " + mastersDataResponse);
+
 		return Response.ok(mastersDataResponse, MediaType.APPLICATION_JSON).build();
 	}
 }

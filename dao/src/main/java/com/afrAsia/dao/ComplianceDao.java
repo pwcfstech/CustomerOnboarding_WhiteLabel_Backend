@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface ComplianceDao {
-
+	
 	public List<Object> getDetailsByAccountRejectedDefault();
 
 	public List<Object> getDetailsByAccountOpenedDefault();
@@ -30,5 +30,5 @@ public interface ComplianceDao {
 	public List<Object> getDetailsByUnderProcessingAllCriteria(String name, Date startDate, Date endDate);
 
 	public void updateErrorMessage(Long id, Long recordId);
-
+	
 }

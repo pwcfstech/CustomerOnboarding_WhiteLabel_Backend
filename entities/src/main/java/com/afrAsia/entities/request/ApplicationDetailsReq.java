@@ -3,9 +3,6 @@ package com.afrAsia.entities.request;
 import java.io.Serializable;
 
 public class ApplicationDetailsReq implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
-	
 	private ApplicationDetailsReq.Data data;
 
 	public ApplicationDetailsReq.Data getData() {

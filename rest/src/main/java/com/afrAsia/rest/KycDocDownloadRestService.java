@@ -52,10 +52,7 @@ public class KycDocDownloadRestService {
 	public Response getKyCDoc(KycDocDownloadRequest kycDocDownloadRequest) {
 		// write model in the and user getter method extract the key e.g model.getkey()
 		// user service.getDocument( pass the key) path and set the path in filePath variable
-		
-		infoLog.info("Entered in getKyCDoc Service");
-		debugLog.debug(" kycDocDownloadRequest in getKyCDoc Service is : "+kycDocDownloadRequest);
-		
+		infoLog.info(" kycDocDownloadRequest in getKyCDoc(),KycDocDownloadRestService is : "+kycDocDownloadRequest);
 		String filepath = kycDocDownloadService.getKycDocPath(kycDocDownloadRequest.getData().getRefNo(), kycDocDownloadRequest.getData().getApplicantRefNo(),kycDocDownloadRequest.getData().getDocId());
 
 		//String filepath="C:/Users/nehac038/Documents/NehaDocsPersonal/ToPrint/Fitness.pdf";
@@ -63,7 +60,6 @@ public class KycDocDownloadRestService {
 		String fileName=filepath.substring(filepath.lastIndexOf("/")+1, filepath.length());
 		String downLoadfileName = "attachment; filename=" + fileName;
 
-		debugLog.debug("filepath :: "+filepath+", "+"fileName :: "+fileName+","+"downLoadfileName :: "+downLoadfileName);
 		// way 1 :  using octet stream
 		/*StreamingOutput rsFileStream= new StreamingOutput() {
 
@@ -94,11 +90,10 @@ public class KycDocDownloadRestService {
 		try{
 			File targetFile=new File(filepath);
 			ResponseBuilder response = Response.ok((Object) targetFile);
-			infoLog.info("Exit from getKyCDoc(),KycDocDownloadRestService");
 			return response.header("content-disposition",downLoadfileName)
 					.build();
 		}catch(Exception e){
-			errorLog.error(" Exception occoured in getKyCDoc(),KycDocDownloadRestService ",e);
+			errorLog.error(" Exception occoured in getKyCDoc(),KycDocDownloadRestService "+e.getMessage());
 			return Response.serverError().build();
 		}	
 	}

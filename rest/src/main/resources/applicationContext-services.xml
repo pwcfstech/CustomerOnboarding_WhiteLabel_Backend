@@ -93,6 +93,7 @@
 		<property name="oAuth2RequestFactory" ref="oAuth2RequestFactory" />
 		<property name="customClientDetailsService" ref="clientDetails" />
 		<property name="rmSessionDetailJpaDAO" ref="rmSessionDetailJpaDAO" />
+		<property name="rmDetailsDAO" ref="rmDetailsJpaDAO" />
 		<property name="url" value="#{ldapProperties[ldapUrl]}" />
 		<property name="authenticationType" value="#{ldapProperties[ldapAuthenticationType]}" />
 		<property name="contextFactory" value="#{ldapProperties[ldapContextFactory]}" />

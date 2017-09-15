@@ -41,18 +41,14 @@ public class ApplicationDetailsRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getApplicationDetails(ApplicationDetailsReq applicationDetailsReq) {
-		
-		infoLog.info("We have entered in getApplicationDetails service");
-		debugLog.debug(" applicationDetailsReq in getApplicationDetails service is : "+applicationDetailsReq);
+		infoLog.info(" applicationDetailsReq in getApplicationDetails(),ApplicationDetailsRestService is : "+applicationDetailsReq);
 		ApplicationDetailsResponse applicationDetailsResponse = new ApplicationDetailsResponse();
 		MsgHeader msgHeader= new MsgHeader();
 		try{
 			if (validateRequest(applicationDetailsReq)) {
 				applicationDetailsResponse = applicationDetailsService.getApplicationDetails(applicationDetailsReq);
-				debugLog.debug("applicationDetailsResponse  :: "+applicationDetailsResponse);
 				
 				if (applicationDetailsResponse!=null) {
-					infoLog.info("Exit from getApplicationDetails service");
 					return Response.ok(applicationDetailsResponse, MediaType.APPLICATION_JSON).build();
 				}
 				else{
@@ -63,12 +59,12 @@ public class ApplicationDetailsRestService {
 					msgHeader.setError(error);
 					applicationDetailsResponse = new ApplicationDetailsResponse();
 					applicationDetailsResponse.setMsgHeader(msgHeader);
-					errorLog.error(" applicationDetailsResponse  : "+applicationDetailsResponse);
+					errorLog.error(" applicationDetailsResponse in getApplicationDetails(),ApplicationDetailsRestService : "+applicationDetailsResponse);
 					return Response.ok(applicationDetailsResponse, MediaType.APPLICATION_JSON).build();
 				}
 			}
 			else{
-				errorLog.error(" Invalid request ");
+				errorLog.error(" Invalid request in getApplicationDetails(),ApplicationDetailsRestService");
 				Error error = new MsgHeader(). new Error();
 				error.setCd("404");
 				error.setRsn("Invalid Request");
@@ -77,7 +73,7 @@ public class ApplicationDetailsRestService {
 				return Response.ok(applicationDetailsResponse, MediaType.APPLICATION_JSON).build();	
 			}
 		}catch(Exception e){
-			errorLog.error(" Sorry, there was an error while getting application details. Please try again later "+e);
+			errorLog.error(" Sorry, there was an error while getting application details. Please try again later ");
 			e.printStackTrace();
 			Error error = new MsgHeader(). new Error();
 			error.setCd("404");

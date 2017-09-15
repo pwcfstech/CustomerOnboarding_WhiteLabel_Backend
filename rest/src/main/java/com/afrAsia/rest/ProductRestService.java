@@ -44,17 +44,14 @@ public class ProductRestService
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProdList() 
 	{
-		infoLog.info("Enter in getProdCatListApp service");
 		GenericResponse genericResponse=null;
 		if(productService.getProducts()==null){
-			debugLog.debug("genericResponse is null");
 		genericResponse=null;
 		}
 		else{
 		genericResponse=productService.getProducts();
 		}
-		debugLog.debug(" genericResponse : getProdCatListApp Service :: "+genericResponse);
-		infoLog.info("Exit from getProdCatListApp service");
+		infoLog.info(" genericResponse in getProdList(),,ProductRestService.java is : "+genericResponse);
 		return Response.ok(genericResponse, MediaType.APPLICATION_JSON).build();
 
 	}
@@ -65,23 +62,24 @@ public class ProductRestService
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProdDetails(String jsonInput) 
 	{
-		infoLog.info("Enter in getProdDetails service");
-		debugLog.debug(" jsonInput from Request in getProdDetails Service :: "+jsonInput);
+		infoLog.info(" jsonInput from Request in getProdDetails(),ProductRestService.java is : "+jsonInput);
 		GenericRequest req = new GenericRequest();
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			req = mapper.readValue(jsonInput, GenericRequest.class);
 		} catch (JsonParseException e) {
-			errorLog.error(" JsonParseException : ",e);
+			errorLog.error(" JsonParseException : "+e.getMessage());
+			e.printStackTrace();
 		} catch (JsonMappingException e) {
-			errorLog.error(" JsonMappingException : ",e);
+			errorLog.error(" JsonMappingException : "+e.getMessage());
+			e.printStackTrace();
 		} catch (IOException e) {
-			errorLog.error(" IOException : ",e);
+			errorLog.error(" IOException : "+e.getMessage());
+			e.printStackTrace();
 		}
 		String id=req.getData().getProductID(); 
 		GenericResponse genericResponse=productService.getProductById(Long.parseLong(id));
-		debugLog.debug(" genericResponse : getProdDetails Service :: "+genericResponse);
-		infoLog.info("Exit from getProdDetails service");
+		infoLog.info(" genericResponse in getProdDetails(),ProductRestService.java is : "+genericResponse);
 		return Response.ok(genericResponse, MediaType.APPLICATION_JSON).build();
 	}
 }
