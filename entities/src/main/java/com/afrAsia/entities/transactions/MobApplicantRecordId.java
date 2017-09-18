@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
 
 public class MobApplicantRecordId implements Serializable {
 
-	private static final Long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@SequenceGenerator(name="MOB_APPLICANT_RECORD_ID_APPLICANTID_GENERATOR", sequenceName="AA_APPLICANT_SEQUENCE")

@@ -56,6 +56,7 @@
 		<property name="accountClassDAO" ref="accountClassJpaDAO" />
 		<property name="categoryMasterDAO" ref="categoryMasterJpaDAO" />
 		<property name="countryDAO" ref="countryJpaDAO" />
+		<property name="bankDAO" ref="bankJpaDAO" />
 		<property name="employmentDAO" ref="employmentJpaDAO" />
 		<property name="maritalStatusDAO" ref="maritalStatusJpaDAO" />
 		<property name="prefixDAO" ref="prefixJpaDAO" />

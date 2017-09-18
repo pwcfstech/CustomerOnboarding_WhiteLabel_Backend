@@ -82,4 +82,5 @@ public interface AccountCreateJpaDao extends AccountCreateDao {
 
 	public void updateMobRmAppRefId(Long appId, String rmId);
 
+	public void storeIntoMobApplCheckHist(Long appId, Long recordId);
 }

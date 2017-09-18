@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.ClientDetails;
 
@@ -20,6 +21,10 @@ import org.springframework.security.oauth2.provider.ClientDetails;
  */
 public class CustomOauthAuthorization implements ClientDetails
 {
+	
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
@@ -207,6 +212,8 @@ public class CustomOauthAuthorization implements ClientDetails
         CustomGrantedAuthority grantedAuthority = new CustomGrantedAuthority();
         grantedAuthority.setAuthority(clientGrantedAuthority);
         authorities.add(grantedAuthority);
+        
+        debugLog.debug("authorities :: "+authorities);
         return authorities;
     }
 

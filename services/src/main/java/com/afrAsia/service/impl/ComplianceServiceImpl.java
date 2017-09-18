@@ -8,12 +8,12 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.afrAsia.customexception.DateDifferenceException;
 import com.afrAsia.dao.jpa.ComplianceJpaDao;
 import com.afrAsia.entities.response.ComplianceApps;
+import com.afrAsia.entities.response.ComplianceApps.AccountsCreated;
+import com.afrAsia.entities.response.ComplianceApps.AccountsRejected;
+import com.afrAsia.entities.response.ComplianceApps.ApplicationsUnderProcessing;
 import com.afrAsia.entities.response.ComplianceResponse;
-import com.afrAsia.entities.response.MessageHeader;
-import com.afrAsia.entities.response.RequestError;
 import com.afrAsia.service.ComplianceService;
 
 public class ComplianceServiceImpl implements ComplianceService {
@@ -21,7 +21,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 	final static Logger debugLog = Logger.getLogger("debugLogger");
 	final static Logger infoLog = Logger.getLogger("infoLogger");
 	final static Logger errorLog = Logger.getLogger("errorLogger");
-	
+
 	private ComplianceJpaDao complianceDao;
 
 	public ComplianceJpaDao getComplianceDao() {
@@ -32,394 +32,1263 @@ public class ComplianceServiceImpl implements ComplianceService {
 		this.complianceDao = complianceDao;
 	}
 
-	
-	public ComplianceResponse getDetailsBydefault() {
-		
+	public ComplianceResponse getDetailsByDefault() {
+
 		ComplianceResponse complianceResponse = new ComplianceResponse();
-
-		List<ComplianceApps> listOfApps = new ArrayList<ComplianceApps>();
-
-		List<Object> detailsByDefaultByUnderProcessingStatus = new ArrayList<Object>(listOfApps);
 		
-		//get Details By UnderProcessing Status																				
-		detailsByDefaultByUnderProcessingStatus = complianceDao.getDetailsByDefaultByUnderProcessingStatus();
-		
-		int i=0;
-				
-		for (Object object : detailsByDefaultByUnderProcessingStatus) {
-			
-			ComplianceApps complianceApps = new ComplianceApps();
-			
+		ComplianceApps complianceApps = new ComplianceApps();
+
+		List<ComplianceApps> listOfComplianceApps = new ArrayList<ComplianceApps>();
+
+		List<Object> detailsByAccountRejected = new ArrayList<Object>(listOfComplianceApps);
+
+		List<Object> detailsByAccountOpened = new ArrayList<Object>(listOfComplianceApps);
+
+		List<Object> detailsByUnderProcessing = new ArrayList<Object>(listOfComplianceApps);
+
+		List<AccountsRejected> listAccountsRejected = new ArrayList<AccountsRejected>();
+
+		List<AccountsCreated> listAccountsCreated = new ArrayList<AccountsCreated>();
+
+		List<ApplicationsUnderProcessing> listApplicationsUnderProcessing = new ArrayList<ApplicationsUnderProcessing>();
+
+		detailsByAccountRejected = (List<Object>) complianceDao.getDetailsByAccountRejectedDefault();
+
+		int j = 0;
+
+		for (Object object : detailsByAccountRejected) {
+
+			ComplianceApps.AccountsRejected accountsRejected = complianceApps.new AccountsRejected();
+
 			Object[] outputs = (Object[]) object;
 
-			complianceApps.setRefNo(outputs[0].toString());
-			
-			complianceApps.setRecordId(outputs[1].toString());
-			
-			complianceApps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
-			
+			accountsRejected.setRefNo(outputs[0].toString());
+
+			accountsRejected.setRecordId(outputs[1].toString());
+
+			accountsRejected.setRmName(outputs[2].toString());
+
+			accountsRejected.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
+
 			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
-			String dateSubmittedDate = outputs[4].toString();
+			String dateSubmittedDate = outputs[5].toString();
 
 			Date dateSubmitted = new Date();
 			try {
 				dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 			} catch (ParseException e) {
-				errorLog.error("dateSubmitted coud not be parsed in getDetailsBydefault(),ComplianceServiceImpl");
+				errorLog.error("dateSubmitted coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl");
 			}
 
-			complianceApps.setAppSubmittedDate(dateSubmitted);
+			accountsRejected.setAppSubmittedDate(dateSubmitted);
 
-			complianceApps.setAppStatus(outputs[5].toString());
-			
-			try{
-				if(outputs[6].toString()!=null){
-					complianceApps.setAccountNumber(outputs[6].toString());
-				}
-				else{
-					complianceApps.setAccountNumber(null);
-				}
-			}catch(NullPointerException e){
-				errorLog.error("AccountNumber is null in getDetailsBydefault(),ComplianceServiceImpl");
-			}
-			
-			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-MM-dd");
-
-			String dateCreationDate = outputs[7].toString();
-
-			Date dateCreated= new Date();
-			try {
-				dateCreated = dateFormatCreationDate.parse(dateCreationDate);
-			} catch (ParseException e) {
-				errorLog.error("dateCreated coud not be parsed in getDetailsBydefault(),ComplianceServiceImpl");
-			}
-			
-			complianceApps.setAccountCreationDate(dateCreated);
-
-			listOfApps.add(complianceApps);
-			i++;
+			listAccountsRejected.add(accountsRejected);
+			complianceApps.setAccountsRejected(listAccountsRejected);
 		}
-		
-		//get Details By AccOpened Or Rejected Status	
-		List<Object> detailsByefaultByAccOpenedOrRejectedStatus = new ArrayList<Object>(listOfApps);
+		listOfComplianceApps.add(complianceApps);
+		int h = 0;
+		detailsByAccountOpened = (List<Object>) complianceDao.getDetailsByAccountOpenedDefault();
 
-		detailsByefaultByAccOpenedOrRejectedStatus = complianceDao.getDetailsByDefaultByAccOpenedOrRejectedStatus();
-		
-		for (Object object : detailsByefaultByAccOpenedOrRejectedStatus) {
-			
-			ComplianceApps complianceApps = new ComplianceApps();
-			
+		for (Object object : detailsByAccountOpened) {
+
+			ComplianceApps.AccountsCreated accountsCreated = complianceApps.new AccountsCreated();
+
 			Object[] outputs = (Object[]) object;
 
-			complianceApps.setRefNo(outputs[0].toString());
-			
-			complianceApps.setRecordId(outputs[1].toString());
-			
-			complianceApps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
-			
+			accountsCreated.setRefNo(outputs[0].toString());
+
+			accountsCreated.setRecordId(outputs[1].toString());
+
+			accountsCreated.setRmName(outputs[2].toString());
+
+			accountsCreated.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
+
+			try {
+				if (outputs[5].toString() != null)
+					accountsCreated.setAccountNumber(outputs[5].toString());
+				else {
+					accountsCreated.setAccountNumber(null);
+				}
+			} catch (NullPointerException e) {
+				errorLog.error("AccountNumber is Null in getDetailsByDefault(),ComplianceServiceImpl", e);
+			}
+
 			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
-			String dateSubmittedDate = outputs[4].toString();
+			String dateSubmittedDate = outputs[6].toString();
 
 			Date dateSubmitted = new Date();
 			try {
 				dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 			} catch (ParseException e) {
-				errorLog.error("dateSubmitted coud not be parsed in getDetailsBydefault(),ComplianceServiceImpl");
+				errorLog.error("dateSubmitted coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl", e);
 			}
 
-			complianceApps.setAppSubmittedDate(dateSubmitted);
+			accountsCreated.setAppSubmittedDate(dateSubmitted);
 
-			complianceApps.setAppStatus(outputs[5].toString());
-			
-			try{
-				if(outputs[6].toString()!=null){
-					complianceApps.setAccountNumber(outputs[6].toString());
-				}
-				else{
-					complianceApps.setAccountNumber(null);
-				}
-			}catch(NullPointerException e){
-				errorLog.error("Account Number is null in getDetailsBydefault(),ComplianceServiceImpl");
-			}
-			
-			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-MM-dd");
-
-			String dateCreationDate = outputs[7].toString();
-
-			Date dateCreated= new Date();
-			try {
-				dateCreated = dateFormatCreationDate.parse(dateCreationDate);
-			} catch (ParseException e) {
-				errorLog.error("dateCreated coud not be parsed in getDetailsBydefault(),ComplianceServiceImpl");
-			}
-			
-			complianceApps.setAccountCreationDate(dateCreated);
-
-			listOfApps.add(complianceApps);
-			i++;
+			listAccountsCreated.add(accountsCreated);
+			complianceApps.setAccountsCreated(listAccountsCreated);
 		}
-		
-		complianceResponse.setApps(listOfApps);
-		infoLog.info("complianceResponse in getDetailsBydefault(),ComplianceServiceImpl : "+complianceResponse.toString());
+		listOfComplianceApps.add(complianceApps);
+		int k = 0;
+		detailsByUnderProcessing = (List<Object>) complianceDao.getDetailsByUnderProcessingDefault();
+
+		for (Object object : detailsByUnderProcessing) {
+
+			ComplianceApps.ApplicationsUnderProcessing applicationsUnderProcessing = complianceApps.new ApplicationsUnderProcessing();
+
+			Object[] outputs = (Object[]) object;
+
+			applicationsUnderProcessing.setRefNo(outputs[0].toString());
+
+			applicationsUnderProcessing.setRecordId(outputs[1].toString());
+
+			applicationsUnderProcessing.setRmName(outputs[2].toString());
+
+			applicationsUnderProcessing.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
+
+			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+
+			String dateSubmittedDate = outputs[5].toString();
+
+			Date dateSubmitted = new Date();
+			try {
+				dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
+			} catch (ParseException e) {
+				errorLog.error("dateSubmitted coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl", e);
+			}
+
+			applicationsUnderProcessing.setAppSubmittedDate(dateSubmitted);
+			applicationsUnderProcessing.setAppStatus(outputs[6].toString());
+
+			try {
+				applicationsUnderProcessing.setIsAppLocked(outputs[7].toString());
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setIsAppLocked(null);
+			}
+
+			try {
+				applicationsUnderProcessing.setLockedBy(outputs[8].toString());
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setLockedBy(null);
+			}
+
+			try {
+				applicationsUnderProcessing.setIsKycDone(outputs[9].toString());
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setIsKycDone(null);
+			}
+
+			try {
+				applicationsUnderProcessing.setKycStatus(outputs[10].toString());
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setKycStatus(null);
+			}
+
+			try {
+				applicationsUnderProcessing.setKycUrl(outputs[11].toString());
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setKycUrl(null);
+			}
+
+			try {
+				applicationsUnderProcessing.setKycDoneBy(outputs[12].toString());
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setKycDoneBy(null);
+			}
+
+			SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
+
+			String dateKYCUnderProcessing = null;
+
+			try {
+				dateKYCUnderProcessing = outputs[13].toString();
+
+				Date dateKYC = new Date();
+				try {
+					dateKYC = dateFormatUnderProcessing.parse(dateKYCUnderProcessing);
+				} catch (ParseException e) {
+					errorLog.error("dateKYC coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
+				}
+				applicationsUnderProcessing.setKycDate(dateKYC);
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setKycDate(null);
+			}
+
+			try {
+				applicationsUnderProcessing.setIsWcDone(outputs[14].toString());
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setIsWcDone(null);
+			}
+
+			try {
+				applicationsUnderProcessing.setWcUrl(outputs[15].toString());
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setWcUrl(null);
+			}
+			try {
+				applicationsUnderProcessing.setWcStatus(outputs[16].toString());
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setWcStatus(null);
+			}
+			try {
+				applicationsUnderProcessing.setWcDoneBy(outputs[17].toString());
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setWcDoneBy(null);
+			}
+			String dateWCUnderProcessing = null;
+			try {
+				dateWCUnderProcessing = outputs[18].toString();
+
+				Date wcDate = new Date();
+				try {
+					wcDate = dateFormatUnderProcessing.parse(dateWCUnderProcessing);
+				} catch (ParseException e) {
+					errorLog.error("wcDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
+				}
+				applicationsUnderProcessing.setWcDate(wcDate);
+
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setWcDate(null);
+			}
+			try {
+				applicationsUnderProcessing.setIsCcDone(outputs[19].toString());
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setIsCcDone(null);
+			}
+
+			try {
+				applicationsUnderProcessing.setCcUrl(outputs[20].toString());
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setCcUrl(null);
+			}
+			try {
+				applicationsUnderProcessing.setCcStatus(outputs[21].toString());
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setCcStatus(null);
+			}
+			try {
+				applicationsUnderProcessing.setCcDoneBy(outputs[22].toString());
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setCcDoneBy(null);
+			}
+
+			String dateCCUnderProcessing = null;
+			try {
+				dateCCUnderProcessing = outputs[23].toString();
+
+				Date ccDate = new Date();
+				try {
+					ccDate = dateFormatUnderProcessing.parse(dateCCUnderProcessing);
+				} catch (ParseException e) {
+					errorLog.error("ccDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
+				}
+				applicationsUnderProcessing.setCcDate(ccDate);
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setCcDate(null);
+			}
+
+			try {
+				applicationsUnderProcessing.setIsIcDone(outputs[24].toString());
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setIsIcDone(null);
+			}
+			try {
+				applicationsUnderProcessing.setIcUrl(outputs[25].toString());
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setIcUrl(null);
+			}
+
+			try {
+				applicationsUnderProcessing.setIcStatus(outputs[26].toString());
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setIcStatus(null);
+			}
+
+			try {
+				applicationsUnderProcessing.setIcDoneBy(outputs[27].toString());
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setIcDoneBy(null);
+			}
+
+			String dateICUnderProcessing = null;
+			try {
+				dateICUnderProcessing = outputs[28].toString();
+
+				Date icDate = new Date();
+				try {
+					icDate = dateFormatUnderProcessing.parse(dateICUnderProcessing);
+				} catch (ParseException e) {
+					errorLog.error("icDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
+				}
+				applicationsUnderProcessing.setIcDate(icDate);
+			} catch (NullPointerException e) {
+				applicationsUnderProcessing.setIcDate(null);
+			}
+
+			listApplicationsUnderProcessing.add(k, applicationsUnderProcessing);
+			k++;
+			complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessing);
+		}
+		listOfComplianceApps.add(complianceApps);
+		complianceResponse.setData(listOfComplianceApps);
+		debugLog.debug(
+				"complianceResponse : " + complianceResponse.toString());
 		return complianceResponse;
 	}
 
 	public ComplianceResponse getDetailsByName(String name, String appStatus) {
-		
+
 		ComplianceResponse complianceResponse = new ComplianceResponse();
-
-		List<ComplianceApps> listOfApps = new ArrayList<ComplianceApps>();
-
-		List<Object> detailsByName = new ArrayList<Object>(listOfApps);
-
-		detailsByName = (List<Object>) complianceDao.getDetailsByName(name, appStatus);
 		
-		for (Object object : detailsByName) {
-			
-			ComplianceApps complianceApps = new ComplianceApps();
-			
-			Object[] outputs = (Object[]) object;
+		ComplianceApps complianceApps = new ComplianceApps();
 
-			complianceApps.setRefNo(outputs[0].toString());
-			
-			complianceApps.setRecordId(outputs[1].toString());
-			
-			complianceApps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
-			
-			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+		List<ComplianceApps> listOfComplianceApps = new ArrayList<ComplianceApps>();
 
-			String dateSubmittedDate = outputs[4].toString();
+		List<Object> detailsByAccountRejected = new ArrayList<Object>(listOfComplianceApps);
 
-			Date dateSubmitted = new Date();
-			try {
-				dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
-			} catch (ParseException e) {
-				errorLog.error("dateSubmitted coud not be parsed in getDetailsByName(),ComplianceServiceImpl");
-			}
+		List<Object> detailsByAccountOpened = new ArrayList<Object>(listOfComplianceApps);
 
-			complianceApps.setAppSubmittedDate(dateSubmitted);
+		List<Object> detailsByUnderProcessing = new ArrayList<Object>(listOfComplianceApps);
 
-			complianceApps.setAppStatus(outputs[5].toString());
-			
-			try{
-				if(outputs[6].toString()!=null){
-					complianceApps.setAccountNumber(outputs[6].toString());
+		List<AccountsRejected> listAccountsRejected = new ArrayList<AccountsRejected>();
+
+		List<AccountsCreated> listAccountsCreated = new ArrayList<AccountsCreated>();
+
+		List<ApplicationsUnderProcessing> listApplicationsUnderProcessing = new ArrayList<ApplicationsUnderProcessing>();
+
+		int j = 0;
+
+		if (appStatus.equalsIgnoreCase("ACCOUNT REJECTED")) {
+			detailsByAccountRejected = (List<Object>) complianceDao.getDetailsByAccountRejectedName(name);
+
+			for (Object object : detailsByAccountRejected) {
+
+				ComplianceApps.AccountsRejected accountsRejected = complianceApps.new AccountsRejected();
+
+				Object[] outputs = (Object[]) object;
+
+				accountsRejected.setRefNo(outputs[0].toString());
+
+				accountsRejected.setRecordId(outputs[1].toString());
+
+				accountsRejected.setRmName(outputs[2].toString());
+
+				accountsRejected.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
+
+				SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+
+				String dateSubmittedDate = outputs[5].toString();
+
+				Date dateSubmitted = new Date();
+				try {
+					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
+				} catch (ParseException e) {
+					errorLog.error("dateSubmitted coud not be parsed in getDetailsByName(),ComplianceServiceImpl");
 				}
-				else{
-					complianceApps.setAccountNumber(null);
-				}
-			}catch(NullPointerException e){
-				errorLog.error("Account Number is null in getDetailsByName(),ComplianceServiceImpl");
+
+				accountsRejected.setAppSubmittedDate(dateSubmitted);
+				listAccountsRejected.add(j, accountsRejected);
+				j++;
+				complianceApps.setAccountsRejected(listAccountsRejected);
+				
 			}
-			
-			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-MM-dd");
-
-			String dateCreationDate = outputs[7].toString();
-
-			Date dateCreation= new Date();
-			try {
-				dateCreation = dateFormatCreationDate.parse(dateCreationDate);
-			} catch (ParseException e) {
-				errorLog.error("dateCreation coud not be parsed in getDetailsByName() ComplianceServiceImpl");
-			}
-			
-			complianceApps.setAccountCreationDate(dateCreation);
-
-			listOfApps.add(complianceApps);
+			listOfComplianceApps.add(complianceApps);
 		}
-		complianceResponse.setApps(listOfApps);
-		infoLog.info("complianceResponse in getDetailsByName() ComplianceServiceImpl : "+complianceResponse.toString());
-		return complianceResponse;
-	}
+		int h = 0;
+		if (appStatus.equalsIgnoreCase("ACCOUNT OPENED")) {
+			detailsByAccountOpened = (List<Object>) complianceDao.getDetailsByAccountOpenedName(name);
 
-	public ComplianceResponse getDetailsByDates(Date startDate, Date endDate, String rmId) {
-		
-		ComplianceResponse complianceResponse = new ComplianceResponse();
+			for (Object object : detailsByAccountOpened) {
 
-		List<ComplianceApps> listOfApps = new ArrayList<ComplianceApps>();
+				ComplianceApps.AccountsCreated accountsCreated = complianceApps.new AccountsCreated();
 
-		List<Object> listOfCustormerName = new ArrayList<Object>(listOfApps);
+				Object[] outputs = (Object[]) object;
 
-		
-		int diffInDays = (int) ((endDate.getTime()-(startDate.getTime())) / (1000 * 60 * 60 * 24)+1);
+				accountsCreated.setRefNo(outputs[0].toString());
 
-		try{	
-			if(endDate.getTime()>=startDate.getTime()){
-				if(diffInDays <= 30 && diffInDays>0){
-					listOfCustormerName = (List<Object>) complianceDao.getDetailsByDates(startDate, endDate, rmId);
-				}
-				else{
-					MessageHeader messageHeader=new MessageHeader();
-					RequestError requestError=new RequestError();
-					requestError.setCustomCode(" difference between start date and end date is more than 30 days");
-					messageHeader.setError(requestError); 
-					complianceResponse.setMessageHeader(messageHeader);	
-					throw new DateDifferenceException("difference between start date and end date is more than 30 days");
-				}
-			}
-			else{
-				MessageHeader messageHeader=new MessageHeader();
-				RequestError requestError=new RequestError();
-				requestError.setRsn("start date is greater than end date");
-				messageHeader.setError(requestError); 
-				complianceResponse.setMessageHeader(messageHeader);	
-				throw new DateDifferenceException("start date is greater than end date");
-			}
-		}
-		catch(DateDifferenceException dateDifferenceExceptionMessage){
-			errorLog.error(" Exception got in getDetailsByDates(),ComplianceServiceImpl is : "+dateDifferenceExceptionMessage);
-		}
+				accountsCreated.setRecordId(outputs[1].toString());
 
-		
-		for (Object object : listOfCustormerName) {
-			
-			ComplianceApps complianceApps = new ComplianceApps();
-			
-			Object[] outputs = (Object[]) object;
+				accountsCreated.setRmName(outputs[2].toString());
 
-			complianceApps.setRefNo(outputs[0].toString());
-			
-			complianceApps.setRecordId(outputs[1].toString());
-			
-			complianceApps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
-			
-			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+				accountsCreated.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
 
-			String dateSubmittedDate = outputs[4].toString();
-
-			Date dateSubmitted = new Date();
-			try {
-				dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
-			} catch (ParseException e) {
-				errorLog.error("dateSubmitted coud not be parsed in getDetailsByDates(),ComplianceServiceImpl");
-			}
-
-			complianceApps.setAppSubmittedDate(dateSubmitted);
-
-			complianceApps.setAppStatus(outputs[5].toString());
-			
-			try{
-				if(outputs[6].toString()!=null){
-					complianceApps.setAccountNumber(outputs[6].toString());
-				}
-				else{
-					complianceApps.setAccountNumber(null);
-				}
-			}catch(NullPointerException e){
-				complianceApps.setAccountNumber(null);
-				errorLog.error("Account Number is null in getDetailsByDates(),ComplianceServiceImpl");
-			}
-			
-			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-MM-dd");
-
-			String dateCreationDate = outputs[7].toString();
-
-			Date dateCreation= new Date();
-			try {
-				dateCreation = dateFormatCreationDate.parse(dateCreationDate);
-			} catch (ParseException e) {
-				errorLog.error("dateCreation coud not be parsed in getDetailsByDates(),ComplianceServiceImpl");
-			}
-			
-			complianceApps.setAccountCreationDate(dateCreation);
-
-			listOfApps.add(complianceApps);
-		}
-		complianceResponse.setApps(listOfApps);
-		infoLog.info("complianceResponse in getDetailsByDates() ,ComplianceServiceImpl : "+complianceResponse.toString());
-		return complianceResponse;
-	}
-
-	
-	public ComplianceResponse getDetailsByAllCriteria(String name, Date startDate, Date endDate,
-			String rmId) {
-		ComplianceResponse complianceResponse = new ComplianceResponse();
-
-		List<ComplianceApps> listOfApps = new ArrayList<ComplianceApps>();
-
-		List<Object> detailsByAllCriteriaWithoutStatus = new ArrayList<Object>(listOfApps);
-		
-		int diffInDays = (int) ((endDate.getTime()-(startDate.getTime())) / (1000 * 60 * 60 * 24));
-		
-		try{	
-				if(diffInDays <= 30){
-					detailsByAllCriteriaWithoutStatus = (List<Object>) complianceDao.getDetailsByAllCriteria
-							(name, startDate,endDate, rmId);
+				try {
+					if (outputs[5].toString() != null)
+						accountsCreated.setAccountNumber(outputs[5].toString());
+					else {
+						accountsCreated.setAccountNumber(null);
 					}
-					else{
-						MessageHeader messageHeader=new MessageHeader();
-						RequestError requestError=new RequestError();
-						requestError.setCustomCode(" difference between start date and end date is more than 30 days,"
-							+ "please pass dates such that difference should not exceed 30");
-						messageHeader.setError(requestError);
-						complianceResponse.setMessageHeader(messageHeader);	
-						throw new DateDifferenceException("difference between start date and end date is more than 30 days,"
-							+ "please pass dates such that difference should not exceed 30");
+				} catch (NullPointerException e) {
+					errorLog.error("AccountNumber is Null in getDetailsByName(),ComplianceServiceImpl", e);
+				}
+
+				SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+
+				String dateSubmittedDate = outputs[6].toString();
+
+				Date dateSubmitted = new Date();
+				try {
+					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
+				} catch (ParseException e) {
+					errorLog.error("dateSubmitted could not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
+				}
+
+				accountsCreated.setAppSubmittedDate(dateSubmitted);
+				listAccountsCreated.add(h, accountsCreated);
+				h++;
+				complianceApps.setAccountsCreated(listAccountsCreated);
+			}
+			listOfComplianceApps.add(complianceApps);
+		}
+		int k = 0;
+		if (appStatus.equalsIgnoreCase("Under Processing")) {
+			detailsByUnderProcessing = (List<Object>) complianceDao.getDetailsByUnderProcessingName(name);
+
+			for (Object object : detailsByUnderProcessing) {
+
+				ComplianceApps.ApplicationsUnderProcessing applicationsUnderProcessing = complianceApps.new ApplicationsUnderProcessing();
+
+				Object[] outputs = (Object[]) object;
+
+				applicationsUnderProcessing.setRefNo(outputs[0].toString());
+
+				applicationsUnderProcessing.setRecordId(outputs[1].toString());
+
+				applicationsUnderProcessing.setRmName(outputs[2].toString());
+
+				applicationsUnderProcessing.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
+
+				SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+
+				String dateSubmittedDate = outputs[5].toString();
+
+				Date dateSubmitted = new Date();
+				try {
+					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
+				} catch (ParseException e) {
+					errorLog.error("dateSubmitted coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
+				}
+
+				applicationsUnderProcessing.setAppSubmittedDate(dateSubmitted);
+				applicationsUnderProcessing.setAppStatus(outputs[6].toString());
+
+				try {
+					applicationsUnderProcessing.setIsAppLocked(outputs[7].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIsAppLocked(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setLockedBy(outputs[8].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setLockedBy(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setIsKycDone(outputs[9].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIsKycDone(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setKycStatus(outputs[10].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setKycStatus(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setKycUrl(outputs[11].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setKycUrl(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setKycDoneBy(outputs[12].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setKycDoneBy(null);
+				}
+
+				SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
+
+				String dateKYCUnderProcessing = null;
+
+				try {
+					dateKYCUnderProcessing = outputs[13].toString();
+
+					Date dateKYC = new Date();
+					try {
+						dateKYC = dateFormatUnderProcessing.parse(dateKYCUnderProcessing);
+					} catch (ParseException e) {
+						errorLog.error("dateKYC coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
 					}
-		    }
-		catch(DateDifferenceException exceptionMessage){
-			errorLog.error(" Exception got in getDetailsByAllCriteria(),ComplianceServiceImpl is : "+exceptionMessage);
-		}
-		
-		for (Object object : detailsByAllCriteriaWithoutStatus) {
-			
-			ComplianceApps complianceApps = new ComplianceApps();
-			
-			Object[] outputs = (Object[]) object;
-
-			complianceApps.setRefNo(outputs[0].toString());
-			
-			complianceApps.setRecordId(outputs[1].toString());
-			
-			complianceApps.setCustomerName(outputs[2].toString()+" "+outputs[3].toString());
-			
-			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
-
-			String dateSubmittedDate = outputs[4].toString();
-
-			Date dateSubmitted = new Date();
-			try {
-				dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
-			} catch (ParseException e) {
-				errorLog.error("dateSubmitted coud not be parsed in getDetailsByAllCriteria(),ComplianceServiceImpl");
-			}
-
-			complianceApps.setAppSubmittedDate(dateSubmitted);
-
-			complianceApps.setAppStatus(outputs[5].toString());
-			
-			try{
-				if(outputs[6].toString()!=null){
-					complianceApps.setAccountNumber(outputs[6].toString());
+					applicationsUnderProcessing.setKycDate(dateKYC);
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setKycDate(null);
 				}
-				else{
-					complianceApps.setAccountNumber(null);
+
+				try {
+					applicationsUnderProcessing.setIsWcDone(outputs[14].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIsWcDone(null);
 				}
-			}catch(NullPointerException e){
-				errorLog.error("Account Number is null in getDetailsByAllCriteria(),ComplianceServiceImpl");
+
+				try {
+					applicationsUnderProcessing.setWcUrl(outputs[15].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setWcUrl(null);
+				}
+				try {
+					applicationsUnderProcessing.setWcStatus(outputs[16].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setWcStatus(null);
+				}
+				try {
+					applicationsUnderProcessing.setWcDoneBy(outputs[17].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setWcDoneBy(null);
+				}
+				String dateWCUnderProcessing = null;
+				try {
+					dateWCUnderProcessing = outputs[18].toString();
+
+					Date wcDate = new Date();
+					try {
+						wcDate = dateFormatUnderProcessing.parse(dateWCUnderProcessing);
+					} catch (ParseException e) {
+						errorLog.error("wcDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
+					}
+					applicationsUnderProcessing.setWcDate(wcDate);
+
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setWcDate(null);
+				}
+				try {
+					applicationsUnderProcessing.setIsCcDone(outputs[19].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIsCcDone(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setCcUrl(outputs[20].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setCcUrl(null);
+				}
+				try {
+					applicationsUnderProcessing.setCcStatus(outputs[21].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setCcStatus(null);
+				}
+				try {
+					applicationsUnderProcessing.setCcDoneBy(outputs[22].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setCcDoneBy(null);
+				}
+
+				String dateCCUnderProcessing = null;
+				try {
+					dateCCUnderProcessing = outputs[23].toString();
+
+					Date ccDate = new Date();
+					try {
+						ccDate = dateFormatUnderProcessing.parse(dateCCUnderProcessing);
+					} catch (ParseException e) {
+						errorLog.error("ccDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
+					}
+					applicationsUnderProcessing.setCcDate(ccDate);
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setCcDate(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setIsIcDone(outputs[24].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIsIcDone(null);
+				}
+				try {
+					applicationsUnderProcessing.setIcUrl(outputs[25].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIcUrl(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setIcStatus(outputs[26].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIcStatus(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setIcDoneBy(outputs[27].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIcDoneBy(null);
+				}
+
+				String dateICUnderProcessing = null;
+				try {
+					dateICUnderProcessing = outputs[28].toString();
+
+					Date icDate = new Date();
+					try {
+						icDate = dateFormatUnderProcessing.parse(dateICUnderProcessing);
+					} catch (ParseException e) {
+						errorLog.error("icDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
+					}
+					applicationsUnderProcessing.setIcDate(icDate);
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIcDate(null);
+				}
+
+				listApplicationsUnderProcessing.add(k, applicationsUnderProcessing);
+				k++;
+				complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessing);
+				
 			}
-			
-			SimpleDateFormat dateFormatCreationDate = new SimpleDateFormat("yyyy-MM-dd");
-
-			String dateCreationDate = outputs[7].toString();
-
-			Date dateCreation= new Date();
-			try {
-				dateCreation = dateFormatCreationDate.parse(dateCreationDate);
-			} catch (ParseException e) {
-				errorLog.error("dateCreation coud not be parsed in getDetailsByAllCriteria(),ComplianceServiceImpl");
-			}
-			
-			complianceApps.setAccountCreationDate(dateCreation);
-
-			listOfApps.add(complianceApps);
-
+			listOfComplianceApps.add(complianceApps);
 		}
-		complianceResponse.setApps(listOfApps);
-		infoLog.info("complianceResponse in getDetailsByAllCriteria() ,ComplianceServiceImpl : "+complianceResponse.toString());
+		complianceResponse.setData(listOfComplianceApps);
+		debugLog.debug(
+				"complianceResponse  : " + complianceResponse.toString());
 		return complianceResponse;
 	}
 
+	public ComplianceResponse getDetailsByDates(Date startDate, Date endDate, String appStatus) {
+
+		ComplianceResponse complianceResponse = new ComplianceResponse();
+		
+		ComplianceApps complianceApps = new ComplianceApps();
+
+		List<ComplianceApps> listOfComplianceApps = new ArrayList<ComplianceApps>();
+
+		List<Object> detailsByAccountRejected = new ArrayList<Object>(listOfComplianceApps);
+
+		List<Object> detailsByAccountOpened = new ArrayList<Object>(listOfComplianceApps);
+
+		List<Object> detailsByUnderProcessing = new ArrayList<Object>(listOfComplianceApps);
+
+		List<AccountsRejected> listAccountsRejected = new ArrayList<AccountsRejected>();
+
+		List<AccountsCreated> listAccountsCreated = new ArrayList<AccountsCreated>();
+
+		List<ApplicationsUnderProcessing> listApplicationsUnderProcessing = new ArrayList<ApplicationsUnderProcessing>();
+
+		if (appStatus.equalsIgnoreCase("ACCOUNT REJECTED")) {
+			detailsByAccountRejected = (List<Object>) complianceDao.getDetailsByAccountRejectedDates(startDate,
+					endDate);
+
+			int j = 0;
+
+			for (Object object : detailsByAccountRejected) {
+
+				ComplianceApps.AccountsRejected accountsRejected = complianceApps.new AccountsRejected();
+
+				Object[] outputs = (Object[]) object;
+
+				accountsRejected.setRefNo(outputs[0].toString());
+
+				accountsRejected.setRecordId(outputs[1].toString());
+
+				accountsRejected.setRmName(outputs[2].toString());
+
+				accountsRejected.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
+
+				SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+
+				String dateSubmittedDate = outputs[5].toString();
+
+				Date dateSubmitted = new Date();
+				try {
+					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
+				} catch (ParseException e) {
+					errorLog.error("dateSubmitted coud not be parsed in getDetailsByDates(),ComplianceServiceImpl");
+				}
+
+				accountsRejected.setAppSubmittedDate(dateSubmitted);
+
+				listAccountsRejected.add(j, accountsRejected);
+				j++;
+				complianceApps.setAccountsRejected(listAccountsRejected);
+				
+			}
+		}
+		int h = 0;
+		if (appStatus.equalsIgnoreCase("ACCOUNT OPENED")) {
+			detailsByAccountOpened = (List<Object>) complianceDao.getDetailsByAccountOpenedDates(startDate, endDate);
+
+			for (Object object : detailsByAccountOpened) {
+
+				ComplianceApps.AccountsCreated accountsCreated = complianceApps.new AccountsCreated();
+
+				Object[] outputs = (Object[]) object;
+
+				accountsCreated.setRefNo(outputs[0].toString());
+
+				accountsCreated.setRecordId(outputs[1].toString());
+
+				accountsCreated.setRmName(outputs[2].toString());
+
+				accountsCreated.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
+
+				try {
+					if (outputs[5].toString() != null)
+						accountsCreated.setAccountNumber(outputs[5].toString());
+					else {
+						accountsCreated.setAccountNumber(null);
+					}
+				} catch (NullPointerException e) {
+					errorLog.error("AccountNumber is Null in getDetailsByDates(),ComplianceServiceImpl", e);
+				}
+
+				SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+
+				String dateSubmittedDate = outputs[6].toString();
+
+				Date dateSubmitted = new Date();
+				try {
+					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
+				} catch (ParseException e) {
+					errorLog.error("dateSubmitted coud not be parsed in getDetailsByDates(),ComplianceServiceImpl", e);
+				}
+
+				accountsCreated.setAppSubmittedDate(dateSubmitted);
+
+				listAccountsCreated.add(h, accountsCreated);
+				h++;
+				complianceApps.setAccountsCreated(listAccountsCreated);
+				
+			}
+			listOfComplianceApps.add(complianceApps);
+		}
+		int k = 0;
+		if (appStatus.equalsIgnoreCase("Under Processing")) {
+			detailsByUnderProcessing = (List<Object>) complianceDao.getDetailsByUnderProcessingDates(startDate,
+					endDate);
+
+			for (Object object : detailsByUnderProcessing) {
+
+				ComplianceApps.ApplicationsUnderProcessing applicationsUnderProcessing = complianceApps.new ApplicationsUnderProcessing();
+
+				Object[] outputs = (Object[]) object;
+
+				applicationsUnderProcessing.setRefNo(outputs[0].toString());
+
+				applicationsUnderProcessing.setRecordId(outputs[1].toString());
+
+				applicationsUnderProcessing.setRmName(outputs[2].toString());
+
+				applicationsUnderProcessing.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
+
+				SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+
+				String dateSubmittedDate = outputs[5].toString();
+
+				Date dateSubmitted = new Date();
+				try {
+					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
+				} catch (ParseException e) {
+					errorLog.error("dateSubmitted coud not be parsed in getDetailsByDates(),ComplianceServiceImpl", e);
+				}
+
+				applicationsUnderProcessing.setAppSubmittedDate(dateSubmitted);
+				applicationsUnderProcessing.setAppStatus(outputs[6].toString());
+
+				try {
+					applicationsUnderProcessing.setIsAppLocked(outputs[7].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIsAppLocked(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setLockedBy(outputs[8].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setLockedBy(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setIsKycDone(outputs[9].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIsKycDone(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setKycStatus(outputs[10].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setKycStatus(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setKycUrl(outputs[11].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setKycUrl(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setKycDoneBy(outputs[12].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setKycDoneBy(null);
+				}
+
+				SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
+
+				String dateKYCUnderProcessing = null;
+
+				try {
+					dateKYCUnderProcessing = outputs[13].toString();
+
+					Date dateKYC = new Date();
+					try {
+						dateKYC = dateFormatUnderProcessing.parse(dateKYCUnderProcessing);
+					} catch (ParseException e) {
+						errorLog.error("dateKYC coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
+					}
+					applicationsUnderProcessing.setKycDate(dateKYC);
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setKycDate(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setIsWcDone(outputs[14].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIsWcDone(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setWcUrl(outputs[15].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setWcUrl(null);
+				}
+				try {
+					applicationsUnderProcessing.setWcStatus(outputs[16].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setWcStatus(null);
+				}
+				try {
+					applicationsUnderProcessing.setWcDoneBy(outputs[17].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setWcDoneBy(null);
+				}
+				String dateWCUnderProcessing = null;
+				try {
+					dateWCUnderProcessing = outputs[18].toString();
+
+					Date wcDate = new Date();
+					try {
+						wcDate = dateFormatUnderProcessing.parse(dateWCUnderProcessing);
+					} catch (ParseException e) {
+						errorLog.error("wcDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
+					}
+					applicationsUnderProcessing.setWcDate(wcDate);
+
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setWcDate(null);
+				}
+				try {
+					applicationsUnderProcessing.setIsCcDone(outputs[19].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIsCcDone(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setCcUrl(outputs[20].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setCcUrl(null);
+				}
+				try {
+					applicationsUnderProcessing.setCcStatus(outputs[21].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setCcStatus(null);
+				}
+				try {
+					applicationsUnderProcessing.setCcDoneBy(outputs[22].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setCcDoneBy(null);
+				}
+
+				String dateCCUnderProcessing = null;
+				try {
+					dateCCUnderProcessing = outputs[23].toString();
+
+					Date ccDate = new Date();
+					try {
+						ccDate = dateFormatUnderProcessing.parse(dateCCUnderProcessing);
+					} catch (ParseException e) {
+						errorLog.error("ccDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
+					}
+					applicationsUnderProcessing.setCcDate(ccDate);
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setCcDate(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setIsIcDone(outputs[24].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIsIcDone(null);
+				}
+				try {
+					applicationsUnderProcessing.setIcUrl(outputs[25].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIcUrl(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setIcStatus(outputs[26].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIcStatus(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setIcDoneBy(outputs[27].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIcDoneBy(null);
+				}
+
+				String dateICUnderProcessing = null;
+				try {
+					dateICUnderProcessing = outputs[28].toString();
+
+					Date icDate = new Date();
+					try {
+						icDate = dateFormatUnderProcessing.parse(dateICUnderProcessing);
+					} catch (ParseException e) {
+						errorLog.error("icDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
+					}
+					applicationsUnderProcessing.setIcDate(icDate);
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIcDate(null);
+				}
+
+				listApplicationsUnderProcessing.add(k, applicationsUnderProcessing);
+				k++;
+				complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessing);
+				
+			}
+			listOfComplianceApps.add(complianceApps);
+		}
+		
+		complianceResponse.setData(listOfComplianceApps);
+		debugLog.debug(
+				"complianceResponse :: " + complianceResponse.toString());
+		return complianceResponse;
+	}
+
+	public ComplianceResponse getDetailsByAllCriteria(String name, Date startDate, Date endDate, String appStatus) {
+
+		ComplianceResponse complianceResponse = new ComplianceResponse();
+		
+		ComplianceApps complianceApps = new ComplianceApps();
+
+		List<ComplianceApps> listOfComplianceApps = new ArrayList<ComplianceApps>();
+
+		List<Object> detailsByAccountRejected = new ArrayList<Object>(listOfComplianceApps);
+
+		List<Object> detailsByAccountOpened = new ArrayList<Object>(listOfComplianceApps);
+
+		List<Object> detailsByUnderProcessing = new ArrayList<Object>(listOfComplianceApps);
+
+		List<AccountsRejected> listAccountsRejected = new ArrayList<AccountsRejected>();
+
+		List<AccountsCreated> listAccountsCreated = new ArrayList<AccountsCreated>();
+
+		List<ApplicationsUnderProcessing> listApplicationsUnderProcessing = new ArrayList<ApplicationsUnderProcessing>();
+
+		if (appStatus.equalsIgnoreCase("ACCOUNT REJECTED")) {
+			detailsByAccountRejected = (List<Object>) complianceDao.getDetailsByAccountRejectedAllCriteria(name,
+					startDate, endDate);
+
+			int j = 0;
+
+			for (Object object : detailsByAccountRejected) {
+
+				ComplianceApps.AccountsRejected accountsRejected = complianceApps.new AccountsRejected();
+
+				Object[] outputs = (Object[]) object;
+
+				accountsRejected.setRefNo(outputs[0].toString());
+
+				accountsRejected.setRecordId(outputs[1].toString());
+
+				accountsRejected.setRmName(outputs[2].toString());
+
+				accountsRejected.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
+
+				SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+
+				String dateSubmittedDate = outputs[5].toString();
+
+				Date dateSubmitted = new Date();
+				try {
+					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
+				} catch (ParseException e) {
+					errorLog.error(
+							"dateSubmitted coud not be parsed in getDetailsByAllCriteria(),ComplianceServiceImpl");
+				}
+
+				accountsRejected.setAppSubmittedDate(dateSubmitted);
+
+				listAccountsRejected.add(j, accountsRejected);
+				j++;
+				complianceApps.setAccountsRejected(listAccountsRejected);
+				
+			}
+			listOfComplianceApps.add(complianceApps);
+		}
+		int h = 0;
+		if (appStatus.equalsIgnoreCase("ACCOUNT OPENED")) {
+			detailsByAccountOpened = (List<Object>) complianceDao.getDetailsByAccountOpenedAllCriteria(name, startDate,
+					endDate);
+
+			for (Object object : detailsByAccountOpened) {
+
+				ComplianceApps.AccountsCreated accountsCreated = complianceApps.new AccountsCreated();
+
+				Object[] outputs = (Object[]) object;
+
+				accountsCreated.setRefNo(outputs[0].toString());
+
+				accountsCreated.setRecordId(outputs[1].toString());
+
+				accountsCreated.setRmName(outputs[2].toString());
+
+				accountsCreated.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
+
+				try {
+					if (outputs[5].toString() != null)
+						accountsCreated.setAccountNumber(outputs[5].toString());
+					else {
+						accountsCreated.setAccountNumber(null);
+					}
+				} catch (NullPointerException e) {
+					errorLog.error("AccountNumber is Null in getDetailsByAllCriteria(),ComplianceServiceImpl", e);
+				}
+
+				SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+
+				String dateSubmittedDate = outputs[6].toString();
+
+				Date dateSubmitted = new Date();
+				try {
+					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
+				} catch (ParseException e) {
+					errorLog.error(
+							"dateSubmitted coud not be parsed in getDetailsByAllCriteria(),ComplianceServiceImpl", e);
+				}
+
+				accountsCreated.setAppSubmittedDate(dateSubmitted);
+
+				listAccountsCreated.add(h, accountsCreated);
+				h++;
+				complianceApps.setAccountsCreated(listAccountsCreated);
+				
+			}
+			listOfComplianceApps.add(complianceApps);
+		}
+		int k = 0;
+		if (appStatus.equalsIgnoreCase("Under Processing")) {
+			detailsByUnderProcessing = (List<Object>) complianceDao.getDetailsByUnderProcessingName(name);
+
+			for (Object object : detailsByUnderProcessing) {
+
+				ComplianceApps.ApplicationsUnderProcessing applicationsUnderProcessing = complianceApps.new ApplicationsUnderProcessing();
+
+				Object[] outputs = (Object[]) object;
+
+				applicationsUnderProcessing.setRefNo(outputs[0].toString());
+
+				applicationsUnderProcessing.setRecordId(outputs[1].toString());
+
+				applicationsUnderProcessing.setRmName(outputs[2].toString());
+
+				applicationsUnderProcessing.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
+
+				SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+
+				String dateSubmittedDate = outputs[5].toString();
+
+				Date dateSubmitted = new Date();
+				try {
+					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
+				} catch (ParseException e) {
+					errorLog.error(
+							"dateSubmitted coud not be parsed in getDetailsByAllCriteria(),ComplianceServiceImpl", e);
+				}
+
+				applicationsUnderProcessing.setAppSubmittedDate(dateSubmitted);
+				applicationsUnderProcessing.setAppStatus(outputs[6].toString());
+
+				try {
+					applicationsUnderProcessing.setIsAppLocked(outputs[7].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIsAppLocked(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setLockedBy(outputs[8].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setLockedBy(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setIsKycDone(outputs[9].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIsKycDone(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setKycStatus(outputs[10].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setKycStatus(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setKycUrl(outputs[11].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setKycUrl(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setKycDoneBy(outputs[12].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setKycDoneBy(null);
+				}
+
+				SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
+
+				String dateKYCUnderProcessing = null;
+
+				try {
+					dateKYCUnderProcessing = outputs[13].toString();
+
+					Date dateKYC = new Date();
+					try {
+						dateKYC = dateFormatUnderProcessing.parse(dateKYCUnderProcessing);
+					} catch (ParseException e) {
+						errorLog.error("dateKYC coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
+					}
+					applicationsUnderProcessing.setKycDate(dateKYC);
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setKycDate(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setIsWcDone(outputs[14].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIsWcDone(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setWcUrl(outputs[15].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setWcUrl(null);
+				}
+				try {
+					applicationsUnderProcessing.setWcStatus(outputs[16].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setWcStatus(null);
+				}
+				try {
+					applicationsUnderProcessing.setWcDoneBy(outputs[17].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setWcDoneBy(null);
+				}
+				String dateWCUnderProcessing = null;
+				try {
+					dateWCUnderProcessing = outputs[18].toString();
+
+					Date wcDate = new Date();
+					try {
+						wcDate = dateFormatUnderProcessing.parse(dateWCUnderProcessing);
+					} catch (ParseException e) {
+						errorLog.error("wcDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
+					}
+					applicationsUnderProcessing.setWcDate(wcDate);
+
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setWcDate(null);
+				}
+				try {
+					applicationsUnderProcessing.setIsCcDone(outputs[19].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIsCcDone(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setCcUrl(outputs[20].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setCcUrl(null);
+				}
+				try {
+					applicationsUnderProcessing.setCcStatus(outputs[21].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setCcStatus(null);
+				}
+				try {
+					applicationsUnderProcessing.setCcDoneBy(outputs[22].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setCcDoneBy(null);
+				}
+
+				String dateCCUnderProcessing = null;
+				try {
+					dateCCUnderProcessing = outputs[23].toString();
+
+					Date ccDate = new Date();
+					try {
+						ccDate = dateFormatUnderProcessing.parse(dateCCUnderProcessing);
+					} catch (ParseException e) {
+						errorLog.error("ccDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
+					}
+					applicationsUnderProcessing.setCcDate(ccDate);
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setCcDate(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setIsIcDone(outputs[24].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIsIcDone(null);
+				}
+				try {
+					applicationsUnderProcessing.setIcUrl(outputs[25].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIcUrl(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setIcStatus(outputs[26].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIcStatus(null);
+				}
+
+				try {
+					applicationsUnderProcessing.setIcDoneBy(outputs[27].toString());
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIcDoneBy(null);
+				}
+
+				String dateICUnderProcessing = null;
+				try {
+					dateICUnderProcessing = outputs[28].toString();
+
+					Date icDate = new Date();
+					try {
+						icDate = dateFormatUnderProcessing.parse(dateICUnderProcessing);
+					} catch (ParseException e) {
+						errorLog.error("icDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
+					}
+					applicationsUnderProcessing.setIcDate(icDate);
+				} catch (NullPointerException e) {
+					applicationsUnderProcessing.setIcDate(null);
+				}
+
+				listApplicationsUnderProcessing.add(k, applicationsUnderProcessing);
+				k++;
+				complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessing);
+			}
+			listOfComplianceApps.add(complianceApps);
+		}
+		complianceResponse.setData(listOfComplianceApps);
+		debugLog.debug("complianceResponse :: "
+				+ complianceResponse.toString());
+		return complianceResponse;
+	}
 }

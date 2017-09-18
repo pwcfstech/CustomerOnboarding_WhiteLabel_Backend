@@ -16,6 +16,7 @@
 		<class>com.afrAsia.entities.masters.AccountClass</class>
 		<class>com.afrAsia.entities.masters.CategoryMaster</class>
 		<class>com.afrAsia.entities.masters.Country</class>
+		<class>com.afrAsia.entities.masters.Bank</class>
 		<class>com.afrAsia.entities.masters.Employment</class>
 		<class>com.afrAsia.entities.masters.MaritalStatus</class>
 		<class>com.afrAsia.entities.masters.Prefix</class>
@@ -39,6 +40,9 @@
 		<class>com.afrAsia.entities.transactions.MobApplicantRecordIdHist</class>
 		<class>com.afrAsia.entities.transactions.MobApplPersonalDetailsHist</class>
 		<class>com.afrAsia.entities.transactions.MobAppRefRecordId</class>
+		<class>com.afrAsia.entities.transactions.MobApplCheck</class>
+		<class>com.afrAsia.entities.transactions.MobApplCheckHist</class>
+		<class>com.afrAsia.entities.transactions.MobApplCheckComments</class>
 
 		<class>com.afrAsia.entities.jpa.AuthAssignment</class>
 		<class>com.afrAsia.entities.jpa.AuthItem</class>

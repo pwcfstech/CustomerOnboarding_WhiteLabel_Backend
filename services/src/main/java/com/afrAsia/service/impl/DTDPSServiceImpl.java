@@ -59,7 +59,7 @@ public class DTDPSServiceImpl implements DTDPSService
                 }
             });
         }
-        infoLog.info("txnList in fetchTransactions(),DTDPSServiceImpl : "+txnList);
+        debugLog.debug("txnList :: "+txnList);
         return txnList;
     }
 

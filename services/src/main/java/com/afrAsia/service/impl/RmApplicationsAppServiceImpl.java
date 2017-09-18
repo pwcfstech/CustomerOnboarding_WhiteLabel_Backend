@@ -81,7 +81,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 		
 		// get all the details of records by default		
 		detailsByDefault = rmApplicationsAppDao.getDetailsByefault(rmId);
-		infoLog.info(" records fetched from DB on the basis of RmId only : "+detailsByDefault.toString());
+		debugLog.debug(" records fetched from DB on the basis of RmId only : "+detailsByDefault.toString());
 		
 		for (Object object : detailsByDefault) {
 			
@@ -99,7 +99,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				errorLog.error("  date coud not be parsed in getDetailsByefault method of RmApplicationsAppServiceImpl class ");
+				errorLog.error("  date coud not be parsed ");
 			}
 
 			apps.setAppSubmittedDate(date.getTime());
@@ -111,7 +111,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			i++;
 		}
 		rmApplicationAppResponse.setApps(listOfApps);
-		infoLog.info(" response on the basis of RmId only : "+rmApplicationAppResponse);
+		debugLog.debug(" response on the basis of RmId only : "+rmApplicationAppResponse);
 		
 		return rmApplicationAppResponse;
 	}
@@ -152,7 +152,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 
 		// get all records by name and Rm Id	
 		detailsByName = (List<Object>) rmApplicationsAppDao.getDetailsByName(name, rmId);
-		infoLog.info(" records fetched from DB on the basis basis of name,rmId is : "+detailsByName.toString());  
+		debugLog.debug(" records fetched from DB on the basis basis of name,rmId is : "+detailsByName.toString());  
 		int i = 0;
 		for (Object object : detailsByName) {
 
@@ -169,7 +169,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				errorLog.error("   date coud not be parsed in getDetailsByName method of RmApplicationsAppServiceImpl class ");
+				errorLog.error("   date coud not be parsed");
 			}
 
 			apps.setAppSubmittedDate(date.getTime());
@@ -226,7 +226,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			if(endDate.getTime()>=startDate.getTime()){
 				if(diffInDays <= 31 && diffInDays > 0){
 					listOfCustormerName = (List<Object>) rmApplicationsAppDao.getDetailsByDates(startDate, endDate, rmId);
-					infoLog.info(" records fetched from DB on the basis basis of startDate,endDate,rmId is : "+listOfCustormerName.toString());
+					debugLog.debug(" records fetched from DB : "+listOfCustormerName.toString());
 				}
 				else{
 					MessageHeader messageHeader=new MessageHeader();
@@ -265,7 +265,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				errorLog.error("   date coud not be parsed in getDetailsByDates method of RmApplicationsAppServiceImpl class ");
+				errorLog.error("   date coud not be parsed ");
 			}
 
 			apps.setAppSubmittedDate(date.getTime());
@@ -276,7 +276,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			i++;
 		}
 		rmApplicationAppResponse.setApps(listOfApps);
-		infoLog.info(" response on the basis of startDate,endDate,rmId is :: "+rmApplicationAppResponse);
+		debugLog.debug(" response on the basis of startDate,endDate,rmId is :: "+rmApplicationAppResponse);
 		return rmApplicationAppResponse;
 	}
 
@@ -316,7 +316,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 		
 		// get all the records by status and rm id 	
 		detailsByStatus = (List<Object>) rmApplicationsAppDao.getDetailsByStatus(status, rmId);
-		infoLog.info(" records fetched from DB on the basis basis of Status,rmId is : "+detailsByStatus.toString());
+		debugLog.debug(" records fetched from DB on the basis basis of Status,rmId is : "+detailsByStatus.toString());
 		int i = 0;
 		for (Object object : detailsByStatus) {
 
@@ -333,7 +333,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				errorLog.error("  date coud not be parsed in detailsByStatus method of RmApplicationsAppServiceImpl class ");
+				errorLog.error("  date coud not be parsed ");
 			}
 			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppSubmittedDate(date.getTime());
@@ -343,7 +343,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			i++;
 		}
 		rmApplicationAppResponse.setApps(listOfApps);
-		infoLog.info(" response on the basis of status and rmId is :: "+rmApplicationAppResponse);
+		debugLog.debug(" response on the basis of status and rmId is :: "+rmApplicationAppResponse);
 		return rmApplicationAppResponse;
 	}
 
@@ -395,7 +395,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				if(diffInDays <= 30 && diffInDays > 0){
 					detailsByAllCriteriaWithoutStatus = (List<Object>) rmApplicationsAppDao.getDetailsByAllCriteriaWithoutStatus
 							(name, startDate,endDate, rmId);
-					infoLog.info(" records fetched from DB on the basis basis of name,startDate,endDate,rmId is : "
+					debugLog.debug(" records fetched from DB on the basis basis of name,startDate,endDate,rmId is : "
 							+detailsByAllCriteriaWithoutStatus.toString());
 				}
 				else{
@@ -434,7 +434,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				errorLog.error("  date coud not be parsed in getDetailsByAllCriteriaWithoutStatus method of RmApplicationsAppServiceImpl class ");
+				errorLog.error("  date coud not be parsed ");
 			}
 
 			apps.setAppSubmittedDate(date.getTime());
@@ -446,7 +446,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			i++;
 		}
 		rmApplicationAppResponse.setApps(listOfApps);
-		infoLog.info(" response on the basis of name,startDate,endDate,rmId is :: "+rmApplicationAppResponse);
+		debugLog.debug(" response on the basis of name,startDate,endDate,rmId is :: "+rmApplicationAppResponse);
 		return rmApplicationAppResponse;
 	}
 
@@ -498,7 +498,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 				if(diffInDays <= 30 && diffInDays > 0){
 					detailsByAllCriteriaWithStatus = (List<Object>) rmApplicationsAppDao.getDetailsByAllCriteriaWithStatus(name, 
 							startDate,endDate, status, rmId);
-					infoLog.info(" records fetched from DB on the basis basis of name,startDate,endDate,status,rmId is : "
+					debugLog.debug(" records fetched from DB on the basis basis of name,startDate,endDate,status,rmId is : "
 							+detailsByAllCriteriaWithStatus.toString());
 				}
 				else{
@@ -538,7 +538,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				errorLog.error("  date coud not be parsed in getDetailsByAllCriteriaWithStatus method of RmApplicationsAppServiceImpl class ");
+				errorLog.error("  date coud not be parsed ");
 			}
 
 			apps.setAppSubmittedDate(date.getTime());
@@ -550,7 +550,7 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			i++;
 		}
 		rmApplicationAppResponse.setApps(listOfApps);
-		infoLog.info(" response on the basis of name,startDate,endDate,status,rmId is : "+rmApplicationAppResponse);
+		debugLog.info(" response on the basis of name,startDate,endDate,status,rmId is : "+rmApplicationAppResponse);
 		return rmApplicationAppResponse;
 	}
 }

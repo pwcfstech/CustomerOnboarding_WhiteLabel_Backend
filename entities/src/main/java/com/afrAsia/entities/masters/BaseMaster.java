@@ -6,6 +6,9 @@ import java.util.Date;
 import javax.persistence.Column;
 
 public class BaseMaster implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	@Column(name = "CREATED_BY")
 	private String createdBy;
 	@Column(name = "CREATED_DATE")

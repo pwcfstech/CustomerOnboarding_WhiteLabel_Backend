@@ -66,14 +66,17 @@ public interface AccountCreateDao {
 
 	public Long getRecordIdFromAccountDetails(Long appId);
 
-	public MobApplicantRecordId updateApplicant(AccountCreationRequest accountCreationRequest, ApplicantDetails primaryApplicant,
-			Long appId, Long recordId, String typeOfApplicant);
+	public MobApplicantRecordId updateApplicant(AccountCreationRequest accountCreationRequest,
+			ApplicantDetails primaryApplicant, Long appId, Long recordId, String typeOfApplicant);
 
 	public void updateAccountDetails(AccountCreationRequest accountCreationRequest, Long appId, Long recordId,
-			Long mobApplicantPrimaryApplicantId, Long mobGuardianPrimaryApplicantId,
-			MobApplicantRecordId[] mobJoint, MobApplicantRecordId[] mobGuardianJoint, com.afrAsia.entities.request.AccountCreationRequest.AccountDetails accountDetails);
+			Long mobApplicantPrimaryApplicantId, Long mobGuardianPrimaryApplicantId, MobApplicantRecordId[] mobJoint,
+			MobApplicantRecordId[] mobGuardianJoint,
+			com.afrAsia.entities.request.AccountCreationRequest.AccountDetails accountDetails);
 
 	public void storeIntoMobApplKycDocumentsHist(Long appid);
+
 	public void updateMobRmAppRefId(Long appId, String rmId);
 
+	public void storeIntoMobApplCheckHist(Long appId, Long recordId);
 }

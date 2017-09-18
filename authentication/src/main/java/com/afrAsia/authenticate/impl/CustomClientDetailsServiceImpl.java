@@ -138,14 +138,14 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 			//        		throw new ClientRegistrationException("No client with ID in LDAP.");
 			//        	}
 			OauthAuthorization oauthAuthorization = oAuthAuthorizationDAO.loadClientByClientId(clientId);
-			infoLog.info(" oauthAuthorization in loadClientByClientId(),CustomClientDetailsServiceImpl"+oauthAuthorization);
+			debugLog.debug(" oauthAuthorization "+oauthAuthorization);
 			CustomOauthAuthorization customOauthAuthorization = null;
 			if (oauthAuthorization != null)
 			{
 				customOauthAuthorization = new CustomOauthAuthorization(oauthAuthorization.getClient().getId(), oauthAuthorization.getResourceIds(), oauthAuthorization.getClientSecret(),
 						oauthAuthorization.getScope(), oauthAuthorization.getAuthorizedGrantTypes(), oauthAuthorization.getAuthorities(), oauthAuthorization.getAccessTokenValidity());
 			}
-			infoLog.info("customOauthAuthorization in loadClientByClientId(),CustomClientDetailsServiceImpl"+customOauthAuthorization);
+			debugLog.debug("customOauthAuthorization "+customOauthAuthorization);
 			return customOauthAuthorization;
 		}
 		catch (Exception e)
@@ -157,7 +157,7 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 
 	public RMDetails getRMDetails(String clientId, String clientType){
 		RMDetails rmDetails = rmDetailsDAO.getRMDetailById(clientId, clientType);
-		infoLog.info("rmDetails in getRMDetails(),CustomClientDetailsServiceImpl"+rmDetails);
+		debugLog.debug("rmDetails "+rmDetails);
 		return rmDetails;
 	}
 
@@ -166,7 +166,7 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 		try
 		{
 
-			/*Map<String, String> personMap = personRepo.findPerson(loginDataRequest.getUserId(), loginDataRequest.getPassword());
+			Map<String, String> personMap = personRepo.findPerson(loginDataRequest.getUserId(), loginDataRequest.getPassword());
 
 			if (personMap == null || personMap.isEmpty())
 			{
@@ -182,18 +182,19 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 				throw new ClientRegistrationException("Client not part of the requested group " + ldapGroup);
 			}
 
-			*//** Add RM Details to table **//*
-			infoLog.info("LDAP EMAIL" + personMap.get(PersonRepoImpl.LDAP_EMAIL_ATTRIBUTE));
-			infoLog.info("LDAP NAME" + personMap.get(PersonRepoImpl.LDAP_NAME_ATTRIBUTE));
-*/
+			/** Add RM Details to table **//*
+
+			debugLog.debug("LDAP EMAIL" + personMap.get(PersonRepoImpl.LDAP_EMAIL_ATTRIBUTE));
+			debugLog.debug("LDAP NAME" + personMap.get(PersonRepoImpl.LDAP_NAME_ATTRIBUTE));*/
+
 			/*Start: Code Added by Avisha to add RM's email ID, Mob No and flex ID on 05/09*/        	
 			RMDetails rmDetails = new RMDetails();
 			rmDetails.setId(loginDataRequest.getUserId());
 			//rmDetails.setFlex_Id("FLex_ID");
-			rmDetails.setRmName("NAME");
-			//rmDetails.setRmEmailId(personMap.get(PersonRepoImpl.LDAP_EMAIL_ATTRIBUTE));
+			rmDetails.setRmName(personMap.get(PersonRepoImpl.LDAP_NAME_ATTRIBUTE));
+			rmDetails.setRmEmailId(personMap.get(PersonRepoImpl.LDAP_EMAIL_ATTRIBUTE));
 			List<RMDetails> rmDetailsLst = rmDetailsDAO.getRMDetailListByRMId(loginDataRequest.getUserId());
-			infoLog.info("RMDetailsList siz: "+rmDetailsLst.size());
+			debugLog.debug("RMDetailsList siz: "+rmDetailsLst.size());
 			if(rmDetailsLst!=null && rmDetailsLst.size()!=0)
 			{
 				rmDetails.setModifiedBy(loginDataRequest.getUserId());
