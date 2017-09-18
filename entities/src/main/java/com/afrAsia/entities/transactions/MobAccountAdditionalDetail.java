@@ -131,9 +131,12 @@ public class MobAccountAdditionalDetail implements Serializable {
 	@Column(name = "STMT_COUNTRY")
 	private String stmtCountry;
 
-	@Column(name = "STMT_DELIVERY")
-	private String stmtDelivery;
+	@Column(name = "STMT_DELIVERY_PO")
+	private Boolean stmtDeliveryPo;
 
+	@Column(name = "STMT_DELIVERY_ESTMT")
+	private Boolean stmtDeliveryEstmt;
+	
 	@Column(name = "REQUIRE_CHQ_BOOK")
 	private Boolean requireChqBook;
 
@@ -456,14 +459,6 @@ public class MobAccountAdditionalDetail implements Serializable {
 		this.stmtCountry = stmtCountry;
 	}
 
-	public String getStmtDelivery() {
-		return stmtDelivery;
-	}
-
-	public void setStmtDelivery(String stmtDelivery) {
-		this.stmtDelivery = stmtDelivery;
-	}
-
 	public Boolean getRequireChqBook() {
 		return requireChqBook;
 	}
@@ -504,6 +499,22 @@ public class MobAccountAdditionalDetail implements Serializable {
 		this.nomineeCc2 = nomineeCc2;
 	}
 
+	public Boolean getStmtDeliveryPo() {
+		return stmtDeliveryPo;
+	}
+
+	public void setStmtDeliveryPo(Boolean stmtDeliveryPo) {
+		this.stmtDeliveryPo = stmtDeliveryPo;
+	}
+
+	public Boolean getStmtDeliveryEstmt() {
+		return stmtDeliveryEstmt;
+	}
+
+	public void setStmtDeliveryEstmt(Boolean stmtDeliveryEstmt) {
+		this.stmtDeliveryEstmt = stmtDeliveryEstmt;
+	}
+
 	@Override
 	public String toString() {
 		return "MobAccountAdditionalDetail [id=" + id + ", authEmail1=" + authEmail1 + ", authEmail2=" + authEmail2
@@ -518,10 +529,12 @@ public class MobAccountAdditionalDetail implements Serializable {
 				+ optTranEmail + ", otpEmail=" + otpEmail + ", otpSms=" + otpSms + ", pinViaPost=" + pinViaPost
 				+ ", pinViaSms=" + pinViaSms + ", prefCommMode=" + prefCommMode + ", prepaidCards=" + prepaidCards
 				+ ", recordId=" + recordId + ", stmtAddr1=" + stmtAddr1 + ", stmtAddr2=" + stmtAddr2 + ", stmtAddr3="
-				+ stmtAddr3 + ", stmtCity=" + stmtCity + ", stmtCountry=" + stmtCountry + ", stmtDelivery="
-				+ stmtDelivery + ", requireChqBook=" + requireChqBook + ", afrasiaEventQues=" + afrasiaEventQues
-				+ ", afrasiaEventAns=" + afrasiaEventAns + ", nomineeCc1=" + nomineeCc1 + ", nomineeCc2=" + nomineeCc2
-				+ "]";
+				+ stmtAddr3 + ", stmtCity=" + stmtCity + ", stmtCountry=" + stmtCountry + ", stmtDeliveryPo="
+				+ stmtDeliveryPo + ", stmtDeliveryEstmt=" + stmtDeliveryEstmt + ", requireChqBook=" + requireChqBook
+				+ ", afrasiaEventQues=" + afrasiaEventQues + ", afrasiaEventAns=" + afrasiaEventAns + ", nomineeCc1="
+				+ nomineeCc1 + ", nomineeCc2=" + nomineeCc2 + "]";
 	}
+
+	
 
 }

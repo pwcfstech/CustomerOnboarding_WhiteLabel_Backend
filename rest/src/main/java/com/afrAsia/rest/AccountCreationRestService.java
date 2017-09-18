@@ -266,14 +266,8 @@ public class AccountCreationRestService {
 			}
 		}
 
-		// Check for Statement delivery type
-		if (!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getStmtDelivery())) {
-			if (accountCreationData.getAccountDetails().getStmtDelivery().equalsIgnoreCase("Post")) {
-				if (!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getStmtAddr1())
-						|| accountCreationData.getAccountDetails().getStmtAddr1().length() > 105) {
 					// Check for Statement delivery type
-					if (!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getStmtDelivery())) {
-						if (accountCreationData.getAccountDetails().getStmtDelivery().equalsIgnoreCase("Post")) {
+						if (accountCreationData.getAccountDetails().getStmtDeliveryPo()) {
 							if (!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getStmtAddr1())
 									|| accountCreationData.getAccountDetails().getStmtAddr1().length() > 105) {
 								errorLog.error(" Error in Stmt Address 1 in validateAccountDetails(),AccountCreationRestService.java");
@@ -300,11 +294,11 @@ public class AccountCreationRestService {
 								return ("Error in Stmt Country");
 							}
 						} else
-							if (!accountCreationData.getAccountDetails().getStmtDelivery().equalsIgnoreCase("Estmt")) {
+							if (!accountCreationData.getAccountDetails().getStmtDeliveryEstmt()) {
 								errorLog.error(" Invalid value for Statement Delivery in validateAccountDetails(),AccountCreationRestService.java");
 							return ("Invalid value for Statement Delivery");
 						}
-					}
+					
 
 					// Check for Internet banking
 					if (accountCreationData.getAccountDetails().getNeedInternetBanking()) {
@@ -364,9 +358,9 @@ public class AccountCreationRestService {
 							cntr++;
 						}
 					}
-				}
-			}
-		}
+				
+			
+		
 		infoLog.info("return Success");
 		return ("Success");
 	}

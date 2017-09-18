@@ -112,6 +112,8 @@ public class PersonRepoImpl
 		{
 			lock.lock();
 			reCreateLdapContext(dn, password);
+			List<String> usenames = getAllPersonNames();
+			System.out.println("UserNames" + usenames);
 			return ldapTemplate.lookup("cn=" + dn, new PersonAttributesMapper());
 		}
 		catch (Exception e)

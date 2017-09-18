@@ -1,12 +1,9 @@
 package com.afrAsia.entities.response;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import com.afrAsia.entities.jpa.MsgHeader;
-import com.afrAsia.entities.response.ApplicantDetailsResponse;
-import com.afrAsia.entities.response.JointApplicantsResponse;
 import com.afrAsia.entities.request.NomineeInfo;
 
 public class ApplicationDetailsResponse implements Serializable {
@@ -186,7 +183,8 @@ public class ApplicationDetailsResponse implements Serializable {
 			String account;
 			String accountType;
 			String mop;
-			String stmtDelivery;
+			Boolean stmtDeliveryPo;
+			Boolean stmtDeliveryEstmt;
 			String stmtAddr1;
 			String stmtAddr2;
 			String stmtAddr3;
@@ -272,14 +270,6 @@ public class ApplicationDetailsResponse implements Serializable {
 
 			public void setAccountType(String accountType) {
 				this.accountType = accountType;
-			}
-
-			public String getStmtDelivery() {
-				return stmtDelivery;
-			}
-
-			public void setStmtDelivery(String stmtDelivery) {
-				this.stmtDelivery = stmtDelivery;
 			}
 
 			public String getStmtAddr1() {
@@ -482,16 +472,33 @@ public class ApplicationDetailsResponse implements Serializable {
 				this.optTransactionsThruEmail = optTransactionsThruEmail;
 			}
 
+			public Boolean getStmtDeliveryPo() {
+				return stmtDeliveryPo;
+			}
+
+			public void setStmtDeliveryPo(Boolean stmtDeliveryPo) {
+				this.stmtDeliveryPo = stmtDeliveryPo;
+			}
+
+			public Boolean getStmtDeliveryEstmt() {
+				return stmtDeliveryEstmt;
+			}
+
+			public void setStmtDeliveryEstmt(Boolean stmtDeliveryEstmt) {
+				this.stmtDeliveryEstmt = stmtDeliveryEstmt;
+			}
+
 			@Override
 			public String toString() {
 				return "AccountDetails [account=" + account + ", accountType=" + accountType + ", mop=" + mop
-						+ ", stmtDelivery=" + stmtDelivery + ", stmtAddr1=" + stmtAddr1 + ", stmtAddr2=" + stmtAddr2
-						+ ", stmtAddr3=" + stmtAddr3 + ", stmtCity=" + stmtCity + ", stmtCountry=" + stmtCountry
-						+ ", needCreditCard=" + needCreditCard + ", needGlobalCustody=" + needGlobalCustody
-						+ ", needForexBanking=" + needForexBanking + ", needPrepaidCard=" + needPrepaidCard
-						+ ", needInternetBanking=" + needInternetBanking + ", internetBankingUn=" + internetBankingUn
-						+ ", otpOverEmail=" + otpOverEmail + ", otpOverSMS=" + otpOverSMS + ", pinViaSMS=" + pinViaSMS
-						+ ", pinViaPost=" + pinViaPost + ", prefCommMode=" + prefCommMode + ", whrDidYouHearAbtAfrAsia="
+						+ ", stmtDeliveryPo=" + stmtDeliveryPo + ", stmtDeliveryEstmt=" + stmtDeliveryEstmt
+						+ ", stmtAddr1=" + stmtAddr1 + ", stmtAddr2=" + stmtAddr2 + ", stmtAddr3=" + stmtAddr3
+						+ ", stmtCity=" + stmtCity + ", stmtCountry=" + stmtCountry + ", needCreditCard="
+						+ needCreditCard + ", needGlobalCustody=" + needGlobalCustody + ", needForexBanking="
+						+ needForexBanking + ", needPrepaidCard=" + needPrepaidCard + ", needInternetBanking="
+						+ needInternetBanking + ", internetBankingUn=" + internetBankingUn + ", otpOverEmail="
+						+ otpOverEmail + ", otpOverSMS=" + otpOverSMS + ", pinViaSMS=" + pinViaSMS + ", pinViaPost="
+						+ pinViaPost + ", prefCommMode=" + prefCommMode + ", whrDidYouHearAbtAfrAsia="
 						+ whrDidYouHearAbtAfrAsia + ", agreeCommEmail=" + agreeCommEmail + ", agreeCommSMS="
 						+ agreeCommSMS + ", optTransactionsThruEmail=" + optTransactionsThruEmail + ", authEmail1="
 						+ authEmail1 + ", authEmail2=" + authEmail2 + ", authEmail3=" + authEmail3
