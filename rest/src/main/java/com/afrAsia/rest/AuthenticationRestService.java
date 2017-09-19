@@ -70,7 +70,7 @@ public class AuthenticationRestService
 		catch (Exception e)
 		{
 			//AfrAsiaLogger.infoLog("in catch of rest ====== ");
-			e.printStackTrace();
+			//e.printStackTrace();
 			errorLog.error("error in login(),AuthenticationRestService is :", e);
 			MessageHeader msgHeader = new MessageHeader();
 			RequestError error = new RequestError();

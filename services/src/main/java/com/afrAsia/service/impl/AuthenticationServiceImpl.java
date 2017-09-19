@@ -310,12 +310,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				SearchResult result = (SearchResult) namingEnum.next();
 				Attributes attrs = result.getAttributes();
 				String name = attrs.get("cn").toString();
-				String mail = attrs.get("mail").toString();
+				String mail = null;
+				if(attrs.get("mail")!=null)
+				{
+					mail = attrs.get("mail").toString();
+				}
 
 				if (name.contains(username)) {
 					System.out.println("Name matched" + name + "Mail" + mail);
 					name = name.substring(4);
-					mail = mail.substring(6);
+					if(mail!=null)
+					{
+						mail = mail.substring(6);
+					}
 
 					/*
 					 * Start: Code Added by Avisha to add RM's email ID, Mob No
@@ -346,9 +353,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("LDAP EXCEPTION" + e.getMessage());
-			e.printStackTrace();
-			throw new Exception();
+			errorLog.error("LDAP EXCEPTION" , e);
+			//e.printStackTrace();
+			throw e;
 		}
 		throw new Exception();
 	}

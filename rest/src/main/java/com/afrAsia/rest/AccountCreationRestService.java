@@ -101,7 +101,7 @@ public class AccountCreationRestService {
 											.updateAccount(accountCreationRequest);
 								}
 							} catch (NullPointerException e) {
-								errorLog.error("please provide comments, its not provided in your update request ");
+								errorLog.error("please provide comments, its not provided in your update request ",e);
 								MsgHeader messageHeader = new MsgHeader();
 								MsgHeader.Error error = new MsgHeader().new Error();
 								error.setCd("404");
@@ -153,7 +153,7 @@ public class AccountCreationRestService {
 			error.setRsn("Sorry, there was an error while creating the account. Please try again later.");
 			msgHeader.setError(error);
 			accountCreationResponse.setMsgHeader(msgHeader);
-			errorLog.error(" accountCreationResponse in createAccount(),AccountCreationRestService.java : "+accountCreationResponse);
+			errorLog.error(" accountCreationResponse in createAccount(),AccountCreationRestService.java : ",e);
 			return Response.ok(accountCreationResponse, MediaType.APPLICATION_JSON).build();
 		}
 		infoLog.info(" accountCreationResponse in createAccount(),AccountCreationRestService.java : "+accountCreationResponse);
@@ -785,11 +785,9 @@ public class AccountCreationRestService {
 			AfrAsiaSMSUtility.sendSMS(url);
 			infoLog.info("SMS sent success");
 		}  catch (IOException e) {
-			errorLog.error("IOException found in sendSMSToCustomer(),AccountCreationRestService.java : "+e.getMessage());
-			e.printStackTrace();
+			errorLog.error("IOException found .java : ",e);
 		}	catch (Exception e) {
-			errorLog.error("Exception found in sendSMSToCustomer(),AccountCreationRestService.java : "+e.getMessage());
-			e.printStackTrace();
+			errorLog.error("Exception found .java : ",e);
 		}
 	}	
 }

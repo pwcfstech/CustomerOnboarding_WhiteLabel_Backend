@@ -104,7 +104,7 @@ public class AddCommentServiceImpl implements AddCommentService {
 					return genericResponse;
 				}	*/
 				catch(NoResultException excpMessage){
-					errorLog.error("excpMessage :: "+excpMessage);
+					errorLog.error("excpMessage :: ",excpMessage);
 					MessageHeader messageHeader = new MessageHeader();
 					RequestError requestError = new RequestError();
 					requestError.setRsn("requested app id is not present , please pass another id");

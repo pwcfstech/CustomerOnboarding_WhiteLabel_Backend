@@ -189,10 +189,6 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			i++;
 			jointApplicants.add(applicantRefNo);
 		}
-		debugLog.debug("mobRmAppRefId :: "+mobRmAppRefId.toString()+","+
-				"mobAppRefRecordId :: "+mobAppRefRecordId.toString()+","+
-				"primaryApplicant :: "+primaryApplicant.toString()+","+
-				"guardianPrimary :: "+guardianPrimary.toString());
 		//Create Account
 		AccountDetails accountDetails = accountCreationRequest.getData().getAccountDetails();
 		enterAccountDetails(accountCreationRequest,appRefNo, recordId, mobApplicantPrimary, mobGuardianPrimary, mobJoint, mobGuardianJoint, accountDetails);
@@ -1131,7 +1127,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
     	rmDetails = rmDetailsDAO.getRMDetailByRMId(RMId);
     	debugLog.debug(" rmDetails ::  "+rmDetails);
 		}catch(NullPointerException e){
-		errorLog.error(" rmDetails is null ");	
+		errorLog.error(" rmDetails is null ",e);	
 		}
     	return rmDetails;
     }
