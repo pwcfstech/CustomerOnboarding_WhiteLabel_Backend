@@ -147,8 +147,7 @@ public class AccountCreationRestService {
 				return Response.ok(accountCreationResponse, MediaType.APPLICATION_JSON).build();
 			}
 		} catch (Exception e) {
-			errorLog.error(" Sorry, there was an error while creating the account. Please try again later ");
-			e.printStackTrace();
+			errorLog.error(" Sorry, there was an error while creating the account. Please try again later ",e);
 			Error error = new MsgHeader().new Error();
 			error.setCd("404");
 			error.setRsn("Sorry, there was an error while creating the account. Please try again later.");
@@ -505,14 +504,14 @@ public class AccountCreationRestService {
 			errorLog.error(customerType + ":Error in Mail Country in validateApplicant(),AccountCreationRestService.java");
 			return (customerType + ":Error in Mail Country");
 		}
-		if (applicant.getTelNoHome() == null) {
+		/*if (applicant.getTelNoHome() == null) {
 			errorLog.error(customerType + ":Error in Home Tel no in validateApplicant(),AccountCreationRestService.java");
 			return (customerType + ":Error in Home Tel no");
 		}
 		if (applicant.getTelNoOff() == null) {
 			errorLog.error(customerType + ":Error in Office Tel no in validateApplicant(),AccountCreationRestService.java");
 			return (customerType + ":Error in Office Tel no");
-		}
+		}*/
 		if (applicant.getMobNo() == null) {
 			errorLog.error(customerType + ":Error in Mobile No in validateApplicant(),AccountCreationRestService.java");
 			return (customerType + ":Error in Mobile No");

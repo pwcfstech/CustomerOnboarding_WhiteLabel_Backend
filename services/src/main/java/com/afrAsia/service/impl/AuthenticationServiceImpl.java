@@ -176,13 +176,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		String userId = loginDataRequest.getUserId();
 		String clientSecret = passwordEncoder.encode(loginDataRequest.getPassword());
 		String userType = loginDataRequest.getUserType();
-
+		
 		if (tryLdapConnection(loginDataRequest.getUserId(), loginDataRequest.getPassword())) {
 			ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(userId); 
 			infoLog.info("clientDetails in login(),AuthenticationServiceImpl is : "+clientDetails);
 			RMDetails rmDetails;
+			OAuth2AccessToken token=null;
 			
-			OAuth2AccessToken token = getTokenDetails(userId, clientSecret, "client_credentials");
 			infoLog.info("clientDetails in login(),AuthenticationServiceImpl is : "+clientDetails);
 			
 			if (clientDetails == null)
@@ -192,6 +192,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 						7200, 7200, null, null);	
 			}
 			else{
+				token = getTokenDetails(userId, clientSecret, "client_credentials");
 				LogoutRequest logOutRequest = new LogoutRequest();
 				LogoutDataRequest logoutDataRequest = new LogoutDataRequest();
 				logoutDataRequest.setDeviceId(loginDataRequest.getDeviceId());
