@@ -50,12 +50,13 @@ public class Test {
 	            Attributes attrs = result.getAttributes();
 	            String nameT = attrs.get("cn").toString();
 	            String mailT = attrs.get("mail").toString();
-	            
+	            String usernameLdap =  attrs.get("sAMAccountName").toString();
+	            usernameLdap =  usernameLdap.substring(16);
 	            String name = nameT.substring(4);
 	            String mail = mailT.substring(6);
 	            
 	            
-	            if(name.contains(username)){
+	            if(usernameLdap.contains(username)){
 	            	System.out.println("Name matched" + name + "Mail" + mail);
 	            	break;
 	            }

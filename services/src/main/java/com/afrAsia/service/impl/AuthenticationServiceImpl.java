@@ -309,14 +309,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			while (namingEnum != null && namingEnum.hasMoreElements()) {
 				SearchResult result = (SearchResult) namingEnum.next();
 				Attributes attrs = result.getAttributes();
-				String name = attrs.get("cn").toString();
+				String usernameLdap =  attrs.get("sAMAccountName").toString();
+		        usernameLdap =  usernameLdap.substring(16);
+ 				String name = attrs.get("cn").toString();
 				String mail = null;
 				if(attrs.get("mail")!=null)
 				{
 					mail = attrs.get("mail").toString();
 				}
 
-				if (name.contains(username)) {
+				if (usernameLdap.contains(username)) {
 					System.out.println("Name matched" + name + "Mail" + mail);
 					name = name.substring(4);
 					if(mail!=null)
@@ -348,7 +350,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 					 * and flex ID on 05/09
 					 */
 
-					return true;
+				return true;
 
 				}
 			}
