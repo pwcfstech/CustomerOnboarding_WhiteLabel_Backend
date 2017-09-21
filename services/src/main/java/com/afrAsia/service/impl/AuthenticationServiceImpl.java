@@ -293,10 +293,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		try {
 			Hashtable<String, String> env = new Hashtable<String, String>();
 
+			String usernameAuth = "afrasiabank\\" + username;
 			env.put(Context.INITIAL_CONTEXT_FACTORY, contextFactory);
 			env.put(Context.PROVIDER_URL, url);
 			env.put(Context.SECURITY_AUTHENTICATION, authenticationType);
-			env.put(Context.SECURITY_PRINCIPAL, username);
+			env.put(Context.SECURITY_PRINCIPAL, usernameAuth);
 			env.put(Context.SECURITY_CREDENTIALS, password);
 
 			LdapContext ctx = new InitialLdapContext(env, null);
@@ -318,7 +319,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 					mail = attrs.get("mail").toString();
 				}
 
-				if (usernameLdap.contains(username)) {
+				if (username.contains(usernameLdap)) {
 					System.out.println("Name matched" + name + "Mail" + mail);
 					name = name.substring(4);
 					if(mail!=null)
@@ -335,6 +336,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 					rmDetails.setRmName(name);
 					rmDetails.setRmEmailId(mail);
 					List<RMDetails> rmDetailsLst = rmDetailsDAO.getRMDetailListByRMId(username);
+					infoLog.info("RM Name matched" + username);
 					infoLog.info("RMDetailsList siz: " + rmDetailsLst.size());
 					if (rmDetailsLst != null && rmDetailsLst.size() != 0) {
 						rmDetails.setModifiedBy(username);

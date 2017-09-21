@@ -19,7 +19,7 @@ public class Test {
 			// execute blocks of code
 			isRequestSuccessful = true;
 			System.out.println("Done");
-			tryLdapConnection("RMTestmob1", "Password10");
+			tryLdapConnection("afrasiabank\\Rmtest.Mobile", "Password10@");
 		} catch (Exception e) {
 			e.printStackTrace();
 			// show pop up
@@ -31,33 +31,28 @@ public class Test {
 	private static boolean tryLdapConnection(String username, String password) {
 		try {
 			Hashtable<String, String> env = new Hashtable<String, String>();
-
+		
 			env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-			env.put(Context.PROVIDER_URL, "ldap://10.0.0.202:389");
+			env.put(Context.PROVIDER_URL, "ldap://10.10.0.202:389");
 			env.put(Context.SECURITY_AUTHENTICATION, "simple");
-			// env.put(Context., arg1)
 			env.put(Context.SECURITY_PRINCIPAL, username);
 			env.put(Context.SECURITY_CREDENTIALS, password);
 
 			LdapContext ctx = new InitialLdapContext(env, null);
 			ctx.setRequestControls(null);
-
+			System.out.println("reaching here");
+			
 			NamingEnumeration<?> namingEnum = ctx.search("ou=AfrasiaBank Users,dc=afrasiabank,DC=local", "(memberOf=CN=G-RMMobile,OU=Groups,OU=AfrasiaBank Users,DC=afrasiabank,DC=local)", getSearchControls());	
 			
 			while (namingEnum != null && namingEnum.hasMoreElements())
 			{
 				SearchResult result = (SearchResult) namingEnum.next ();    
 	            Attributes attrs = result.getAttributes();
-	            String nameT = attrs.get("cn").toString();
-	            String mailT = attrs.get("mail").toString();
 	            String usernameLdap =  attrs.get("sAMAccountName").toString();
 	            usernameLdap =  usernameLdap.substring(16);
-	            String name = nameT.substring(4);
-	            String mail = mailT.substring(6);
 	            
-	            
-	            if(usernameLdap.contains(username)){
-	            	System.out.println("Name matched" + name + "Mail" + mail);
+	            if(username.contains(usernameLdap)){
+	            	System.out.println("Name matched");
 	            	break;
 	            }
 	            
