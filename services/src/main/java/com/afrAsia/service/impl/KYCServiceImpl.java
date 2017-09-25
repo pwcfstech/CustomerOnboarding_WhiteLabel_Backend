@@ -2,11 +2,13 @@
 package com.afrAsia.service.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -447,6 +449,133 @@ public class KYCServiceImpl implements KYCService {
 			}
 		}
 	}
+	
+	
+	
+	/**
+	 * @param appId
+	 * @param applicantId
+	 * @param cif
+	 * @param recordNo
+	 * @param rmId
+	 * @throws IOException
+	 */
+	@Transactional(readOnly = false, rollbackFor = {Exception.class})
+	public void copyKYCFiles(Long appId, Long applicantId, Long cif, Long recordNo, String rmId) throws IOException {
+		System.out.println("appId : " + appId + ", applicantId : " + applicantId);
+		
+		StringBuffer dmsdocsDirectoryBuffer = new StringBuffer();
+		StringBuffer sigDirectoryBuffer = new StringBuffer();
+		StringBuffer dmsdocSsharedPathBuffer = new StringBuffer();
+		StringBuffer sigSharedPathBuffer = new StringBuffer();
+
+		String sourceDmsdocsDirectoryName = dmsdocsDirectoryBuffer.append(DMSDOCS_PATH).append(appId).toString();
+		String sourceSigDirectoryName = sigDirectoryBuffer.append(SIG_PATH).append(appId).toString();
+		
+		dmsdocsDirectoryBuffer = new StringBuffer();
+		sigDirectoryBuffer =  new StringBuffer();
+		String destDmsdocsDirectoryName = dmsdocsDirectoryBuffer.append(DMSDOCS_PATH).append(cif).toString();
+		String desteSigDirectoryName = sigDirectoryBuffer.append(SIG_PATH).append(cif).toString();
+		String dmsdocsSharedPath = dmsdocSsharedPathBuffer.append(DMSDOCS_SHARED_PATH).append(cif).toString();
+		String sigSharedPath = sigSharedPathBuffer.append(SIG_SHARED_PATH).append(cif).toString();
+		
+		
+		File destDmsdocsDirectory = new File(destDmsdocsDirectoryName);
+		if (!destDmsdocsDirectory.exists()) {
+			destDmsdocsDirectory.mkdirs();
+		}
+		
+		File desteSigDirectory = new File(desteSigDirectoryName);
+		if (!desteSigDirectory.exists()) {
+			desteSigDirectory.mkdirs();
+		}
+
+		File dmsdocsDirectory = new File(sourceDmsdocsDirectoryName);
+		File[] dmsdocsfList = dmsdocsDirectory.listFiles();
+		
+		File sigDirectory = new File(sourceSigDirectoryName);
+		File[] sigfList = sigDirectory.listFiles();
+		Date now = new Date(); 
+		String date = new SimpleDateFormat("ddMMyyyy").format(now);
+		MobApplicantKycDocuments kycDocs = null;
+		File destFile = null;
+		String filename = null;
+		String docId = null;
+
+		for (File dmsdocsFile : dmsdocsfList) {
+			System.out.println(dmsdocsFile.getName());
+			// AppId_ApplicantId_FN_LN_DocumentId_Date(DD-MM-YYY)_Time(HH-MM).pdf
+			// <DocumentId>_<Date in DDMMYYYY>
+			docId = dmsdocsFile.getName().split("_")[4];
+			filename = new StringBuffer().append(docId).append("_").append(date).append(".pdf").toString();
+			destFile = new File(destDmsdocsDirectoryName + "/" + filename);
+			this.copyFile(dmsdocsFile, destFile);
+
+			kycDocs = new MobApplicantKycDocuments();
+			kycDocs.setId(new KycTableCompositePK());
+			kycDocs.getId().setId(appId);
+			kycDocs.getId().setApplicantId(applicantId);
+			kycDocs.getId().setDocId(docId);
+			kycDocs.setRecordId(recordNo);
+			kycDocs.setDocUrl(dmsdocsSharedPath + "/" + filename);
+			kycDocs.setCreatedBy(rmId);
+			kycDocs.setCreatedDate(now);
+			kycDocs.setModifiedBy(rmId);
+			kycDocs.setModifiedDate(now);
+
+			uploadKYCDao.saveKYCDocLocation(kycDocs);
+		}
+
+		for (File sigFile : sigfList) {
+			// AppId_ApplicantId_FN_LN_DocumentId_Date(DD-MM-YYY)_Time(HH-MM).jpg
+			// CIF_Sig_<Date in DDMMYYY>
+			filename = new StringBuffer().append(cif).append("_Sig_").append(date).append(".jpg").toString();
+			destFile = new File(desteSigDirectoryName + "/" + filename);
+			this.copyFile(sigFile, destFile);
+
+			kycDocs = new MobApplicantKycDocuments();
+			kycDocs.setId(new KycTableCompositePK());
+			kycDocs.getId().setId(appId);
+			kycDocs.getId().setApplicantId(applicantId);
+			kycDocs.getId().setDocId(SIGNATURE);
+			kycDocs.setRecordId(recordNo);
+			kycDocs.setDocUrl(sigSharedPath + "/" + filename);
+			kycDocs.setCreatedBy(rmId);
+			kycDocs.setCreatedDate(now);
+			kycDocs.setModifiedBy(rmId);
+			kycDocs.setModifiedDate(now);
+
+			uploadKYCDao.saveKYCDocLocation(kycDocs);
+		}
+	}
+	
+	/**
+	 * @param sourceFile
+	 * @param destFile
+	 * @throws IOException
+	 */
+	private void copyFile(File sourceFile, File destFile) throws IOException {
+		InputStream inStream = null;
+		OutputStream outStream = null;
+		System.out.println("Enter : copyFile() sourceFile : "+sourceFile.getName()+", destFile : "+destFile.getName());
+		try {
+			inStream = new FileInputStream(sourceFile);
+			outStream = new FileOutputStream(destFile);
+
+			byte[] buffer = new byte[1024];
+			int length;
+			while ((length = inStream.read(buffer)) > 0) {
+				outStream.write(buffer, 0, length);
+			}
+			System.out.println("File is copied successful!");
+		} finally {
+			if (null != inStream) inStream.close();
+			if (null != outStream) outStream.close();
+		}
+		System.out.println("Exit copyFile()");
+	}
+
+
 
 }
 //=======

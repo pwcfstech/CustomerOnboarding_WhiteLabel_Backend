@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.afrAsia.dao.ComplianceDao;
 import com.afrAsia.entities.jpa.ApplicationReference;
+import com.afrAsia.entities.transactions.MobApplCheckComments;
 
 public interface ComplianceJpaDao extends ComplianceDao, BaseJpaDAO<Long, ApplicationReference> {
 
@@ -32,6 +33,6 @@ public interface ComplianceJpaDao extends ComplianceDao, BaseJpaDAO<Long, Applic
 
 	public List<Object> getDetailsByUnderProcessingAllCriteria(String name, Date startDate, Date endDate);
 
-	public void updateErrorMessage(Long id, Long recordId);
+	public void updateErrorMessage(MobApplCheckComments mobApplCheckComment);
 
 }

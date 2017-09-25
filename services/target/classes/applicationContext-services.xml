@@ -50,6 +50,7 @@
 		<property name="accountClassDAO" ref="accountClassJpaDAO" />
 		<property name="categoryMasterDAO" ref="categoryMasterJpaDAO" />
 		<property name="countryDAO" ref="countryJpaDAO" />
+		<property name="bankDAO" ref="bankJpaDAO" />
 		<property name="employmentDAO" ref="employmentJpaDAO" />
 		<property name="maritalStatusDAO" ref="maritalStatusJpaDAO" />
 		<property name="prefixDAO" ref="prefixJpaDAO" />
@@ -137,4 +138,11 @@
 	<bean id="kycDocDownloadService" class="com.afrAsia.service.impl.KycDocDownloadServiceImpl">
 		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" />
 	</bean>
+	
+	<bean id="accountCreationSOAPService" class="com.afrAsia.service.impl.AccountCreationSOAPServiceImpl">
+		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" /> 
+		<property name="complianceDao" ref="complianceJpaDao" />
+		<property name="kycService" ref="kycService" /> 
+	</bean>
+	
 </beans>						

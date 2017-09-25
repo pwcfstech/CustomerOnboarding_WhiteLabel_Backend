@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.afrAsia.dao.jpa.ApplicationDetailsJpaDAO;
 import com.afrAsia.entities.transactions.MobAccountAdditionalDetail;
 import com.afrAsia.entities.transactions.MobAccountDetail;
@@ -113,6 +115,18 @@ public class ApplicationDetailsDaoImpl extends BaseJpaDAOImpl<Long, MobRmAppRefI
 		query.setParameter("applicantId", applicantId);
 		query.setParameter("docId", docId);
 		return (MobApplicantKycDocuments) query.getSingleResult();
+	}
+	
+	
+	@Transactional
+	public void updateMobApplicantPersonalDetails(MobApplicantPersonalDetail mobApplicantPersonalDetail){
+		getEntityManager().merge(mobApplicantPersonalDetail);
+		getEntityManager().flush();
+	}
+	@Transactional
+	public void updateMobRmAppRefId(MobRmAppRefId mobRmAppRefId){
+		getEntityManager().merge(mobRmAppRefId);
+		getEntityManager().flush();
 	}
 	
 }

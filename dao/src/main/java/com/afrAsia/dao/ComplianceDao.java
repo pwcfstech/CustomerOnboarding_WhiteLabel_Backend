@@ -3,6 +3,8 @@ package com.afrAsia.dao;
 import java.util.Date;
 import java.util.List;
 
+import com.afrAsia.entities.transactions.MobApplCheckComments;
+
 public interface ComplianceDao {
 	
 	public List<Object> getDetailsByAccountRejectedDefault();
@@ -29,6 +31,6 @@ public interface ComplianceDao {
 
 	public List<Object> getDetailsByUnderProcessingAllCriteria(String name, Date startDate, Date endDate);
 
-	public void updateErrorMessage(Long id, Long recordId);
+	public void updateErrorMessage(MobApplCheckComments mobApplCheckComment);
 	
 }

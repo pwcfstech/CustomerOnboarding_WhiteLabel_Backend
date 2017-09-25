@@ -138,4 +138,11 @@
 	<bean id="kycDocDownloadService" class="com.afrAsia.service.impl.KycDocDownloadServiceImpl">
 		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" />
 	</bean>
+	
+	<bean id="accountCreationSOAPService" class="com.afrAsia.service.impl.AccountCreationSOAPServiceImpl">
+		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" /> 
+		<property name="complianceDao" ref="complianceJpaDao" />
+		<property name="kycService" ref="kycService" /> 
+	</bean>
+	
 </beans>						

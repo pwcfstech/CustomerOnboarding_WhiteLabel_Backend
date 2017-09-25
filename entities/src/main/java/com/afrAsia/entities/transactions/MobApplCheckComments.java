@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * The persistent class for the MOB_APPLICATION_COMP_STATUS database table.
+ * The persistent class for the MOB_APPL_CHECK_COMMENTS database table.
  * 
  */
 @Entity
@@ -23,43 +23,47 @@ public class MobApplCheckComments implements Serializable {
 	private Long recordId;
 
 	@Column(name = "KYC_COMMENT")
-	private Boolean kycComment;
+	private String kycComment;
 
 	@Column(name = "KYC_COMMENT_BY")
 	private String kycCommentBy;
-
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "KYC_DATE")
-	private Boolean kycDate;
+	private Date kycDate;
 
 	@Column(name = "WC_COMMENT")
 	private String wcComment;
 
 	@Column(name = "WC_COMMENT_BY")
 	private String wcCommentBy;
-
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "WC_DATE")
-	private String wcDate;
+	private Date wcDate;
 
 	@Column(name = "CC_COMMENT")
-	private Date ccComment;
+	private String ccComment;
 
 	@Column(name = "CC_COMMENT_BY")
-	private Boolean ccCommentBy;
-
+	private String ccCommentBy;
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CC_DATE")
-	private String ccDate;
+	private Date ccDate;
 
 	@Column(name = "IC_COMMENT")
 	private String icComment;
 
 	@Column(name = "IC_COMMENT_BY")
 	private String icCommentBy;
-
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "IC_DATE")
 	private Date icDate;
 
 	@Column(name = "COMP_COMMENT")
-	private Boolean compComment;
+	private String compComment;
 
 	@Column(name = "COMP_ID")
 	private String compId;
@@ -71,10 +75,10 @@ public class MobApplCheckComments implements Serializable {
 	private String rmId;
 
 	@Column(name = "FLEX_ERROR_CODE")
-	private Date flexErrorCode;
+	private String flexErrorCode;
 
 	@Column(name = "FLEX_ERROR_MESSAGE")
-	private Boolean flexErrorMessage;
+	private String flexErrorMessage;
 
 	@Column(name = "CREATED_BY")
 	private String createdBy;
@@ -89,9 +93,14 @@ public class MobApplCheckComments implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "MODIFIED_DATE")
 	private Date modifiedDate;
-
-	public MobApplCheckComments() {
-	}
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "COMP_DATE")
+	private Date compDate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "RM_DATE")
+	private Date rmDate;
 
 	public Long getId() {
 		return id;
@@ -109,11 +118,11 @@ public class MobApplCheckComments implements Serializable {
 		this.recordId = recordId;
 	}
 
-	public Boolean getKycComment() {
+	public String getKycComment() {
 		return kycComment;
 	}
 
-	public void setKycComment(Boolean kycComment) {
+	public void setKycComment(String kycComment) {
 		this.kycComment = kycComment;
 	}
 
@@ -125,11 +134,11 @@ public class MobApplCheckComments implements Serializable {
 		this.kycCommentBy = kycCommentBy;
 	}
 
-	public Boolean getKycDate() {
+	public Date getKycDate() {
 		return kycDate;
 	}
 
-	public void setKycDate(Boolean kycDate) {
+	public void setKycDate(Date kycDate) {
 		this.kycDate = kycDate;
 	}
 
@@ -149,35 +158,35 @@ public class MobApplCheckComments implements Serializable {
 		this.wcCommentBy = wcCommentBy;
 	}
 
-	public String getWcDate() {
+	public Date getWcDate() {
 		return wcDate;
 	}
 
-	public void setWcDate(String wcDate) {
+	public void setWcDate(Date wcDate) {
 		this.wcDate = wcDate;
 	}
 
-	public Date getCcComment() {
+	public String getCcComment() {
 		return ccComment;
 	}
 
-	public void setCcComment(Date ccComment) {
+	public void setCcComment(String ccComment) {
 		this.ccComment = ccComment;
 	}
 
-	public Boolean getCcCommentBy() {
+	public String getCcCommentBy() {
 		return ccCommentBy;
 	}
 
-	public void setCcCommentBy(Boolean ccCommentBy) {
+	public void setCcCommentBy(String ccCommentBy) {
 		this.ccCommentBy = ccCommentBy;
 	}
 
-	public String getCcDate() {
+	public Date getCcDate() {
 		return ccDate;
 	}
 
-	public void setCcDate(String ccDate) {
+	public void setCcDate(Date ccDate) {
 		this.ccDate = ccDate;
 	}
 
@@ -205,11 +214,11 @@ public class MobApplCheckComments implements Serializable {
 		this.icDate = icDate;
 	}
 
-	public Boolean getCompComment() {
+	public String getCompComment() {
 		return compComment;
 	}
 
-	public void setCompComment(Boolean compComment) {
+	public void setCompComment(String compComment) {
 		this.compComment = compComment;
 	}
 
@@ -237,19 +246,19 @@ public class MobApplCheckComments implements Serializable {
 		this.rmId = rmId;
 	}
 
-	public Date getFlexErrorCode() {
+	public String getFlexErrorCode() {
 		return flexErrorCode;
 	}
 
-	public void setFlexErrorCode(Date flexErrorCode) {
+	public void setFlexErrorCode(String flexErrorCode) {
 		this.flexErrorCode = flexErrorCode;
 	}
 
-	public Boolean getFlexErrorMessage() {
+	public String getFlexErrorMessage() {
 		return flexErrorMessage;
 	}
 
-	public void setFlexErrorMessage(Boolean flexErrorMessage) {
+	public void setFlexErrorMessage(String flexErrorMessage) {
 		this.flexErrorMessage = flexErrorMessage;
 	}
 
@@ -285,6 +294,22 @@ public class MobApplCheckComments implements Serializable {
 		this.modifiedDate = modifiedDate;
 	}
 
+	public Date getCompDate() {
+		return compDate;
+	}
+
+	public void setCompDate(Date compDate) {
+		this.compDate = compDate;
+	}
+
+	public Date getRmDate() {
+		return rmDate;
+	}
+
+	public void setRmDate(Date rmDate) {
+		this.rmDate = rmDate;
+	}
+
 	@Override
 	public String toString() {
 		return "MobApplCheckComments [id=" + id + ", recordId=" + recordId + ", kycComment=" + kycComment
@@ -294,7 +319,9 @@ public class MobApplCheckComments implements Serializable {
 				+ ", icDate=" + icDate + ", compComment=" + compComment + ", compId=" + compId + ", rmComment="
 				+ rmComment + ", rmId=" + rmId + ", flexErrorCode=" + flexErrorCode + ", flexErrorMessage="
 				+ flexErrorMessage + ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", modifiedBy="
-				+ modifiedBy + ", modifiedDate=" + modifiedDate + "]";
+				+ modifiedBy + ", modifiedDate=" + modifiedDate + ", compDate=" + compDate + ", rmDate=" + rmDate + "]";
 	}
-
+	
+	
+	
 }

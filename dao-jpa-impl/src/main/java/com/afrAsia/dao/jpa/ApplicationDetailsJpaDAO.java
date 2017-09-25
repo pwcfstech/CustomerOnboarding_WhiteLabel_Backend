@@ -29,5 +29,7 @@ public interface ApplicationDetailsJpaDAO extends ApplicationDetailsDao {
 	public List<MobComments> getComments(Long appRefId);
 	public List<MobApplicantKycDocuments> getMobApplicantKyc(Long appid);
 	public MobApplicantKycDocuments  getMobApplicantKycSingleResult(Long appRefId, Long applicantId);
-	public MobApplicantKycDocuments  getMobApplicantKycSingleResult(Long appRefId); 					
+	public MobApplicantKycDocuments  getMobApplicantKycSingleResult(Long appRefId); 	
+	public void updateMobApplicantPersonalDetails(MobApplicantPersonalDetail mobApplicantPersonalDetail);
+	public void updateMobRmAppRefId(MobRmAppRefId mobRmAppRefId);
 }

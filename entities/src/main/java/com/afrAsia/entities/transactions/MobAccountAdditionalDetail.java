@@ -127,7 +127,10 @@ public class MobAccountAdditionalDetail implements Serializable {
 
 	@Column(name = "STMT_CITY")
 	private String stmtCity;
-
+	
+	@Column(name = "STMT_DELIVERY")
+	private String stmtDelivery;
+	
 	@Column(name = "STMT_COUNTRY")
 	private String stmtCountry;
 
@@ -152,6 +155,15 @@ public class MobAccountAdditionalDetail implements Serializable {
 	@Column(name = "NOMINEE_CC2")
 	private Long nomineeCc2;
 	
+	
+	public String getStmtDelivery() {
+		return stmtDelivery;
+	}
+
+	public void setStmtDelivery(String stmtDelivery) {
+		this.stmtDelivery = stmtDelivery;
+	}
+
 	public MobAccountAdditionalDetail() {
 	}
 

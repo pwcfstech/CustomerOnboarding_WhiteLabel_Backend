@@ -109,6 +109,19 @@ public class MobApplicantPersonalDetail implements Serializable {
 
 	@Column(name = "SIGNATORY_TYPE")
 	private String signatoryType;
+	
+	
+	@Column(name = "SHORT_NAME")
+	private String shortName;
+	
+
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
+	}
 
 	public MainTableCompositePK getId() {
 		return id;

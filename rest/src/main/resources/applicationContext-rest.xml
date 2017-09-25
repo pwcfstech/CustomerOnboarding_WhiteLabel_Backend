@@ -124,6 +124,11 @@
 		<property name="kycDocDownloadService" ref="kycDocDownloadService" />
 	</bean>
 	
+	<bean id="accountCreateSoapWebService" class="com.afrAsia.rest.AccountCreateSoapWebService" >
+		<property name="accountCreationSOAPService" ref="accountCreationSOAPService" />
+	</bean>
+	
+	
 	<!-- <bean id="dtdpsSoapService" class="com.afrAsia.soap.DTDPSSoapService" >
 		<property name="dtdpsService" ref="dtdpsService" />
 	</bean> -->

@@ -7,8 +7,11 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.afrAsia.dao.jpa.ComplianceJpaDao;
 import com.afrAsia.entities.jpa.ApplicationReference;
+import com.afrAsia.entities.transactions.MobApplCheckComments;
 
 public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationReference>implements ComplianceJpaDao {
 
@@ -310,9 +313,28 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 		return detailsByUnderProcessingAllCriteria;
 	}
 
-	public void updateErrorMessage(Long id, Long recordId) {
-		
-		// Kousik, please do your service here
+	@Transactional(readOnly = false, rollbackFor = {Exception.class})
+	public void updateErrorMessage(MobApplCheckComments mobApplCheckComment) {
+
+		System.out.println("Enter : updateErrorMessage() id : " + mobApplCheckComment.getId() +" | recordId" + mobApplCheckComment.getRecordId());
+		if (null != mobApplCheckComment.getId() && null != mobApplCheckComment.getRecordId()) {
+			Query query = getEntityManager().createQuery("select ar from MobApplCheckComments ar where ar.id=:id and ar.recordId=:recordId");
+			query.setParameter("id", mobApplCheckComment.getId());
+			query.setParameter("recordId", mobApplCheckComment.getRecordId());
+			List<MobApplCheckComments> mobApplCheckCommentsList = query.getResultList();
+			if (null != mobApplCheckCommentsList && !mobApplCheckCommentsList.isEmpty()) {
+				
+				MobApplCheckComments mobApplCheckComments = mobApplCheckCommentsList.get(0);
+				mobApplCheckComments.setFlexErrorCode(mobApplCheckComment.getFlexErrorCode());
+				mobApplCheckComments.setFlexErrorMessage(mobApplCheckComment.getFlexErrorMessage());
+				getEntityManager().merge(mobApplCheckComments);
+				getEntityManager().flush();
+			}
+			else{
+				System.out.println("No record found to update : updateErrorMessage()");
+			}
+		}
+		System.out.println("Exit : updateErrorMessage()");
 		
 	}
 

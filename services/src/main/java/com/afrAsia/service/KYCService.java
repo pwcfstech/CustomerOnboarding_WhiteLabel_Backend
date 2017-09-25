@@ -1,5 +1,6 @@
 package com.afrAsia.service;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import com.afrAsia.entities.request.KYCDataRequest;
@@ -18,4 +19,5 @@ public interface KYCService {
 	 * @return 
 	 */
 	KYCResponse uploadKYC(KYCDataRequest kycDataRequest, InputStream image);   
+	void copyKYCFiles(Long appId, Long applicantId, Long cif, Long recordNo, String rmId) throws IOException;
 }
