@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MOB_FLEX_MASTER_BANK")
-public class Bank extends BaseMaster implements Serializable {
+public class Bank extends BaseMaster implements Comparable<Bank>,Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -38,6 +38,10 @@ public class Bank extends BaseMaster implements Serializable {
 	@Override
 	public String toString() {
 		return "Bank [bankCode=" + bankCode + ", bankName=" + bankName + "]";
+	}
+	
+	public int compareTo(Bank b) {
+	    return this.bankName.compareTo(b.bankName);
 	}
 
 }

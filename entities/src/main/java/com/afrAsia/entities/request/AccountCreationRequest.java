@@ -134,7 +134,6 @@ public class AccountCreationRequest implements Serializable {
 		private Boolean pinViaSMS;
 		private Boolean pinViaPost;
 		private String prefCommMode;
-		private String whrDidYouHearAbtAfrAsia;
 		private Boolean agreeCommEmail;
 		private Boolean agreeCommSMS;
 		private Boolean optTransactionsThruEmail;
@@ -142,12 +141,14 @@ public class AccountCreationRequest implements Serializable {
 		private String authEmail2;
 		private String authEmail3;
 		private Boolean optCallBackServices;
-		private String afrasiaEventQues;
-		private String afrasiaEventAns;
 		private Boolean requireChequeBook;
 		private Long minNoSignatures;							
 		private String operatingInst;
 		private List<NomineeInfo> nomineeInfo;
+		private Boolean isProxyRequired;//Added by Avisha on 25/09 for issues
+		private String rmComment;//Added by Avisha on 26/09 as asked by client
+		private String ibOption;//Added by Avisha on 27/09 as asked by client
+		
 		public String getAccount() {
 			return account;
 		}
@@ -262,12 +263,7 @@ public class AccountCreationRequest implements Serializable {
 		public void setPrefCommMode(String prefCommMode) {
 			this.prefCommMode = prefCommMode;
 		}
-		public String getWhrDidYouHearAbtAfrAsia() {
-			return whrDidYouHearAbtAfrAsia;
-		}
-		public void setWhrDidYouHearAbtAfrAsia(String whrDidYouHearAbtAfrAsia) {
-			this.whrDidYouHearAbtAfrAsia = whrDidYouHearAbtAfrAsia;
-		}
+		
 		public Boolean getAgreeCommEmail() {
 			return agreeCommEmail;
 		}
@@ -310,18 +306,6 @@ public class AccountCreationRequest implements Serializable {
 		public void setOptCallBackServices(Boolean optCallBackServices) {
 			this.optCallBackServices = optCallBackServices;
 		}
-		public String getAfrasiaEventQues() {
-			return afrasiaEventQues;
-		}
-		public void setAfrasiaEventQues(String afrasiaEventQues) {
-			this.afrasiaEventQues = afrasiaEventQues;
-		}
-		public String getAfrasiaEventAns() {
-			return afrasiaEventAns;
-		}
-		public void setAfrasiaEventAns(String afrasiaEventAns) {
-			this.afrasiaEventAns = afrasiaEventAns;
-		}
 		public Boolean getRequireChequeBook() {
 			return requireChequeBook;
 		}
@@ -358,6 +342,24 @@ public class AccountCreationRequest implements Serializable {
 		public void setStmtDeliveryEstmt(Boolean stmtDeliveryEstmt) {
 			this.stmtDeliveryEstmt = stmtDeliveryEstmt;
 		}
+		public Boolean getIsProxyRequired() {
+			return isProxyRequired;
+		}
+		public void setIsProxyRequired(Boolean isProxyRequired) {
+			this.isProxyRequired = isProxyRequired;
+		}
+		public String getRmComment() {
+			return rmComment;
+		}
+		public void setRmComment(String rmComment) {
+			this.rmComment = rmComment;
+		}
+		public String getIbOption() {
+			return ibOption;
+		}
+		public void setIbOption(String ibOption) {
+			this.ibOption = ibOption;
+		}
 		@Override
 		public String toString() {
 			return "AccountDetails [account=" + account + ", accountType=" + accountType + ", mop=" + mop
@@ -368,17 +370,14 @@ public class AccountCreationRequest implements Serializable {
 					+ needPrepaidCard + ", needInternetBanking=" + needInternetBanking + ", internetBankingUn="
 					+ internetBankingUn + ", otpOverEmail=" + otpOverEmail + ", otpOverSMS=" + otpOverSMS
 					+ ", pinViaSMS=" + pinViaSMS + ", pinViaPost=" + pinViaPost + ", prefCommMode=" + prefCommMode
-					+ ", whrDidYouHearAbtAfrAsia=" + whrDidYouHearAbtAfrAsia + ", agreeCommEmail=" + agreeCommEmail
-					+ ", agreeCommSMS=" + agreeCommSMS + ", optTransactionsThruEmail=" + optTransactionsThruEmail
-					+ ", authEmail1=" + authEmail1 + ", authEmail2=" + authEmail2 + ", authEmail3=" + authEmail3
-					+ ", optCallBackServices=" + optCallBackServices + ", afrasiaEventQues=" + afrasiaEventQues
-					+ ", afrasiaEventAns=" + afrasiaEventAns + ", requireChequeBook=" + requireChequeBook
-					+ ", minNoSignatures=" + minNoSignatures + ", operatingInst=" + operatingInst + ", nomineeInfo="
-					+ nomineeInfo + "]";
-		}
-		
-
-
+					+ ", agreeCommEmail=" + agreeCommEmail + ", agreeCommSMS=" + agreeCommSMS
+					+ ", optTransactionsThruEmail=" + optTransactionsThruEmail + ", authEmail1=" + authEmail1
+					+ ", authEmail2=" + authEmail2 + ", authEmail3=" + authEmail3 + ", optCallBackServices="
+					+ optCallBackServices + ", requireChequeBook=" + requireChequeBook + ", minNoSignatures="
+					+ minNoSignatures + ", operatingInst=" + operatingInst + ", nomineeInfo=" + nomineeInfo
+					+ ", isProxyRequired=" + isProxyRequired + ", rmComment=" + rmComment + ", ibOption=" + ibOption
+					+ "]";
 		}
 	}
+}
 

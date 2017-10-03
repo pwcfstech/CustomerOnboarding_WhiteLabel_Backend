@@ -8,6 +8,7 @@ import java.util.List;
 import javax.mail.MessagingException;
 import javax.naming.NamingException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -29,7 +30,6 @@ import com.afrAsia.entities.request.AccountCreationRequest;
 import com.afrAsia.entities.request.AccountCreationRequest.Data;
 import com.afrAsia.entities.request.ApplicantDetails;
 import com.afrAsia.entities.request.JointApplicants;
-import com.afrAsia.entities.request.NomineeInfo;
 import com.afrAsia.entities.response.AccountCreateResponse;
 import com.afrAsia.service.AccountCreationService;
 
@@ -70,19 +70,22 @@ public class AccountCreationRestService {
 	@Path("/createApplication")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createAccount(AccountCreationRequest accountCreationRequest) {
+	public Response createAccount(AccountCreationRequest accountCreationRequest,@HeaderParam("Authorization") String authToken) {
 		
-		infoLog.info("accountCreationRequest in createAccount(),AccountCreationRestService is : "+accountCreationRequest);
+		infoLog.info("Enter in createApplication Service");
+		debugLog.debug("accountCreationRequest :: "+accountCreationRequest);
 		
 		AccountCreateResponse accountCreationResponse = new AccountCreateResponse();
 		
 		MsgHeader msgHeader = new MsgHeader();
 
 		try {
+			//authToken = authToken.replace("bearer ", "");
+			//accountCreationService.checkSession(accountCreationRequest.getData().getRmId(),"client_credentials", authToken);
 			String checkRequest = validateRequest(accountCreationRequest);
 			if (checkRequest.equals("Success")) {
 				if (accountCreationRequest.getData().getAppRefNo() == null) {
-					
+					infoLog.info("Entered in create account Service");					
 					accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
 
 					sendEmails(accountCreationRequest,accountCreationResponse);
@@ -97,6 +100,7 @@ public class AccountCreationRestService {
 								if (!accountCreationRequest.getData().getComment().isEmpty()
 										|| accountCreationRequest.getData().getComment() != null
 										|| accountCreationRequest.getData().getComment() != " ") {
+									infoLog.info("Entered in update account Service");
 									accountCreationResponse = accountCreationService
 											.updateAccount(accountCreationRequest);
 								}
@@ -109,7 +113,7 @@ public class AccountCreationRestService {
 								error.setRsn("please provide comments, its not provided in your update request");
 								messageHeader.setError(error);
 								accountCreationResponse.setMsgHeader(messageHeader);
-								errorLog.error("accountCreationResponse in createAccount(),AccountCreationRestService.java "+accountCreationResponse);
+								errorLog.error("accountCreationResponse in createAccount(),AccountCreationRestService.java ",e);
 							}
 
 						}
@@ -128,7 +132,8 @@ public class AccountCreationRestService {
 				}
 
 				if (accountCreationResponse!=null) {
-					infoLog.info("accountCreationResponse in createAccount(),AccountCreationRestService.java is : "+accountCreationResponse);
+					infoLog.info("Response recieved in create Account service");
+					debugLog.debug("accountCreationResponse  is : "+accountCreationResponse);
 					return Response.ok(accountCreationResponse, MediaType.APPLICATION_JSON).build();
 				}
 				else{
@@ -156,7 +161,8 @@ public class AccountCreationRestService {
 			errorLog.error(" accountCreationResponse in createAccount(),AccountCreationRestService.java : ",e);
 			return Response.ok(accountCreationResponse, MediaType.APPLICATION_JSON).build();
 		}
-		infoLog.info(" accountCreationResponse in createAccount(),AccountCreationRestService.java : "+accountCreationResponse);
+		infoLog.info("Exit from createAccount Service");
+		debugLog.debug(" accountCreationResponse  : "+accountCreationResponse);
 		return Response.ok(accountCreationResponse, MediaType.APPLICATION_JSON).build();
 
 	}
@@ -199,11 +205,48 @@ public class AccountCreationRestService {
 					errorLog.error(" Account Category is joint but there are no joint holders in validateRequest(),AccountCreationRestService.java");
 					return ("Account Category is joint but there are no joint holders");
 				}
+				else if (accountCreationData.getAccountDetails().getIsProxyRequired() && jointApplicants.size() > 0) {
+					int proxyCount = 0;
+					for (JointApplicants jointDetail : jointApplicants) {
+						if(jointDetail.getJointApplicantDetail().getIsProxyHolder()!=null && jointDetail.getJointApplicantDetail().getIsProxyHolder())
+						{
+							proxyCount++;
+						}
+					}
+					if(proxyCount==0)
+					{
+						errorLog.error("There should be at least one proxy holder applicant");
+						return ("There should be at least one proxy holder applicant");
+					}
+					else if(proxyCount==jointApplicants.size())
+					{
+						errorLog.error("There should be at least one non proxy holder applicant.");
+						return ("There should be at least one non proxy holder applicant");					
+					}
+				}
 			}
-			if (accountCreationData.getAccountDetails().getAccountType().equalsIgnoreCase("S")) {
-				if (jointApplicants.size() > 0) {
+			if (accountCreationData.getAccountDetails().getAccountType().equalsIgnoreCase("S") ) {
+				if(!accountCreationData.getAccountDetails().getIsProxyRequired() && jointApplicants.size() > 0)
+				{
 					errorLog.error(" Account Category is sole but there are joint holders in validateRequest(),AccountCreationRestService.java");
 					return ("Account Category is sole but there are joint holders");
+				}
+				else if (accountCreationData.getAccountDetails().getIsProxyRequired()) {
+					if(jointApplicants.size() == 0)
+					{
+						errorLog.error("Details of proxy holder missing in validateRequest(),AccountCreationRestService.java");
+						return ("Details of proxy holder missing");
+					}
+					else if(jointApplicants.size() > 0)
+					{
+						for (JointApplicants jointDetail : jointApplicants) {
+							if(jointDetail.getJointApplicantDetail().getIsProxyHolder()==null || !jointDetail.getJointApplicantDetail().getIsProxyHolder())
+							{
+								errorLog.error(" Account Category is sole but there are joint holders in validateRequest(),AccountCreationRestService.java");
+								return ("Account Category is sole but there are joint holders");
+							}
+						}
+					}
 				}
 			}
 			int cntr = 0;
@@ -265,7 +308,14 @@ public class AccountCreationRestService {
 			}
 		}
 
+		if (!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getIbOption())) {
+			errorLog.error(" Error in Internet Banking Option in validateAccountDetails(),AccountCreationRestService.java");
+			return ("Error in Internet Banking Option");
+		}
 					// Check for Statement delivery type
+				
+					if(!CommonUtils.checkNullorBlank(accountCreationData.getPrimaryApplicantDetail().getCustomerCIF()))
+					{
 						if (accountCreationData.getAccountDetails().getStmtDeliveryPo()) {
 							if (!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getStmtAddr1())
 									|| accountCreationData.getAccountDetails().getStmtAddr1().length() > 105) {
@@ -297,7 +347,7 @@ public class AccountCreationRestService {
 								errorLog.error(" Invalid value for Statement Delivery in validateAccountDetails(),AccountCreationRestService.java");
 							return ("Invalid value for Statement Delivery");
 						}
-					
+					}
 
 					// Check for Internet banking
 					if (accountCreationData.getAccountDetails().getNeedInternetBanking()) {
@@ -307,6 +357,7 @@ public class AccountCreationRestService {
 							errorLog.error(" Please enter a username for internet banking in validateAccountDetails(),AccountCreationRestService.java");
 							return ("Please enter a username for internet banking");
 						}
+						
 					}
 
 					// Check if user has opted for transactions thru email
@@ -329,12 +380,8 @@ public class AccountCreationRestService {
 					}
 
 					// Check if opted for call back services
-					if (accountCreationData.getAccountDetails().getOptCallBackServices()) {
-						if (accountCreationData.getAccountDetails().getNomineeInfo().size() == 0) {
-							errorLog.error(" Please enter Nominee information in validateAccountDetails(),AccountCreationRestService.java");
-							return ("Please enter Nominee information");
-						}
-
+					//if (accountCreationData.getAccountDetails().getOptCallBackServices()) {
+						/*if (accountCreationData.getAccountDetails().getNomineeInfo().size() > 0) {
 						int cntr = 0;
 						for (NomineeInfo n : accountCreationData.getAccountDetails().getNomineeInfo()) {
 
@@ -350,16 +397,13 @@ public class AccountCreationRestService {
 								errorLog.error(" Error in Nominee Email in validateAccountDetails(),AccountCreationRestService.java");
 								return ("Error in Nominee Email");
 							}
-							if (n.getNomineeCallbkNo() == 0 && cntr == 0) {
+							if ((n.getNomineeCallbkNo()==null||"".equals(n.getNomineeCallbkNo())||n.getNomineeCallbkNo()==0L) && cntr == 0) {
 								errorLog.error(" Error in Nominee Call bk No in validateAccountDetails(),AccountCreationRestService.java");
 								return ("Error in Nominee Call bk No");
 							}
 							cntr++;
 						}
-					}
-				
-			
-		
+					}*/
 		infoLog.info("return Success");
 		return ("Success");
 	}
@@ -429,15 +473,19 @@ public class AccountCreationRestService {
 			errorLog.error(customerType + " : Error in Nationality in validateApplicant(),AccountCreationRestService.java");
 			return (customerType + ":Error in Nationality");
 		}
-		if (!CommonUtils.checkNullorBlank(applicant.getEmail()) || applicant.getEmail().length() > 255) {
-			errorLog.error(customerType + " : Error in Email in validateApplicant(),AccountCreationRestService.java");
-			return (customerType + ":Error in Email");
+		
+		if(!CommonUtils.checkNullorBlank(applicant.getCustomerCIF()) && age>=18)
+		{
+			if (!CommonUtils.checkNullorBlank(applicant.getEmail()) || applicant.getEmail().length() > 255) {
+				errorLog.error(customerType + " : Error in Email in validateApplicant(),AccountCreationRestService.java");
+				return (customerType + ":Error in Email");
+			}
 		}
 		if (applicant.getDob() == null) {
-			errorLog.error(customerType + " : Error in DoB in validateApplicant(),AccountCreationRestService.java ");
+			errorLog.error(customerType + " : Error in DoB in validateApplicant(),AccountCreationRestService.java");
 			return (customerType + ":Error in DoB");
 		}
-		if (applicant.getIsEmployee() || applicant.getIsExistingCustomer()) {
+		if (applicant.getIsExistingCustomer()) {
 			if (!CommonUtils.checkNullorBlank(applicant.getCustomerCIF()) || applicant.getCustomerCIF().length() > 9) {
 				errorLog.error(customerType + " : Error in Customer CIF in validateApplicant(),AccountCreationRestService.java");
 				return (customerType + ":Error in Customer CIF");
@@ -464,193 +512,204 @@ public class AccountCreationRestService {
 				}
 			}
 		}
-		if (!CommonUtils.checkNullorBlank(applicant.getPermAddr1()) || applicant.getPermAddr1().length() > 105) {
-			errorLog.error(customerType + ":Error in Perm Address 1 in validateApplicant(),AccountCreationRestService.java");
-			return (customerType + ":Error in Perm Address 1");
-		}
-		if (!applicant.getPermAddr2().isEmpty() && applicant.getPermAddr2().length() > 105) {
-			errorLog.error(customerType + ":Error in Perm Address 2 in validateApplicant(),AccountCreationRestService.java");
-			return (customerType + ":Error in Perm Address 2");
-		}
-		if (!applicant.getPermAddr3().isEmpty() && applicant.getPermAddr3().length() > 105) {
-			errorLog.error(customerType + ":Error in Perm Address 3 in validateApplicant(),AccountCreationRestService.java");
-			return (customerType + ":Error in Perm Address 3");
-		}
-		if (!CommonUtils.checkNullorBlank(applicant.getPermCity()) || applicant.getPermCity().length() > 105) {
-			errorLog.error(customerType + ":Error in Perm City in validateApplicant(),AccountCreationRestService.java");
-			return (customerType + ":Error in Perm City");
-		}
-		if (!CommonUtils.checkNullorBlank(applicant.getPermCountry()) || applicant.getPermCountry().length() > 4) {
-			errorLog.error(customerType + ":Error in Perm Country in validateApplicant(),AccountCreationRestService.java");
-			return (customerType + ":Error in Perm Country");
-		}
-		if (!CommonUtils.checkNullorBlank(applicant.getMailAddr1()) || applicant.getMailAddr1().length() > 105) {
-			errorLog.error(customerType + ":Error in Mail Address 1 in validateApplicant(),AccountCreationRestService.java");
-			return (customerType + ":Error in Mail Address 1");
-		}
-		if (!applicant.getMailAddr2().isEmpty() && applicant.getMailAddr2().length() > 105) {
-			errorLog.error(customerType + ":Error in Mail Address 2 in validateApplicant(),AccountCreationRestService.java");
-			return (customerType + ":Error in Mail Address 2");
-		}
-		if (!applicant.getMailAddr3().isEmpty() && applicant.getMailAddr3().length() > 105) {
-			errorLog.error(customerType + ":Error in Mail Address 3 in validateApplicant(),AccountCreationRestService.java");
-			return (customerType + ":Error in Mail Address 3");
-		}
-		if (!CommonUtils.checkNullorBlank(applicant.getMailCity()) || applicant.getMailCity().length() > 105) {
-			errorLog.error(customerType + ":Error in Mail City in validateApplicant(),AccountCreationRestService.java");
-			return (customerType + ":Error in Mail City");
-		}
-		if (!CommonUtils.checkNullorBlank(applicant.getMailCountry()) || applicant.getMailCountry().length() > 3) {
-			errorLog.error(customerType + ":Error in Mail Country in validateApplicant(),AccountCreationRestService.java");
-			return (customerType + ":Error in Mail Country");
-		}
-		/*if (applicant.getTelNoHome() == null) {
-			errorLog.error(customerType + ":Error in Home Tel no in validateApplicant(),AccountCreationRestService.java");
-			return (customerType + ":Error in Home Tel no");
-		}
-		if (applicant.getTelNoOff() == null) {
-			errorLog.error(customerType + ":Error in Office Tel no in validateApplicant(),AccountCreationRestService.java");
-			return (customerType + ":Error in Office Tel no");
-		}*/
-		if (applicant.getMobNo() == null) {
-			errorLog.error(customerType + ":Error in Mobile No in validateApplicant(),AccountCreationRestService.java");
-			return (customerType + ":Error in Mobile No");
-		}
-		if (!CommonUtils.checkNullorBlank(applicant.getSex())) {
-			errorLog.error(customerType + ":Error in Sex in validateApplicant(),AccountCreationRestService.java");
-			return (customerType + ":Error in Sex");
-		}
-		if (age >= 18) {
-			if (!CommonUtils.checkNullorBlank(applicant.getEmploymentStatus())
-					|| applicant.getEmploymentStatus().length() > 1) {
-				errorLog.error(customerType + ":Error in Employment Status in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in Employment Status");
-			} else {
-				String[] arr = { "F", "U", "S", "P", "R", "N", "O" };
-				int i;
-				for (i = 0; i < arr.length; i++) {
-					if (arr[i].equalsIgnoreCase(applicant.getEmploymentStatus())) {
-						break;
+		
+		if(!CommonUtils.checkNullorBlank(applicant.getCustomerCIF()))
+		{
+			if (age >= 18) {
+				if (!CommonUtils.checkNullorBlank(applicant.getPermAddr1()) || applicant.getPermAddr1().length() > 105) {
+					errorLog.error(customerType + ":Error in Perm Address 1 in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Perm Address 1");
+				}
+				if (!applicant.getPermAddr2().isEmpty() && applicant.getPermAddr2().length() > 105) {
+					errorLog.error(customerType + ":Error in Perm Address 2 in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Perm Address 2");
+				}
+				if (!applicant.getPermAddr3().isEmpty() && applicant.getPermAddr3().length() > 105) {
+					errorLog.error(customerType + ":Error in Perm Address 3 in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Perm Address 3");
+				}
+				if (!CommonUtils.checkNullorBlank(applicant.getPermCity()) || applicant.getPermCity().length() > 105) {
+					errorLog.error(customerType + ":Error in Perm City in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Perm City");
+				}
+				if (!CommonUtils.checkNullorBlank(applicant.getPermCountry()) || applicant.getPermCountry().length() > 4) {
+					errorLog.error(customerType + ":Error in Perm Country in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Perm Country");
+				}
+				if (!CommonUtils.checkNullorBlank(applicant.getMailAddr1()) || applicant.getMailAddr1().length() > 105) {
+					errorLog.error(customerType + ":Error in Mail Address 1 in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Mail Address 1");
+				}
+				if (!applicant.getMailAddr2().isEmpty() && applicant.getMailAddr2().length() > 105) {
+					errorLog.error(customerType + ":Error in Mail Address 2 in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Mail Address 2");
+				}
+				if (!applicant.getMailAddr3().isEmpty() && applicant.getMailAddr3().length() > 105) {
+					errorLog.error(customerType + ":Error in Mail Address 3 in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Mail Address 3");
+				}
+				if (!CommonUtils.checkNullorBlank(applicant.getMailCity()) || applicant.getMailCity().length() > 105) {
+					errorLog.error(customerType + ":Error in Mail City in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Mail City");
+				}
+				if (!CommonUtils.checkNullorBlank(applicant.getMailCountry()) || applicant.getMailCountry().length() > 3) {
+					errorLog.error(customerType + ":Error in Mail Country in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Mail Country");
+				}
+				/*if (applicant.getTelNoHome() == null) {
+					errorLog.error(customerType + ":Error in Home Tel no in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Home Tel no");
+				}
+				if (applicant.getTelNoOff() == null) {
+					errorLog.error(customerType + ":Error in Office Tel no in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Office Tel no");
+				}*/
+				if (applicant.getMobNo() == null && applicant.getTelNoHome() == null) {
+					errorLog.error(customerType + ":Either Mobile No or Home Telephone No should be available in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Either Mobile No or Home Telephone No should be available");
+				}
+				if (!CommonUtils.checkNullorBlank(applicant.getSex())) {
+					errorLog.error(customerType + ":Error in Sex in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Sex");
+				}
+			
+				if (!CommonUtils.checkNullorBlank(applicant.getEmploymentStatus())
+						|| applicant.getEmploymentStatus().length() > 1) {
+					errorLog.error(customerType + ":Error in Employment Status in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Employment Status");
+				} else {
+					String[] arr = { "F", "U", "S", "P", "R", "N", "O" };
+					int i;
+					for (i = 0; i < arr.length; i++) {
+						if (arr[i].equalsIgnoreCase(applicant.getEmploymentStatus())) {
+							break;
+						}
+					}
+					if (i == arr.length) {
+						errorLog.error(customerType + ":Employment status is incorrect in validateApplicant(),AccountCreationRestService.java");
+						return (customerType + ":Employment status is incorrect");
 					}
 				}
-				if (i == arr.length) {
-					errorLog.error(customerType + ":Employment status is incorrect in validateApplicant(),AccountCreationRestService.java");
-					return (customerType + ":Employment status is incorrect");
+	
+				if (!CommonUtils.checkNullorBlank(applicant.getCurrentOccupation())
+						&& (applicant.getEmploymentStatus().equalsIgnoreCase("F")
+								|| applicant.getEmploymentStatus().equalsIgnoreCase("S"))) {
+					errorLog.error(customerType + ":Error in Current Occupation in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Current Occupation");
 				}
 			}
-
-			if (!CommonUtils.checkNullorBlank(applicant.getCurrentOccupation())
-					&& (applicant.getEmploymentStatus().equalsIgnoreCase("F")
-							|| applicant.getEmploymentStatus().equalsIgnoreCase("S"))) {
-				errorLog.error(customerType + ":Error in Current Occupation in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in Current Occupation");
+	
+			// If employed, check if user has entered employment details
+			if ("F".equalsIgnoreCase(applicant.getEmploymentStatus())) {
+				if (!CommonUtils.checkNullorBlank(applicant.getEmployerName())
+						|| applicant.getEmployerName().length() > 105) {
+					errorLog.error(customerType + ":Error in Employer Name in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Employer Name");
+				}
+				if (!CommonUtils.checkNullorBlank(applicant.getEmployerAddr1())
+						|| applicant.getEmployerAddr1().length() > 105) {
+					errorLog.error(customerType + ":Error in Employer Address 1 in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Employer Address 1");
+				}
+				if (!applicant.getEmployerAddr2().isEmpty() && applicant.getEmployerAddr2().length() > 105) {
+					errorLog.error(customerType + ":Error in Employer Address 2 in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Employer Address 2");
+				}
+				if (!applicant.getEmployerAddr3().isEmpty() && applicant.getEmployerAddr3().length() > 105) {
+					errorLog.error(customerType + ":Error in Employer Address 3 in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Employer Address 3");
+				}
+				if (!CommonUtils.checkNullorBlank(applicant.getEmployerCity())
+						|| applicant.getEmployerCity().length() > 105) {
+					errorLog.error(customerType + ":Error in Employer City in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Employer City");
+				}
+				if (!CommonUtils.checkNullorBlank(applicant.getEmployerCountry())
+						|| applicant.getEmployerCountry().length() > 3) {
+					errorLog.error(customerType + ":Error in Employer Country in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Employer Country");
+				}
+				if (!(applicant.getNoYearsService() > 0)) {
+					errorLog.error(customerType + ":Error in No of Years if service should be more than 0 in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in No of Years if service should be more than 0");
+				}
+				
+				//Added by Avisha on 26/09 as asked by client
+				if (!CommonUtils.checkNullorBlank(applicant.getBusinessSector())
+						|| applicant.getBusinessSector().length() > 105) {
+					errorLog.error(customerType + ":Error in Business Sector in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Business Sector");
+				}
 			}
+	
+			// If self-employed, check if user has entered details
+			if ("S".equalsIgnoreCase(applicant.getEmploymentStatus())) {
+				if (!CommonUtils.checkNullorBlank(applicant.getBusinessSector())
+						|| applicant.getBusinessSector().length() > 105) {
+					errorLog.error(customerType + ":Error in Business Sector in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Business Sector");
+				}
+	
+				if (applicant.getDateStarted() == null) {
+					errorLog.error(customerType + ":Error in Business Sector Start Date in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Business Sector Start Date");
+				}
+			}
+	
+			if (age >= 18) {
+				if (applicant.getNetMonthlyIncome() < 0) {
+					errorLog.error(customerType + ":Error in Net Monthly Income in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Net Monthly Income");
+				}
+				if (applicant.getAnnualDepositTurnover() < 0) {
+					errorLog.error(customerType + ":Error in Annual Deposit Turnover in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Annual Deposit Turnover");
+				}
+			}
+			if (applicant.getiSUSCitizen() || applicant.getIsIncomeTaxableinUSA()) {
+				if ((!CommonUtils.checkNullorBlank(applicant.getUsaSsn()) || applicant.getUsaSsn().length() > 11)) {
+					errorLog.error(customerType + ":Error in SSN in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in SSN");
+				}
+			}
+			if (applicant.getResidencyStatus().equals("NON_RES") && age >= 18) {
+				if (!CommonUtils.checkNullorBlank(applicant.getoAddr1()) || applicant.getoAddr1().length() > 105) {
+					errorLog.error(customerType + ":Error in Overseas Address 1 in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Overseas Address 1");
+				}
+				if (!applicant.getoAddr2().isEmpty() && applicant.getoAddr2().length() > 105) {
+					errorLog.error(customerType + ":Error in Overseas Address 2 in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Overseas Address 2");
+				}
+				if (!applicant.getoAddr3().isEmpty() && applicant.getoAddr3().length() > 105) {
+					errorLog.error(customerType + ":Error in Overseas Address 3 in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Overseas Address 3");
+				}
+				if (!CommonUtils.checkNullorBlank(applicant.getoCity()) || applicant.getoCity().length() > 105) {
+					errorLog.error(customerType + ":Error in Overseas City in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Overseas City");
+				}
+				if (!CommonUtils.checkNullorBlank(applicant.getoCountry()) || applicant.getoCountry().length() > 3) {
+					errorLog.error(customerType + ":Error in Overseas Country in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Overseas Country");
+				}
+				if (applicant.getWorkPermitExpDate() == null) {
+					errorLog.error(customerType + ":Error in Work Permit Expiry Date in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in Work Permit Expiry Date");
+				}
+			}
+			/*if (applicant.getIncomeOtherCountryTaxable()) {
+				if (!CommonUtils.checkNullorBlank(applicant.getCrsTin1())) {
+					errorLog.error(customerType + ":Error in CRS Tin1 in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in CRS Tin1");
+				}
+				if (!CommonUtils.checkNullorBlank(applicant.getCrsCountryResidence1())
+						|| applicant.getCrsCountryResidence1().length() > 3) {
+					errorLog.error(customerType + ":Error in CRS Country in validateApplicant(),AccountCreationRestService.java");
+					return (customerType + ":Error in CRS Country");
+				}
+			}*/
 		}
-
-		// If employed, check if user has entered employment details
-		if ("F".equalsIgnoreCase(applicant.getEmploymentStatus())) {
-			if (!CommonUtils.checkNullorBlank(applicant.getEmployerName())
-					|| applicant.getEmployerName().length() > 105) {
-				errorLog.error(customerType + ":Error in Employer Name in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in Employer Name");
-			}
-			if (!CommonUtils.checkNullorBlank(applicant.getEmployerAddr1())
-					|| applicant.getEmployerAddr1().length() > 105) {
-				errorLog.error(customerType + ":Error in Employer Address 1 in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in Employer Address 1");
-			}
-			if (!applicant.getEmployerAddr2().isEmpty() && applicant.getEmployerAddr2().length() > 105) {
-				errorLog.error(customerType + ":Error in Employer Address 2 in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in Employer Address 2");
-			}
-			if (!applicant.getEmployerAddr3().isEmpty() && applicant.getEmployerAddr3().length() > 105) {
-				errorLog.error(customerType + ":Error in Employer Address 3 in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in Employer Address 3");
-			}
-			if (!CommonUtils.checkNullorBlank(applicant.getEmployerCity())
-					|| applicant.getEmployerCity().length() > 105) {
-				errorLog.error(customerType + ":Error in Employer City in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in Employer City");
-			}
-			if (!CommonUtils.checkNullorBlank(applicant.getEmployerCountry())
-					|| applicant.getEmployerCountry().length() > 3) {
-				errorLog.error(customerType + ":Error in Employer Country in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in Employer Country");
-			}
-			if (!(applicant.getNoYearsService() > 0)) {
-				errorLog.error(customerType + ":Error in No of Years if service should be more than 0 in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in No of Years if service should be more than 0");
-			}
-		}
-
-		// If self-employed, check if user has entered details
-		if ("S".equalsIgnoreCase(applicant.getEmploymentStatus())) {
-			if (!CommonUtils.checkNullorBlank(applicant.getBusinessSector())
-					|| applicant.getBusinessSector().length() > 105) {
-				errorLog.error(customerType + ":Error in Business Sector in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in Business Sector");
-			}
-
-			if (applicant.getDateStarted() == null) {
-				errorLog.error(customerType + ":Error in Business Sector Start Date in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in Business Sector Start Date");
-			}
-		}
-
-		if (age >= 18) {
-			if (applicant.getNetMonthlyIncome() < 0) {
-				errorLog.error(customerType + ":Error in Net Monthly Income in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in Net Monthly Income");
-			}
-			if (applicant.getAnnualDepositTurnover() < 0) {
-				errorLog.error(customerType + ":Error in Annual Deposit Turnover in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in Annual Deposit Turnover");
-			}
-		}
-		if (applicant.getiSUSCitizen() || applicant.getIsIncomeTaxableinUSA()) {
-			if ((!CommonUtils.checkNullorBlank(applicant.getUsaSsn()) || applicant.getUsaSsn().length() > 11)) {
-				errorLog.error(customerType + ":Error in SSN in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in SSN");
-			}
-		}
-		if (applicant.getResidencyStatus().equals("NON_RES") && age >= 18) {
-			if (!CommonUtils.checkNullorBlank(applicant.getoAddr1()) || applicant.getoAddr1().length() > 105) {
-				errorLog.error(customerType + ":Error in Overseas Address 1 in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in Overseas Address 1");
-			}
-			if (!applicant.getoAddr2().isEmpty() && applicant.getoAddr2().length() > 105) {
-				errorLog.error(customerType + ":Error in Overseas Address 2 in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in Overseas Address 2");
-			}
-			if (!applicant.getoAddr3().isEmpty() && applicant.getoAddr3().length() > 105) {
-				errorLog.error(customerType + ":Error in Overseas Address 3 in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in Overseas Address 3");
-			}
-			if (!CommonUtils.checkNullorBlank(applicant.getoCity()) || applicant.getoCity().length() > 105) {
-				errorLog.error(customerType + ":Error in Overseas City in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in Overseas City");
-			}
-			if (!CommonUtils.checkNullorBlank(applicant.getoCountry()) || applicant.getoCountry().length() > 3) {
-				errorLog.error(customerType + ":Error in Overseas Country in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in Overseas Country");
-			}
-			if (applicant.getWorkPermitExpDate() == null) {
-				errorLog.error(customerType + ":Error in Work Permit Expiry Date in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in Work Permit Expiry Date");
-			}
-		}
-		if (applicant.getIncomeOtherCountryTaxable()) {
-			if (!CommonUtils.checkNullorBlank(applicant.getCrsTin1())) {
-				errorLog.error(customerType + ":Error in CRS Tin1 in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in CRS Tin1");
-			}
-			if (!CommonUtils.checkNullorBlank(applicant.getCrsCountryResidence1())
-					|| applicant.getCrsCountryResidence1().length() > 3) {
-				errorLog.error(customerType + ":Error in CRS Country in validateApplicant(),AccountCreationRestService.java");
-				return (customerType + ":Error in CRS Country");
-			}
-		}
-
 		infoLog.info(customerType +" : age in validateApplicant(),AccountCreationRestService.java at line 657 is : "+age);
 		// Check if guardian details are correct.
 		if (age < 18 && !customerType.equalsIgnoreCase("Guardian")) {
@@ -671,22 +730,6 @@ public class AccountCreationRestService {
 
 	public void sendEmails(AccountCreationRequest accountCreationRequest, AccountCreateResponse accountCreationResponse){
 		
-		
-//		String host = afrAsiaMailConfig.getMailhost();
-//		String port = afrAsiaMailConfig.getMailport();
-//		String mailFrom = afrAsiaMailConfig.getMailFrom();
-//		String password = afrAsiaMailConfig.getMailPassword();
-//		String smtpAuthRequired=afrAsiaMailConfig.getSmtpAuthRequired();
-//		String smtpAuthstarttls=afrAsiaMailConfig.getSmtpAuthRequired();
-//		String subject="Welcome to AfrAsia";
-		
-		/*String host = "mail.afrasiabank.com";
-		String port = "25";
-		String mailFrom = "cx.pwc_dummy@afrasiabank.com";
-		String password = "Password07";
-		String smtpAuthRequired="false";
-		String smtpAuthstarttls="false";*/
-
 		String host = afrAsiaMailConfig.getMailhost();
 		String port = afrAsiaMailConfig.getMailport();
 		String mailFrom = afrAsiaMailConfig.getMailFrom();
@@ -728,15 +771,18 @@ public class AccountCreationRestService {
 				"Kind regards," + "\n" + 
 
 				"Relationship manager ("+rmName+")";
-		
+
 		String messageToRM="Dear "+rmName+"," + "\n" + "\n" +
 				"The application for applicant "+primApplicantName+"["+refNo+"]"+" has been successfuly submitted and is under review."+ "\n" + "\n" +
 				"Kind regards," + "\n" + 
 
 				"AfrAsia Bank";
 
-
-
+		debugLog.debug("host :: "+host+","+" port :: "+port+","+" mailFrom :: "+mailFrom+","+" password :: "+password+","
+				+" smtpAuthRequired :: "+smtpAuthRequired+","+" smtpAuthstarttls :: "+smtpAuthstarttls+","+" subject :: "+subject
+				+" accountCreationData :: "+accountCreationData+" refNo :: "+refNo+" rmName :: "+rmName+","
+				+" messageToClient :: "+messageToClient+","+"messageToRM :: "+messageToRM);
+		
 		try {
 			AfrAsiaEmailUtility.sendEmail(host, port, mailFrom, password, toAddrClient, subject, messageToClient, smtpAuthRequired, smtpAuthstarttls);
 			infoLog.info("Customer EMail sent success");
@@ -766,7 +812,6 @@ public class AccountCreationRestService {
 		
 	}
 
-
 	public void sendSMSToCustomer(AccountCreationRequest accountCreationRequest, AccountCreateResponse accountCreationResponse){
 		String primApplicantName = accountCreationRequest.getData().getPrimaryApplicantDetail().getFirstName();
 		String smsContent = "Dear "+primApplicantName+", thank you for your interest in AfrAsia Bank. "
@@ -781,6 +826,8 @@ public class AccountCreationRestService {
 				+ mobNo
 				+ "&Dsr=false";
 		
+		debugLog.debug("primApplicantName  :: "+primApplicantName+"smsContent  :: "+smsContent+
+				"mobNo  :: "+mobNo+"url  :: "+url);
 		try {
 			AfrAsiaSMSUtility.sendSMS(url);
 			infoLog.info("SMS sent success");

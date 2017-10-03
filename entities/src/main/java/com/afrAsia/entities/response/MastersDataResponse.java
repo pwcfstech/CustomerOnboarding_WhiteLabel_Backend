@@ -47,19 +47,21 @@ public class MastersDataResponse implements Serializable {
 
 		private List<Title> title;
 
-		private List<UIDType> uidType;
+		private List <UIDType> uidType;
 
 		private List<MaritalStatus> maritalStatus;
 
 		private List<Employment> employment;
 
 		private List<RMDetails> rmDetails;
-
+		
 		private List<AccountType> accountType;
-
+		
 		private List<AfrAsiaFirst> afrAsiaFirst;
 
 		private List<Bank> bank;
+		
+		private List<Hobby> hobby;
 
 		public List<Country> getCountry() {
 			return country;
@@ -149,12 +151,20 @@ public class MastersDataResponse implements Serializable {
 			this.bank = bank;
 		}
 
+		public List<Hobby> getHobby() {
+			return hobby;
+		}
+
+		public void setHobby(List<Hobby> hobby) {
+			this.hobby = hobby;
+		}
+
 		@Override
 		public String toString() {
 			return "Data [country=" + country + ", category=" + category + ", accountClass=" + accountClass + ", title="
 					+ title + ", uidType=" + uidType + ", maritalStatus=" + maritalStatus + ", employment=" + employment
 					+ ", rmDetails=" + rmDetails + ", accountType=" + accountType + ", afrAsiaFirst=" + afrAsiaFirst
-					+ ", bank=" + bank + "]";
+					+ ", bank=" + bank + ", hobby=" + hobby + "]";
 		}
 
 		public class Country implements Serializable {
@@ -164,7 +174,7 @@ public class MastersDataResponse implements Serializable {
 			private String description;
 			private String callingCode;
 			private String dialingCode;
-
+			
 			public String getCountryCode() {
 				return countryCode;
 			}
@@ -231,7 +241,7 @@ public class MastersDataResponse implements Serializable {
 			public String toString() {
 				return "Category [custCat=" + custCat + ", custCatDesc=" + custCatDesc + "]";
 			}
-
+			
 		}
 
 		public class AccountClass implements Serializable {
@@ -270,6 +280,7 @@ public class MastersDataResponse implements Serializable {
 				return "AccountClass [accountClass=" + accountClass + ", acClassType=" + acClassType + ", description="
 						+ description + "]";
 			}
+			
 
 		}
 
@@ -319,6 +330,9 @@ public class MastersDataResponse implements Serializable {
 						+ ", prefix3=" + prefix3 + "]";
 			}
 
+			
+			
+
 		}
 
 		public class UIDType implements Serializable {
@@ -338,7 +352,7 @@ public class MastersDataResponse implements Serializable {
 			public String toString() {
 				return "UIDType [typeValue=" + typeValue + "]";
 			}
-
+			
 		}
 
 		public class MaritalStatus implements Serializable {
@@ -367,7 +381,7 @@ public class MastersDataResponse implements Serializable {
 			public String toString() {
 				return "MaritalStatus [code=" + code + ", description=" + description + "]";
 			}
-
+			
 		}
 
 		public class Employment implements Serializable {
@@ -396,7 +410,7 @@ public class MastersDataResponse implements Serializable {
 			public String toString() {
 				return "Employment [description=" + description + ", code=" + code + "]";
 			}
-
+			
 		}
 
 		public class RMDetails implements Serializable {
@@ -425,19 +439,19 @@ public class MastersDataResponse implements Serializable {
 			public String toString() {
 				return "RMDetails [rmId=" + rmId + ", rmName=" + rmName + "]";
 			}
-
+			
 		}
-
+		
 		public class AccountType extends BaseMaster implements Serializable {
 
 			private static final long serialVersionUID = 1L;
 
 			private String id;
-
+			
 			private String name;
-
+			
 			private String nonResident;
-
+			
 			private String resident;
 
 			public String getId() {
@@ -546,6 +560,31 @@ public class MastersDataResponse implements Serializable {
 			@Override
 			public String toString() {
 				return "Bank [bankCode=" + bankCode + ", bankName=" + bankName + "]";
+			}
+
+		}
+		
+		public class Hobby implements Serializable {
+
+			private static final long serialVersionUID = 1L;
+
+			private String hobbyCode;
+			private String hobbyName;
+			public String getHobbyCode() {
+				return hobbyCode;
+			}
+			public void setHobbyCode(String hobbyCode) {
+				this.hobbyCode = hobbyCode;
+			}
+			public String getHobbyName() {
+				return hobbyName;
+			}
+			public void setHobbyName(String hobbyName) {
+				this.hobbyName = hobbyName;
+			}
+			@Override
+			public String toString() {
+				return "Hobby [hobbyCode=" + hobbyCode + ", hobbyName=" + hobbyName + "]";
 			}
 
 		}

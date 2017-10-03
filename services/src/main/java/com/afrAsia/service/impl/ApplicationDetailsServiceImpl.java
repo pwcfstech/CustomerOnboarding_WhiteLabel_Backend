@@ -8,9 +8,7 @@ import org.apache.log4j.Logger;
 import com.afrAsia.dao.jpa.ApplicationDetailsJpaDAO;
 import com.afrAsia.entities.jpa.MsgHeader;
 import com.afrAsia.entities.jpa.MsgHeader.Error;
-import com.afrAsia.entities.request.ApplicantDetails;
 import com.afrAsia.entities.request.ApplicationDetailsReq;
-import com.afrAsia.entities.request.JointApplicants;
 import com.afrAsia.entities.request.KycInfo;
 import com.afrAsia.entities.request.NomineeInfo;
 import com.afrAsia.entities.response.ApplicantDetailsResponse;
@@ -18,15 +16,17 @@ import com.afrAsia.entities.response.ApplicationDetailsResponse;
 import com.afrAsia.entities.response.ApplicationDetailsResponse.Data;
 import com.afrAsia.entities.response.ApplicationDetailsResponse.Data.AccountDetails;
 import com.afrAsia.entities.response.ApplicationDetailsResponse.Data.Comments;
+import com.afrAsia.entities.response.ApplicationDetailsResponse.Data.Comments.RecordComments;
 import com.afrAsia.entities.response.JointApplicantsResponse;
 import com.afrAsia.entities.transactions.MobAccountAdditionalDetail;
 import com.afrAsia.entities.transactions.MobAccountDetail;
+import com.afrAsia.entities.transactions.MobAppRefRecordId;
+import com.afrAsia.entities.transactions.MobApplCheckComments;
 import com.afrAsia.entities.transactions.MobApplicantAdditionalDtl;
 import com.afrAsia.entities.transactions.MobApplicantCommDetail;
 import com.afrAsia.entities.transactions.MobApplicantEmploymentDtl;
 import com.afrAsia.entities.transactions.MobApplicantKycDocuments;
 import com.afrAsia.entities.transactions.MobApplicantPersonalDetail;
-import com.afrAsia.entities.transactions.MobComments;
 import com.afrAsia.entities.transactions.MobRmAppRefId;
 import com.afrAsia.service.ApplicationDetailsService;
 
@@ -54,7 +54,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 		ApplicantDetailsResponse primaryApplicantDetails;
 		ApplicantDetailsResponse guardianDetails;
 		List<JointApplicantsResponse> jointApplicants = new ArrayList<JointApplicantsResponse>();
-		;
+		
 
 		// Application reference number from request
 		Long appRefNo = applicationDetailsReq.getData().getRefNo();
@@ -64,7 +64,10 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			MobRmAppRefId mobRmAppRefId = applicationDetailsDAO.getApplicationDetails(appRefNo);
 			debugLog.debug("mobRmAppRefId :: "+mobRmAppRefId);
 			if (mobRmAppRefId != null) {
+				// fetch record id from DB on the basis of the application reference number
+				MobAppRefRecordId mobAppRefRecordId=applicationDetailsDAO.getRecordId(appRefNo);
 				data.setRefNo(mobRmAppRefId.getId());
+				data.setRecordId(mobAppRefRecordId.getRecordId());
 				data.setAppStatus(mobRmAppRefId.getAppStatus());
 				if(mobRmAppRefId.getCreatedDate()!=null)
 				{
@@ -97,19 +100,65 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 
 		try {
 			// get comments
-			List<MobComments> mobComments = applicationDetailsDAO.getComments(appRefNo);
-			List<Comments> comments = new ArrayList<Comments>();
-			for (MobComments s : mobComments) {
-				Comments comment = new ApplicationDetailsResponse().new Data().new Comments();
-				comment.setComment(s.getComment());
-				comment.setCommentAddedBy(s.getCommentedAddedBy());
-				comment.setCommentDate(s.getCommentDate().getTime());
-				comment.setUserCat(s.getUserCat());
-				comments.add(comment);
+			List<MobApplCheckComments> lstMobComments = applicationDetailsDAO.getComments(appRefNo);
+			if(lstMobComments!=null && lstMobComments.size()>0)
+			{
+				List<Comments> lstComments = new ArrayList<Comments>();
+				for(MobApplCheckComments mobComments : lstMobComments)	
+				{
+					Comments comments = new ApplicationDetailsResponse().new Data().new Comments();
+					comments.setRecordId(mobComments.getRecordId());
+					List<RecordComments> lstRecordComments = new ArrayList<RecordComments>();
+					RecordComments recordComments = null;
+					//Comments comment = new ApplicationDetailsResponse().new Data().new Comments();
+					recordComments = new ApplicationDetailsResponse().new Data().new Comments().new RecordComments();
+					recordComments.setComment(mobComments.getCcComment());
+					recordComments.setCommentDate(mobComments.getCcDate());
+					recordComments.setCommentMadeBy(mobComments.getCcCommentBy());
+					recordComments.setCommentType("CC");
+					lstRecordComments.add(recordComments);
+					
+					recordComments = new ApplicationDetailsResponse().new Data().new Comments().new RecordComments();
+					recordComments.setComment(mobComments.getKycComment());
+					recordComments.setCommentDate(mobComments.getKycDate());
+					recordComments.setCommentMadeBy(mobComments.getKycCommentBy());
+					recordComments.setCommentType("KYC");
+					lstRecordComments.add(recordComments);
+					
+					recordComments = new ApplicationDetailsResponse().new Data().new Comments().new RecordComments();
+					recordComments.setComment(mobComments.getIcComment());
+					recordComments.setCommentDate(mobComments.getIcDate());
+					recordComments.setCommentMadeBy(mobComments.getIcCommentBy());
+					recordComments.setCommentType("IC");
+					lstRecordComments.add(recordComments);
+					
+					recordComments = new ApplicationDetailsResponse().new Data().new Comments().new RecordComments();
+					recordComments.setComment(mobComments.getWcComment());
+					recordComments.setCommentDate(mobComments.getWcDate());
+					recordComments.setCommentMadeBy(mobComments.getWcCommentBy());
+					recordComments.setCommentType("WC");
+					lstRecordComments.add(recordComments);
+					
+					recordComments = new ApplicationDetailsResponse().new Data().new Comments().new RecordComments();
+					recordComments.setComment(mobComments.getCompComment());
+					recordComments.setCommentMadeBy(mobComments.getCompId());
+					recordComments.setCommentDate(mobComments.getCompDate());
+					recordComments.setCommentType("Compliance");
+					lstRecordComments.add(recordComments);
+					
+					recordComments = new ApplicationDetailsResponse().new Data().new Comments().new RecordComments();
+					recordComments.setComment(mobComments.getRmComment());
+					recordComments.setCommentMadeBy(mobComments.getRmId());
+					recordComments.setCommentDate(mobComments.getRmDate());
+					recordComments.setCommentType("RM");
+					lstRecordComments.add(recordComments);
+					
+					comments.setRecordComments(lstRecordComments);
+					lstComments.add(comments);
+				}
+				data.setComments(lstComments);
+				debugLog.debug("data :: "+data);
 			}
-			data.setComments(comments);
-
-			debugLog.debug("data :: "+data);
 			
 			// 2. Get Basic account details
 			MobAccountDetail mobAccountDetail = applicationDetailsDAO.getMobAccountDetails(appRefNo);
@@ -119,6 +168,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				accountDetails.setMop(mobAccountDetail.getMop());
 				accountDetails.setMinNoSignatures(mobAccountDetail.getMinNoSignatures());
 				accountDetails.setOperatingInst(mobAccountDetail.getOperatingInst());
+				accountDetails.setIsProxyRequired(mobAccountDetail.getIsProxyRequired());
 				debugLog.debug("accountDetails " + accountDetails.toString());
 				debugLog.debug("mobAccountDetail " + mobAccountDetail.toString());
 			} else {
@@ -138,9 +188,6 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				accountDetails.setStmtCountry(mobAccountAddnDetail.getStmtCountry());
 				accountDetails.setInternetBankingUn(mobAccountAddnDetail.getIbUsername());
 				accountDetails.setPrefCommMode(mobAccountAddnDetail.getPrefCommMode());
-				accountDetails.setWhrDidYouHearAbtAfrAsia(mobAccountAddnDetail.getHearAboutAfrasia());
-				accountDetails.setAfrasiaEventQues(mobAccountAddnDetail.getAfrasiaEventQues());
-				accountDetails.setAfrasiaEventAns(mobAccountAddnDetail.getAfrasiaEventAns());
 				accountDetails.setAuthEmail1(mobAccountAddnDetail.getAuthEmail1());
 				accountDetails.setAuthEmail2(mobAccountAddnDetail.getAuthEmail2());
 				accountDetails.setAuthEmail3(mobAccountAddnDetail.getAuthEmail3());
@@ -149,6 +196,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				accountDetails.setNeedForexBanking(mobAccountAddnDetail.getForexBanking());
 				accountDetails.setNeedPrepaidCard(mobAccountAddnDetail.getPrepaidCards());
 				accountDetails.setNeedInternetBanking(mobAccountAddnDetail.getInternetBanking());
+				accountDetails.setIbOption(mobAccountAddnDetail.getIbOption());
 				accountDetails.setOtpOverSMS(mobAccountAddnDetail.getOtpSms());
 				accountDetails.setPinViaSMS(mobAccountAddnDetail.getPinViaSms());
 				accountDetails.setPinViaPost(mobAccountAddnDetail.getPinViaPost());
@@ -157,7 +205,8 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				accountDetails.setOptCallBackServices(mobAccountAddnDetail.getOptCallbkServices());
 				accountDetails.setNeedCreditCard(mobAccountAddnDetail.getCreditCard());
 				accountDetails.setOptTransactionsThruEmail(mobAccountAddnDetail.getOptTranEmail());
-
+				accountDetails.setRmComment(mobAccountAddnDetail.getRmComment());
+				
 				List<NomineeInfo> nomineeInfo = new ArrayList<NomineeInfo>();
 				NomineeInfo nomineeInfo1 = new NomineeInfo();
 
@@ -179,8 +228,8 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				}
 
 				accountDetails.setNomineeInfo(nomineeInfo);
-				debugLog.debug("accountDetails " + accountDetails.toString());
-				debugLog.debug("mobAccountAddnDetail " + mobAccountAddnDetail.toString());
+				//debugLog.debug("accountDetails " + accountDetails.toString());
+			//	debugLog.debug("mobAccountAddnDetail " + mobAccountAddnDetail.toString());
 			} else {
 				errorLog.error("No data from mobAccountAddnDetail");
 			}
@@ -326,6 +375,10 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			{
 				primaryApplicantDetails.setPassportExpDate(mobApplicantPersonalDetail.getPassportExpiryDate().getTime());
 			}
+			if(mobApplicantPersonalDetail.getPassportIssueDate()!=null)
+			{
+				primaryApplicantDetails.setPassportIssDate(mobApplicantPersonalDetail.getPassportIssueDate().getTime());
+			}
 			primaryApplicantDetails.setNationality(mobApplicantPersonalDetail.getNationality());
 			primaryApplicantDetails.setEmail(mobApplicantPersonalDetail.getEmail());
 			if(mobApplicantPersonalDetail.getDob()!=null)
@@ -340,6 +393,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setSex(mobApplicantPersonalDetail.getSex());
 			primaryApplicantDetails.setSignatoryType(mobApplicantPersonalDetail.getSignatoryType());
 			primaryApplicantDetails.setIsHnwi(mobApplicantPersonalDetail.getIsHnwi());
+			primaryApplicantDetails.setIsProxyHolder(mobApplicantPersonalDetail.getIsProxyHolder());
 			debugLog.debug("mobApplicantPersonalDetail " + mobApplicantPersonalDetail.toString());
 		} else {
 			errorLog.error("No data from mobApplicantPersonalDetail "+ forWhom);
@@ -424,6 +478,25 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 			primaryApplicantDetails.setCrsTin1(mobApplicantAdditionalDtl.getTin1());
 			primaryApplicantDetails.setCrsTin2(mobApplicantAdditionalDtl.getTin2());
 			primaryApplicantDetails.setCrsTin3(mobApplicantAdditionalDtl.getTin3());
+			primaryApplicantDetails.setWhrDidYouHearAbtAfrAsia(mobApplicantAdditionalDtl.getHearAboutAfrasia());
+			primaryApplicantDetails.setHobbyCode1(mobApplicantAdditionalDtl.getHobbyCode1());
+			primaryApplicantDetails.setHobbyCode2(mobApplicantAdditionalDtl.getHobbyCode2());
+			primaryApplicantDetails.setHobbyCode3(mobApplicantAdditionalDtl.getHobbyCode3());
+			
+			/*Start: Added by Avisha on 27/09 as asked by client*/
+			primaryApplicantDetails.setTinAvailable1(mobApplicantAdditionalDtl.getTinAvailable1());
+			primaryApplicantDetails.setTinAvailable2(mobApplicantAdditionalDtl.getTinAvailable2());
+			primaryApplicantDetails.setTinAvailable3(mobApplicantAdditionalDtl.getTinAvailable3());
+			primaryApplicantDetails.setNoTinOption1(mobApplicantAdditionalDtl.getNoTinOption1());
+			primaryApplicantDetails.setNoTinOption2(mobApplicantAdditionalDtl.getNoTinOption2());
+			primaryApplicantDetails.setNoTinOption3(mobApplicantAdditionalDtl.getNoTinOption3());
+			primaryApplicantDetails.setNoTinReason1(mobApplicantAdditionalDtl.getNoTinReason1());
+			primaryApplicantDetails.setNoTinReason2(mobApplicantAdditionalDtl.getNoTinReason2());
+			primaryApplicantDetails.setNoTinReason3(mobApplicantAdditionalDtl.getNoTinReason3());
+			primaryApplicantDetails.setAfrasiaEventQues(mobApplicantAdditionalDtl.getAfrasiaEventQues());
+			primaryApplicantDetails.setAfrasiaEventAns(mobApplicantAdditionalDtl.getAfrasiaEventAns());
+			/*End: Added by Avisha on 27/09 as asked by client*/
+			
 			debugLog.debug("mobApplicantAdditionalDtl " + mobApplicantAdditionalDtl.toString());
 		} else {
 			errorLog.error("No data from mobApplicantPersonalDetail " + forWhom);

@@ -44,14 +44,17 @@ public class ProductRestService
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProdList() 
 	{
+		infoLog.info("Enter in getProdCatListApp service");
 		GenericResponse genericResponse=null;
 		if(productService.getProducts()==null){
+			debugLog.debug("genericResponse is null");
 		genericResponse=null;
 		}
 		else{
 		genericResponse=productService.getProducts();
 		}
-		infoLog.info(" genericResponse in getProdList(),,ProductRestService.java is : "+genericResponse);
+		debugLog.debug(" genericResponse : getProdCatListApp Service :: "+genericResponse);
+		infoLog.info("Exit from getProdCatListApp service");
 		return Response.ok(genericResponse, MediaType.APPLICATION_JSON).build();
 
 	}
@@ -62,24 +65,23 @@ public class ProductRestService
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProdDetails(String jsonInput) 
 	{
-		infoLog.info(" jsonInput from Request in getProdDetails(),ProductRestService.java is : "+jsonInput);
+		infoLog.info("Enter in getProdDetails service");
+		debugLog.debug(" jsonInput from Request in getProdDetails Service :: "+jsonInput);
 		GenericRequest req = new GenericRequest();
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			req = mapper.readValue(jsonInput, GenericRequest.class);
 		} catch (JsonParseException e) {
-			errorLog.error(" JsonParseException : "+e.getMessage());
-			e.printStackTrace();
+			errorLog.error(" JsonParseException : ",e);
 		} catch (JsonMappingException e) {
-			errorLog.error(" JsonMappingException : "+e.getMessage());
-			e.printStackTrace();
+			errorLog.error(" JsonMappingException : ",e);
 		} catch (IOException e) {
-			errorLog.error(" IOException : "+e.getMessage());
-			e.printStackTrace();
+			errorLog.error(" IOException : ",e);
 		}
 		String id=req.getData().getProductID(); 
 		GenericResponse genericResponse=productService.getProductById(Long.parseLong(id));
-		infoLog.info(" genericResponse in getProdDetails(),ProductRestService.java is : "+genericResponse);
+		debugLog.debug(" genericResponse : getProdDetails Service :: "+genericResponse);
+		infoLog.info("Exit from getProdDetails service");
 		return Response.ok(genericResponse, MediaType.APPLICATION_JSON).build();
 	}
 }

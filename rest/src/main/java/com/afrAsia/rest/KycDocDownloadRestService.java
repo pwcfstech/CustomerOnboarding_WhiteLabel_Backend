@@ -2,6 +2,7 @@ package com.afrAsia.rest;
 
 import java.io.File;
 
+import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -13,6 +14,8 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
+import com.afrAsia.entities.jpa.MsgHeader;
+import com.afrAsia.entities.jpa.MsgHeader.Error;
 import com.afrAsia.entities.request.KycDocDownloadRequest;
 import com.afrAsia.service.KycDocDownloadService;
 
@@ -52,14 +55,35 @@ public class KycDocDownloadRestService {
 	public Response getKyCDoc(KycDocDownloadRequest kycDocDownloadRequest) {
 		// write model in the and user getter method extract the key e.g model.getkey()
 		// user service.getDocument( pass the key) path and set the path in filePath variable
-		infoLog.info(" kycDocDownloadRequest in getKyCDoc(),KycDocDownloadRestService is : "+kycDocDownloadRequest);
-		String filepath = kycDocDownloadService.getKycDocPath(kycDocDownloadRequest.getData().getRefNo(), kycDocDownloadRequest.getData().getApplicantRefNo(),kycDocDownloadRequest.getData().getDocId());
-
+		
+		infoLog.info("Entered in getKyCDoc Service");
+		debugLog.debug(" kycDocDownloadRequest in getKyCDoc Service is : "+kycDocDownloadRequest);
+		
+		MsgHeader msgHeader = new MsgHeader();
+		String filepath = null;
+		try
+		{
+			if(kycDocDownloadRequest.getData().getDocUrl()!=null)
+				filepath=kycDocDownloadRequest.getData().getDocUrl();
+			else
+				filepath=kycDocDownloadService.getKycDocPath(kycDocDownloadRequest.getData().getRefNo(), kycDocDownloadRequest.getData().getApplicantRefNo(),kycDocDownloadRequest.getData().getDocId());
+		}
+		catch(NoResultException excpMessage){
+			errorLog.error("Provided appRefId,applicantId or docId is not present, please pass proper value",excpMessage);
+			Error error = new MsgHeader().new Error();
+			error.setCd("404");
+			error.setRsn("Provided appRefId,applicantId or docId is not present, please pass proper value");
+			return Response.status(404)
+    				.entity(error)
+    				.type(MediaType.APPLICATION_JSON)
+    				.build();
+		}
 		//String filepath="C:/Users/nehac038/Documents/NehaDocsPersonal/ToPrint/Fitness.pdf";
 		//String filepath="C:/Kabir/DSC_4212.JPG";
 		String fileName=filepath.substring(filepath.lastIndexOf("/")+1, filepath.length());
 		String downLoadfileName = "attachment; filename=" + fileName;
 
+		debugLog.debug("filepath :: "+filepath+", "+"fileName :: "+fileName+","+"downLoadfileName :: "+downLoadfileName);
 		// way 1 :  using octet stream
 		/*StreamingOutput rsFileStream= new StreamingOutput() {
 
@@ -90,10 +114,11 @@ public class KycDocDownloadRestService {
 		try{
 			File targetFile=new File(filepath);
 			ResponseBuilder response = Response.ok((Object) targetFile);
+			infoLog.info("Exit from getKyCDoc(),KycDocDownloadRestService");
 			return response.header("content-disposition",downLoadfileName)
 					.build();
 		}catch(Exception e){
-			errorLog.error(" Exception occoured in getKyCDoc(),KycDocDownloadRestService "+e.getMessage());
+			errorLog.error(" Exception occoured in getKyCDoc(),KycDocDownloadRestService ",e);
 			return Response.serverError().build();
 		}	
 	}

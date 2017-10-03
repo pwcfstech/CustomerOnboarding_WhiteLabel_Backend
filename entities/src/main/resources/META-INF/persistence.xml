@@ -23,6 +23,7 @@
 		<class>com.afrAsia.entities.masters.RMDetails</class>
 		<class>com.afrAsia.entities.masters.AccountType</class>
 		<class>com.afrAsia.entities.masters.AfrAsiaFirst</class>
+		<class>com.afrAsia.entities.masters.Hobby</class>
 		
 		<class>com.afrAsia.entities.transactions.MobRmAppRefId</class>
 		<class>com.afrAsia.entities.transactions.MobAccountAdditionalDetail</class>

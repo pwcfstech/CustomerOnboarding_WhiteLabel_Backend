@@ -20,6 +20,7 @@ import com.afrAsia.entities.masters.Bank;
 import com.afrAsia.entities.masters.CategoryMaster;
 import com.afrAsia.entities.masters.Country;
 import com.afrAsia.entities.masters.Employment;
+import com.afrAsia.entities.masters.Hobby;
 import com.afrAsia.entities.masters.MaritalStatus;
 import com.afrAsia.entities.masters.Prefix;
 import com.afrAsia.entities.masters.RMDetails;
@@ -68,6 +69,7 @@ public class MasterDataRestService {
 		List<MastersDataResponse.Data.AccountType> accountTypeList = new ArrayList<>();
 		List<MastersDataResponse.Data.AfrAsiaFirst> afrAsiaFirstList = new ArrayList<>();
 		List<MastersDataResponse.Data.Bank> bankResList = new ArrayList<>();
+		List<MastersDataResponse.Data.Hobby> hobbyResList = new ArrayList<>();
 
 		try {
 
@@ -82,6 +84,7 @@ public class MasterDataRestService {
 			List<AccountType> accTypeList = masterDataService.getAccountType();
 			List<AfrAsiaFirst> afrAsiaFstList = masterDataService.getAfrAsiaFirst();
 			List<Bank> bankList = masterDataService.getBankList();
+			List<Hobby> hobbyList = masterDataService.getHobbyList();
 
 			for (AfrAsiaFirst afrAsiaFirst : afrAsiaFstList) {
 				com.afrAsia.entities.response.MastersDataResponse.Data.AfrAsiaFirst afrAsiaFrst = new MastersDataResponse().new Data().new AfrAsiaFirst();
@@ -179,6 +182,15 @@ public class MasterDataRestService {
 			}
 			data.setBank(bankResList);
 
+			for (Hobby hobby : hobbyList) {
+				com.afrAsia.entities.response.MastersDataResponse.Data.Hobby hobbyRes = new MastersDataResponse().new Data().new Hobby();
+				hobbyRes.setHobbyCode(hobby.getHobbyCode());
+				hobbyRes.setHobbyName(hobby.getHobbyName());
+				hobbyResList.add(hobbyRes);
+			}
+			data.setHobby(hobbyResList);
+
+			
 			mastersDataResponse.setMsgHeader(msgHeader);
 			mastersDataResponse.setData(data);
 

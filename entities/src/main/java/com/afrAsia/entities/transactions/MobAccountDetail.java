@@ -180,6 +180,9 @@ public class MobAccountDetail implements Serializable {
 
 	@Column(name = "OPERATING_INST")
 	private String operatingInst;
+	
+	@Column(name = "IS_PROXY_REQUIRED")
+	private Boolean isProxyRequired;//Added by Avisha on 25/09 for issues
 
 	public MobAccountDetail() {
 	}
@@ -608,6 +611,14 @@ public class MobAccountDetail implements Serializable {
 		this.operatingInst = operatingInst;
 	}
 
+	public Boolean getIsProxyRequired() {
+		return isProxyRequired;
+	}
+
+	public void setIsProxyRequired(Boolean isProxyRequired) {
+		this.isProxyRequired = isProxyRequired;
+	}
+
 	@Override
 	public String toString() {
 		return "MobAccountDetail [id=" + id + ", accountCategory=" + accountCategory + ", accountType=" + accountType
@@ -632,7 +643,7 @@ public class MobAccountDetail implements Serializable {
 				+ relationshipMinor1 + ", relationshipMinor2=" + relationshipMinor2 + ", relationshipMinor3="
 				+ relationshipMinor3 + ", relationshipMinor4=" + relationshipMinor4 + ", relationshipMinor5="
 				+ relationshipMinor5 + ", minNoSignatures=" + minNoSignatures + ", operatingInst=" + operatingInst
-				+ "]";
+				+ ", isProxyRequired=" + isProxyRequired + "]";
 	}
 
 }

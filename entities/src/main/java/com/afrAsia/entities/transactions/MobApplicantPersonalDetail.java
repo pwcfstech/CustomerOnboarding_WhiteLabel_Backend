@@ -82,6 +82,10 @@ public class MobApplicantPersonalDetail implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "PASSPORT_EXPIRY_DATE")
 	private Date passportExpiryDate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "PASSPORT_ISSUE_DATE")//Added by Avisha on 21/09
+	private Date passportIssueDate;
 
 	@Column(name = "PASSPORT_NO")
 	private String passportNo;
@@ -110,19 +114,12 @@ public class MobApplicantPersonalDetail implements Serializable {
 	@Column(name = "SIGNATORY_TYPE")
 	private String signatoryType;
 	
-	
-	@Column(name = "SHORT_NAME")
+	@Column(name = "SHORT_NAME")//Added by Avisha on 20/09.. already available in db
 	private String shortName;
 	
-
-	public String getShortName() {
-		return shortName;
-	}
-
-	public void setShortName(String shortName) {
-		this.shortName = shortName;
-	}
-
+	@Column(name = "IS_PROXY_HOLDER")//Added by Avisha on 25/09.. for issues
+	private Boolean isProxyHolder;
+	
 	public MainTableCompositePK getId() {
 		return id;
 	}
@@ -371,6 +368,30 @@ public class MobApplicantPersonalDetail implements Serializable {
 		this.signatoryType = signatoryType;
 	}
 
+	public Date getPassportIssueDate() {
+		return passportIssueDate;
+	}
+
+	public void setPassportIssueDate(Date passportIssueDate) {
+		this.passportIssueDate = passportIssueDate;
+	}
+
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
+	}
+
+	public Boolean getIsProxyHolder() {
+		return isProxyHolder;
+	}
+
+	public void setIsProxyHolder(Boolean isProxyHolder) {
+		this.isProxyHolder = isProxyHolder;
+	}
+
 	@Override
 	public String toString() {
 		return "MobApplicantPersonalDetail [id=" + id + ", countryBirth=" + countryBirth + ", createdBy=" + createdBy
@@ -380,10 +401,10 @@ public class MobApplicantPersonalDetail implements Serializable {
 				+ ", middleName=" + middleName + ", modifiedBy=" + modifiedBy + ", modifiedDate=" + modifiedDate
 				+ ", nationality=" + nationality + ", nic=" + nic + ", otherBank1=" + otherBank1 + ", otherBank2="
 				+ otherBank2 + ", otherBank3=" + otherBank3 + ", passportExpiryDate=" + passportExpiryDate
-				+ ", passportNo=" + passportNo + ", recordId=" + recordId + ", residencyStatus=" + residencyStatus
-				+ ", title=" + title + ", customerType=" + customerType + ", isMinor=" + isMinor + ", sex=" + sex
-				+ ", isHnwi=" + isHnwi + ", signatoryType=" + signatoryType + "]";
+				+ ", passportIssueDate=" + passportIssueDate + ", passportNo=" + passportNo + ", recordId=" + recordId
+				+ ", residencyStatus=" + residencyStatus + ", title=" + title + ", customerType=" + customerType
+				+ ", isMinor=" + isMinor + ", sex=" + sex + ", isHnwi=" + isHnwi + ", signatoryType=" + signatoryType
+				+ ", shortName=" + shortName + ", isProxyHolder=" + isProxyHolder + "]";
 	}
-
 }
 

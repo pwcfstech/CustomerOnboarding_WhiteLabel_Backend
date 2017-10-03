@@ -246,6 +246,7 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		query1.setParameter("telNoOffcc", applicant.getTelOffCallingCode());
 		query1.setParameter("isMailPermSame", applicant.getIsMailAddrSameAsPerm());
 		
+		
 		int numberMobApplicantCommDetail = query1.executeUpdate();
 
 		// update MobApplicantPersonalDetail
@@ -255,7 +256,7 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 				+ "ma.modifiedBy=:modifiedby,ma.modifiedDate=:modifieddate,ma.nationality=:nationality1,ma.nic=:nic1,ma.otherBank1=:otherbank1,"
 				+ "ma.otherBank2=:otherbank2,ma.otherBank3=:otherbank3,ma.passportExpiryDate=:passportExpirydate,"
 				+ "ma.passportNo=:passportno,ma.residencyStatus=:residencystatus,ma.title=:title1,ma.customerType=:customertype,"
-				+ "ma.isMinor=:isminor,ma.sex=:sex,ma.isHnwi=:isHnwi,ma.signatoryType=:signatoryType " 
+				+ "ma.isMinor=:isminor,ma.sex=:sex,ma.isHnwi=:isHnwi,ma.signatoryType=:signatoryType,ma.isProxyHolder=:isProxyHolder " 
 				+ "where ma.id.id =:appid and ma.id.applicantId=:applicantId");
 		query2.setParameter("appid", appId);
 		query2.setParameter("applicantId", applicant.getApplicantId());
@@ -287,7 +288,7 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		query2.setParameter("sex", applicant.getSex());
 		query2.setParameter("isHnwi", applicant.getIsHnwi());
 		query2.setParameter("signatoryType", applicant.getSignatoryType());
-		
+		query2.setParameter("isProxyHolder", applicant.getIsProxyHolder());
 		int numberMobApplicantPersonalDetail = query2.executeUpdate();
 		
 		// update MobApplicantEmploymentDtl
@@ -327,7 +328,11 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 				+ "ma.country2=:country2_2,ma.country3=:country3_3,ma.incomeOtherCountryTax=:incomeOtherCountrytax,ma.incomeUsTaxable=:incomeUstaxable,"
 				+ "ma.modifiedBy=:modifiedby,ma.modifiedDate=:modifieddate,ma.oseasAddr1=:oseasaddr1,ma.oseasAddr2=:oseasaddr2,ma.oseasAddr3=:oseasaddr3, "
 				+ "ma.oseasCity=:oseascity,ma.oseasCountry=:oseascountry,ma.tin1=:tin1_1,ma.tin2=:tin2_2,ma.tin3=:tin3_3,ma.usCitizen=:uscitizen,ma.usSsn=:usssn,"
-				+ "ma.workPermitExpDate=:workPermitExpdate " 
+				+ "ma.workPermitExpDate=:workPermitExpdate,ma.hearAboutAfrasia=:hearAboutAfrasia,ma.hobbyCode1=:hobbyCode1,ma.hobbyCode2=:hobbyCode2,ma.hobbyCode3=:hobbyCode3, " 
+				+ "ma.tinAvailable1=:tinAvailable1,ma.tinAvailable2=:tinAvailable2,ma.tinAvailable3=:tinAvailable3, "
+				+ "ma.noTinOption1=:noTinOption1,ma.noTinOption2=:noTinOption2,ma.noTinOption3=:noTinOption3, "
+				+ "ma.noTinReason1=:noTinReason1,ma.noTinReason2=:noTinReason2,ma.noTinReason3=:noTinReason3, "
+				+ "ma.afrasiaEventQues=:afrasiaEventques,ma.afrasiaEventAns=:afrasiaEventans "
 				+ "where ma.id.id =:appid and ma.id.applicantId=:applicantId");
 		query4.setParameter("appid", appId);
 		query4.setParameter("applicantId", applicant.getApplicantId());
@@ -350,6 +355,25 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		query4.setParameter("uscitizen", applicant.getiSUSCitizen());
 		query4.setParameter("usssn", applicant.getUsaSsn());
 		query4.setParameter("workPermitExpdate", applicant.getWorkPermitExpDate());
+		query4.setParameter("hearAboutAfrasia", applicant.getWhrDidYouHearAbtAfrAsia());
+		query4.setParameter("afrasiaEventques", applicant.getAfrasiaEventQues());
+		query4.setParameter("afrasiaEventans", applicant.getAfrasiaEventAns());
+		query4.setParameter("hobbyCode1", applicant.getHobbyCode1());
+		query4.setParameter("hobbyCode2", applicant.getHobbyCode2());
+		query4.setParameter("hobbyCode3", applicant.getHobbyCode3());
+		
+		/*Start: Added by Avisha on 27/09 as asked by client*/
+		query4.setParameter("tinAvailable1", applicant.getTinAvailable1());
+		query4.setParameter("tinAvailable2", applicant.getTinAvailable2());
+		query4.setParameter("tinAvailable3", applicant.getTinAvailable3());
+		query4.setParameter("noTinOption1", applicant.getNoTinOption1());
+		query4.setParameter("noTinOption2", applicant.getNoTinOption2());
+		query4.setParameter("noTinOption3", applicant.getNoTinOption3());
+		query4.setParameter("noTinReason1", applicant.getNoTinReason1());
+		query4.setParameter("noTinReason2", applicant.getNoTinReason2());
+		query4.setParameter("noTinReason3", applicant.getNoTinReason3());
+		/*End: Added by Avisha on 27/09 as asked by client*/
+		
 		int numberMobApplicantAdditionalDtl = query4.executeUpdate();
 		
 		Query query5 = getEntityManager()
@@ -381,7 +405,7 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 						+ "ma.powerAttnUs1=:powerAttnus1,ma.powerAttnUs2=:powerAttnus2,ma.powerAttnUs3=:powerAttnus3,ma.powerAttnUs4=:powerAttnus4,"
 						+ "ma.powerAttnUs5=:powerAttnus5,ma.relationshipMinor1=:relationshipminor1,ma.relationshipMinor2=:relationshipminor2,"
 						+ "ma.relationshipMinor3=:relationshipminor3,ma.relationshipMinor4=:relationshipminor4,ma.relationshipMinor5=:relationshipminor5,"
-						+ "ma.minNoSignatures=:minNoSignatures,ma.operatingInst=:operatingInst "
+						+ "ma.minNoSignatures=:minNoSignatures,ma.operatingInst=:operatingInst,ma.isProxyRequired=:isProxyRequired "
 						+ "where ma.id =:appid ");
 		
 		query6.setParameter("appid", appId);
@@ -488,12 +512,12 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		query6.setParameter("relationshipminor5", null); 
 		query6.setParameter("minNoSignatures", accountDetails.getMinNoSignatures());
 		query6.setParameter("operatingInst", accountDetails.getOperatingInst());
-		
+		query6.setParameter("isProxyRequired", accountDetails.getIsProxyRequired());
 		int numberOfRecords = query6.executeUpdate();
 		
 		Query query7 = getEntityManager().createQuery("update MobAccountAdditionalDetail ma set ma.recordId =:recordid,ma.authEmail1=:authemail1,"
 				+ "ma.authEmail2=:authemail2,ma.authEmail3=:authemail3,ma.commEmail=:commemail,ma.commSms=:commsms,ma.creditCard=:creditcard,"
-				+ "ma.forexBanking=:forexbanking,ma.globalCustody=:globalcustody,ma.hearAboutAfrasia=:hearAboutafrasia,ma.internetBanking=:internetbanking,"
+				+ "ma.forexBanking=:forexbanking,ma.globalCustody=:globalcustody,ma.internetBanking=:internetbanking,ma.ibOption=:ibOption,"
 				+ "ma.modifiedBy=:modifiedby,ma.modifiedDate=:modifieddate,ma.nomineeCallbkNum1=:nomineeCallbknum1,"
 				+ "ma.nomineeCallbkNum2=:nomineeCallbknum2,ma.nomineeId1=:nomineeid1,ma.nomineeId2=:nomineeid2,"
 				+ "ma.nomineeName1=:nomineename1,ma.nomineeName2=:nomineename2,ma.nomineeEmail1=:nomineeemail1,"
@@ -501,7 +525,8 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 				+ "ma.optTranEmail=:optTranemail,ma.otpEmail=:otpemail,ma.otpSms=:otpsms,ma.pinViaPost=:pinViapost, "
 				+ "ma.pinViaSms=:pinViasms,ma.prefCommMode=:prefCommmode,ma.prepaidCards=:prepaidcards,ma.stmtAddr1=:stmtaddr1, "
 				+ "ma.stmtAddr2=:stmtaddr2,ma.stmtAddr3=:stmtaddr3,ma.stmtCity=:stmtcity,ma.stmtCountry=:stmtcountry, "
-				+ "ma.stmtDeliveryPo=:stmtdeliveryPo,ma.stmtDeliveryEstmt=:stmtdeliveryEstmt,ma.requireChqBook=:requireChqbook,ma.afrasiaEventQues=:afrasiaEventques,ma.afrasiaEventAns=:afrasiaEventans "
+				+ "ma.stmtDeliveryPo=:stmtdeliveryPo,ma.stmtDeliveryEstmt=:stmtdeliveryEstmt,ma.requireChqBook=:requireChqbook, "
+				+ "ma.rmComment=:rmComment "
 				+ "where ma.id =:appid ");
 		
 		query7.setParameter("appid", appId);
@@ -514,8 +539,9 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		query7.setParameter("creditcard", accountDetails.getNeedCreditCard());
 		query7.setParameter("forexbanking", accountDetails.getNeedForexBanking());
 		query7.setParameter("globalcustody", accountDetails.getNeedGlobalCustody());
-		query7.setParameter("hearAboutafrasia", accountDetails.getWhrDidYouHearAbtAfrAsia());
+		//query7.setParameter("hearAboutafrasia", accountDetails.getWhrDidYouHearAbtAfrAsia());
 		query7.setParameter("internetbanking", accountDetails.getNeedInternetBanking());
+		query7.setParameter("ibOption", accountDetails.getIbOption());
 		query7.setParameter("modifiedby", accountCreationRequest.getData().getRmId());
 		query7.setParameter("modifieddate", new Date());
 		int cntr = 0;
@@ -578,9 +604,7 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 			query7.setParameter("requireChqbook", accountDetails.getRequireChequeBook());
 		}
 		
-		query7.setParameter("afrasiaEventques", accountDetails.getAfrasiaEventQues());
-		query7.setParameter("afrasiaEventans", accountDetails.getAfrasiaEventAns());
-
+		query7.setParameter("rmComment", accountDetails.getRmComment());
 		int numberMobApplicantAdditionalDtl = query7.executeUpdate();
 	}
 	
@@ -594,6 +618,35 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		query.setParameter("appid",appId);
 		query.executeUpdate();
 	}
+
+	public void updateRecordIdInMobApplCheck(Long appId, Long recordId) {
+		Query query = getEntityManager()
+				.createQuery("update MobApplCheck ma set ma.recordId =:recordId " + "where ma.id =:appid ");
+		query.setParameter("appid", appId);
+		query.setParameter("recordId", recordId);
+		query.executeUpdate();
+		
+	}
+
+	public void updateCommentInMobApplCheckComments(AccountCreationRequest accountCreationRequest) {
+		// update MobApplicationCompStatus	
+				Query query = getEntityManager().createQuery("update MobApplCheckComments ma set ma.rmId=:rmId,ma.rmComment=:rmComment,"
+						+ "ma.createdBy=:createdBy,ma.createdDate=:createdDate,ma.modifiedBy=:modifiedBy,ma.modifiedDate=:modifieddate "
+						+ "where ma.id =:appId and ma.recordId=:recordId");
+				
+				query.setParameter("rmId", accountCreationRequest.getData().getRmId());
+				query.setParameter("rmComment", accountCreationRequest.getData().getComment());
+				query.setParameter("createdBy", accountCreationRequest.getData().getRmId());
+				query.setParameter("createdDate", new Date());
+				query.setParameter("modifiedBy", accountCreationRequest.getData().getRmId());
+				query.setParameter("modifiedDate", new Date());
+				query.setParameter("appId", accountCreationRequest.getData().getAppRefNo());
+				query.setParameter("recordId", accountCreationRequest.getData().getRecordId());
+				
+				query.executeUpdate();
+		
+	}
+
 	public void storeIntoMobApplCheckHist(Long appId, Long recordId) {
 		Query query = getEntityManager().createQuery(
 				"INSERT INTO MobApplCheckHist (recordId,isAppLocked,lockedBy,kycDone,kycStatus,kycUrl,kycDoneBy,kycDate,"

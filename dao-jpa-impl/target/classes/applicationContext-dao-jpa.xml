@@ -54,13 +54,14 @@
 	<!-- My tracker for RM -->
 	<bean id="rmApplicationsAppJpaDAO" class="com.afrAsia.dao.jpa.impl.RmApplicationsAppJpaDAOImpl" />
 	
-	<!-- Add comments service -->
-	<bean id="addCommentJpaDao" class="com.afrAsia.dao.jpa.impl.AddCommentJpaDaoImpl"/>
-
 	<!-- Upload KYC document dao bean -->
 	<bean id="uploadKYCJpaDao" class="com.afrAsia.dao.jpa.impl.UploadKYCJpaDaoImpl"/>
 	
 	<!-- Compliance service -->
 	<bean id="complianceJpaDao" class="com.afrAsia.dao.jpa.impl.ComplianceJpaDAOImpl"/>
+	
+	<bean id="lockApplicationJpaDaoImpl" class="com.afrAsia.dao.jpa.impl.LockApplicationJpaDaoImpl"/>
+	<bean id="updateApplCheckStatusJpaDao" class="com.afrAsia.dao.jpa.impl.UpdateApplCheckStatusJpaDaoImpl"/>
+	<bean id="updateCifOrShortnameJpaDaoImpl" class="com.afrAsia.dao.jpa.impl.UpdateCifOrShortnameJpaDaoImpl"/>
 
 </beans>

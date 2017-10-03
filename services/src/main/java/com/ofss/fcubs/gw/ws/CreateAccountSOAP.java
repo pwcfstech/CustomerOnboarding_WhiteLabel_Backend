@@ -432,13 +432,15 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		OTH_BANNER_VIDEO BRANCH_VISIT MOBILE_APP TV_RADIO MANAGEMNT_COMP RMS_CSAS OTHER
 		Table Field name HEAR_ABOUT_AFRASIA | MOB_ACCOUNT_ADDITIONAL_DETAILS */
 		MobAccountAdditionalDetail mobAccountAdditionalDetail = mobCreateCustomerSOAPRequest.getMobAccountAdditionalDetail();
-		udfDetailsMap.put("FIRST_HEAR_ABOUT_AFRASIA", mobAccountAdditionalDetail.getHearAboutAfrasia());
+		//udfDetailsMap.put("FIRST_HEAR_ABOUT_AFRASIA", mobAccountAdditionalDetail.getHearAboutAfrasia());//Commented by Avisha
 		
 		/*Field name : AC_E_STMNT_FLG
 		Value :  Y, N 		Table Field name: STMT_DELIVERY
 		If value for STMT_DELIVERY is POST send N else send Y | MOB_ACCOUNT_ADDITIONAL_DETAILS*/
 		
-		String stmtDelivery = mobAccountAdditionalDetail.getStmtDelivery();
+		
+		//Commented by Avisha
+		/*String stmtDelivery = mobAccountAdditionalDetail.getStmtDelivery();
 		if( null != stmtDelivery && !stmtDelivery.isEmpty() ){
 			if(stmtDelivery.equalsIgnoreCase(POST)){
 				udfDetailsMap.put("AC_E_STMNT_FLG", N);
@@ -446,7 +448,7 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 			else{
 				udfDetailsMap.put("AC_E_STMNT_FLG", Y);
 			}
-		}
+		}*/
 		
 			/*CRS_COUNTRY_OF_TAX_RESIDENCE_1
 			CRS_COUNTRY_OF_TAX_RESIDENCE_2

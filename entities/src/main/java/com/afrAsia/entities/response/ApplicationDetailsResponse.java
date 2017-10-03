@@ -1,6 +1,7 @@
 package com.afrAsia.entities.response;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import com.afrAsia.entities.jpa.MsgHeader;
@@ -8,6 +9,7 @@ import com.afrAsia.entities.request.NomineeInfo;
 
 public class ApplicationDetailsResponse implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private MsgHeader msgHeader;
 	private Data data;
 
@@ -34,7 +36,9 @@ public class ApplicationDetailsResponse implements Serializable {
 
 	public class Data implements Serializable {
 
+		private static final long serialVersionUID = 1L;
 		private Long refNo;
+		private Long recordId;
 		private String appStatus;
 		private Long appSubDate;
 		private Long pendingRMSince;
@@ -44,14 +48,21 @@ public class ApplicationDetailsResponse implements Serializable {
 		ApplicantDetailsResponse primaryApplicantDetails;
 		ApplicantDetailsResponse guardianDetails;
 		List<JointApplicantsResponse> jointApplicants;
-		
-		
+
 		public Long getRefNo() {
 			return refNo;
 		}
 
 		public void setRefNo(Long refNo) {
 			this.refNo = refNo;
+		}
+
+		public Long getRecordId() {
+			return recordId;
+		}
+
+		public void setRecordId(Long recordId) {
+			this.recordId = recordId;
 		}
 
 		public String getAppStatus() {
@@ -128,132 +139,132 @@ public class ApplicationDetailsResponse implements Serializable {
 
 		@Override
 		public String toString() {
-			return "Data [refNo=" + refNo + ", appStatus=" + appStatus + ", appSubDate=" + appSubDate
-					+ ", pendingRMSince=" + pendingRMSince + ", rvwBy=" + rvwBy + ", comments=" + comments
+			return "Data [refNo=" + refNo + ", recordId=" + recordId + ", appStatus=" + appStatus + ", appSubDate="
+					+ appSubDate + ", pendingRMSince=" + pendingRMSince + ", rvwBy=" + rvwBy + ", comments=" + comments
 					+ ", accountDetails=" + accountDetails + ", primaryApplicantDetails=" + primaryApplicantDetails
 					+ ", guardianDetails=" + guardianDetails + ", jointApplicants=" + jointApplicants + "]";
 		}
 
 		public class Comments implements Serializable {
-			private String comment;
-			private String commentAddedBy;
-			private Long commentDate;
-			private String userCat;
-
-			public String getComment() {
-				return comment;
+			
+			private static final long serialVersionUID = 1L;
+			private Long recordId;
+			private List<RecordComments> recordComments;
+			
+			public Long getRecordId() {
+				return recordId;
 			}
 
-			public void setComment(String comment) {
-				this.comment = comment;
+			public void setRecordId(Long recordId) {
+				this.recordId = recordId;
+			}
+			
+			public List<RecordComments> getRecordComments() {
+				return recordComments;
 			}
 
-			public String getCommentAddedBy() {
-				return commentAddedBy;
-			}
-
-			public void setCommentAddedBy(String commentAddedBy) {
-				this.commentAddedBy = commentAddedBy;
-			}
-
-			public Long getCommentDate() {
-				return commentDate;
-			}
-
-			public void setCommentDate(Long commentDate) {
-				this.commentDate = commentDate;
-			}
-
-			public String getUserCat() {
-				return userCat;
-			}
-
-			public void setUserCat(String userCat) {
-				this.userCat = userCat;
+			public void setRecordComments(List<RecordComments> recordComments) {
+				this.recordComments = recordComments;
 			}
 
 			@Override
 			public String toString() {
-				return "Comments [comment=" + comment + ", commentAddedBy=" + commentAddedBy + ", commentDate="
-						+ commentDate + ", userCat=" + userCat + "]";
+				return "Comments [recordId=" + recordId + ", recordComments=" + recordComments + "]";
+			}
+
+			public class RecordComments implements Serializable {
+				
+				private static final long serialVersionUID = 1L;
+				//private String userCat;
+				private String commentType;
+				private String comment;
+				private Date commentDate;
+                private String commentMadeBy;
+				public String getCommentType() {
+					return commentType;
+				}
+				public void setCommentType(String commentType) {
+					this.commentType = commentType;
+				}
+				public String getComment() {
+					return comment;
+				}
+				public void setComment(String comment) {
+					this.comment = comment;
+				}
+				public Date getCommentDate() {
+					return commentDate;
+				}
+				public void setCommentDate(Date commentDate) {
+					this.commentDate = commentDate;
+				}
+				public String getCommentMadeBy() {
+					return commentMadeBy;
+				}
+				public void setCommentMadeBy(String commentMadeBy) {
+					this.commentMadeBy = commentMadeBy;
+				}
+				@Override
+				public String toString() {
+					return "RecordComments [commentType=" + commentType + ", comment=" + comment + ", commentDate="
+							+ commentDate + ", commentMadeBy=" + commentMadeBy + "]";
+				}
 			}
 		}
-
+		
 		public class AccountDetails implements Serializable {
-			String account;
-			String accountType;
-			String mop;
+			private static final long serialVersionUID = 1L;
+			private String account;
+			private String accountType;
+			private String accountNumber;//Added by Avisha for new fields for 1.5 on 21/09/2017
+			private String mop;
 			Boolean stmtDeliveryPo;
 			Boolean stmtDeliveryEstmt;
-			String stmtAddr1;
-			String stmtAddr2;
-			String stmtAddr3;
-			String stmtCity;
-			String stmtCountry;
-			Boolean needCreditCard;
-			Boolean needGlobalCustody;
-			Boolean needForexBanking;
-			Boolean needPrepaidCard;
-			Boolean needInternetBanking;
-			String internetBankingUn;
-			Boolean otpOverEmail;
-			Boolean otpOverSMS;
-			Boolean pinViaSMS;
-			Boolean pinViaPost;
-			String prefCommMode;
-			String whrDidYouHearAbtAfrAsia;
-			Boolean agreeCommEmail;
-			Boolean agreeCommSMS;
-			Boolean optTransactionsThruEmail;
-			String authEmail1;
-			String authEmail2;
-			String authEmail3;
-			Boolean optCallBackServices;
+			private String stmtAddr1;
+			private String stmtAddr2;
+			private String stmtAddr3;
+			private String stmtCity;
+			private String stmtCountry;
+			private Boolean needCreditCard;
+			private Boolean needGlobalCustody;
+			private Boolean needForexBanking;
+			private Boolean needPrepaidCard;
+			private Boolean needInternetBanking;
+			private String internetBankingUn;
+			private Boolean otpOverEmail;
+			private Boolean otpOverSMS;
+			private Boolean pinViaSMS;
+			private Boolean pinViaPost;
+			private String prefCommMode;
+			private Boolean agreeCommEmail;
+			private Boolean agreeCommSMS;
+			private Boolean optTransactionsThruEmail;
+			private String authEmail1;
+			private String authEmail2;
+			private String authEmail3;
+			private Boolean optCallBackServices;
 			List<NomineeInfo> nomineeInfo;
 
-			private String afrasiaEventQues;
-			private String afrasiaEventAns;
 			private Long minNoSignatures;
 			private String operatingInst;
-
-			public String getAfrasiaEventQues() {
-				return afrasiaEventQues;
-			}
-
-			public void setAfrasiaEventQues(String afrasiaEventQues) {
-				this.afrasiaEventQues = afrasiaEventQues;
-			}
-
-			public String getAfrasiaEventAns() {
-				return afrasiaEventAns;
-			}
-
-			public void setAfrasiaEventAns(String afrasiaEventAns) {
-				this.afrasiaEventAns = afrasiaEventAns;
-			}
-
-			public Long getMinNoSignatures() {
-				return minNoSignatures;
-			}
-
-			public void setMinNoSignatures(Long minNoSignatures) {
-				this.minNoSignatures = minNoSignatures;
-			}
-
-			public String getOperatingInst() {
-				return operatingInst;
-			}
-
-			public void setOperatingInst(String operatingInst) {
-				this.operatingInst = operatingInst;
-			}
-
+			private Boolean isProxyRequired;//Added by Avisha on 25/09 for issues
+			private String rmComment;//Added by Avisha on 26/09 as asked by client
+			private String ibOption;//Added by Avisha on 27/09 as asked by client
+			
 			public String getAccount() {
 				return account;
 			}
 
 			public void setAccount(String account) {
 				this.account = account;
+			}
+
+			public String getAccountType() {
+				return accountType;
+			}
+
+			public void setAccountType(String accountType) {
+				this.accountType = accountType;
 			}
 
 			public String getMop() {
@@ -264,12 +275,20 @@ public class ApplicationDetailsResponse implements Serializable {
 				this.mop = mop;
 			}
 
-			public String getAccountType() {
-				return accountType;
+			public Boolean getStmtDeliveryPo() {
+				return stmtDeliveryPo;
 			}
 
-			public void setAccountType(String accountType) {
-				this.accountType = accountType;
+			public void setStmtDeliveryPo(Boolean stmtDeliveryPo) {
+				this.stmtDeliveryPo = stmtDeliveryPo;
+			}
+
+			public Boolean getStmtDeliveryEstmt() {
+				return stmtDeliveryEstmt;
+			}
+
+			public void setStmtDeliveryEstmt(Boolean stmtDeliveryEstmt) {
+				this.stmtDeliveryEstmt = stmtDeliveryEstmt;
 			}
 
 			public String getStmtAddr1() {
@@ -312,68 +331,12 @@ public class ApplicationDetailsResponse implements Serializable {
 				this.stmtCountry = stmtCountry;
 			}
 
-			public String getInternetBankingUn() {
-				return internetBankingUn;
+			public Boolean getNeedCreditCard() {
+				return needCreditCard;
 			}
 
-			public void setInternetBankingUn(String internetBankingUn) {
-				this.internetBankingUn = internetBankingUn;
-			}
-
-			public String getPrefCommMode() {
-				return prefCommMode;
-			}
-
-			public void setPrefCommMode(String prefCommMode) {
-				this.prefCommMode = prefCommMode;
-			}
-
-			public String getWhrDidYouHearAbtAfrAsia() {
-				return whrDidYouHearAbtAfrAsia;
-			}
-
-			public void setWhrDidYouHearAbtAfrAsia(String whrDidYouHearAbtAfrAsia) {
-				this.whrDidYouHearAbtAfrAsia = whrDidYouHearAbtAfrAsia;
-			}
-
-			public String getAuthEmail1() {
-				return authEmail1;
-			}
-
-			public void setAuthEmail1(String authEmail1) {
-				this.authEmail1 = authEmail1;
-			}
-
-			public String getAuthEmail2() {
-				return authEmail2;
-			}
-
-			public void setAuthEmail2(String authEmail2) {
-				this.authEmail2 = authEmail2;
-			}
-
-			public String getAuthEmail3() {
-				return authEmail3;
-			}
-
-			public void setAuthEmail3(String authEmail3) {
-				this.authEmail3 = authEmail3;
-			}
-
-			public List<NomineeInfo> getNomineeInfo() {
-				return nomineeInfo;
-			}
-
-			public void setNomineeInfo(List<NomineeInfo> nomineeInfo) {
-				this.nomineeInfo = nomineeInfo;
-			}
-
-			public Boolean getOtpOverEmail() {
-				return otpOverEmail;
-			}
-
-			public void setOtpOverEmail(Boolean otpOverEmail) {
-				this.otpOverEmail = otpOverEmail;
+			public void setNeedCreditCard(Boolean needCreditCard) {
+				this.needCreditCard = needCreditCard;
 			}
 
 			public Boolean getNeedGlobalCustody() {
@@ -408,6 +371,22 @@ public class ApplicationDetailsResponse implements Serializable {
 				this.needInternetBanking = needInternetBanking;
 			}
 
+			public String getInternetBankingUn() {
+				return internetBankingUn;
+			}
+
+			public void setInternetBankingUn(String internetBankingUn) {
+				this.internetBankingUn = internetBankingUn;
+			}
+
+			public Boolean getOtpOverEmail() {
+				return otpOverEmail;
+			}
+
+			public void setOtpOverEmail(Boolean otpOverEmail) {
+				this.otpOverEmail = otpOverEmail;
+			}
+
 			public Boolean getOtpOverSMS() {
 				return otpOverSMS;
 			}
@@ -432,6 +411,14 @@ public class ApplicationDetailsResponse implements Serializable {
 				this.pinViaPost = pinViaPost;
 			}
 
+			public String getPrefCommMode() {
+				return prefCommMode;
+			}
+
+			public void setPrefCommMode(String prefCommMode) {
+				this.prefCommMode = prefCommMode;
+			}
+
 			public Boolean getAgreeCommEmail() {
 				return agreeCommEmail;
 			}
@@ -448,6 +435,38 @@ public class ApplicationDetailsResponse implements Serializable {
 				this.agreeCommSMS = agreeCommSMS;
 			}
 
+			public Boolean getOptTransactionsThruEmail() {
+				return optTransactionsThruEmail;
+			}
+
+			public void setOptTransactionsThruEmail(Boolean optTransactionsThruEmail) {
+				this.optTransactionsThruEmail = optTransactionsThruEmail;
+			}
+
+			public String getAuthEmail1() {
+				return authEmail1;
+			}
+
+			public void setAuthEmail1(String authEmail1) {
+				this.authEmail1 = authEmail1;
+			}
+
+			public String getAuthEmail2() {
+				return authEmail2;
+			}
+
+			public void setAuthEmail2(String authEmail2) {
+				this.authEmail2 = authEmail2;
+			}
+
+			public String getAuthEmail3() {
+				return authEmail3;
+			}
+
+			public void setAuthEmail3(String authEmail3) {
+				this.authEmail3 = authEmail3;
+			}
+
 			public Boolean getOptCallBackServices() {
 				return optCallBackServices;
 			}
@@ -456,55 +475,79 @@ public class ApplicationDetailsResponse implements Serializable {
 				this.optCallBackServices = optCallBackServices;
 			}
 
-			public Boolean getNeedCreditCard() {
-				return needCreditCard;
+			public List<NomineeInfo> getNomineeInfo() {
+				return nomineeInfo;
 			}
 
-			public void setNeedCreditCard(Boolean needCreditCard) {
-				this.needCreditCard = needCreditCard;
+			public void setNomineeInfo(List<NomineeInfo> nomineeInfo) {
+				this.nomineeInfo = nomineeInfo;
 			}
 
-			public Boolean getOptTransactionsThruEmail() {
-				return optTransactionsThruEmail;
+			public Long getMinNoSignatures() {
+				return minNoSignatures;
 			}
 
-			public void setOptTransactionsThruEmail(boolean optTransactionsThruEmail) {
-				this.optTransactionsThruEmail = optTransactionsThruEmail;
+			public void setMinNoSignatures(Long minNoSignatures) {
+				this.minNoSignatures = minNoSignatures;
 			}
 
-			public Boolean getStmtDeliveryPo() {
-				return stmtDeliveryPo;
+			public String getOperatingInst() {
+				return operatingInst;
 			}
 
-			public void setStmtDeliveryPo(Boolean stmtDeliveryPo) {
-				this.stmtDeliveryPo = stmtDeliveryPo;
+			public void setOperatingInst(String operatingInst) {
+				this.operatingInst = operatingInst;
 			}
 
-			public Boolean getStmtDeliveryEstmt() {
-				return stmtDeliveryEstmt;
+			public String getAccountNumber() {
+				return accountNumber;
 			}
 
-			public void setStmtDeliveryEstmt(Boolean stmtDeliveryEstmt) {
-				this.stmtDeliveryEstmt = stmtDeliveryEstmt;
+			public void setAccountNumber(String accountNumber) {
+				this.accountNumber = accountNumber;
+			}
+
+			public Boolean getIsProxyRequired() {
+				return isProxyRequired;
+			}
+
+			public void setIsProxyRequired(Boolean isProxyRequired) {
+				this.isProxyRequired = isProxyRequired;
+			}
+
+			public String getRmComment() {
+				return rmComment;
+			}
+
+			public void setRmComment(String rmComment) {
+				this.rmComment = rmComment;
+			}
+
+			public String getIbOption() {
+				return ibOption;
+			}
+
+			public void setIbOption(String ibOption) {
+				this.ibOption = ibOption;
 			}
 
 			@Override
 			public String toString() {
-				return "AccountDetails [account=" + account + ", accountType=" + accountType + ", mop=" + mop
-						+ ", stmtDeliveryPo=" + stmtDeliveryPo + ", stmtDeliveryEstmt=" + stmtDeliveryEstmt
-						+ ", stmtAddr1=" + stmtAddr1 + ", stmtAddr2=" + stmtAddr2 + ", stmtAddr3=" + stmtAddr3
-						+ ", stmtCity=" + stmtCity + ", stmtCountry=" + stmtCountry + ", needCreditCard="
+				return "AccountDetails [account=" + account + ", accountType=" + accountType + ", accountNumber="
+						+ accountNumber + ", mop=" + mop + ", stmtDeliveryPo=" + stmtDeliveryPo + ", stmtDeliveryEstmt="
+						+ stmtDeliveryEstmt + ", stmtAddr1=" + stmtAddr1 + ", stmtAddr2=" + stmtAddr2 + ", stmtAddr3="
+						+ stmtAddr3 + ", stmtCity=" + stmtCity + ", stmtCountry=" + stmtCountry + ", needCreditCard="
 						+ needCreditCard + ", needGlobalCustody=" + needGlobalCustody + ", needForexBanking="
 						+ needForexBanking + ", needPrepaidCard=" + needPrepaidCard + ", needInternetBanking="
 						+ needInternetBanking + ", internetBankingUn=" + internetBankingUn + ", otpOverEmail="
 						+ otpOverEmail + ", otpOverSMS=" + otpOverSMS + ", pinViaSMS=" + pinViaSMS + ", pinViaPost="
-						+ pinViaPost + ", prefCommMode=" + prefCommMode + ", whrDidYouHearAbtAfrAsia="
-						+ whrDidYouHearAbtAfrAsia + ", agreeCommEmail=" + agreeCommEmail + ", agreeCommSMS="
+						+ pinViaPost + ", prefCommMode=" + prefCommMode + ", agreeCommEmail=" + agreeCommEmail + ", agreeCommSMS="
 						+ agreeCommSMS + ", optTransactionsThruEmail=" + optTransactionsThruEmail + ", authEmail1="
 						+ authEmail1 + ", authEmail2=" + authEmail2 + ", authEmail3=" + authEmail3
 						+ ", optCallBackServices=" + optCallBackServices + ", nomineeInfo=" + nomineeInfo
-						+ ", afrasiaEventQues=" + afrasiaEventQues + ", afrasiaEventAns=" + afrasiaEventAns
-						+ ", minNoSignatures=" + minNoSignatures + ", operatingInst=" + operatingInst + "]";
+						+ ", minNoSignatures=" + minNoSignatures + ", operatingInst=" + operatingInst
+						+ ", isProxyRequired=" + isProxyRequired + ", rmComment=" + rmComment + ", ibOption=" + ibOption
+						+ "]";
 			}
 
 		}

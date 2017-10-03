@@ -4,14 +4,23 @@ package com.afrAsia.service.impl;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.NoResultException;
 
 import org.apache.log4j.Logger;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.TokenRequest;
+import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.afrAsia.authenticate.CustomClientDetailsService;
 import com.afrAsia.customexception.IdNotFoundException;
+import com.afrAsia.dao.OAuthAuthorizationDAO;
 import com.afrAsia.dao.RMDetailsDao;
 import com.afrAsia.dao.jpa.AccountCreateJpaDao;
 import com.afrAsia.dao.jpa.ApplicationDetailsJpaDAO;
@@ -58,7 +67,15 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 	private ApplicationDetailsJpaDAO applicationDetailsDAO;
 	
 	private RMDetailsDao rmDetailsDAO;
-
+	
+	private DefaultTokenServices tokenServices;
+	
+	private CustomClientDetailsService customClientDetailsService;
+	
+	private DefaultOAuth2RequestFactory oAuth2RequestFactory;
+	
+	private OAuthAuthorizationDAO oAuthAuthorizationDAO;
+	
 	public RMDetailsDao getRmDetailsDAO() {
 		return rmDetailsDAO;
 	}
@@ -81,6 +98,38 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 
 	public void setApplicationDetailsDAO(ApplicationDetailsJpaDAO applicationDetailsDAO) {
 		this.applicationDetailsDAO = applicationDetailsDAO;
+	}
+
+	public DefaultTokenServices getTokenServices() {
+		return tokenServices;
+	}
+
+	public void setTokenServices(DefaultTokenServices tokenServices) {
+		this.tokenServices = tokenServices;
+	}
+
+	public CustomClientDetailsService getCustomClientDetailsService() {
+		return customClientDetailsService;
+	}
+
+	public void setCustomClientDetailsService(CustomClientDetailsService customClientDetailsService) {
+		this.customClientDetailsService = customClientDetailsService;
+	}
+
+	public DefaultOAuth2RequestFactory getoAuth2RequestFactory() {
+		return oAuth2RequestFactory;
+	}
+
+	public void setoAuth2RequestFactory(DefaultOAuth2RequestFactory oAuth2RequestFactory) {
+		this.oAuth2RequestFactory = oAuth2RequestFactory;
+	}
+
+	public OAuthAuthorizationDAO getoAuthAuthorizationDAO() {
+		return oAuthAuthorizationDAO;
+	}
+
+	public void setoAuthAuthorizationDAO(OAuthAuthorizationDAO oAuthAuthorizationDAO) {
+		this.oAuthAuthorizationDAO = oAuthAuthorizationDAO;
 	}
 
 	@Override
@@ -140,15 +189,18 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		MobRmAppRefId mobRmAppRefId = createApplicationReferenceId(accountCreationRequest);
 		Long appRefNo = mobRmAppRefId.getId();
 		data.setRefNo(appRefNo);
+		infoLog.info(" Created Application Reference id against Rm "+mobRmAppRefId.toString());
 
 		// Create a record id for the application reference id.
 		MobAppRefRecordId mobAppRefRecordId = createRecordIdForApplication(accountCreationRequest,appRefNo);
 		Long recordId = mobAppRefRecordId.getRecordId(); 
 		data.setRecordId(recordId);
+		infoLog.info(" Created a record id for the application reference "+mobAppRefRecordId.toString());
 
 		//Create applicant id
 		ApplicantDetails primaryApplicant = accountCreationRequest.getData().getPrimaryApplicantDetail();
 		MobApplicantRecordId mobApplicantPrimary = createApplicant(accountCreationRequest, primaryApplicant, appRefNo, recordId, "Primary");
+		infoLog.info(" Created primary applicant "+primaryApplicant.toString());
 		
 		data.setPrimaryApplicantRefNo(mobApplicantPrimary.getApplicantId());
 
@@ -158,7 +210,9 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		if(guardianPrimary != null && guardianPrimary.getFirstName()!=null && !guardianPrimary.getFirstName().isEmpty()){
 			mobGuardianPrimary = createApplicant(accountCreationRequest, guardianPrimary, appRefNo, recordId, "Guardian");
 			data.setGuardianRefNo(mobGuardianPrimary.getApplicantId());
+			infoLog.info(" Created guardian primary applicant "+guardianPrimary.toString());
 		}
+
 
 		//Create Joint holders
 		List<JointApplicants> jointHolders = accountCreationRequest.getData().getJointApplicants();
@@ -189,6 +243,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			i++;
 			jointApplicants.add(applicantRefNo);
 		}
+
 		//Create Account
 		AccountDetails accountDetails = accountCreationRequest.getData().getAccountDetails();
 		enterAccountDetails(accountCreationRequest,appRefNo, recordId, mobApplicantPrimary, mobGuardianPrimary, mobJoint, mobGuardianJoint, accountDetails);
@@ -285,6 +340,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobAccountDetail.setPowerAttnUs5(false);
 		mobAccountDetail.setMop5(null);
 		mobAccountDetail.setMopInstruction5(null);
+		mobAccountDetail.setIsProxyRequired(accountCreationRequest.getData().getAccountDetails().getIsProxyRequired());
 		debugLog.debug(" mobAccountDetail is : "+mobAccountDetail.toString());
 
 		List<JointApplicants> jointHolders = accountCreationRequest.getData().getJointApplicants();		
@@ -354,6 +410,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobAccountAdditionalDetail.setStmtCity(accountDetails.getStmtCity());
 		mobAccountAdditionalDetail.setStmtCountry(accountDetails.getStmtCountry());
 		mobAccountAdditionalDetail.setInternetBanking(accountDetails.getNeedInternetBanking());
+		mobAccountAdditionalDetail.setIbOption(accountDetails.getIbOption());//Added by Avisha on 27/09 as asked by client
 		mobAccountAdditionalDetail.setCreditCard(accountDetails.getNeedCreditCard());
 		mobAccountAdditionalDetail.setGlobalCustody(accountDetails.getNeedGlobalCustody());
 		mobAccountAdditionalDetail.setForexBanking(accountDetails.getNeedForexBanking());
@@ -365,15 +422,13 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobAccountAdditionalDetail.setPinViaSms(accountDetails.getOtpOverSMS());
 		mobAccountAdditionalDetail.setPinViaPost(accountDetails.getPinViaPost());
 		mobAccountAdditionalDetail.setPrefCommMode(accountDetails.getPrefCommMode());
-		mobAccountAdditionalDetail.setHearAboutAfrasia(accountDetails.getWhrDidYouHearAbtAfrAsia());
+		//mobAccountAdditionalDetail.setHearAboutAfrasia(accountDetails.getWhrDidYouHearAbtAfrAsia());
 		mobAccountAdditionalDetail.setCommEmail(accountDetails.getAgreeCommEmail());
 		mobAccountAdditionalDetail.setCommSms(accountDetails.getAgreeCommSMS());
 		mobAccountAdditionalDetail.setOptTranEmail(accountDetails.getOptTransactionsThruEmail());
 		mobAccountAdditionalDetail.setAuthEmail1(accountDetails.getAuthEmail1());
 		mobAccountAdditionalDetail.setAuthEmail2(accountDetails.getAuthEmail2());
 		mobAccountAdditionalDetail.setAuthEmail3(accountDetails.getAuthEmail3());
-		mobAccountAdditionalDetail.setAfrasiaEventQues(accountDetails.getAfrasiaEventQues());
-		mobAccountAdditionalDetail.setAfrasiaEventAns(accountDetails.getAfrasiaEventAns());
 		mobAccountAdditionalDetail.setOptCallbkServices(accountDetails.getOptCallBackServices());
 
 		int cntr = 0;
@@ -394,6 +449,9 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			}
 			cntr++;
 		}
+		
+		mobAccountAdditionalDetail.setRmComment(accountDetails.getRmComment());//Added by Avisha on 26/09 as asked by client
+		
 		mobAccountAdditionalDetail=accountCreateDao.storeMobAccountAdditionalDetail(mobAccountAdditionalDetail);
 		infoLog.info("MOB_ACCOUNT_ADDITIONAL_DETAILS has been stored");
 		debugLog.debug(" mobAccountAdditionalDetail is : "+mobAccountAdditionalDetail.toString());
@@ -458,6 +516,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobApplicantPersonalDetail.setNic(applicant.getNic());
 		mobApplicantPersonalDetail.setPassportNo(applicant.getPassportNo());
 		mobApplicantPersonalDetail.setPassportExpiryDate(applicant.getPassportExpDate());
+		mobApplicantPersonalDetail.setPassportIssueDate(applicant.getPassportIssDate());
 		mobApplicantPersonalDetail.setNationality(applicant.getNationality());
 		mobApplicantPersonalDetail.setEmail(applicant.getEmail());
 		mobApplicantPersonalDetail.setDob(applicant.getDob());
@@ -471,30 +530,38 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobApplicantPersonalDetail.setSex(applicant.getSex());
 		mobApplicantPersonalDetail.setIsHnwi(applicant.getIsHnwi());
 		
-		String mop = accountCreationRequest.getData().getAccountDetails().getMop();
-		if(mop.equalsIgnoreCase("E")){
-			if(customerType.equalsIgnoreCase("Primary")){
-				mobApplicantPersonalDetail.setSignatoryType("JOF");
-			}
-			if(customerType.equalsIgnoreCase("Joint")){
-				mobApplicantPersonalDetail.setSignatoryType("JOO");
-			}
-		}
-		else if(mop.equalsIgnoreCase("J")){
-			if(customerType.equalsIgnoreCase("Primary")){
-				mobApplicantPersonalDetail.setSignatoryType("JAF");
-			}
-			if(customerType.equalsIgnoreCase("Joint")){
-				mobApplicantPersonalDetail.setSignatoryType("JAO");
-			}
-		}
-		else if(mop.equalsIgnoreCase("S")){
-			if(customerType.equalsIgnoreCase("Primary")){
-				mobApplicantPersonalDetail.setSignatoryType("SOW");
-			}
-		}
-		//To be done in update also
+		mobApplicantPersonalDetail.setIsProxyHolder(applicant.getIsProxyHolder());//Added by Avisha on 25/09.. for issues
 		
+		if(mobApplicantPersonalDetail.getIsProxyHolder())
+		{
+			mobApplicantPersonalDetail.setSignatoryType("PROXY");
+		}
+		else
+		{
+			String mop = accountCreationRequest.getData().getAccountDetails().getMop();
+			if(mop.equalsIgnoreCase("E")){
+				if(customerType.equalsIgnoreCase("Primary")){
+					mobApplicantPersonalDetail.setSignatoryType("JOF");
+				}
+				if(customerType.equalsIgnoreCase("Joint")){
+					mobApplicantPersonalDetail.setSignatoryType("JOO");
+				}
+			}
+			else if(mop.equalsIgnoreCase("J")){
+				if(customerType.equalsIgnoreCase("Primary")){
+					mobApplicantPersonalDetail.setSignatoryType("JAF");
+				}
+				if(customerType.equalsIgnoreCase("Joint")){
+					mobApplicantPersonalDetail.setSignatoryType("JAO");
+				}
+			}
+			else if(mop.equalsIgnoreCase("S")){
+				if(customerType.equalsIgnoreCase("Primary")){
+					mobApplicantPersonalDetail.setSignatoryType("SOW");
+				}
+			}
+			//To be done in update also
+		}
 		
 		mobApplicantPersonalDetail=accountCreateDao.storeMobApplicantPersonalDetail(mobApplicantPersonalDetail);
 		infoLog.info("MOB_APPLICANT_PERSONAL_DETAILS has been stored");
@@ -601,6 +668,25 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobApplicantAdditionalDtl.setTin1(applicant.getCrsTin1());
 		mobApplicantAdditionalDtl.setTin2(applicant.getCrsTin2());
 		mobApplicantAdditionalDtl.setTin3(applicant.getCrsTin3());
+		
+		/*Start: Added by Avisha on 27/09 as asked by client*/
+		mobApplicantAdditionalDtl.setTinAvailable1(applicant.getTinAvailable1());
+		mobApplicantAdditionalDtl.setTinAvailable2(applicant.getTinAvailable2());
+		mobApplicantAdditionalDtl.setTinAvailable3(applicant.getTinAvailable3());
+		mobApplicantAdditionalDtl.setNoTinOption1(applicant.getNoTinOption1());
+		mobApplicantAdditionalDtl.setNoTinOption2(applicant.getNoTinOption2());
+		mobApplicantAdditionalDtl.setNoTinOption3(applicant.getNoTinOption3());
+		mobApplicantAdditionalDtl.setNoTinReason1(applicant.getNoTinReason1());
+		mobApplicantAdditionalDtl.setNoTinReason2(applicant.getNoTinReason2());
+		mobApplicantAdditionalDtl.setNoTinReason3(applicant.getNoTinReason3());
+		/*End: Added by Avisha on 27/09 as asked by client*/
+		
+		mobApplicantAdditionalDtl.setHearAboutAfrasia(applicant.getWhrDidYouHearAbtAfrAsia());//Added by Avisha on 26/09.. for issues
+		mobApplicantAdditionalDtl.setAfrasiaEventQues(applicant.getAfrasiaEventQues());//Added by Avisha on 26/09.. for issues
+		mobApplicantAdditionalDtl.setAfrasiaEventAns(applicant.getAfrasiaEventAns());//Added by Avisha on 26/09.. for issues
+		mobApplicantAdditionalDtl.setHobbyCode1(applicant.getHobbyCode1());//Added by Avisha on 26/09.. for issues
+		mobApplicantAdditionalDtl.setHobbyCode2(applicant.getHobbyCode2());//Added by Avisha on 26/09.. for issues
+		mobApplicantAdditionalDtl.setHobbyCode3(applicant.getHobbyCode3());//Added by Avisha on 26/09.. for issues
 		mobApplicantAdditionalDtl=accountCreateDao.storeMobApplicantAdditionalDtl(mobApplicantAdditionalDtl);
 		infoLog.info("MOB_APPLICANT_ADDITIONAL_DTLS has been stored");
 		debugLog.debug(" mobApplicantAdditionalDtl is : "+mobApplicantAdditionalDtl.toString());
@@ -697,7 +783,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		Long recordIdFromDb=0L;
 		try{			
 			recordIdFromDb= accountCreateDao.checkRecordId(appId,recordIdFromRequest);			
-			if(appIdFromDb==null){
+			if(recordIdFromDb==null){
 				errorLog.error(" Provided record id and app ref id doestn't match, please pass proper values");
 				throw new IdNotFoundException("Provided record id and app ref id doestn't match, please pass proper values");
 			}
@@ -900,6 +986,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			mobApplPersonalDetailsHist.setOtherBank2(mobApplicantPersonalDetail.getOtherBank2());
 			mobApplPersonalDetailsHist.setOtherBank3(mobApplicantPersonalDetail.getOtherBank3());
 			mobApplPersonalDetailsHist.setPassportExpiryDate(mobApplicantPersonalDetail.getPassportExpiryDate());
+			mobApplPersonalDetailsHist.setPassportIssueDate(mobApplicantPersonalDetail.getPassportIssueDate());
 			mobApplPersonalDetailsHist.setPassportNo(mobApplicantPersonalDetail.getPassportNo());
 			mobApplPersonalDetailsHist.setResidencyStatus(mobApplicantPersonalDetail.getResidencyStatus());
 			mobApplPersonalDetailsHist.setTitle(mobApplicantPersonalDetail.getTitle());
@@ -910,6 +997,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			mobApplPersonalDetailsHist.setSex(mobApplicantPersonalDetail.getSex());
 			mobApplPersonalDetailsHist.setIsHnwi(mobApplicantPersonalDetail.getIsHnwi());
 			mobApplPersonalDetailsHist.setSignatoryType(mobApplicantPersonalDetail.getSignatoryType());
+			mobApplPersonalDetailsHist.setIsProxyHolder(mobApplicantPersonalDetail.getIsProxyHolder());
 			accountCreateDao.storeMobApplPersonalDetailsHist(mobApplPersonalDetailsHist);
 
 			//Mob_Applicant_Comm_details table
@@ -976,6 +1064,22 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			mobApplAdditionalDtlsHist.setCountry1(mobApplicantAdditionalDtl.getCountry1());
 			mobApplAdditionalDtlsHist.setCountry2(mobApplicantAdditionalDtl.getCountry2());
 			mobApplAdditionalDtlsHist.setCountry3(mobApplicantAdditionalDtl.getCountry3());
+			
+			/*Start: Added by Avisha on 27/09 as asked by client*/
+			mobApplAdditionalDtlsHist.setTin1(mobApplicantAdditionalDtl.getTin1());
+			mobApplAdditionalDtlsHist.setTin2(mobApplicantAdditionalDtl.getTin2());
+			mobApplAdditionalDtlsHist.setTin3(mobApplicantAdditionalDtl.getTin3());
+			mobApplAdditionalDtlsHist.setTinAvailable1(mobApplicantAdditionalDtl.getTinAvailable1());
+			mobApplAdditionalDtlsHist.setTinAvailable2(mobApplicantAdditionalDtl.getTinAvailable2());
+			mobApplAdditionalDtlsHist.setTinAvailable3(mobApplicantAdditionalDtl.getTinAvailable3());
+			mobApplAdditionalDtlsHist.setNoTinOption1(mobApplicantAdditionalDtl.getNoTinOption1());
+			mobApplAdditionalDtlsHist.setNoTinOption2(mobApplicantAdditionalDtl.getNoTinOption2());
+			mobApplAdditionalDtlsHist.setNoTinOption3(mobApplicantAdditionalDtl.getNoTinOption3());
+			mobApplAdditionalDtlsHist.setNoTinReason1(mobApplicantAdditionalDtl.getNoTinReason1());
+			mobApplAdditionalDtlsHist.setNoTinReason2(mobApplicantAdditionalDtl.getNoTinReason2());
+			mobApplAdditionalDtlsHist.setNoTinReason3(mobApplicantAdditionalDtl.getNoTinReason3());
+			/*End: Added by Avisha on 27/09 as asked by client*/
+			
 			mobApplAdditionalDtlsHist.setCreatedBy(mobApplicantAdditionalDtl.getCreatedBy());
 			mobApplAdditionalDtlsHist.setCreatedDate(mobApplicantAdditionalDtl.getCreatedDate());
 			mobApplAdditionalDtlsHist.setIncomeOtherCountryTax(mobApplicantAdditionalDtl.getIncomeOtherCountryTax());
@@ -988,14 +1092,14 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 			mobApplAdditionalDtlsHist.setUsCitizen(mobApplicantAdditionalDtl.getUsCitizen());
 			mobApplAdditionalDtlsHist.setUsSsn(mobApplicantAdditionalDtl.getUsSsn());
 			mobApplAdditionalDtlsHist.setWorkPermitExpDate(mobApplicantAdditionalDtl.getWorkPermitExpDate());
+			mobApplAdditionalDtlsHist.setHearAboutAfrasia(mobApplicantAdditionalDtl.getHearAboutAfrasia());
+			mobApplAdditionalDtlsHist.setHobbyCode1(mobApplicantAdditionalDtl.getHobbyCode1());
+			mobApplAdditionalDtlsHist.setHobbyCode2(mobApplicantAdditionalDtl.getHobbyCode2());
+			mobApplAdditionalDtlsHist.setHobbyCode3(mobApplicantAdditionalDtl.getHobbyCode3());
+			mobApplAdditionalDtlsHist.setAfrasiaEventQues(mobApplicantAdditionalDtl.getAfrasiaEventQues());
+			mobApplAdditionalDtlsHist.setAfrasiaEventAns(mobApplicantAdditionalDtl.getAfrasiaEventAns());
 			accountCreateDao.storeMobApplAdditionalDtlsHist(mobApplAdditionalDtlsHist);
-
-			debugLog.debug(" mobApplAdditionalDtlsHist "+mobApplAdditionalDtlsHist.toString()+
-					" mobApplEmploymentDtlsHist "+mobApplEmploymentDtlsHist.toString()+
-					" mobApplCommDetailsHist "+mobApplCommDetailsHist.toString()+
-					" mobApplPersonalDetailsHist "+mobApplPersonalDetailsHist.toString()+
-					" mobApplicantRecordIdHist "+mobApplicantRecordIdHist.toString());
-
+			//infoLog.info(" mobApplAdditionalDtlsHist "+mobApplAdditionalDtlsHist.toString());
 		}
 
 		//Mob_account_Details - application Id to mob_account_details_history
@@ -1056,6 +1160,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobAccountDetailsHist.setRelationshipMinor5(mobAccountDetail.getRelationshipMinor5());
 		mobAccountDetailsHist.setMinNoSignatures(mobAccountDetail.getMinNoSignatures());
 		mobAccountDetailsHist.setOperatingInst(mobAccountDetail.getOperatingInst());
+		mobAccountDetailsHist.setIsProxyRequired(mobAccountDetail.getIsProxyRequired());
 
 		accountCreateDao.storeMobAccountDetailsHist(mobAccountDetailsHist);
 		
@@ -1072,10 +1177,11 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobAccountAddnDetailsHist.setCreditCard(mobAccountAdditionalDetail.getCreditCard());
 		mobAccountAddnDetailsHist.setForexBanking(mobAccountAdditionalDetail.getForexBanking());
 		mobAccountAddnDetailsHist.setGlobalCustody(mobAccountAdditionalDetail.getGlobalCustody());
-		mobAccountAddnDetailsHist.setHearAboutAfrasia(mobAccountAdditionalDetail.getHearAboutAfrasia());
+		//mobAccountAddnDetailsHist.setHearAboutAfrasia(mobAccountAdditionalDetail.getHearAboutAfrasia());
 		mobAccountAddnDetailsHist.setIbUsername(mobAccountAdditionalDetail.getIbUsername());
 		mobAccountAddnDetailsHist.setRecordId(mobAccountAdditionalDetail.getRecordId());
 		mobAccountAddnDetailsHist.setInternetBanking(mobAccountAdditionalDetail.getInternetBanking());
+		mobAccountAddnDetailsHist.setIbOption(mobAccountAdditionalDetail.getIbOption());//Added by Avisha on 27/09 as asked by client
 		mobAccountAddnDetailsHist.setModifiedBy(mobAccountAdditionalDetail.getModifiedBy());
 		mobAccountAddnDetailsHist.setModifiedDate(mobAccountAdditionalDetail.getModifiedDate());
 		mobAccountAddnDetailsHist.setNomineeCallbkNum1(mobAccountAdditionalDetail.getNomineeCallbkNum1());
@@ -1100,12 +1206,11 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobAccountAddnDetailsHist.setStmtDeliveryPo(mobAccountAdditionalDetail.getStmtDeliveryPo());
 		mobAccountAddnDetailsHist.setStmtDeliveryEstmt(mobAccountAdditionalDetail.getStmtDeliveryEstmt());
 		mobAccountAddnDetailsHist.setRequireChqBook(mobAccountAdditionalDetail.getRequireChqBook());
-		mobAccountAddnDetailsHist.setAfrasiaEventQues(mobAccountAdditionalDetail.getAfrasiaEventQues());
-		mobAccountAddnDetailsHist.setAfrasiaEventAns(mobAccountAdditionalDetail.getAfrasiaEventAns());
 		mobAccountAddnDetailsHist.setNomineeEmail1(mobAccountAdditionalDetail.getNomineeEmail1());
 		mobAccountAddnDetailsHist.setNomineeEmail2(mobAccountAdditionalDetail.getNomineeEmail2());
 		mobAccountAddnDetailsHist.setNomineeCc1(mobAccountAdditionalDetail.getNomineeCc1());
 		mobAccountAddnDetailsHist.setNomineeCc2(mobAccountAdditionalDetail.getNomineeCc2());
+		mobAccountAddnDetailsHist.setRmComment(mobAccountAdditionalDetail.getRmComment());
 		accountCreateDao.storeMobAccountAddnDetailsHist(mobAccountAddnDetailsHist);
 		debugLog.debug(" mobAccountDetailsHist "+mobAccountDetailsHist.toString()+
 				" mobAccountAddnDetailsHist "+mobAccountAddnDetailsHist.toString());
@@ -1131,5 +1236,23 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		}
     	return rmDetails;
     }
-
+	
+	@Transactional(readOnly = false, rollbackFor = {Exception.class}) 
+	public OAuth2AccessToken checkSession(String rmId, String grantType, String refreshTokenValue) 
+	{
+		Map<String, String> requestParameters = new HashMap<String, String>();
+		requestParameters.put("client_id", rmId);
+		requestParameters.put("grant_type", grantType);
+		//OauthAuthorization  oauthAuthorization =oAuthAuthorizationDAO.getClient(rmId);
+		//requestParameters.put("client_secret", oauthAuthorization.getClientSecret());
+		
+		//ClientCredentialsTokenGranter tokenGranter = new ClientCredentialsTokenGranter(tokenServices, customClientDetailsService, oAuth2RequestFactory);
+		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(rmId);
+		TokenRequest request  = oAuth2RequestFactory.createTokenRequest(requestParameters, clientDetails);
+		
+		OAuth2AccessToken token = tokenServices.refreshAccessToken(refreshTokenValue, request);
+		
+		return token;
+	}
+	
 }

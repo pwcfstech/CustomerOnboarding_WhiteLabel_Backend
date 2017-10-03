@@ -95,6 +95,10 @@ public class MobApplPersonalDetailsHist implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "PASSPORT_EXPIRY_DATE")
 	private Date passportExpiryDate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "PASSPORT_ISSUE_DATE")
+	private Date passportIssueDate;
 
 	@Column(name = "PASSPORT_NO")
 	private String passportNo;
@@ -119,7 +123,10 @@ public class MobApplPersonalDetailsHist implements Serializable {
 
 	@Column(name = "SIGNATORY_TYPE")
 	private String signatoryType;
-
+	
+	@Column(name = "IS_PROXY_HOLDER")//Added by Avisha on 25/09.. for issues
+	private Boolean isProxyHolder;
+	
 	public Long getId() {
 		return id;
 	}
@@ -376,6 +383,23 @@ public class MobApplPersonalDetailsHist implements Serializable {
 		this.signatoryType = signatoryType;
 	}
 
+	public Date getPassportIssueDate() {
+		return passportIssueDate;
+	}
+
+	public void setPassportIssueDate(Date passportIssueDate) {
+		this.passportIssueDate = passportIssueDate;
+	}
+
+	public Boolean getIsProxyHolder() {
+		return isProxyHolder;
+	}
+
+	public void setIsProxyHolder(Boolean isProxyHolder) {
+		this.isProxyHolder = isProxyHolder;
+	}
+
+
 	@Override
 	public String toString() {
 		return "MobApplPersonalDetailsHist [id=" + id + ", recordId=" + recordId + ", applicantId=" + applicantId
@@ -385,10 +409,10 @@ public class MobApplPersonalDetailsHist implements Serializable {
 				+ lastName + ", maidenName=" + maidenName + ", maritalStatus=" + maritalStatus + ", middleName="
 				+ middleName + ", modifiedBy=" + modifiedBy + ", modifiedDate=" + modifiedDate + ", nationality="
 				+ nationality + ", nic=" + nic + ", otherBank1=" + otherBank1 + ", otherBank2=" + otherBank2
-				+ ", otherBank3=" + otherBank3 + ", passportExpiryDate=" + passportExpiryDate + ", passportNo="
-				+ passportNo + ", residencyStatus=" + residencyStatus + ", title=" + title + ", customerType="
-				+ customerType + ", isMinor=" + isMinor + ", sex=" + sex + ", isHnwi=" + isHnwi + ", signatoryType="
-				+ signatoryType + "]";
+				+ ", otherBank3=" + otherBank3 + ", passportExpiryDate=" + passportExpiryDate + ", passportIssueDate="
+				+ passportIssueDate + ", passportNo=" + passportNo + ", residencyStatus=" + residencyStatus + ", title="
+				+ title + ", customerType=" + customerType + ", isMinor=" + isMinor + ", sex=" + sex + ", isHnwi="
+				+ isHnwi + ", signatoryType=" + signatoryType + ", isProxyHolder=" + isProxyHolder+"]";
 	}
 
 }

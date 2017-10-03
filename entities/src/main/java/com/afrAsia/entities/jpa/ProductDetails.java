@@ -17,51 +17,32 @@ public class ProductDetails extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "PRODUCT_SHORT_DESC")
+	@Column(name = "FEATURE")
 	private String feature;
-	@Column(name = "PRODUCT_LONG_DESC")
-	private String longDescription;
 	@Column(name = "INFO_LINK")
 	private String infoLink;
 	@Column(name = "IMAGE_URL")
 	private String imageURL;
-
 	public String getFeature() {
 		return feature;
 	}
-
 	public void setFeature(String feature) {
 		this.feature = feature;
 	}
-
-	public String getLongDescription() {
-		return longDescription;
-	}
-
-	public void setLongDescription(String longDescription) {
-		this.longDescription = longDescription;
-	}
-
 	public String getInfoLink() {
 		return infoLink;
 	}
-
 	public void setInfoLink(String infoLink) {
 		this.infoLink = infoLink;
 	}
-
 	public String getImageURL() {
 		return imageURL;
 	}
-
 	public void setImageURL(String imageURL) {
 		this.imageURL = imageURL;
 	}
-
 	@Override
 	public String toString() {
-		return "ProductDetails [feature=" + feature + ", longDescription=" + longDescription + ", infoLink=" + infoLink
-				+ ", imageURL=" + imageURL + "]";
+		return "ProductDetails [feature=" + feature + ", infoLink=" + infoLink + ", imageURL=" + imageURL + "]";
 	}
-
 }

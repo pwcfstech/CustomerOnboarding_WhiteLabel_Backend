@@ -38,13 +38,13 @@ public class ComplianceServiceImpl implements ComplianceService {
 		
 		ComplianceApps complianceApps = new ComplianceApps();
 
-		List<ComplianceApps> listOfComplianceApps = new ArrayList<ComplianceApps>();
+		//List<ComplianceApps> listOfComplianceApps = new ArrayList<ComplianceApps>();
 
-		List<Object> detailsByAccountRejected = new ArrayList<Object>(listOfComplianceApps);
+		List<Object> detailsByAccountRejected = new ArrayList<Object>();
 
-		List<Object> detailsByAccountOpened = new ArrayList<Object>(listOfComplianceApps);
+		List<Object> detailsByAccountOpened = new ArrayList<Object>();
 
-		List<Object> detailsByUnderProcessing = new ArrayList<Object>(listOfComplianceApps);
+		List<Object> detailsByUnderProcessing = new ArrayList<Object>();
 
 		List<AccountsRejected> listAccountsRejected = new ArrayList<AccountsRejected>();
 
@@ -53,8 +53,6 @@ public class ComplianceServiceImpl implements ComplianceService {
 		List<ApplicationsUnderProcessing> listApplicationsUnderProcessing = new ArrayList<ApplicationsUnderProcessing>();
 
 		detailsByAccountRejected = (List<Object>) complianceDao.getDetailsByAccountRejectedDefault();
-
-		int j = 0;
 
 		for (Object object : detailsByAccountRejected) {
 
@@ -85,9 +83,10 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 			listAccountsRejected.add(accountsRejected);
 			complianceApps.setAccountsRejected(listAccountsRejected);
+			complianceResponse.setData(complianceApps);
 		}
-		listOfComplianceApps.add(complianceApps);
-		int h = 0;
+		//listOfComplianceApps.add(complianceApps);
+
 		detailsByAccountOpened = (List<Object>) complianceDao.getDetailsByAccountOpenedDefault();
 
 		for (Object object : detailsByAccountOpened) {
@@ -129,8 +128,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 			listAccountsCreated.add(accountsCreated);
 			complianceApps.setAccountsCreated(listAccountsCreated);
+			complianceResponse.setData(complianceApps);
 		}
-		listOfComplianceApps.add(complianceApps);
+		//listOfComplianceApps.add(complianceApps);
 		int k = 0;
 		detailsByUnderProcessing = (List<Object>) complianceDao.getDetailsByUnderProcessingDefault();
 
@@ -330,9 +330,10 @@ public class ComplianceServiceImpl implements ComplianceService {
 			listApplicationsUnderProcessing.add(k, applicationsUnderProcessing);
 			k++;
 			complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessing);
+			complianceResponse.setData(complianceApps);
 		}
-		listOfComplianceApps.add(complianceApps);
-		complianceResponse.setData(listOfComplianceApps);
+		//listOfComplianceApps.add(complianceApps);
+		//complianceResponse.setData(complianceApps);
 		debugLog.debug(
 				"complianceResponse : " + complianceResponse.toString());
 		return complianceResponse;
@@ -344,13 +345,13 @@ public class ComplianceServiceImpl implements ComplianceService {
 		
 		ComplianceApps complianceApps = new ComplianceApps();
 
-		List<ComplianceApps> listOfComplianceApps = new ArrayList<ComplianceApps>();
+		//List<ComplianceApps> listOfComplianceApps = new ArrayList<ComplianceApps>();
 
-		List<Object> detailsByAccountRejected = new ArrayList<Object>(listOfComplianceApps);
+		List<Object> detailsByAccountRejected = new ArrayList<Object>();
 
-		List<Object> detailsByAccountOpened = new ArrayList<Object>(listOfComplianceApps);
+		List<Object> detailsByAccountOpened = new ArrayList<Object>();
 
-		List<Object> detailsByUnderProcessing = new ArrayList<Object>(listOfComplianceApps);
+		List<Object> detailsByUnderProcessing = new ArrayList<Object>();
 
 		List<AccountsRejected> listAccountsRejected = new ArrayList<AccountsRejected>();
 
@@ -394,7 +395,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 				complianceApps.setAccountsRejected(listAccountsRejected);
 				
 			}
-			listOfComplianceApps.add(complianceApps);
+			//listOfComplianceApps.add(complianceApps);
 		}
 		int h = 0;
 		if (appStatus.equalsIgnoreCase("ACCOUNT OPENED")) {
@@ -440,7 +441,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 				h++;
 				complianceApps.setAccountsCreated(listAccountsCreated);
 			}
-			listOfComplianceApps.add(complianceApps);
+			//listOfComplianceApps.add(complianceApps);
 		}
 		int k = 0;
 		if (appStatus.equalsIgnoreCase("Under Processing")) {
@@ -644,9 +645,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 				complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessing);
 				
 			}
-			listOfComplianceApps.add(complianceApps);
+			//listOfComplianceApps.add(complianceApps);
 		}
-		complianceResponse.setData(listOfComplianceApps);
+		complianceResponse.setData(complianceApps);
 		debugLog.debug(
 				"complianceResponse  : " + complianceResponse.toString());
 		return complianceResponse;
@@ -658,13 +659,13 @@ public class ComplianceServiceImpl implements ComplianceService {
 		
 		ComplianceApps complianceApps = new ComplianceApps();
 
-		List<ComplianceApps> listOfComplianceApps = new ArrayList<ComplianceApps>();
+		//List<ComplianceApps> listOfComplianceApps = new ArrayList<ComplianceApps>();
 
-		List<Object> detailsByAccountRejected = new ArrayList<Object>(listOfComplianceApps);
+		List<Object> detailsByAccountRejected = new ArrayList<Object>();
 
-		List<Object> detailsByAccountOpened = new ArrayList<Object>(listOfComplianceApps);
+		List<Object> detailsByAccountOpened = new ArrayList<Object>();
 
-		List<Object> detailsByUnderProcessing = new ArrayList<Object>(listOfComplianceApps);
+		List<Object> detailsByUnderProcessing = new ArrayList<Object>();
 
 		List<AccountsRejected> listAccountsRejected = new ArrayList<AccountsRejected>();
 
@@ -757,7 +758,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 				complianceApps.setAccountsCreated(listAccountsCreated);
 				
 			}
-			listOfComplianceApps.add(complianceApps);
+			//listOfComplianceApps.add(complianceApps);
 		}
 		int k = 0;
 		if (appStatus.equalsIgnoreCase("Under Processing")) {
@@ -962,10 +963,10 @@ public class ComplianceServiceImpl implements ComplianceService {
 				complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessing);
 				
 			}
-			listOfComplianceApps.add(complianceApps);
+			//listOfComplianceApps.add(complianceApps);
 		}
 		
-		complianceResponse.setData(listOfComplianceApps);
+		complianceResponse.setData(complianceApps);
 		debugLog.debug(
 				"complianceResponse :: " + complianceResponse.toString());
 		return complianceResponse;
@@ -977,13 +978,13 @@ public class ComplianceServiceImpl implements ComplianceService {
 		
 		ComplianceApps complianceApps = new ComplianceApps();
 
-		List<ComplianceApps> listOfComplianceApps = new ArrayList<ComplianceApps>();
+		//List<ComplianceApps> listOfComplianceApps = new ArrayList<ComplianceApps>();
 
-		List<Object> detailsByAccountRejected = new ArrayList<Object>(listOfComplianceApps);
+		List<Object> detailsByAccountRejected = new ArrayList<Object>();
 
-		List<Object> detailsByAccountOpened = new ArrayList<Object>(listOfComplianceApps);
+		List<Object> detailsByAccountOpened = new ArrayList<Object>();
 
-		List<Object> detailsByUnderProcessing = new ArrayList<Object>(listOfComplianceApps);
+		List<Object> detailsByUnderProcessing = new ArrayList<Object>();
 
 		List<AccountsRejected> listAccountsRejected = new ArrayList<AccountsRejected>();
 
@@ -1030,7 +1031,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 				complianceApps.setAccountsRejected(listAccountsRejected);
 				
 			}
-			listOfComplianceApps.add(complianceApps);
+			//listOfComplianceApps.add(complianceApps);
 		}
 		int h = 0;
 		if (appStatus.equalsIgnoreCase("ACCOUNT OPENED")) {
@@ -1080,7 +1081,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 				complianceApps.setAccountsCreated(listAccountsCreated);
 				
 			}
-			listOfComplianceApps.add(complianceApps);
+			//listOfComplianceApps.add(complianceApps);
 		}
 		int k = 0;
 		if (appStatus.equalsIgnoreCase("Under Processing")) {
@@ -1284,9 +1285,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 				k++;
 				complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessing);
 			}
-			listOfComplianceApps.add(complianceApps);
+			//listOfComplianceApps.add(complianceApps);
 		}
-		complianceResponse.setData(listOfComplianceApps);
+		complianceResponse.setData(complianceApps);
 		debugLog.debug("complianceResponse :: "
 				+ complianceResponse.toString());
 		return complianceResponse;

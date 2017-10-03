@@ -50,7 +50,9 @@ public class AccountCreateSoapWebService implements CreateCustomerSOAPConstants{
 		try{
 			if(validateRequest(applicationDetailsReq)){
 				Long appId = applicationDetailsReq.getData().getRefNo();
-				String userId = applicationDetailsReq.getData().getUserId();
+				
+				//Commented by Avisha
+				/*String userId = applicationDetailsReq.getData().getUserId();
 				String recordId = applicationDetailsReq.getData().getRecordId();
 				long lRecordId = 0;
 				if(null != recordId && !recordId.isEmpty()){
@@ -80,7 +82,7 @@ public class AccountCreateSoapWebService implements CreateCustomerSOAPConstants{
 					applicationDetailsResp.setMsgHeader(msgHeader);
 					return Response.ok(applicationDetailsResp, MediaType.APPLICATION_JSON).build();
 				}
-				
+				*/
 			}
 			
 		}catch(Exception e){

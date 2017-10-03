@@ -1,5 +1,6 @@
 package com.afrAsia.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -7,6 +8,7 @@ import org.apache.log4j.Logger;
 import com.afrAsia.dao.AccountTypeDao;
 import com.afrAsia.dao.AfrAsiaFirstDao;
 import com.afrAsia.dao.BankDao;
+import com.afrAsia.dao.HobbyDao;
 import com.afrAsia.dao.jpa.AccountClassJpaDAO;
 import com.afrAsia.dao.jpa.CategoryMasterJpaDAO;
 import com.afrAsia.dao.jpa.CountryJpaDAO;
@@ -22,6 +24,7 @@ import com.afrAsia.entities.masters.Bank;
 import com.afrAsia.entities.masters.CategoryMaster;
 import com.afrAsia.entities.masters.Country;
 import com.afrAsia.entities.masters.Employment;
+import com.afrAsia.entities.masters.Hobby;
 import com.afrAsia.entities.masters.MaritalStatus;
 import com.afrAsia.entities.masters.Prefix;
 import com.afrAsia.entities.masters.RMDetails;
@@ -45,6 +48,7 @@ public class MasterDataServiceImpl implements MasterDataService {
 	private AccountTypeDao accountTypeDAO;
 	private AfrAsiaFirstDao afrAsiaFirstDAO;
 	private BankDao bankDAO;
+	private HobbyDao hobbyDAO;
 
 	public AccountClassJpaDAO getAccountClassDAO() {
 		return accountClassDAO;
@@ -126,6 +130,14 @@ public class MasterDataServiceImpl implements MasterDataService {
 		this.afrAsiaFirstDAO = afrAsiaFirstDAO;
 	}
 
+	public HobbyDao getHobbyDAO() {
+		return hobbyDAO;
+	}
+
+	public void setHobbyDAO(HobbyDao hobbyDAO) {
+		this.hobbyDAO = hobbyDAO;
+	}
+
 	public List<AccountType> getAccountType() {
 		return accountTypeDAO.getAccountType();
 	}
@@ -185,7 +197,14 @@ public class MasterDataServiceImpl implements MasterDataService {
 
 	public List<Bank> getBankList() {
 		debugLog.debug("bankDAO.getBank()  " + bankDAO.getBank());
-		return (List<Bank>) bankDAO.getBank();
+		List<Bank> bankList = (List<Bank>) bankDAO.getBank();
+		Collections.sort(bankList);
+		return bankList;
+	}
+	
+	public List<Hobby> getHobbyList() {
+		debugLog.debug("hobbyDAO.getHobby()  " + hobbyDAO.getHobby());
+		return (List<Hobby>) hobbyDAO.getHobby();
 	}
 
 }

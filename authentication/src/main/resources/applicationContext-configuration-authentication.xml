@@ -273,8 +273,8 @@
 	<sec:http pattern="/**" create-session="never"
 		authentication-manager-ref="authenticationManager">
 		<sec:anonymous enabled="false" />
-		<sec:intercept-url pattern="/v*/**" access="ROLE_USER,ROLE_ADMIN" />
-		<sec:intercept-url pattern="/admin/**" access="ROLE_ADMIN" />
+		<sec:intercept-url pattern="/v*/**" access="ROLE_USER,ROLE_ADMIN" method="POST"/>
+		<sec:intercept-url pattern="/admin/**" access="ROLE_ADMIN" method="POST"/>
 		<sec:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" /> 
 		<sec:http-basic entry-point-ref="oauthAuthenticationEntryPoint" />
 		<sec:access-denied-handler ref="oauthAccessDeniedHandler" />

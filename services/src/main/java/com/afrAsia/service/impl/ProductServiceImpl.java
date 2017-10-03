@@ -145,9 +145,9 @@ public class ProductServiceImpl implements ProductService {
 					ProductDetailsResponse productdetailsResponse = new ProductDetailsResponse();
 
 					productdetailsResponse.setFeature(outputs[1].toString());
-					productdetailsResponse.setImageURL(outputs[4].toString());
-					productdetailsResponse.setInfoLink(outputs[3].toString());
-					productdetailsResponse.setLongDescription(outputs[2].toString());
+					productdetailsResponse.setImageURL(outputs[3].toString());
+					productdetailsResponse.setInfoLink(outputs[2].toString());
+					//productdetailsResponse.setLongDescription(outputs[2].toString());
 					listProductDetailsResponse.add(i, productdetailsResponse);
 					i++;
 				}

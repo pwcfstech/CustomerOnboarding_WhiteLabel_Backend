@@ -26,6 +26,7 @@ public class KycDocDownloadRequest implements Serializable {
 		private Long refNo;
 		private Long applicantRefNo;
 		private String docId;
+		private String docUrl;
 		public Long getRefNo() {
 			return refNo;
 		}
@@ -44,9 +45,16 @@ public class KycDocDownloadRequest implements Serializable {
 		public void setDocId(String docId) {
 			this.docId = docId;
 		}
+		public String getDocUrl() {
+			return docUrl;
+		}
+		public void setDocUrl(String docUrl) {
+			this.docUrl = docUrl;
+		}
 		@Override
 		public String toString() {
-			return "Data [refNo=" + refNo + ", applicantRefNo=" + applicantRefNo + ", docId=" + docId + "]";
+			return "Data [refNo=" + refNo + ", applicantRefNo=" + applicantRefNo + ", docId=" + docId + ", docUrl="
+					+ docUrl + "]";
 		}
 	}
 }

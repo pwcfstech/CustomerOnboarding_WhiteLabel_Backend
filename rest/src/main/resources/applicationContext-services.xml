@@ -57,6 +57,7 @@
 		<property name="categoryMasterDAO" ref="categoryMasterJpaDAO" />
 		<property name="countryDAO" ref="countryJpaDAO" />
 		<property name="bankDAO" ref="bankJpaDAO" />
+		<property name="hobbyDAO" ref="hobbyJpaDAO" />
 		<property name="employmentDAO" ref="employmentJpaDAO" />
 		<property name="maritalStatusDAO" ref="maritalStatusJpaDAO" />
 		<property name="prefixDAO" ref="prefixJpaDAO" />
@@ -77,10 +78,6 @@
 	<bean id="rmDetailsService" class="com.afrAsia.service.impl.RMDetailsServiceImpl">
 		<property name="rmDetailsDao" ref="rmDetailsDAO" />
 	</bean> 
-	
-	<bean id="addCommentService" class="com.afrAsia.service.impl.AddCommentServiceImpl">
-		<property name="addCommentDao" ref="addCommentJpaDao" />
-	</bean>
 	
 	<bean id="complianceService" class="com.afrAsia.service.impl.ComplianceServiceImpl">
 		<property name="complianceDao" ref="complianceJpaDao" />
@@ -129,6 +126,9 @@
 		<property name="accountCreateDao" ref="accountCreateJpaDao" /> 
 		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" />
 		<property name="rmDetailsDAO" ref="rmDetailsDAO" />
+		<property name="tokenServices" ref="tokenServices" />
+		<property name="customClientDetailsService" ref="clientDetails" />
+		<property name="oAuth2RequestFactory" ref="oAuth2RequestFactory" />
 	</bean>
 	
 	<bean id="applicationDetailsService" class="com.afrAsia.service.impl.ApplicationDetailsServiceImpl">
@@ -144,5 +144,17 @@
 	
 	<bean id="kycDocDownloadService" class="com.afrAsia.service.impl.KycDocDownloadServiceImpl">
 		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" />
+	</bean>
+	
+	<bean id="updateApplCheckStatusService" class="com.afrAsia.service.impl.UpdateApplCheckStatusServiceImpl">
+		<property name="updateApplCheckStatusDAO" ref="updateApplCheckStatusJpaDao" />
+	</bean>
+	
+	<bean id="updateCifOrShortnameService" class="com.afrAsia.service.impl.UpdateCifOrShortnameServiceImpl">
+		<property name="updateCifOrShortnameDAO" ref="updateCifOrShortnameJpaDao" />
+	</bean>
+	
+	<bean id="lockApplicationService" class="com.afrAsia.service.impl.LockApplicationServiceImpl">
+		<property name="lockApplicationDAO" ref="lockApplicationJpaDao" />
 	</bean>
 </beans>						

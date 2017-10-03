@@ -13,10 +13,9 @@ import java.util.Map;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-import javax.xml.ws.BindingProvider;
+
 import com.afrAsia.entities.request.MobCreateCustomerSOAPRequest;
 import com.afrAsia.entities.transactions.MainTableCompositePK;
-import com.afrAsia.entities.transactions.MobApplicantPersonalDetail;
 import com.google.gson.Gson;
 import com.ofss.fcubs.gw.ws.types.FCUBSCustomerService;
 import com.ofss.fcubs.gw.ws.types.FCUBSCustomerServiceSEI;
@@ -25,7 +24,6 @@ import com.ofss.fcubs.service.fcubscustomerservice.CREATECUSTOMERFSFSRES;
 import com.ofss.fcubs.service.fcubscustomerservice.CustjointFullType;
 import com.ofss.fcubs.service.fcubscustomerservice.CustjointFullType.Custjoint;
 import com.ofss.fcubs.service.fcubscustomerservice.CustmisFullType;
-import com.ofss.fcubs.service.fcubscustomerservice.CustmisFullType.Compositemis;
 import com.ofss.fcubs.service.fcubscustomerservice.CustmisFullType.Customermis;
 import com.ofss.fcubs.service.fcubscustomerservice.CustomerFullType;
 import com.ofss.fcubs.service.fcubscustomerservice.CusttextFullType;
@@ -940,14 +938,16 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 		E_ADVICE_FLG: Y
 		Table : MOB_ACCOUNT_ADDITIONAL_DETAILS
 		*/
-		String stmtDelivery = mobCreateCustomerSOAPRequest.getMobAccountAdditionalDetail().getStmtDelivery();
+		
+		//Commented by Avisha
+		/*String stmtDelivery = mobCreateCustomerSOAPRequest.getMobAccountAdditionalDetail().getStmtDelivery();
 		if(null != stmtDelivery && stmtDelivery.equalsIgnoreCase("Estatement")){
 			
 			udfDetailsMap.put("E_STATEMENT_FLG", "Y");
 			udfDetailsMap.put("E_STATEMENT_FREQ", "M");
 			udfDetailsMap.put("E_ADVICE_FLG", "Y");
 			 
-		 }
+		 }*/
 			/*CRS_COUNTRY_OF_TAX_RESIDENCE_1
 			CRS_COUNTRY_OF_TAX_RESIDENCE_2
 			CRS_COUNTRY_OF_TAX_RESIDENCE_3

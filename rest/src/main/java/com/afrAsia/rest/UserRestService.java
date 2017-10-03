@@ -45,8 +45,9 @@ public class UserRestService
     @Produces(MediaType.APPLICATION_JSON)
     public String addUser(@Context UriInfo uriInfo, @Context HttpHeaders httpHeader)
     {
-    	infoLog.info(" uriInfo in addUser(),UserRestService is : "+uriInfo);
+    	infoLog.info("We have come inside addUser(),UserRestService");
         String name = uriInfo.getPathParameters().getFirst("name");
+        debugLog.debug("uriInfo :: "+uriInfo+"name :: "+name);
         userService.saveUser(name);
         infoLog.info(" User added");
         return "User added";

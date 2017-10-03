@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.CommonUtils;
-import com.afrAsia.Utils.AfrAsiaLogger;
 import com.afrAsia.entities.request.LoginDataRequest;
 import com.afrAsia.entities.request.LoginRequest;
 import com.afrAsia.entities.request.LogoutRequest;
@@ -58,19 +57,16 @@ public class AuthenticationRestService
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(String loginStringRequest)
 	{
-		infoLog.info(" loginStringRequest in login(),AuthenticationRestService is : "+loginStringRequest);
+		infoLog.info(" Entered in login Service ");
+		debugLog.debug(" loginStringRequest in login Service is :: "+loginStringRequest);
 		LoginResponse response = null;
 		try
 		{
-			
 			LoginRequest loginRequest = CommonUtils.jsonStringToObject(loginStringRequest, LoginRequest.class);
-			infoLog.info("Value of login request::" + loginRequest.toString());
 			response = authenticationService.login(loginRequest);
 		}
 		catch (Exception e)
 		{
-			//AfrAsiaLogger.infoLog("in catch of rest ====== ");
-			//e.printStackTrace();
 			errorLog.error("error in login(),AuthenticationRestService is :", e);
 			MessageHeader msgHeader = new MessageHeader();
 			RequestError error = new RequestError();
@@ -84,7 +80,8 @@ public class AuthenticationRestService
 			response.setData(null);
 			return Response.status(Status.FORBIDDEN).entity(response).build();
 		}
-		infoLog.info(" response in login(),AuthenticationRestService is : "+response);
+		infoLog.info(" Exit from login Service ");
+		debugLog.debug(" response of login Service is : "+response);
 		return Response.ok(response).build();
 	}
 	
@@ -94,7 +91,8 @@ public class AuthenticationRestService
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response logout(String logoutStringRequest, @HeaderParam("Authorization") String authToken)
 	{
-		infoLog.info(" logoutStringRequest in logout(),AuthenticationRestService is : "+logoutStringRequest);
+		infoLog.info(" Entered in logout Service ");
+		debugLog.debug(" logoutStringRequest in logout Service is : "+logoutStringRequest);
 		LogoutResponse response = null;
 		try
 		{
@@ -103,9 +101,8 @@ public class AuthenticationRestService
 		}
 		catch (Exception e)
 		{
-			errorLog.error("error in logout(),AuthenticationRestService is :", e);
-			e.printStackTrace();
-			//AfrAsiaLogger.errorLog("error :", e);
+			errorLog.error("error in logout Service is :", e);
+			
 			MessageHeader msgHeader = new MessageHeader();
 			RequestError error = new RequestError();
 			error.setCd("401");
@@ -118,7 +115,8 @@ public class AuthenticationRestService
 			response.setData(null);
 			return Response.status(Status.FORBIDDEN).entity(response).build();
 		}
-		infoLog.info(" response in logout(),AuthenticationRestService is : "+response);
+		infoLog.info(" Exit from logout Service ");
+		debugLog.debug(" response in logout Service is : "+response);
 		return Response.ok(response).build();
 	}
 	
@@ -127,7 +125,7 @@ public class AuthenticationRestService
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response checkSession()
 	{
-		infoLog.info(" in checkSession(),AuthenticationRestService ");
+		infoLog.info(" in checkSession Service ");
 		try
 		{
 			
@@ -154,6 +152,6 @@ public class AuthenticationRestService
 		
 		ObjectMapper mapper = new ObjectMapper();
 		//AfrAsiaLogger.infoLog(mapper.writeValueAsString(req));
-		infoLog.info("mapper.writeValueAsString(req) : "+mapper.writeValueAsString(req));
+		debugLog.debug("mapper.writeValueAsString(req) : "+mapper.writeValueAsString(req));
 	}
 }

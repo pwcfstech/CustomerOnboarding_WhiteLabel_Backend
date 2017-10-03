@@ -9,6 +9,7 @@ import com.afrAsia.entities.masters.Bank;
 import com.afrAsia.entities.masters.CategoryMaster;
 import com.afrAsia.entities.masters.Country;
 import com.afrAsia.entities.masters.Employment;
+import com.afrAsia.entities.masters.Hobby;
 import com.afrAsia.entities.masters.MaritalStatus;
 import com.afrAsia.entities.masters.Prefix;
 import com.afrAsia.entities.masters.RMDetails;
@@ -37,4 +38,6 @@ public interface MasterDataService {
 	public List<AfrAsiaFirst> getAfrAsiaFirst();
 
 	public List<Bank> getBankList();
+	
+	public List<Hobby> getHobbyList();
 }

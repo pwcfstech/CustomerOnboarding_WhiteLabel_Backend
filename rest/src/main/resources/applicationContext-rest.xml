@@ -75,10 +75,6 @@
 		<property name="rmApplicationsAppService" ref="rmApplicationsAppService" />
 	</bean>
 	
-	<bean id="addCommentRestService" class="com.afrAsia.rest.AddCommentRestService" >
-		<property name="addCommentService" ref="addCommentService" />
-	</bean> 
-	
 	<bean id="complianceRestService" class="com.afrAsia.rest.ComplianceRestService" >
 		<property name="complianceService" ref="complianceService" />
 	</bean> 
@@ -124,9 +120,22 @@
 		<property name="kycDocDownloadService" ref="kycDocDownloadService" />
 	</bean>
 	
-	<bean id="accountCreateSoapWebService" class="com.afrAsia.rest.AccountCreateSoapWebService" >
-		<property name="accountCreationSOAPService" ref="accountCreationSOAPService" />
+<bean id="updateApplCheckStatusRestService" class="com.afrAsia.rest.UpdateApplCheckStatusRestService" >
+		<property name="updateApplCheckStatusService" ref="updateApplCheckStatusService" />
 	</bean>
+	
+	<bean id="updateCifOrShortnameRestService" class="com.afrAsia.rest.UpdateCifOrShortnameRestService" >
+		<property name="updateCifOrShortnameService" ref="updateCifOrShortnameService" />
+	</bean>
+	
+	<bean id="lockApplicationRestService" class="com.afrAsia.rest.LockApplicationRestService" >
+		<property name="lockApplicationService" ref="lockApplicationService" />
+	</bean>
+	
+<!-- 	Commented by Avisha -->
+	<!-- <bean id="accountCreateSoapWebService" class="com.afrAsia.rest.AccountCreateSoapWebService" >
+		<property name="accountCreationSOAPService" ref="accountCreationSOAPService" />
+	</bean> -->
 	
 	
 	<!-- <bean id="dtdpsSoapService" class="com.afrAsia.soap.DTDPSSoapService" >

@@ -1,7 +1,6 @@
 package com.afrAsia.entities.response;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class ComplianceResponse implements Serializable {
 
@@ -9,7 +8,7 @@ public class ComplianceResponse implements Serializable {
 
 	private MessageHeader messageHeader;
 
-	private List<ComplianceApps> data;
+	private ComplianceApps data;																			
 
 	public MessageHeader getMessageHeader() {
 		return messageHeader;
@@ -19,11 +18,11 @@ public class ComplianceResponse implements Serializable {
 		this.messageHeader = messageHeader;
 	}
 
-	public List<ComplianceApps> getData() {
+	public ComplianceApps getData() {
 		return data;
 	}
 
-	public void setData(List<ComplianceApps> data) {
+	public void setData(ComplianceApps data) {
 		this.data = data;
 	}
 

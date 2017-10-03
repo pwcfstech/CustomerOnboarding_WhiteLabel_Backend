@@ -72,10 +72,6 @@
 		<property name="rmDetailsDao" ref="rmDetailsDAO" />
 	</bean> 
 	
-	<bean id="addCommentService" class="com.afrAsia.service.impl.AddCommentServiceImpl">
-		<property name="addCommentDao" ref="addCommentJpaDao" />
-	</bean>
-	
 	<bean id="complianceService" class="com.afrAsia.service.impl.ComplianceServiceImpl">
 		<property name="complianceDao" ref="complianceJpaDao" />
 	</bean>
@@ -122,6 +118,9 @@
 		<property name="accountCreateDao" ref="accountCreateJpaDao" /> 
 		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" />
 		<property name="rmDetailsDAO" ref="rmDetailsDAO" />
+		<property name="tokenServices" ref="tokenServices" />
+		<property name="customClientDetailsService" ref="clientDetails" /> 
+		<property name="oAuth2RequestFactory" ref="oAuth2RequestFactory" />
 	</bean>
 	
 	<bean id="applicationDetailsService" class="com.afrAsia.service.impl.ApplicationDetailsServiceImpl">

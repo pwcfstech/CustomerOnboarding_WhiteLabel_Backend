@@ -99,10 +99,9 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				errorLog.error("  date coud not be parsed ");
+				errorLog.error("  date coud not be parsed ",e);
 			}
 
-			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppStatus(outputs[2].toString());
 
@@ -169,10 +168,9 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				errorLog.error("   date coud not be parsed");
+				errorLog.error("   date coud not be parsed",e);
 			}
 
-			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppStatus(outputs[2].toString());
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
@@ -265,10 +263,9 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				errorLog.error("   date coud not be parsed ");
+				errorLog.error("   date coud not be parsed ",e);
 			}
 
-			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppStatus(outputs[2].toString());
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
@@ -333,9 +330,8 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				errorLog.error("  date coud not be parsed ");
+				errorLog.error("  date coud not be parsed ",e);
 			}
-			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppStatus(outputs[2].toString());
 			apps.setCustomerName(outputs[3].toString()+" "+outputs[4].toString());
@@ -434,10 +430,9 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				errorLog.error("  date coud not be parsed ");
+				errorLog.error("  date coud not be parsed ",e);
 			}
 
-			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppStatus(outputs[2].toString());
 
@@ -538,10 +533,9 @@ public class RmApplicationsAppServiceImpl implements RmApplicationsAppService {
 			try {
 				date = dateFormat.parse(dateStr);
 			} catch (ParseException e) {
-				errorLog.error("  date coud not be parsed ");
+				errorLog.error("  date coud not be parsed ",e);
 			}
 
-			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppSubmittedDate(date.getTime());
 			apps.setAppStatus(outputs[2].toString());
 

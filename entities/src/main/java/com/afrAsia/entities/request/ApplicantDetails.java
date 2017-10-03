@@ -24,6 +24,7 @@ public class ApplicantDetails implements Serializable {
 	private String maidenName;
 	private String nic;
 	private String passportNo;
+	private Date passportIssDate;
 	private Date passportExpDate;
 	private String nationality;
 	private String email;
@@ -99,6 +100,26 @@ public class ApplicantDetails implements Serializable {
 	private Date powerAttnIssueDate;
 	private String mop;
 	private String mopInstruction;
+	private Boolean isProxyHolder;//Added by Avisha on 25/09 for issues
+	private String whrDidYouHearAbtAfrAsia;//Added by Avisha on 25/09 for issues
+	private String afrasiaEventQues;//Added by Avisha on 27/09 for issues
+	private String afrasiaEventAns;//Added by Avisha on 27/09 for issues
+	private String hobbyCode1;//Added by Avisha on 25/09 for issues
+	private String hobbyCode2;//Added by Avisha on 25/09 for issues
+	private String hobbyCode3;//Added by Avisha on 25/09 for issues
+	
+	
+	/*Start: Added by Avisha on 27/09 as asked by client*/
+	private Boolean tinAvailable1;
+	private Boolean tinAvailable2;
+	private Boolean tinAvailable3;
+	private String noTinOption1;
+	private String noTinOption2;
+	private String noTinOption3;
+	private String noTinReason1;
+	private String noTinReason2;
+	private String noTinReason3;
+	/*End: Added by Avisha on 27/09 as asked by client*/
 
 	public String getResidencyStatus() {
 		return residencyStatus;
@@ -780,40 +801,182 @@ public class ApplicantDetails implements Serializable {
 		this.mopInstruction = mopInstruction;
 	}
 
+	public Date getPassportIssDate() {
+		return passportIssDate;
+	}
+
+	public void setPassportIssDate(Date passportIssDate) {
+		this.passportIssDate = passportIssDate;
+	}
+
+	public Boolean getIsProxyHolder() {
+		return isProxyHolder;
+	}
+
+	public void setIsProxyHolder(Boolean isProxyHolder) {
+		this.isProxyHolder = isProxyHolder;
+	}
+
+	public String getWhrDidYouHearAbtAfrAsia() {
+		return whrDidYouHearAbtAfrAsia;
+	}
+
+	public void setWhrDidYouHearAbtAfrAsia(String whrDidYouHearAbtAfrAsia) {
+		this.whrDidYouHearAbtAfrAsia = whrDidYouHearAbtAfrAsia;
+	}
+
+	public Boolean getTinAvailable1() {
+		return tinAvailable1;
+	}
+
+	public void setTinAvailable1(Boolean tinAvailable1) {
+		this.tinAvailable1 = tinAvailable1;
+	}
+
+	public Boolean getTinAvailable2() {
+		return tinAvailable2;
+	}
+
+	public void setTinAvailable2(Boolean tinAvailable2) {
+		this.tinAvailable2 = tinAvailable2;
+	}
+
+	public Boolean getTinAvailable3() {
+		return tinAvailable3;
+	}
+
+	public void setTinAvailable3(Boolean tinAvailable3) {
+		this.tinAvailable3 = tinAvailable3;
+	}
+
+	public String getNoTinOption1() {
+		return noTinOption1;
+	}
+
+	public void setNoTinOption1(String noTinOption1) {
+		this.noTinOption1 = noTinOption1;
+	}
+
+	public String getNoTinOption2() {
+		return noTinOption2;
+	}
+
+	public void setNoTinOption2(String noTinOption2) {
+		this.noTinOption2 = noTinOption2;
+	}
+
+	public String getNoTinOption3() {
+		return noTinOption3;
+	}
+
+	public void setNoTinOption3(String noTinOption3) {
+		this.noTinOption3 = noTinOption3;
+	}
+
+	public String getNoTinReason1() {
+		return noTinReason1;
+	}
+
+	public void setNoTinReason1(String noTinReason1) {
+		this.noTinReason1 = noTinReason1;
+	}
+
+	public String getNoTinReason2() {
+		return noTinReason2;
+	}
+
+	public void setNoTinReason2(String noTinReason2) {
+		this.noTinReason2 = noTinReason2;
+	}
+
+	public String getNoTinReason3() {
+		return noTinReason3;
+	}
+
+	public void setNoTinReason3(String noTinReason3) {
+		this.noTinReason3 = noTinReason3;
+	}
+
+	public String getHobbyCode1() {
+		return hobbyCode1;
+	}
+
+	public void setHobbyCode1(String hobbyCode1) {
+		this.hobbyCode1 = hobbyCode1;
+	}
+
+	public String getHobbyCode2() {
+		return hobbyCode2;
+	}
+
+	public void setHobbyCode2(String hobbyCode2) {
+		this.hobbyCode2 = hobbyCode2;
+	}
+
+	public String getHobbyCode3() {
+		return hobbyCode3;
+	}
+
+	public void setHobbyCode3(String hobbyCode3) {
+		this.hobbyCode3 = hobbyCode3;
+	}
+
+	public String getAfrasiaEventQues() {
+		return afrasiaEventQues;
+	}
+
+	public void setAfrasiaEventQues(String afrasiaEventQues) {
+		this.afrasiaEventQues = afrasiaEventQues;
+	}
+
+	public String getAfrasiaEventAns() {
+		return afrasiaEventAns;
+	}
+
+	public void setAfrasiaEventAns(String afrasiaEventAns) {
+		this.afrasiaEventAns = afrasiaEventAns;
+	}
+
 	@Override
 	public String toString() {
 		return "ApplicantDetails [residencyStatus=" + residencyStatus + ", otherBank1=" + otherBank1 + ", otherBank2="
 				+ otherBank2 + ", otherBank3=" + otherBank3 + ", isEmployee=" + isEmployee + ", title=" + title
 				+ ", firstName=" + firstName + ", lastName=" + lastName + ", middleName=" + middleName + ", maidenName="
-				+ maidenName + ", nic=" + nic + ", passportNo=" + passportNo + ", passportExpDate=" + passportExpDate
-				+ ", nationality=" + nationality + ", email=" + email + ", dob=" + dob + ", countryBirth="
-				+ countryBirth + ", isExistingCustomer=" + isExistingCustomer + ", customerCIF=" + customerCIF
-				+ ", maritialStatus=" + maritialStatus + ", permAddr1=" + permAddr1 + ", permAddr2=" + permAddr2
-				+ ", permAddr3=" + permAddr3 + ", permCity=" + permCity + ", permCountry=" + permCountry
-				+ ", isMailAddrSameAsPerm=" + isMailAddrSameAsPerm + ", mailAddr1=" + mailAddr1 + ", mailAddr2="
-				+ mailAddr2 + ", mailAddr3=" + mailAddr3 + ", mailCity=" + mailCity + ", mailCountry=" + mailCountry
-				+ ", telNoOff=" + telNoOff + ", telOffCallingCode=" + telOffCallingCode + ", telNoHome=" + telNoHome
-				+ ", telNoHomeCallingCode=" + telNoHomeCallingCode + ", mobNo=" + mobNo + ", mobNoCountryCode="
-				+ mobNoCountryCode + ", faxNo=" + faxNo + ", faxNoCallingCode=" + faxNoCallingCode
-				+ ", employmentStatus=" + employmentStatus + ", currentOccupation=" + currentOccupation
-				+ ", employerName=" + employerName + ", employerAddr1=" + employerAddr1 + ", employerAddr2="
-				+ employerAddr2 + ", employerAddr3=" + employerAddr3 + ", employerCity=" + employerCity
-				+ ", employerCountry=" + employerCountry + ", noYearsService=" + noYearsService + ", businessSector="
-				+ businessSector + ", dateStarted=" + dateStarted + ", netMonthlyIncome=" + netMonthlyIncome
-				+ ", annualDepositTurnover=" + annualDepositTurnover + ", annualCashDeposit=" + annualCashDeposit
-				+ ", annualCashWithdrawl=" + annualCashWithdrawl + ", otherIncomeSource=" + otherIncomeSource
-				+ ", fundSources=" + fundSources + ", iSUSCitizen=" + iSUSCitizen + ", isIncomeTaxableinUSA="
-				+ isIncomeTaxableinUSA + ", usaSsn=" + usaSsn + ", oAddr1=" + oAddr1 + ", oAddr2=" + oAddr2
-				+ ", oAddr3=" + oAddr3 + ", oCity=" + oCity + ", oCountry=" + oCountry + ", workPermitExpDate="
-				+ workPermitExpDate + ", incomeOtherCountryTaxable=" + incomeOtherCountryTaxable + ", crsTin1="
-				+ crsTin1 + ", crsTin2=" + crsTin2 + ", crsTin3=" + crsTin3 + ", crsCountryResidence1="
-				+ crsCountryResidence1 + ", crsCountryResidence2=" + crsCountryResidence2 + ", crsCountryResidence3="
-				+ crsCountryResidence3 + ", employmentSts=" + employmentSts + ", applicantId=" + applicantId
-				+ ", isMinor=" + isMinor + ", kycInfo=" + kycInfo + ", sex=" + sex + ", isHnwi=" + isHnwi
-				+ ", signatoryType=" + signatoryType + ", relationshipMinor=" + relationshipMinor
+				+ maidenName + ", nic=" + nic + ", passportNo=" + passportNo + ", passportIssDate=" + passportIssDate
+				+ ", passportExpDate=" + passportExpDate + ", nationality=" + nationality + ", email=" + email
+				+ ", dob=" + dob + ", countryBirth=" + countryBirth + ", isExistingCustomer=" + isExistingCustomer
+				+ ", customerCIF=" + customerCIF + ", maritialStatus=" + maritialStatus + ", permAddr1=" + permAddr1
+				+ ", permAddr2=" + permAddr2 + ", permAddr3=" + permAddr3 + ", permCity=" + permCity + ", permCountry="
+				+ permCountry + ", isMailAddrSameAsPerm=" + isMailAddrSameAsPerm + ", mailAddr1=" + mailAddr1
+				+ ", mailAddr2=" + mailAddr2 + ", mailAddr3=" + mailAddr3 + ", mailCity=" + mailCity + ", mailCountry="
+				+ mailCountry + ", telNoOff=" + telNoOff + ", telOffCallingCode=" + telOffCallingCode + ", telNoHome="
+				+ telNoHome + ", telNoHomeCallingCode=" + telNoHomeCallingCode + ", mobNo=" + mobNo
+				+ ", mobNoCountryCode=" + mobNoCountryCode + ", faxNo=" + faxNo + ", faxNoCallingCode="
+				+ faxNoCallingCode + ", employmentStatus=" + employmentStatus + ", currentOccupation="
+				+ currentOccupation + ", employerName=" + employerName + ", employerAddr1=" + employerAddr1
+				+ ", employerAddr2=" + employerAddr2 + ", employerAddr3=" + employerAddr3 + ", employerCity="
+				+ employerCity + ", employerCountry=" + employerCountry + ", noYearsService=" + noYearsService
+				+ ", businessSector=" + businessSector + ", dateStarted=" + dateStarted + ", netMonthlyIncome="
+				+ netMonthlyIncome + ", annualDepositTurnover=" + annualDepositTurnover + ", annualCashDeposit="
+				+ annualCashDeposit + ", annualCashWithdrawl=" + annualCashWithdrawl + ", otherIncomeSource="
+				+ otherIncomeSource + ", fundSources=" + fundSources + ", iSUSCitizen=" + iSUSCitizen
+				+ ", isIncomeTaxableinUSA=" + isIncomeTaxableinUSA + ", usaSsn=" + usaSsn + ", oAddr1=" + oAddr1
+				+ ", oAddr2=" + oAddr2 + ", oAddr3=" + oAddr3 + ", oCity=" + oCity + ", oCountry=" + oCountry
+				+ ", workPermitExpDate=" + workPermitExpDate + ", incomeOtherCountryTaxable="
+				+ incomeOtherCountryTaxable + ", crsTin1=" + crsTin1 + ", crsTin2=" + crsTin2 + ", crsTin3=" + crsTin3
+				+ ", crsCountryResidence1=" + crsCountryResidence1 + ", crsCountryResidence2=" + crsCountryResidence2
+				+ ", crsCountryResidence3=" + crsCountryResidence3 + ", employmentSts=" + employmentSts
+				+ ", applicantId=" + applicantId + ", isMinor=" + isMinor + ", kycInfo=" + kycInfo + ", sex=" + sex
+				+ ", isHnwi=" + isHnwi + ", signatoryType=" + signatoryType + ", relationshipMinor=" + relationshipMinor
 				+ ", powerAttnGivenToUSPerson=" + powerAttnGivenToUSPerson + ", powerAttnGoverningCountry="
 				+ powerAttnGoverningCountry + ", powerAttnIssueDate=" + powerAttnIssueDate + ", mop=" + mop
-				+ ", mopInstruction=" + mopInstruction + "]";
+				+ ", mopInstruction=" + mopInstruction + ", isProxyHolder=" + isProxyHolder
+				+ ", whrDidYouHearAbtAfrAsia=" + whrDidYouHearAbtAfrAsia + ", afrasiaEventQues=" + afrasiaEventQues
+				+ ", afrasiaEventAns=" + afrasiaEventAns + ", hobbyCode1=" + hobbyCode1 + ", hobbyCode2=" + hobbyCode2
+				+ ", hobbyCode3=" + hobbyCode3 + ", tinAvailable1=" + tinAvailable1 + ", tinAvailable2=" + tinAvailable2
+				+ ", tinAvailable3=" + tinAvailable3 + ", noTinOption1=" + noTinOption1 + ", noTinOption2="
+				+ noTinOption2 + ", noTinOption3=" + noTinOption3 + ", noTinReason1=" + noTinReason1 + ", noTinReason2="
+				+ noTinReason2 + ", noTinReason3=" + noTinReason3 + "]";
 	}
 
 }

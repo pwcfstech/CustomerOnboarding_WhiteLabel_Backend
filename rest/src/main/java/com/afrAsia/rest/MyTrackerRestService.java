@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.entities.request.RmApplicationAppReq;
+import com.afrAsia.entities.response.ComplianceResponse;
 import com.afrAsia.entities.response.MessageHeader;
 import com.afrAsia.entities.response.RequestError;
 import com.afrAsia.entities.response.RmApplicationAppResponse;
@@ -51,17 +52,14 @@ public class MyTrackerRestService {
 		this.rmApplicationsAppService = rmApplicationsAppService;
 	}
 
-	static{
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-	}
-	
 	@POST
 	@Path("/getRmApplicationsApp/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getDetailsByNameAndID(String jsonInput) {
+	public Response getDetailsByRequestedSearchParameter(String jsonInput) {
 
-		infoLog.info(" id from Request in getDetailsByNameAndID(),MyTrackerRestService.java is : "+jsonInput);
+		infoLog.info("Enter in getRmApplicationsApp service");
+		debugLog.debug("jsonInput in getRmApplicationsApp Service :: "+jsonInput);
 		
 		RmApplicationAppReq rmApplicationAppReq = new RmApplicationAppReq();
 
@@ -70,13 +68,10 @@ public class MyTrackerRestService {
 			rmApplicationAppReq = mapper.readValue(jsonInput, RmApplicationAppReq.class);
 		} catch (JsonParseException e) {
 			errorLog.error(" JsonParseException : ",e);
-			e.printStackTrace();
 		} catch (JsonMappingException e) {
 			errorLog.error(" JsonMappingException : ",e);
-			e.printStackTrace();
 		} catch (IOException e) {
 			errorLog.error(" IOException : ",e);
-			e.printStackTrace();
 		}
 		
 		// RmId from request	
@@ -97,7 +92,7 @@ public class MyTrackerRestService {
 		try {
 			dateSt1 = simpleDateFormatStartDate.parse(formattedStartDate);
 		} catch (ParseException e1) {
-			errorLog.error("   date coud not be parsed in getDetailsByNameAndID method of MyTrackerRestService class ",e1);
+			errorLog.error(" dateSt1 coud not be parsed in getRmApplicationsApp Service ",e1);
 		}
 		this.startDate=dateSt1;
 		}
@@ -113,7 +108,7 @@ public class MyTrackerRestService {
 		try {
 			dateEd1 = simpleDateFormatStartEnd.parse(formattedStartEnd);
 		} catch (ParseException e) {
-			errorLog.error("   date can not be parsed in ");
+			errorLog.error(" dateEd1 coud not be parsed in getRmApplicationsApp Service ",e);
 		}
 		
 		Long miliSecs=dateEd1.getTime();
@@ -129,7 +124,8 @@ public class MyTrackerRestService {
 			RmApplicationAppResponse rmApplicationAppResponseByDates=
 					(RmApplicationAppResponse) rmApplicationsAppService
 					.getDetailsByDates(this.startDate, this.endDate, idFromRequest);
-			infoLog.info(" rmApplicationAppResponseByDates in MyTrackerRestService.java is : "+rmApplicationAppResponseByDates);
+			debugLog.debug(" rmApplicationAppResponseByDates in getRmApplicationsApp Service is : "+rmApplicationAppResponseByDates);
+			infoLog.info(" We got response by RmId,startdate and end date ");
 			return Response.ok(rmApplicationAppResponseByDates, MediaType.APPLICATION_JSON).build();
 		}
 
@@ -138,7 +134,8 @@ public class MyTrackerRestService {
 			RmApplicationAppResponse rmApplicationAppResponseByIdAndName = 
 					(RmApplicationAppResponse) rmApplicationsAppService
 					.getDetailsByName(custumerName,idFromRequest);
-			infoLog.info(" rmApplicationAppResponseByDates in MyTrackerRestService.java is : "+rmApplicationAppResponseByIdAndName);
+			debugLog.debug(" rmApplicationAppResponseByDates in getRmApplicationsApp Service is : "+rmApplicationAppResponseByIdAndName);
+			infoLog.info(" We got response by RmId,customer name ");
 			return Response.ok(rmApplicationAppResponseByIdAndName, MediaType.APPLICATION_JSON).build();
 		}
 
@@ -147,15 +144,17 @@ public class MyTrackerRestService {
 			RmApplicationAppResponse rmApplicationAppResponseByStatus = (
 					RmApplicationAppResponse) rmApplicationsAppService
 					.getDetailsByStatus(status,idFromRequest); 
-			infoLog.info(" rmApplicationAppResponseByStatus in MyTrackerRestService.java is : "+rmApplicationAppResponseByStatus);
+			debugLog.debug(" rmApplicationAppResponseByStatus in getRmApplicationsApp Service is : "+rmApplicationAppResponseByStatus);
+			infoLog.info(" We got response by RmId,status ");
 			return Response.ok(rmApplicationAppResponseByStatus, MediaType.APPLICATION_JSON).build();
 		}
 
 		else if (idFromRequest.length() != 0 && custumerName.length() == 0 && this.startDate == null && this.endDate == null && status.length() == 0) {
-			infoLog.info(" Data will be fetched by RmId, default search ");
+			infoLog.info(" Data will be fetched by default search ");
 			RmApplicationAppResponse rmApplicationAppResponseByStatus = 
 					(RmApplicationAppResponse) rmApplicationsAppService.getDetailsByefault(idFromRequest);
-			infoLog.info(" rmApplicationAppResponseByStatus in MyTrackerRestService.java is : "+rmApplicationAppResponseByStatus);
+			debugLog.debug(" rmApplicationAppResponseByStatus in getRmApplicationsApp Service is : "+rmApplicationAppResponseByStatus);
+			infoLog.info(" We got response by default search ");
 			return Response.ok(rmApplicationAppResponseByStatus, MediaType.APPLICATION_JSON).build();
 		}
 		
@@ -164,7 +163,8 @@ public class MyTrackerRestService {
 			RmApplicationAppResponse rmApplicationAppResponseByIdAndName = 
 					(RmApplicationAppResponse) rmApplicationsAppService
 					.getDetailsByAllCriteriaWithoutStatus(custumerName,this.startDate, this.endDate, idFromRequest);
-			infoLog.info(" rmApplicationAppResponseByIdAndName in MyTrackerRestService.java is : "+rmApplicationAppResponseByIdAndName);
+			debugLog.debug(" rmApplicationAppResponseByIdAndName in getRmApplicationsApp Service is : "+rmApplicationAppResponseByIdAndName);
+			infoLog.info(" We got response by RmId, custumerName, startDate, endDate ");
 			return Response.ok(rmApplicationAppResponseByIdAndName, MediaType.APPLICATION_JSON).build();
 		}
 
@@ -173,22 +173,38 @@ public class MyTrackerRestService {
 			RmApplicationAppResponse rmApplicationAppResponseByIdAndName = 
 					(RmApplicationAppResponse) rmApplicationsAppService
 					.getDetailsByAllCriteriaWithStatus(custumerName,this.startDate, this.endDate, idFromRequest, status);
-			infoLog.info(" rmApplicationAppResponseByIdAndName in MyTrackerRestService.java is : "+rmApplicationAppResponseByIdAndName);
+			debugLog.debug(" rmApplicationAppResponseByIdAndName in getRmApplicationsApp Service is : "+rmApplicationAppResponseByIdAndName);
+			infoLog.info(" We got response by RmId, custumerName, startDate, endDate,status ");
 			return Response.ok(rmApplicationAppResponseByIdAndName, MediaType.APPLICATION_JSON).build();
 		}
 
-		else {
-			infoLog.info(" RmId is not provided in the request ");
-			RmApplicationAppResponse emptyResponse = new RmApplicationAppResponse();
+		else if((idFromRequest.length() == 0 && custumerName.length() != 0 && this.startDate == null && this.endDate == null && status.length() == 0)
+				|| (idFromRequest.length() == 0 && custumerName.length() == 0 && this.startDate != null && this.endDate == null && status.length() == 0)
+				|| (idFromRequest.length() == 0 && custumerName.length() == 0 && this.startDate == null && this.endDate != null && status.length() == 0)
+				|| (idFromRequest.length() == 0 && custumerName.length() == 0 && this.startDate == null && this.endDate == null && status.length() != 0)
+				|| (idFromRequest.length() == 0 && custumerName.length() != 0 && this.startDate != null && this.endDate == null && status.length() == 0)
+				|| (idFromRequest.length() == 0 && custumerName.length() != 0 && this.startDate == null && this.endDate != null && status.length() == 0)
+				|| (idFromRequest.length() == 0 && custumerName.length() != 0 && this.startDate == null && this.endDate == null && status.length() != 0)
+				|| (idFromRequest.length() == 0 && custumerName.length() != 0 && this.startDate != null && this.endDate != null && status.length() == 0)){
+			RmApplicationAppResponse rmApplicationAppResponse  = new RmApplicationAppResponse();
 			MessageHeader messageHeader=new MessageHeader();
 			RequestError requestError=new RequestError();
-			requestError.setRsn("RmId is not provided in the request");
-			messageHeader.setError(requestError); 
-			emptyResponse.setMessageHeader(messageHeader);
-			infoLog.info(" emptyResponse in MyTrackerRestService.java is : "+emptyResponse);
-			return Response.ok(emptyResponse, MediaType.APPLICATION_JSON).build(); 
+			requestError.setRsn("please pass RmId");
+			messageHeader.setError(requestError);
+			errorLog.error("RmId has not been passed in the request");
+			errorLog.error(" rmApplicationAppResponse in getRmApplicationsApp Service "+rmApplicationAppResponse);
+			return Response.ok(rmApplicationAppResponse, MediaType.APPLICATION_JSON).build(); 
 		}
-
+		
+		else{
+			RmApplicationAppResponse rmApplicationAppResponse  = new RmApplicationAppResponse();
+			MessageHeader messageHeader=new MessageHeader();
+			RequestError requestError=new RequestError();
+			requestError.setRsn("please pass proper request");
+			messageHeader.setError(requestError);
+			errorLog.error("please pass proper request");
+			errorLog.error(" rmApplicationAppResponse in getRmApplicationsApp Service "+rmApplicationAppResponse);
+			return Response.ok(rmApplicationAppResponse, MediaType.APPLICATION_JSON).build(); 
+		}
 	}
-
 }

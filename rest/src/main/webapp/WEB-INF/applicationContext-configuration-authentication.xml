@@ -261,7 +261,7 @@
 	
 	<sec:http pattern="/v*/login" security="none"></sec:http>
 	<sec:http pattern="/v*/appversion" security="none"></sec:http>
-		
+	<sec:http pattern="/v*/lockApplication" security="none"></sec:http>
 	<!-- sec:http pattern="/v*/sign_in" security="none"></sec:http>
 
 	<sec:http pattern="/**/add_user_admin_role" security="none"></sec:http>
@@ -273,8 +273,10 @@
 	<sec:http pattern="/**" create-session="never"
 		authentication-manager-ref="authenticationManager">
 		<sec:anonymous enabled="false" />
-		<sec:intercept-url pattern="/v*/**" access="ROLE_USER,ROLE_ADMIN" />
-		<sec:intercept-url pattern="/admin/**" access="ROLE_ADMIN" />
+		<sec:intercept-url pattern="/v*/**" access="ROLE_USER,ROLE_ADMIN"  method="POST"/>
+		<sec:intercept-url pattern="/v*/**" access="ROLE_USER,ROLE_ADMIN"  method="GET"/>
+		<sec:intercept-url pattern="/admin/**" access="ROLE_ADMIN"  method="POST"/>
+		<sec:intercept-url pattern="/admin/**" access="ROLE_ADMIN"  method="GET"/>
 		<sec:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" /> 
 		<sec:http-basic entry-point-ref="oauthAuthenticationEntryPoint" />
 		<sec:access-denied-handler ref="oauthAccessDeniedHandler" />

@@ -305,7 +305,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 			}
 		}catch(IdNotFoundException exceptionMessage){
 		}
-*/		debugLog.debug(" dashboardResponse is : "+dashboardResponse.toString());
+*/		infoLog.info(" dashboardResponse is : "+dashboardResponse.toString());
 		return dashboardResponse;
 	}
 }

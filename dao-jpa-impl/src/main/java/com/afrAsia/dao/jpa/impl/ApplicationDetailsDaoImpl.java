@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.afrAsia.dao.jpa.ApplicationDetailsJpaDAO;
 import com.afrAsia.entities.transactions.MobAccountAdditionalDetail;
 import com.afrAsia.entities.transactions.MobAccountDetail;
+import com.afrAsia.entities.transactions.MobAppRefRecordId;
+import com.afrAsia.entities.transactions.MobApplCheckComments;
 import com.afrAsia.entities.transactions.MobApplicantAdditionalDtl;
 import com.afrAsia.entities.transactions.MobApplicantCommDetail;
 import com.afrAsia.entities.transactions.MobApplicantEmploymentDtl;
@@ -72,11 +74,11 @@ public class ApplicationDetailsDaoImpl extends BaseJpaDAOImpl<Long, MobRmAppRefI
 		query.setParameter("applicantId", applicantId);
 		return (MobApplicantAdditionalDtl) query.getSingleResult();
 	}
-	public List<MobComments> getComments(Long appRefId){
-		String queryString = "FROM MobComments s where s.id = :appRefId";
+	public List<MobApplCheckComments> getComments(Long appRefId){
+		String queryString = "FROM MobApplCheckComments s where s.id = :appRefId";
 		Query query = getEntityManager().createQuery(queryString);
 		query.setParameter("appRefId", appRefId);
-		return (List<MobComments>) query.getResultList();
+		return (List<MobApplCheckComments>) query.getResultList();
 	}
 	
 	public MobApplicantKycDocuments  getMobApplicantKycSingleResult(Long appRefId, Long applicantId){
@@ -127,6 +129,28 @@ public class ApplicationDetailsDaoImpl extends BaseJpaDAOImpl<Long, MobRmAppRefI
 	public void updateMobRmAppRefId(MobRmAppRefId mobRmAppRefId){
 		getEntityManager().merge(mobRmAppRefId);
 		getEntityManager().flush();
+	}
+	
+		public MobAppRefRecordId getRecordId(Long appRefId) {
+		{
+			/*
+			 * Query query = getEntityManager() .createQuery(
+			 * "select marri1.recordId from MobAppRefRecordId marri1 " +
+			 * "where marri1.id=:appRefId " +
+			 * "AND marri1.modifiedDate=(select max(marri2.modifiedDate) from MobAppRefRecordId marri2 "
+			 * + "where marri2.id = :appRefId) ");
+			 * 
+			 * query.setParameter("appRefId", "appRefId"); Long recordId =
+			 * (Long) query.getSingleResult(); System.out.println(
+			 * "recordId in dao impl :: "+recordId); return recordId;
+			 */
+			String queryString = "SELECT s FROM MobAppRefRecordId s where s.id = :appRefId "
+					+ "AND s.createdDate=(select max(marri2.createdDate) from MobAppRefRecordId marri2 where marri2.id = :appRefId)";
+			Query query = getEntityManager().createQuery(queryString);
+			query.setParameter("appRefId", appRefId);
+			return (MobAppRefRecordId) query.getSingleResult();
+		}
+
 	}
 	
 }

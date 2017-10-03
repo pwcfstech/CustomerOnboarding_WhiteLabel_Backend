@@ -21,7 +21,7 @@ public class ProductDetailsJpaDaoImpl extends BaseJpaDAOImpl<Long, ProductDetail
 	//for get Product Details id 
 	public List<Object> getProductById(Long productID) {
 
-		String queryString = "select pd.id,pd.feature,pd.longDescription,pd.infoLink,pd.imageURL FROM ProductDetails pd WHERE pd.id=:pid";
+		String queryString = "select pd.id,pd.feature,pd.infoLink,pd.imageURL FROM ProductDetails pd WHERE pd.id=:pid";
 		Query query = getEntityManager().createQuery(queryString);
 		query.setParameter("pid", productID);
 		List<Object> plist= query.getResultList();
