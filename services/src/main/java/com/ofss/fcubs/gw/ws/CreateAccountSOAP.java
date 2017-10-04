@@ -157,7 +157,7 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		       //-------------------------------------------------------------------------------------
 		
 		// String, AccountCreationDetails
-		/*Set<String> jointAccKeys = new HashSet<String>();
+		Set<String> jointAccKeys = new HashSet<String>();
 		jointAccKeys.add(JOINT1_APPLICANT);
 		jointAccKeys.add(JOINT2_APPLICANT);
 		jointAccKeys.add(JOINT3_APPLICANT);
@@ -171,18 +171,24 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 				if( null != accountCreationDetails2){
 					MobApplicantPersonalDetail mobApplicantPersonalDetail2 = accountCreationDetails2.getMobCreateCustomerSOAPRequest().getMobApplicantPersonalDetail();
 					//MobAccountDetail mobAccountDetail = accountCreationDetails2.getMobCreateCustomerSOAPRequest().getMobAccountDetail();
-					CustAccFullType.Jointholders jointholder = new CustAccFullType.Jointholders();
 					
-					jointholder.setJNTHLDCDE(mobApplicantPersonalDetail2.getCustCif());
-					String fullName3 = getFullName(accountCreationDetails2.getMobCreateCustomerSOAPRequest(), MAX_NAME_CHAR);
-					jointholder.setJNTHLDDESC(fullName3);
-					//jointholder.setJNTHLDTYP(mobAccountDetail.getMop());
-					jointholder.setJNTHLDTYP(mobApplicantPersonalDetail2.getSignatoryType());
-					jointholders.add(jointholder);
+				/*	If Joint holder is Proxy, do not add him here. Check IS_PROXY_HOLDER field for the same 
+				 * from MOB_APPLICANT_PERSONAL_DETAILS table*/
+					
+					if(null != mobApplicantPersonalDetail2 && !mobApplicantPersonalDetail2.getIsProxyHolder()){
+						CustAccFullType.Jointholders jointholder = new CustAccFullType.Jointholders();
+						
+						jointholder.setJNTHLDCDE(mobApplicantPersonalDetail2.getCustCif());
+						String fullName3 = getFullName(accountCreationDetails2.getMobCreateCustomerSOAPRequest(), MAX_NAME_CHAR);
+						jointholder.setJNTHLDDESC(fullName3);
+						//jointholder.setJNTHLDTYP(mobAccountDetail.getMop());
+						jointholder.setJNTHLDTYP(mobApplicantPersonalDetail2.getSignatoryType());
+						jointholders.add(jointholder);
+					}
 				}
 			
 			}
-		}*/
+		}
 		
 		/*
 		//  This is for creating cheque book | <fcub:Cust-Acc-Check>
@@ -228,48 +234,60 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 	    custAccFullType.setCustAccCheck(custAccCheck);	 */
 	 
 	 // This will be an array for all applicants
-	 
-	/* for( String key : accountDtlsMap.keySet()){
+	 //   <fcub:Linkedentities> 
+	/*for( String key : accountDtlsMap.keySet()){
 			AccountCreationDetails accountCrs = accountDtlsMap.get(key);
 			if( null != accountCrs){
 				MobAccountDetail mobAccountDetail = accountCrs.getMobCreateCustomerSOAPRequest().getMobAccountDetail();
+				MobApplicantPersonalDetail mobApplicantPersonalDetail2 = accountCrs.getMobCreateCustomerSOAPRequest().getMobApplicantPersonalDetail();
 				LinkedEntitiesFullType linkedentities = new LinkedEntitiesFullType();
 				 // CIF of applicant
 				 linkedentities.setCUSTOMER(accountCrs.getCif());
 				 
-				  Primary for Primary applicant.
-				 JOO - If holding pattern is E and customer is Joint
-				 JAO if holding pattern is J and customer is Joint
-				 LegalGuardian for guardian
+				//  Primary for Primary applicant.
+				// JOO - If holding pattern is E and customer is Joint
+				// JAO if holding pattern is J and customer is Joint
+				// LegalGuardian for guardian
 				// MOP field defines holding pattern in MOB_ACCOUNT_DETAILS table
+				 // PROXY if user is a Proxy which we get IS_PROXY => MOB_APPLICANT_PERSONAL_DETAILS table
+				 
 				 String relationship=BLANK;
-				 if(key.contains(GUARDIAN)){
-					 relationship = RELATIONSHIP_LEGALGUARDIAN;
+				 
+				 if(mobApplicantPersonalDetail2.isProxyHolder()){
+					 
+					 relationship = RELATIONSHIP_PROXY;
 				 }
-				 else if ( key.contains(JOINT) && !key.contains(GUARDIAN)){
-					  if(mobAccountDetail.getMop().equalsIgnoreCase(MOP_E)){
-						  relationship = RELATIONSHIP_JOO;
-					  }
-					  else if(mobAccountDetail.getMop().equalsIgnoreCase(MOP_J)){
-						  relationship = RELATIONSHIP_JAO;
-					  }
-				 }					 
-				 else if(key.equalsIgnoreCase(INDV_APPLICANT)){
-					 relationship = RELATIONSHIP_PRIMARY;
-				 }
+				 else
+				 	{
+						 if(key.contains(GUARDIAN)){
+							 relationship = RELATIONSHIP_LEGALGUARDIAN;
+						 }
+						 else if ( key.contains(JOINT) && !key.contains(GUARDIAN)){
+							  if(mobAccountDetail.getMop().equalsIgnoreCase(MOP_E)){
+								  relationship = RELATIONSHIP_JOO;
+							  }
+							  else if(mobAccountDetail.getMop().equalsIgnoreCase(MOP_J)){
+								  relationship = RELATIONSHIP_JAO;
+							  }
+						 }					 
+						 else if(key.equalsIgnoreCase(INDV_APPLICANT)){
+							 relationship = RELATIONSHIP_PRIMARY;
+						 }
+				  }
+				 
 				
 				 linkedentities.setRELATIONSHIP(relationship);
 				  
 				  // Applicant name
-				  MobApplicantPersonalDetail mobApplicantPDtl = accountCrs.getMobCreateCustomerSOAPRequest().getMobApplicantPersonalDetail();
+				  MobApplicantPersonalDetail mobApplicantPDtl = mobApplicantPersonalDetail2;
 				  linkedentities.setDESCP(mobApplicantPDtl.getFirstName() + " " + mobApplicantPDtl.getLastName());
 				  
 				//========= set linkedentities ==================
 				  custAccFullType.setLinkedentities(linkedentities);
 			}
 			
-	 }*/
-
+	 }
+*/
 	 //========= CustAccountMISFullType ==============//
 	  CustAccountMISFullType custAcc = new CustAccountMISFullType();
 	  
@@ -281,10 +299,11 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 	  misdetails.setPOOLCD(POOLCD);
 	  custAcc.setMisdetails(misdetails);
       custAccFullType.setCustAcc(custAcc);  
-	 //=======================   <fcub:UDFDETAILS>   ====================== 
+	 //=======================   <fcub:UDFDETAILS>    not require in create account service call====================== 
      
-	  List<UDFDETAILSType2> udfdetails = custAccFullType.getUDFDETAILS();
+	/*  List<UDFDETAILSType2> udfdetails = custAccFullType.getUDFDETAILS();
 	
+	// udfDetails not require in create customer 
 	 // Map<String, String> udfDetailsMap = getUdfDetailsMap(mobCreateCustomerSOAPRequest);
 	  Map<String, String> udfDetailsMap = new HashMap<String, String>();
 	  udfDetailsMap.put("TEMP_OD", "0");
@@ -294,7 +313,7 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		  udfdetail.setFLDNAM(key);
 		  udfdetail.setFLDVAL(udfDetailsMap.get(key));
 		  udfdetails.add(udfdetail);
-	   }
+	   }*/
     //============================================================	 
 	  
 	  CREATECUSTACCFSFSREQ requestMsg = new CREATECUSTACCFSFSREQ();
@@ -432,15 +451,13 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		OTH_BANNER_VIDEO BRANCH_VISIT MOBILE_APP TV_RADIO MANAGEMNT_COMP RMS_CSAS OTHER
 		Table Field name HEAR_ABOUT_AFRASIA | MOB_ACCOUNT_ADDITIONAL_DETAILS */
 		MobAccountAdditionalDetail mobAccountAdditionalDetail = mobCreateCustomerSOAPRequest.getMobAccountAdditionalDetail();
-		//udfDetailsMap.put("FIRST_HEAR_ABOUT_AFRASIA", mobAccountAdditionalDetail.getHearAboutAfrasia());//Commented by Avisha
+		//udfDetailsMap.put("FIRST_HEAR_ABOUT_AFRASIA", mobAccountAdditionalDetail.getHearAboutAfrasia());
 		
 		/*Field name : AC_E_STMNT_FLG
 		Value :  Y, N 		Table Field name: STMT_DELIVERY
 		If value for STMT_DELIVERY is POST send N else send Y | MOB_ACCOUNT_ADDITIONAL_DETAILS*/
 		
-		
-		//Commented by Avisha
-		/*String stmtDelivery = mobAccountAdditionalDetail.getStmtDelivery();
+	/*	String stmtDelivery = mobAccountAdditionalDetail.getStmtDelivery();
 		if( null != stmtDelivery && !stmtDelivery.isEmpty() ){
 			if(stmtDelivery.equalsIgnoreCase(POST)){
 				udfDetailsMap.put("AC_E_STMNT_FLG", N);

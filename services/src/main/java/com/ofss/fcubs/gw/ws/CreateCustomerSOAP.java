@@ -13,9 +13,12 @@ import java.util.Map;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-
+import javax.xml.ws.BindingProvider;
 import com.afrAsia.entities.request.MobCreateCustomerSOAPRequest;
 import com.afrAsia.entities.transactions.MainTableCompositePK;
+import com.afrAsia.entities.transactions.MobAccountAdditionalDetail;
+import com.afrAsia.entities.transactions.MobApplicantAdditionalDtl;
+import com.afrAsia.entities.transactions.MobApplicantPersonalDetail;
 import com.google.gson.Gson;
 import com.ofss.fcubs.gw.ws.types.FCUBSCustomerService;
 import com.ofss.fcubs.gw.ws.types.FCUBSCustomerServiceSEI;
@@ -24,6 +27,7 @@ import com.ofss.fcubs.service.fcubscustomerservice.CREATECUSTOMERFSFSRES;
 import com.ofss.fcubs.service.fcubscustomerservice.CustjointFullType;
 import com.ofss.fcubs.service.fcubscustomerservice.CustjointFullType.Custjoint;
 import com.ofss.fcubs.service.fcubscustomerservice.CustmisFullType;
+import com.ofss.fcubs.service.fcubscustomerservice.CustmisFullType.Compositemis;
 import com.ofss.fcubs.service.fcubscustomerservice.CustmisFullType.Customermis;
 import com.ofss.fcubs.service.fcubscustomerservice.CustomerFullType;
 import com.ofss.fcubs.service.fcubscustomerservice.CusttextFullType;
@@ -518,6 +522,35 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 		  udfdetails.setFLDVAL(udfDetailsMap.get(key));
 		  udfdetailsList.add(udfdetails);
 	   }
+	  
+	  /*
+		Field name: LEISURE_PREFERENCE 
+		Values: hobby_code_1, hobby_code_2, hobby_code_3 from MOB_APPLICANT_ADDITIONAL_DETAILS table.
+		This field will be repeated 0-3 times, depending on if hobby_code_1, hobby_code_2, hobby_code_3 have value 
+		*/
+	  	MobApplicantAdditionalDtl mobApplicantAdditionalDtl = mobCreateCustomerSOAPRequest.getMobApplicantAdditionalDtl();
+		String hobbyCode1 = mobApplicantAdditionalDtl.getHobbyCode1();
+		String hobbyCode2 = mobApplicantAdditionalDtl.getHobbyCode2();
+		String hobbyCode3 = mobApplicantAdditionalDtl.getHobbyCode3();
+		if(null != hobbyCode1){
+			UDFDETAILSType2 udfdetails = new UDFDETAILSType2();
+			  udfdetails.setFLDNAM(LEISURE_PREFERENCE);
+			  udfdetails.setFLDVAL(hobbyCode1);
+			  udfdetailsList.add(udfdetails);
+		}
+		if(null != hobbyCode2){
+			UDFDETAILSType2 udfdetails = new UDFDETAILSType2();
+			  udfdetails.setFLDNAM(LEISURE_PREFERENCE);
+			  udfdetails.setFLDVAL(hobbyCode2);
+			  udfdetailsList.add(udfdetails);
+		}
+		if(null != hobbyCode3){
+			  UDFDETAILSType2 udfdetails = new UDFDETAILSType2();
+			  udfdetails.setFLDNAM(LEISURE_PREFERENCE);
+			  udfdetails.setFLDVAL(hobbyCode3);
+			  udfdetailsList.add(udfdetails);
+		}
+		
 	  //=================================	  
 	  // setting the body
 	  CREATECUSTOMERFSFSREQ.FCUBSBODY bodyValue = new CREATECUSTOMERFSFSREQ.FCUBSBODY();
@@ -526,17 +559,9 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 	  System.out.println("===> createAfrAsiaCustomer bodyValue setting done " + bodyValue);
 	  //===============================================
 	  Gson gson = new Gson();  
-	  try {
 		//  requestMsg
 		  String requestMsgJson = gson.toJson(requestMsg);
 		  System.out.println("requestMsgJson :" + requestMsgJson);
-		  System.out.println("Thread sleep start");
-		Thread.sleep(1);
-	 } catch (InterruptedException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	 }
-	 System.out.println("Thread sleep end");
 	//===================================================  
 	  Map<String,Object> result= null;	  
 	  try{
@@ -939,15 +964,25 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 		Table : MOB_ACCOUNT_ADDITIONAL_DETAILS
 		*/
 		
-		//Commented by Avisha
-		/*String stmtDelivery = mobCreateCustomerSOAPRequest.getMobAccountAdditionalDetail().getStmtDelivery();
-		if(null != stmtDelivery && stmtDelivery.equalsIgnoreCase("Estatement")){
+		/*Table Field name:
+			STMT_DELIVERY_ESTMT
+			If value for STMT_DELIVERY_ESTMT is Estatement then send following values: 
+			E_STATEMENT_FLG : Y
+			E_STATEMENT_FREQ;M
+			E_ADVICE_FLG: Y
+			E_MAIL: Email of cutomer from MOB_APPLICANT_PERSONAL_DETAILS table.
+		 */
+		
+		Boolean stmtDelivery = mobCreateCustomerSOAPRequest.getMobAccountAdditionalDetail().getStmtDeliveryEstmt();
+		String email = mobCreateCustomerSOAPRequest.getMobApplicantPersonalDetail().getEmail();
+		if(null != stmtDelivery && stmtDelivery == true ){
 			
 			udfDetailsMap.put("E_STATEMENT_FLG", "Y");
 			udfDetailsMap.put("E_STATEMENT_FREQ", "M");
 			udfDetailsMap.put("E_ADVICE_FLG", "Y");
+			udfDetailsMap.put("E_MAIL", email);
 			 
-		 }*/
+		 }
 			/*CRS_COUNTRY_OF_TAX_RESIDENCE_1
 			CRS_COUNTRY_OF_TAX_RESIDENCE_2
 			CRS_COUNTRY_OF_TAX_RESIDENCE_3
@@ -976,19 +1011,87 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 		Table: MOB_APPLICANT_ADDITIONAL_DTLS
 		If INCOME_OTHER_COUNTRY_TAX then create this else no.
 		TIN_1 | TIN_2 | TIN_3
+		
+		If TIN_AVAILABLE_1, If TIN_AVAILABLE_2, If TIN_AVAILABLE_3, 
+		then populate with TIN_1, TIN_2 and TIN_3 
+		else populate with NO_TIN_OPTION_1, NO_TIN_OPTION_2, NO_TIN_OPTION_3
+
+		IF NO_TIN_OPTION_1, IF NO_TIN_OPTION_2, IF NO_TIN_OPTION_3 is == B, 
+		then concatenate this with NO_TIN_REASON_1, NO_TIN_REASON_2, NO_TIN_REASON_3
 		*/
+		
 		if(incomeOtherCountryTax){
-			String tin1 = mobCreateCustomerSOAPRequest.getMobApplicantAdditionalDtl().getTin1();
-			String tin2 = mobCreateCustomerSOAPRequest.getMobApplicantAdditionalDtl().getTin2();
-			String tin3 = mobCreateCustomerSOAPRequest.getMobApplicantAdditionalDtl().getTin3();
 			
-			tin1 = tin1 != null ? tin1 :BLANK;
-			tin2 = tin2 != null ? tin2 :BLANK;
-			tin3 = tin3 != null ? tin3 :BLANK;
+			Boolean tinAvailable1 = mobCreateCustomerSOAPRequest.getMobApplicantAdditionalDtl().getTinAvailable1();
+			Boolean tinAvailable2 = mobCreateCustomerSOAPRequest.getMobApplicantAdditionalDtl().getTinAvailable2();
+			Boolean tinAvailable3 = mobCreateCustomerSOAPRequest.getMobApplicantAdditionalDtl().getTinAvailable3();
 			
-			udfDetailsMap.put("CRS_TIN_1", tin1);
-			udfDetailsMap.put("CRS_TIN_2", tin2);
-			udfDetailsMap.put("CRS_TIN_3", tin3);
+			
+			// tin 1
+			if(null != tinAvailable1 && tinAvailable1){
+				String tin1 = mobCreateCustomerSOAPRequest.getMobApplicantAdditionalDtl().getTin1();
+				tin1 = tin1 != null ? tin1 :BLANK;
+				udfDetailsMap.put(CRS_TIN_1, tin1);
+			}
+			else{
+				 String noTinOption1 = mobCreateCustomerSOAPRequest.getMobApplicantAdditionalDtl().getNoTinOption1();
+				 // if noTinOption1 == B concatenate with no  NO_TIN_REASON 
+				 if( null != noTinOption1 && noTinOption1.equalsIgnoreCase(NO_TIN_OPTION_B)){
+					String noTinReason1 = mobCreateCustomerSOAPRequest.getMobApplicantAdditionalDtl().getNoTinReason1();
+					noTinReason1 = noTinReason1 != null ? noTinReason1 : BLANK;
+					
+					udfDetailsMap.put(CRS_TIN_1, noTinOption1+","+noTinReason1);
+				 }
+				 else{
+					 
+					 udfDetailsMap.put(CRS_TIN_1, noTinOption1 ); 
+				 }
+			}
+			
+			//tin 2
+			if(null != tinAvailable2 && tinAvailable2){
+				String tin2 = mobCreateCustomerSOAPRequest.getMobApplicantAdditionalDtl().getTin2();
+				tin2 = tin2 != null ? tin2 :BLANK;
+				
+				udfDetailsMap.put(CRS_TIN_2, tin2);
+			}
+			else{
+				 String noTinOption2 = mobCreateCustomerSOAPRequest.getMobApplicantAdditionalDtl().getNoTinOption2();
+				 // if noTinOption2 == B concatenate with no  NO_TIN_REASON 
+				 if( null != noTinOption2 && noTinOption2.equalsIgnoreCase(NO_TIN_OPTION_B)){
+					String noTinReason2 = mobCreateCustomerSOAPRequest.getMobApplicantAdditionalDtl().getNoTinReason2();
+					noTinReason2 = noTinReason2 != null ? noTinReason2 : BLANK;
+					
+					udfDetailsMap.put(CRS_TIN_2, noTinOption2+","+noTinReason2);
+				 }
+				 else{
+					 
+					 udfDetailsMap.put(CRS_TIN_2, noTinOption2 ); 
+				 }
+				
+			}
+			
+			//tin 3
+			if(null != tinAvailable3 && tinAvailable3){
+				String tin3 = mobCreateCustomerSOAPRequest.getMobApplicantAdditionalDtl().getTin3();
+				tin3 = tin3 != null ? tin3 :BLANK;
+				
+				udfDetailsMap.put(CRS_TIN_3, tin3);
+			}
+			else{
+				 String noTinOption3 = mobCreateCustomerSOAPRequest.getMobApplicantAdditionalDtl().getNoTinOption3();
+				 // if noTinOption3 == B concatenate with no  NO_TIN_REASON 
+				 if( null != noTinOption3 && noTinOption3.equalsIgnoreCase(NO_TIN_OPTION_B)){
+					String noTinReason3 = mobCreateCustomerSOAPRequest.getMobApplicantAdditionalDtl().getNoTinReason3();
+					noTinReason3 = noTinReason3 != null ? noTinReason3 : BLANK;
+					
+					udfDetailsMap.put(CRS_TIN_3, noTinOption3+","+noTinReason3);
+				 }
+				 else{
+					 
+					 udfDetailsMap.put(CRS_TIN_3, noTinOption3 ); 
+				 }
+			}
 		}
 		
 		/*Field Name: LINE_OF_BUSINESS
@@ -1018,6 +1121,15 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 		*/
 		Long annCashDeposit = mobCreateCustomerSOAPRequest.getMobApplicantEmploymentDtl().getAnnCashDeposit();
 		udfDetailsMap.put("LCY_CASH_YEARLY_TURNOVER",annCashDeposit.toString());
+		
+		
+		/*Field name: FIRST_HEAR_ABOUT_AFRASIA
+		Values: GOLF_EVENT OTHER_EVENTS  FRIEND_REFERRAL BILLBOARD_MAGZNE MAGZNE_NEWSPAPER	WEBSITE_AFRASIA	SOCIAL_MEDIA
+		OTH_BANNER_VIDEO BRANCH_VISIT MOBILE_APP TV_RADIO MANAGEMNT_COMP RMS_CSAS OTHER
+		Table Field name HEAR_ABOUT_AFRASIA | MOB_APPLICANT_ADDITONAL_DTLS */
+		
+		MobApplicantAdditionalDtl mobApplicantAdditionalDtl = mobCreateCustomerSOAPRequest.getMobApplicantAdditionalDtl();
+		udfDetailsMap.put(FIRST_HEAR_ABOUT_AFRASIA, mobApplicantAdditionalDtl.getHearAboutAfrasia());
 		
 		return udfDetailsMap;
 		

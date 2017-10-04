@@ -54,6 +54,7 @@ public interface CreateCustomerSOAPConstants {
 		 static final String GUARDIAN = "_GUARDIAN";
 		 static final String JOINT = "JOINT";
 		 
+		 static final String RELATIONSHIP_PROXY = "PROXY";
 		 static final String RELATIONSHIP_PRIMARY = "Primary";
 		 static final String RELATIONSHIP_LEGALGUARDIAN = "LegalGuardian";
 		 static final String RELATIONSHIP_JOO = "JOO";
@@ -116,5 +117,11 @@ public interface CreateCustomerSOAPConstants {
 		 static final String  ACCOUNT_CREATED ="ACCOUNT_CREATED";
 		 static final String  UNDER_PROCESSING ="UNDER_PROCESSING";
 		 
+		 static final String  CRS_TIN_1 ="CRS_TIN_1";
+		 static final String  CRS_TIN_2 ="CRS_TIN_2";
+		 static final String  CRS_TIN_3 ="CRS_TIN_3";
+		 static final String  NO_TIN_OPTION_B ="B";
+		 static final String  FIRST_HEAR_ABOUT_AFRASIA = "FIRST_HEAR_ABOUT_AFRASIA";
+		 static final String  LEISURE_PREFERENCE = "LEISURE_PREFERENCE";
 
 }
