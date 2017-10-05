@@ -280,6 +280,20 @@ public class AccountCreationRestService {
 	 */
 	// Account Details
 	private String validateAccountDetails(Data accountCreationData) {
+		
+		Date currentDate = new Date();
+		Calendar firstCalendar = Calendar.getInstance();
+		firstCalendar.setTime(accountCreationData.getPrimaryApplicantDetail().getDob()); // set the time as the first
+													// java.util.Date
+		Calendar secondCalendar = Calendar.getInstance();
+		secondCalendar.setTime(currentDate); // set the time as the second
+												// java.util.Date
+		int year = Calendar.YEAR;
+		int day = Calendar.DAY_OF_YEAR;
+		int age = secondCalendar.get(year) - firstCalendar.get(year);
+		if (age > 0 && (secondCalendar.get(day) < firstCalendar.get(day))) {
+			age--;
+		}
 
 		if (!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getAccount())
 				|| accountCreationData.getAccountDetails().getAccount().length() > 6) {
@@ -314,7 +328,7 @@ public class AccountCreationRestService {
 		}
 					// Check for Statement delivery type
 				
-					if(!CommonUtils.checkNullorBlank(accountCreationData.getPrimaryApplicantDetail().getCustomerCIF()))
+					if((age>=18 && !CommonUtils.checkNullorBlank(accountCreationData.getPrimaryApplicantDetail().getCustomerCIF())) || (age<18 && !CommonUtils.checkNullorBlank(accountCreationData.getGuardianDetail().getCustomerCIF())))
 					{
 						if (accountCreationData.getAccountDetails().getStmtDeliveryPo()) {
 							if (!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getStmtAddr1())
