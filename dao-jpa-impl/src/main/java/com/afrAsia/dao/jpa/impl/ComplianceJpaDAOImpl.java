@@ -332,6 +332,13 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 			}
 			else{
 				System.out.println("No record found to update : updateErrorMessage()");
+				
+				System.out.println("inserting new row to save the error : updateErrorMessage()");
+				mobApplCheckComment.setCreatedBy(mobApplCheckComment.getModifiedBy());
+				mobApplCheckComment.setCreatedDate(new Date());
+				mobApplCheckComment.setModifiedDate(new Date());
+				getEntityManager().persist(mobApplCheckComment);
+				getEntityManager().flush();
 			}
 		}
 		System.out.println("Exit : updateErrorMessage()");

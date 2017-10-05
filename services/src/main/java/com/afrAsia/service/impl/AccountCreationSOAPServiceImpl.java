@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.afrAsia.dao.ComplianceDao;
 import com.afrAsia.dao.jpa.ApplicationDetailsJpaDAO;
+import com.afrAsia.dao.jpa.ComplianceJpaDao;
 import com.afrAsia.entities.request.AccountCreationDetails;
 import com.afrAsia.entities.request.MobCreateCustomerSOAPRequest;
 import com.afrAsia.entities.transactions.MobAccountDetail;
@@ -23,7 +23,7 @@ import com.ofss.fcubs.gw.ws.CreateCustomerSOAPConstants;
 
 public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPService,CreateCustomerSOAPConstants {	
 	ApplicationDetailsJpaDAO applicationDetailsDAO;
-	ComplianceDao complianceDao;
+	ComplianceJpaDao complianceDao;
 	
 	KYCService kycService;
 	
@@ -35,11 +35,11 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 		this.kycService = kycService;
 	}
 
-	public ComplianceDao getComplianceDao() {
+	public ComplianceJpaDao getComplianceDao() {
 		return complianceDao;
 	}
 
-	public void setComplianceDao(ComplianceDao complianceDao) {
+	public void setComplianceDao(ComplianceJpaDao complianceDao) {
 		this.complianceDao = complianceDao;
 	}
 
@@ -154,7 +154,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 					}
 					else{
 						accountDtlsMap.get(guardianName).setSoapResError(responseMap.get(ERROR));
-						updateErrorTable(accountDtlsMap, null, appId, recordId);
+						updateErrorTable(accountDtlsMap, null, appId, recordId,userId);
 					}
 				}
 				else{
@@ -186,7 +186,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 						}
 						else{
 							accountDtlsMap.get(key).setSoapResError(jnrAccntResponseMap.get(ERROR));
-							updateErrorTable(accountDtlsMap, null, appId, recordId);
+							updateErrorTable(accountDtlsMap, null, appId, recordId,userId);
 						}
 						
 						if( null != jnrAccntCifNo && !jnrAccntCifNo.isEmpty()){
@@ -224,7 +224,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 					}
 					else{
 						accountDtlsMap.get(key).setSoapResError(accntResponseMap.get(ERROR));
-						updateErrorTable(accountDtlsMap, null, appId, recordId);
+						updateErrorTable(accountDtlsMap, null, appId, recordId,userId);
 					}
 					
 					if( null != accntCifNo && !accntCifNo.isEmpty()){
@@ -261,14 +261,19 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 			   System.out.println("Create account Service not called User Account Exists");
 			   System.out.println("User account number is : " + mobRmAppRefId.getAccountNumber());
 			   accountExists = true;
+			   createAfrAsiaAccount = new HashMap<String, Object>();
+			   createAfrAsiaAccount.put(ACCNO, mobRmAppRefId.getAccountNumber());
+			   createAfrAsiaAccount.put(MSGSTAT, SUCCESS);
+			   createAfrAsiaAccount.put(WARNING, null);
+			   createAfrAsiaAccount.put(ERROR, null);
 		   }
 		   else{
 			CreateAccountSOAP createAccountSOAP = new CreateAccountSOAP();
 			try {
-				// createAfrAsiaAccount = createAccountSOAP.createAfrAsiaAccount(userId, accountDtlsMap);
-				createAfrAsiaAccount = new HashMap<String, Object>();
+				 createAfrAsiaAccount = createAccountSOAP.createAfrAsiaAccount(userId, accountDtlsMap);
+				/*createAfrAsiaAccount = new HashMap<String, Object>();
 				createAfrAsiaAccount.put(ACCNO, "00009");
-				createAfrAsiaAccount.put(MSGSTAT, SUCCESS); 
+				createAfrAsiaAccount.put(MSGSTAT, SUCCESS); */
 				 
 				 String accNo = null;
 				 
@@ -277,7 +282,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 					}
 				 else{
 					 // error already set in createAfrAsiaAccount method
-					 updateErrorTable(accountDtlsMap, createAfrAsiaAccount, appId, recordId);
+					 updateErrorTable(accountDtlsMap, createAfrAsiaAccount, appId, recordId,userId);
 				 }
 									 
 				if( null != accNo && !accNo.isEmpty()){
@@ -357,6 +362,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 			   mobApplCheckComment.setRecordId(recordId);
 			   mobApplCheckComment.setFlexErrorCode("UploadKYC");
 			   mobApplCheckComment.setFlexErrorMessage("Error in uploading KYC");
+			   mobApplCheckComment.setModifiedBy(userId);
 			   complianceDao.updateErrorMessage(mobApplCheckComment);
 		   }
 	   }
@@ -383,7 +389,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 	  return returnValue;
 	}
 
-	private void updateErrorTable(Map<String,AccountCreationDetails> accountDtlsMap, Map<String,Object> createAfrAsiaAccount,long appId, long recordId){
+	private void updateErrorTable(Map<String,AccountCreationDetails> accountDtlsMap, Map<String,Object> createAfrAsiaAccount,long appId, long recordId,String userId){
 		System.out.println("start AccountCreationSOAPServiceImpl::updateErrorTable() method ");
 		System.out.println("AccountCreationSOAPServiceImpl::updateErrorTable() ==>  appId: " +appId + "recordId: "+ recordId);
 		Gson gson = new Gson(); 
@@ -409,7 +415,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 			if( null != errorObject ){
 				List<com.ofss.fcubs.service.fcubsaccservice.ERRORType> errType = null;
 				errType = (List<com.ofss.fcubs.service.fcubsaccservice.ERRORType>) errorObject;
-				error = (error + "|| CREATE ACCOUNT WS-CALL ERROR : ");
+				error = (error + (error.isEmpty()? "":"||") +" CREATE ACCOUNT WS-CALL ERROR : ");
 				error = error + gson.toJson(errType);
 			}
 			else{
@@ -424,6 +430,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 	   mobApplCheckComment.setRecordId(recordId);
 	   mobApplCheckComment.setFlexErrorCode(errorCode);
 	   mobApplCheckComment.setFlexErrorMessage(error);
+	   mobApplCheckComment.setModifiedBy(userId);
 	   complianceDao.updateErrorMessage(mobApplCheckComment);
 	   
 	   System.out.println("end AccountCreationSOAPServiceImpl::updateErrorTable() method ");

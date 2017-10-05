@@ -13,7 +13,6 @@ import javax.ws.rs.core.Response;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.entities.jpa.MsgHeader;
-import com.afrAsia.entities.jpa.MsgHeader.Error;
 import com.afrAsia.entities.request.AccountCreationDetails;
 import com.afrAsia.entities.request.ApplicationDetailsReq;
 import com.afrAsia.entities.response.ApplicationDetailsResp;
@@ -22,7 +21,6 @@ import com.afrAsia.entities.response.ApplicationDetailsResp.ApplicantAccount;
 import com.afrAsia.entities.response.ApplicationDetailsResp.Data;
 import com.afrAsia.service.AccountCreationSOAPService;
 import com.ofss.fcubs.gw.ws.CreateCustomerSOAPConstants;
-import com.ofss.fcubs.service.fcubscustomerservice.ERRORType;
 
 
 @Component
@@ -50,9 +48,7 @@ public class AccountCreateSoapWebService implements CreateCustomerSOAPConstants{
 		try{
 			if(validateRequest(applicationDetailsReq)){
 				Long appId = applicationDetailsReq.getData().getRefNo();
-				
-				//Commented by Avisha
-				/*String userId = applicationDetailsReq.getData().getUserId();
+				String userId = applicationDetailsReq.getData().getUserId();
 				String recordId = applicationDetailsReq.getData().getRecordId();
 				long lRecordId = 0;
 				if(null != recordId && !recordId.isEmpty()){
@@ -82,7 +78,7 @@ public class AccountCreateSoapWebService implements CreateCustomerSOAPConstants{
 					applicationDetailsResp.setMsgHeader(msgHeader);
 					return Response.ok(applicationDetailsResp, MediaType.APPLICATION_JSON).build();
 				}
-				*/
+				
 			}
 			
 		}catch(Exception e){
@@ -144,8 +140,10 @@ public class AccountCreateSoapWebService implements CreateCustomerSOAPConstants{
 				}
 			}
 			applicantAccount.setAccNo(createAfrAsiaAccount.get(ACCNO).toString());
-			List<com.ofss.fcubs.service.fcubsaccservice.ERRORType> soapErrorMsg = (List<com.ofss.fcubs.service.fcubsaccservice.ERRORType>)createAfrAsiaAccount.get(ERROR);
-			applicantAccount.setSoapErrorMsg(soapErrorMsg);
+			if(null != createAfrAsiaAccount.get(ERROR)){
+				List<com.ofss.fcubs.service.fcubsaccservice.ERRORType> soapErrorMsg = (List<com.ofss.fcubs.service.fcubsaccservice.ERRORType>)createAfrAsiaAccount.get(ERROR);
+				applicantAccount.setSoapErrorMsg(soapErrorMsg);
+			}
 			applicantAccount.setOtherErrorMsg(null);
 			}
 		applicationDetailsResp.setApplicantAccount(applicantAccount);

@@ -301,7 +301,7 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
       custAccFullType.setCustAcc(custAcc);  
 	 //=======================   <fcub:UDFDETAILS>    not require in create account service call====================== 
      
-	/*  List<UDFDETAILSType2> udfdetails = custAccFullType.getUDFDETAILS();
+	 List<UDFDETAILSType2> udfdetails = custAccFullType.getUDFDETAILS();
 	
 	// udfDetails not require in create customer 
 	 // Map<String, String> udfDetailsMap = getUdfDetailsMap(mobCreateCustomerSOAPRequest);
@@ -313,7 +313,7 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		  udfdetail.setFLDNAM(key);
 		  udfdetail.setFLDVAL(udfDetailsMap.get(key));
 		  udfdetails.add(udfdetail);
-	   }*/
+	   }
     //============================================================	 
 	  
 	  CREATECUSTACCFSFSREQ requestMsg = new CREATECUSTACCFSFSREQ();
