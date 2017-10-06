@@ -33,6 +33,8 @@ import com.ofss.fcubs.service.fcubscustomerservice.CustomerFullType;
 import com.ofss.fcubs.service.fcubscustomerservice.CusttextFullType;
 import com.ofss.fcubs.service.fcubscustomerservice.ERRORType;
 import com.ofss.fcubs.service.fcubscustomerservice.FCUBSHEADERType;
+import com.ofss.fcubs.service.fcubscustomerservice.LinkedEntityFullType;
+import com.ofss.fcubs.service.fcubscustomerservice.LinkedEntityFullType.RelationshipLinkage;
 import com.ofss.fcubs.service.fcubscustomerservice.MsgStatType;
 import com.ofss.fcubs.service.fcubscustomerservice.UBSCOMPType;
 import com.ofss.fcubs.service.fcubscustomerservice.UDFDETAILSType2;
@@ -75,33 +77,67 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 		String fullName = getFullName(mobCreateCustomerSOAPRequest);
 		customerFT.setNAME(fullName);
 		
+		
        // set the addrln1 String value <fcub:ADDRLN1>?</fcub:ADDRLN1> | PERM_ADDR_1 | 
 	   // MOB_APPLICANT_COMM_DETAILS | 105
-		String permAddr1 = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getPermAddr1();
+		String permAddr1 = null;
+		if(null != mobApplicantGuardianDetails){
+			permAddr1 = mobApplicantGuardianDetails.getMobApplicantCommDetail().getPermAddr1();
+		}
+		else{
+			permAddr1 = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getPermAddr1();
+		}
+		
 		permAddr1 = substractChar(MAX_NAME_CHAR, permAddr1);
 		customerFT.setADDRLN1(permAddr1);
 		
 		// set the addrln3 String value <fcub:ADDRLN3>?</fcub:ADDRLN3> | PERM_ADDR_3 | 
 		// MOB_APPLICANT_COMM_DETAILS | 105
-		String permAddr3 = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getPermAddr3();
+		String permAddr3 = null;
+		if(null != mobApplicantGuardianDetails){
+			permAddr3 = mobApplicantGuardianDetails.getMobApplicantCommDetail().getPermAddr3();
+		}
+		else{
+			permAddr3 = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getPermAddr3();
+		}
 		permAddr3 = substractChar(MAX_NAME_CHAR, permAddr3);
 	    customerFT.setADDRLN3(permAddr3);
 			
 	    // set the addrln2 String value <fcub:ADDRLN2>?</fcub:ADDRLN2> | PERM_ADDR_2 | 
 		// MOB_APPLICANT_COMM_DETAILS | 105
-	    String permAddr2 = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getPermAddr2();
+	    String permAddr2 = null;
+	    if(null != mobApplicantGuardianDetails){
+	    	permAddr2 = mobApplicantGuardianDetails.getMobApplicantCommDetail().getPermAddr2();
+		}
+		else{
+			permAddr2 = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getPermAddr2();
+		}
 		permAddr2 = substractChar(MAX_NAME_CHAR, permAddr2);
 		customerFT.setADDRLN2(permAddr2);
 			
 		// set the addrln4 String value <fcub:ADDRLN4>?</fcub:ADDRLN4> | PERM_CITY | 
 		// MOB_APPLICANT_COMM_DETAILS | 105
-		String permCity = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getPermCity();
+		String permCity = null;
+		 if(null != mobApplicantGuardianDetails){
+			 permCity = mobApplicantGuardianDetails.getMobApplicantCommDetail().getPermCity();
+			}
+			else{
+			 permCity = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getPermCity();
+			}
 		permCity = substractChar(MAX_NAME_CHAR, permCity);
 		customerFT.setADDRLN4(permCity);
 		
 		// set the country String value  <fcub:COUNTRY>?</fcub:COUNTRY> | PERM_COUNTRY | 
 		// MOB_APPLICANT_COMM_DETAILS | 3
-		String permCountry = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getPermCountry();
+		String permCountry = null;
+		 if(null != mobApplicantGuardianDetails){
+			 
+			 permCountry = mobApplicantGuardianDetails.getMobApplicantCommDetail().getPermCountry();
+			}
+			else{
+				permCountry = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getPermCountry();
+			}
+		
 		permCountry = substractChar(3, permCountry);
 		customerFT.setCOUNTRY(permCountry);
 				
@@ -115,9 +151,9 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 			
 			String fName = firstName != null ? firstName : BLANK ;
 			String lName = lastName != null ? lastName : BLANK;
-			String sName = fName + " " + lName;
+			String sName = fName + lName;
 			sName = substractChar(17, sName);
-			System.out.println("sName"+sName);
+			System.out.println("sName:"+sName);
 			customerFT.setSNAME(sName);
 		}
 		
@@ -247,15 +283,15 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 		// <fcub:PPTISSDT>?</fcub:PPTISSDT> Issue date (same as above)  yyyy-mm-dd	|MOB_APPLICANT_PERSONAL_DETAILS	Date in yyyy-mm-dd format						
 		// newly added
 		if( null != passportNo && !passportNo.isEmpty()){	
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			/*SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			Date passportIssueDate = null ;
 			try {
 				passportIssueDate = sdf.parse("01/04/2017");
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-			//Date passportIssueDate = new Date("");//mobCreateCustomerSOAPRequest.getMobApplicantPersonalDetail().getPassportIssueDate();
+			}*/
+			Date passportIssueDate = mobCreateCustomerSOAPRequest.getMobApplicantPersonalDetail().getPassportIssueDate();
 			if( null != passportIssueDate){
 			gcal.setTime(passportIssueDate);
 			XMLGregorianCalendar passIssueDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gcal);
@@ -283,11 +319,13 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 			mailPermSame= Y;
 		}
 		custpersonal.setSAMEPERMADDR(mailPermSame);
-		String mailAddr1 = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getMailAddr1();
-		String mailAddr2 = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getMailAddr2();
-		String mailAddr3 = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getMailAddr3();
-		String mailCity = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getMailCity();
-		String mailCountry = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getMailCountry();
+		
+		String mailAddr1 = null;
+		String mailAddr2 = null;
+		String mailAddr3 = null;
+		String mailCity = null;
+		String mailCountry = null;
+		
 		Long telNoHomeCc = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getTelNoHomeCc();
 		Long mobNoCc = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getMobNoCc();
 		Long faxNoCc = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getFaxNoCc();
@@ -295,11 +333,27 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 		Long faxNo = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getFaxNo();
 		Long mobNo = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getMobNo();
 		
+		if( null != mobApplicantGuardianDetails){
+			 mailAddr1 = mobApplicantGuardianDetails.getMobApplicantCommDetail().getMailAddr1();
+			 mailAddr2 = mobApplicantGuardianDetails.getMobApplicantCommDetail().getMailAddr2();
+			 mailAddr3 = mobApplicantGuardianDetails.getMobApplicantCommDetail().getMailAddr3();
+			 mailCity = mobApplicantGuardianDetails.getMobApplicantCommDetail().getMailCity();
+			 mailCountry = mobApplicantGuardianDetails.getMobApplicantCommDetail().getMailCountry();
+		}
+		else{
+			 mailAddr1 = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getMailAddr1();
+			 mailAddr2 = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getMailAddr2();
+			 mailAddr3 = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getMailAddr3();
+			 mailCity = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getMailCity();
+			 mailCountry = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getMailCountry();
+		}
+		
 		custpersonal.setDADD1(substractChar(MAX_NAME_CHAR,mailAddr1));
 		custpersonal.setDADD2(substractChar(MAX_NAME_CHAR,mailAddr2));
 		custpersonal.setDADD3(substractChar(MAX_NAME_CHAR,mailAddr3));
 		custpersonal.setDADD4(substractChar(MAX_NAME_CHAR,mailCity));
 		custpersonal.setDCNTRY(substractChar(3,mailCountry));
+		
 		
 		// <fcub:TELISDNOPERSONAL>?</fcub:TELISDNOPERSONAL> | TEL_NO_HOME_CC |MOB_APPLICANT_COMM_DETAILS
 		custpersonal.setTELISDNOPERSONAL(new BigDecimal(telNoHomeCc != null && telNoHomeCc !=0 ? telNoHomeCc : 230));
@@ -341,6 +395,7 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 		mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getPermCity();
 		mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getPermCountry();
 		*/
+		
 		//<fcub:PADD1>?</fcub:PADD1>	PERM_ADDR_1	MOB_APPLICANT_COMM_DETAILS					
 		custpersonal.setPADD1(permAddr1);
        // <fcub:PADD3>?</fcub:PADD3>	PERM_ADDR_3	MOB_APPLICANT_COMM_DETAILS							
@@ -351,6 +406,8 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 		custpersonal.setPADD4(permCity);
      //   <fcub:PCNTRY>?</fcub:PCNTRY>	PERM_COUNTRY	MOB_APPLICANT_COMM_DETAILS							
 		custpersonal.setPCNTRY(permCountry);
+		
+			
         
 	//  <fcub:CUST_COMM_MODE>?</fcub:CUST_COMM_MODE> "PREF_COMM_MODE | If email, value = E 
 		//| If SMS value = S"	MOB_ACCOUNT_ADDITIONAL_DETAILS	M or E 						
@@ -445,6 +502,7 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
     //  <fcub:EMPTENURE>?</fcub:EMPTENURE> - No of years - 2 digits - employment 
 	//	tenure	|NO_OF_YEARS_SERVICE	|MOB_APPLICANT_EMPLOYMENT_DTLS	|Should be less than 99						
 		Long noOfYearsService = mobCreateCustomerSOAPRequest.getMobApplicantEmploymentDtl().getNoOfYearsService();
+		noOfYearsService = noOfYearsService != null ?  noOfYearsService : 0;
 		custprof.setEMPTENURE(new BigDecimal(noOfYearsService));
 	// <fcub:CURRDESIG>?</fcub:CURRDESIG> - 	CURR_OCCUPATION	|MOB_APPLICANT_EMPLOYMENT_DTLS	
 		String currOccupation = mobCreateCustomerSOAPRequest.getMobApplicantEmploymentDtl().getCurrOccupation();
@@ -503,8 +561,12 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 		
 		//====================== CustjointFullType ==========================//
 		if(isMinor){
-			CustjointFullType jointcustomer = getJointcustomer(mobApplicantGuardianDetails, gcal);
+			/*CustjointFullType jointcustomer = getJointcustomer(mobApplicantGuardianDetails, gcal);
 			customerFT.setJointcustomer(jointcustomer);
+			 */			
+			// added new
+			LinkedEntityFullType custaccdet = getCustomerRelationshipLinkage(mobApplicantGuardianDetails);
+			customerFT.setCustaccdet(custaccdet);
 		}
 	
 	//---------------end----------------------
@@ -770,7 +832,40 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 		
 		return custLiab;
 	}
-
+	
+	private LinkedEntityFullType getCustomerRelationshipLinkage(MobCreateCustomerSOAPRequest mobApplicantGuardianDetails) {
+	/*	<fcub:Custaccdet>
+        <!--Optional:-->
+        <fcub:CUSTNO></fcub:CUSTNO>
+        <!--Optional:-->
+        <fcub:BRNCD>001</fcub:BRNCD> 
+        <!--Zero or more repetitions:-->
+        <fcub:Relationship-Linkage>
+           <fcub:CUSTOMER>048141</fcub:CUSTOMER> 
+           <fcub:RELATIONSHIP>PRIMARY</fcub:RELATIONSHIP>
+           <fcub:INHERIT>Y</fcub:INHERIT>
+           <fcub:DESCP>AVISHA JINDAL</fcub:DESCP>
+        </fcub:Relationship-Linkage>
+     </fcub:Custaccdet>
+*/
+		LinkedEntityFullType custaccdet = new LinkedEntityFullType();
+		//  <fcub:CUSTNO></fcub:CUSTNO>
+		custaccdet.setCUSTNO(BLANK);
+		
+		//  <fcub:BRNCD>001</fcub:BRNCD> 
+		custaccdet.setBRNCD(DEFAULT_BRANCH);
+		// <fcub:Relationship-Linkage>
+		List<LinkedEntityFullType.RelationshipLinkage> relationshipLinkage = custaccdet.getRelationshipLinkage();
+		
+		RelationshipLinkage relationshipLnk = new RelationshipLinkage();
+		relationshipLnk.setCUSTOMER(mobApplicantGuardianDetails.getMobApplicantPersonalDetail().getCustCif());
+		relationshipLnk.setRELATIONSHIP(PRIMARY);
+		relationshipLnk.setINHERIT(Y);
+		relationshipLnk.setDESCP(getFullName(mobApplicantGuardianDetails));
+		relationshipLinkage.add(relationshipLnk);
+		
+	  return custaccdet;
+	}
 
 	private CustjointFullType getJointcustomer(MobCreateCustomerSOAPRequest mobApplicantGuardianDetails,
 			GregorianCalendar gcal) throws DatatypeConfigurationException {
@@ -798,9 +893,9 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 	 // <fcub:DOB>?</fcub:DOB>	DOB	MOB_APPLICANT_PERSONAL_DETAILS	
 		Date grdDob = mobApplicantGuardianDetails.getMobApplicantPersonalDetail().getDob();
 		if( null != grdDob ){
-		gcal.setTime(grdDob);
-		XMLGregorianCalendar xmlGrdDob = DatatypeFactory.newInstance().newXMLGregorianCalendar(gcal);
-		custjoint1.setDOB(xmlGrdDob);
+			gcal.setTime(grdDob);
+			XMLGregorianCalendar xmlGrdDob = DatatypeFactory.newInstance().newXMLGregorianCalendar(gcal);
+			custjoint1.setDOB(xmlGrdDob);
 		}
 	//  <fcub:SEX>?</fcub:SEX>	SEX	MOB_APPLICANT_PERSONAL_DETAILS	
 		String grdSex = mobApplicantGuardianDetails.getMobApplicantPersonalDetail().getSex();
@@ -827,7 +922,9 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 		
 	// <fcub:TEL>?</fcub:TEL>	TEL_NO_HOME	MOB_APPLICANT_COMM_DETAILS	
 		Long grdTelNoHome = mobApplicantGuardianDetails.getMobApplicantCommDetail().getTelNoHome();
-		custjoint1.setTEL(grdTelNoHome.toString());
+		if( null != grdTelNoHome){
+			custjoint1.setTEL(grdTelNoHome.toString());
+		}
 		
 	// <fcub:EMAIL>?</fcub:EMAIL>	EMAIL	MOB_APPLICANT_PERSONAL_DETAILS							
 		custjoint1.setEMAIL(mobApplicantGuardianDetails.getMobApplicantPersonalDetail().getEmail());

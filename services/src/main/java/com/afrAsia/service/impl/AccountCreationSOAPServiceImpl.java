@@ -198,7 +198,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 							// updating the map
 							accountDtlsMap.get(key).setCif(jnrAccntCifNo);
 							accountDtlsMap.get(key).setCifExist(true);
-							accountDtlsMap.get(key).setSoapResWarning(responseMap.get(WARNING));
+							//accountDtlsMap.get(key).setSoapResWarning(responseMap.get(WARNING) != null? responseMap.get(WARNING) : BLANK);
 						}
 						else{
 							System.out.println(" create customer for junior  [ "+accountDtlsMap.get(key).getRefNo()+" ]  failed. Got jnrAccntCifNo =" + jnrAccntCifNo);
@@ -374,9 +374,9 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 	   if(kycUploadStatus){
 		   mobRmAppRefId.setAppStatus(ACCOUNT_CREATED);
 	   }
-	   else{
+	   /*else{
 		   mobRmAppRefId.setAppStatus(UNDER_PROCESSING);
-	   }
+	   }*/
 	   applicationDetailsDAO.updateMobRmAppRefId(mobRmAppRefId);
 	 //==================================================================//
 	   

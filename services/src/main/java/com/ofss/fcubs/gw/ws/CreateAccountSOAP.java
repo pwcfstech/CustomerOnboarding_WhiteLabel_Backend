@@ -89,8 +89,8 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		
 		// - S - Single, J -Joint | ACCOUNT_CATEGORY	| MOB_ACCOUNT_DETAILS	| 1
 		// <fcub:ACCTYPE>?</fcub:ACCTYPE> 
-		//String accountCategory = mobAccountDetails.getAccountCategory();
-		//custAccFullType.setACCTYPE(accountCategory);
+		String accountCategory = mobAccountDetails.getAccountCategory();
+		custAccFullType.setACCTYPE(accountCategory);
 		
 		// <fcub:ALTACC>?</fcub:ALTACC> - blank
 		//custAccFullType.setALTACC(BLANK);
@@ -123,22 +123,25 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		//custAccFullType.setLOC(DEFAULT_LOC);
 		
 		// <fcub:MEDIA>?</fcub:MEDIA> 	
-		//custAccFullType.setMEDIA(DEFAULT_MEDIA);
+		custAccFullType.setMEDIA(DEFAULT_MEDIA);
 		
 		// Indicated if Cheque book is requires	Defaults to Y	1 (Y/N)
 		// <fcub:CHQBOOK>?</fcub:CHQBOOK>
-		//custAccFullType.setCHQBOOK(Y);
+		custAccFullType.setCHQBOOK(Y);
+		//  <fcub:CHKNAME1>?</fcub:CHKNAME1> - ignore  // new added
+		// error before add : - Cheque Book name is Not Entered Please check!
+		custAccFullType.setCHKNAME1(fullName);
 		
 		// Y <fcub:IBANRQD>?</fcub:IBANRQD>
-		//custAccFullType.setIBANRQD(Y);
+		custAccFullType.setIBANRQD(Y);
 		
 		// Possible values are - S, J, E |Table | MOP| MOB_ACCOUNT_DETAILS
-		//String mop = mobAccountDetails.getMop();
-		//custAccFullType.setOPMODE(mop);
+		String mop = mobAccountDetails.getMop();
+		custAccFullType.setOPMODE(mop);
 		
 		// This is for the signature for the account. Pass Y if it needs to be replicated from CIF 
 		//   <fcub:REPL_CUST_SIG>?</fcub:REPL_CUST_SIG>
-		//custAccFullType.setREPLCUSTSIG(Y);
+		custAccFullType.setREPLCUSTSIG(Y);
 		
 		// There can be maximum 5 joint holders
 		List<CustAccFullType.Jointholders> jointholders = custAccFullType.getJointholders();
@@ -190,7 +193,7 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 			}
 		}
 		
-		/*
+		
 		//  This is for creating cheque book | <fcub:Cust-Acc-Check>
 		 CustAccFullType.CustAccCheck custAccCheck = new CustAccFullType.CustAccCheck();
 		
@@ -231,11 +234,11 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		 // COMM | <fcub:CHQ_TYPE>?</fcub:CHQ_TYPE>
 		 custAccCheck.setCHQTYPE(CHQ_TYPE);
 		 // set the custAccCheck
-	    custAccFullType.setCustAccCheck(custAccCheck);	 */
+	    custAccFullType.setCustAccCheck(custAccCheck);	 
 	 
 	 // This will be an array for all applicants
 	 //   <fcub:Linkedentities> 
-	/*for( String key : accountDtlsMap.keySet()){
+	for( String key : accountDtlsMap.keySet()){
 			AccountCreationDetails accountCrs = accountDtlsMap.get(key);
 			if( null != accountCrs){
 				MobAccountDetail mobAccountDetail = accountCrs.getMobCreateCustomerSOAPRequest().getMobAccountDetail();
@@ -253,7 +256,7 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 				 
 				 String relationship=BLANK;
 				 
-				 if(mobApplicantPersonalDetail2.isProxyHolder()){
+				 if(mobApplicantPersonalDetail2.getIsProxyHolder()){
 					 
 					 relationship = RELATIONSHIP_PROXY;
 				 }
@@ -287,7 +290,7 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 			}
 			
 	 }
-*/
+
 	 //========= CustAccountMISFullType ==============//
 	  CustAccountMISFullType custAcc = new CustAccountMISFullType();
 	  

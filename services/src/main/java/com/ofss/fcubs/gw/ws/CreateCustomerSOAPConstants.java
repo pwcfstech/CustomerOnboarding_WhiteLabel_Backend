@@ -114,7 +114,7 @@ public interface CreateCustomerSOAPConstants {
 		 static final String  TDS_TYPE ="INDIVIDUA";
 		 static final String  SUBSECT ="S95";
 		 
-		 static final String  ACCOUNT_CREATED ="ACCOUNT_CREATED";
+		 static final String  ACCOUNT_CREATED ="ACCOUNT CREATED";
 		 static final String  UNDER_PROCESSING ="UNDER_PROCESSING";
 		 
 		 static final String  CRS_TIN_1 ="CRS_TIN_1";
@@ -123,5 +123,6 @@ public interface CreateCustomerSOAPConstants {
 		 static final String  NO_TIN_OPTION_B ="B";
 		 static final String  FIRST_HEAR_ABOUT_AFRASIA = "FIRST_HEAR_ABOUT_AFRASIA";
 		 static final String  LEISURE_PREFERENCE = "LEISURE_PREFERENCE";
+		 static final String  PRIMARY = "PRIMARY";
 
 }
