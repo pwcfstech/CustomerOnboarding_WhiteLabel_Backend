@@ -70,6 +70,21 @@ public class UpdateApplCheckStatusJpaDaoImpl extends BaseJpaDAOImpl<String, MobA
 		query.executeUpdate();
 	}
 	
+	public MobApplCheckComments storeApplCheckComm(MobApplCheckComments mobApplCheckComments) {
+		getEntityManager().persist(mobApplCheckComments);
+		getEntityManager().flush();
+		return mobApplCheckComments;
+	}
+
+
+	public MobApplCheckComments getApplCheckComm(Long recordId) {
+
+		Query query = getEntityManager()
+				.createQuery("FROM MobApplCheckComments mac WHERE mac.recordId=:recordId");
+		query.setParameter("recordId", recordId);
+		return (MobApplCheckComments) query.getSingleResult();
+	}
+	
 	public void updateMobApplCheckComm(MobApplCheckComments mobApplCheckComments) {
 		String queryString = "UPDATE MobApplCheckComments s SET s.compId=:compId, s.compComment=:compComment,"+
 							" s.icComment=:icComment, s.kycComment=:kycComment, s.wcComment=:wcComment,"+
@@ -83,5 +98,13 @@ public class UpdateApplCheckStatusJpaDaoImpl extends BaseJpaDAOImpl<String, MobA
 		query.setParameter("ccComment", mobApplCheckComments.getCcComment());
 		query.setParameter("appRefId", mobApplCheckComments.getId());
 		query.executeUpdate();
+	}
+	
+	public MobRmAppRefId getMobAppRefId(Long refId) {
+
+		Query query = getEntityManager()
+				.createQuery("FROM MobRmAppRefId mac WHERE mac.id=:refId");
+		query.setParameter("refId", refId);
+		return (MobRmAppRefId) query.getSingleResult();
 	}
 }

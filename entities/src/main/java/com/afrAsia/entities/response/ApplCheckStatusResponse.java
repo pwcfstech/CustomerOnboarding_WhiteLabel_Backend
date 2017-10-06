@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.afrAsia.entities.jpa.MsgHeader;
 
+
 public class ApplCheckStatusResponse implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -35,6 +36,10 @@ public class ApplCheckStatusResponse implements Serializable {
 		
 		private static final long serialVersionUID = 1L;
 		private String success;
+		private String kycUrl;
+		private String icUrl;
+		private String ccUrl;
+		private String wcUrl;
 
 		public String getSuccess() {
 			return success;
@@ -44,10 +49,42 @@ public class ApplCheckStatusResponse implements Serializable {
 			this.success = success;
 		}
 
+		public String getKycUrl() {
+			return kycUrl;
+		}
+
+		public void setKycUrl(String kycUrl) {
+			this.kycUrl = kycUrl;
+		}
+
+		public String getIcUrl() {
+			return icUrl;
+		}
+
+		public void setIcUrl(String icUrl) {
+			this.icUrl = icUrl;
+		}
+
+		public String getCcUrl() {
+			return ccUrl;
+		}
+
+		public void setCcUrl(String ccUrl) {
+			this.ccUrl = ccUrl;
+		}
+
+		public String getWcUrl() {
+			return wcUrl;
+		}
+
+		public void setWcUrl(String wcUrl) {
+			this.wcUrl = wcUrl;
+		}
+
 		@Override
 		public String toString() {
-			return "Data [success=" + success + "]";
+			return "Data [success=" + success + ", kycUrl=" + kycUrl + ", icUrl=" + icUrl + ", ccUrl=" + ccUrl
+					+ ", wcUrl=" + wcUrl + "]";
 		}
-		
 	}
 }

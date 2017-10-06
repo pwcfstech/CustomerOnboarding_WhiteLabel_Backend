@@ -3,9 +3,11 @@ package com.afrAsia.service.impl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.afrAsia.dao.jpa.ComplianceJpaDao;
@@ -35,10 +37,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 	public ComplianceResponse getDetailsByDefault() {
 
 		ComplianceResponse complianceResponse = new ComplianceResponse();
-		
-		ComplianceApps complianceApps = new ComplianceApps();
 
-		//List<ComplianceApps> listOfComplianceApps = new ArrayList<ComplianceApps>();
+		ComplianceApps complianceApps = new ComplianceApps();
 
 		List<Object> detailsByAccountRejected = new ArrayList<Object>();
 
@@ -46,11 +46,17 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 		List<Object> detailsByUnderProcessing = new ArrayList<Object>();
 
+		List<Object> detailsByUnderProcessingMobCheck = new ArrayList<Object>();
+
 		List<AccountsRejected> listAccountsRejected = new ArrayList<AccountsRejected>();
 
 		List<AccountsCreated> listAccountsCreated = new ArrayList<AccountsCreated>();
 
 		List<ApplicationsUnderProcessing> listApplicationsUnderProcessing = new ArrayList<ApplicationsUnderProcessing>();
+
+		List<ApplicationsUnderProcessing> listApplicationsUnderProcessingMobCheck = new ArrayList<ApplicationsUnderProcessing>();
+
+		List<ApplicationsUnderProcessing> listApplicationsUnderProcessingMobFinal = new ArrayList<ApplicationsUnderProcessing>();
 
 		detailsByAccountRejected = (List<Object>) complianceDao.getDetailsByAccountRejectedDefault();
 
@@ -85,7 +91,6 @@ public class ComplianceServiceImpl implements ComplianceService {
 			complianceApps.setAccountsRejected(listAccountsRejected);
 			complianceResponse.setData(complianceApps);
 		}
-		//listOfComplianceApps.add(complianceApps);
 
 		detailsByAccountOpened = (List<Object>) complianceDao.getDetailsByAccountOpenedDefault();
 
@@ -103,15 +108,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 			accountsCreated.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
 
-			try {
-				if (outputs[5].toString() != null)
-					accountsCreated.setAccountNumber(outputs[5].toString());
-				else {
-					accountsCreated.setAccountNumber(null);
-				}
-			} catch (NullPointerException e) {
-				errorLog.error("AccountNumber is Null in getDetailsByDefault(),ComplianceServiceImpl", e);
-			}
+			if (outputs[5] != null)
+				accountsCreated.setAccountNumber(outputs[5].toString());
 
 			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -130,14 +128,13 @@ public class ComplianceServiceImpl implements ComplianceService {
 			complianceApps.setAccountsCreated(listAccountsCreated);
 			complianceResponse.setData(complianceApps);
 		}
-		//listOfComplianceApps.add(complianceApps);
+
 		int k = 0;
+		
 		detailsByUnderProcessing = (List<Object>) complianceDao.getDetailsByUnderProcessingDefault();
 
 		for (Object object : detailsByUnderProcessing) {
-
 			ComplianceApps.ApplicationsUnderProcessing applicationsUnderProcessing = complianceApps.new ApplicationsUnderProcessing();
-
 			Object[] outputs = (Object[]) object;
 
 			applicationsUnderProcessing.setRefNo(outputs[0].toString());
@@ -162,190 +159,218 @@ public class ComplianceServiceImpl implements ComplianceService {
 			applicationsUnderProcessing.setAppSubmittedDate(dateSubmitted);
 			applicationsUnderProcessing.setAppStatus(outputs[6].toString());
 
-			try {
-				applicationsUnderProcessing.setIsAppLocked(outputs[7].toString());
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setIsAppLocked(null);
-			}
-
-			try {
-				applicationsUnderProcessing.setLockedBy(outputs[8].toString());
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setLockedBy(null);
-			}
-
-			try {
-				applicationsUnderProcessing.setIsKycDone(outputs[9].toString());
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setIsKycDone(null);
-			}
-
-			try {
-				applicationsUnderProcessing.setKycStatus(outputs[10].toString());
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setKycStatus(null);
-			}
-
-			try {
-				applicationsUnderProcessing.setKycUrl(outputs[11].toString());
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setKycUrl(null);
-			}
-
-			try {
-				applicationsUnderProcessing.setKycDoneBy(outputs[12].toString());
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setKycDoneBy(null);
-			}
-
-			SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
-
-			String dateKYCUnderProcessing = null;
-
-			try {
-				dateKYCUnderProcessing = outputs[13].toString();
-
-				Date dateKYC = new Date();
-				try {
-					dateKYC = dateFormatUnderProcessing.parse(dateKYCUnderProcessing);
-				} catch (ParseException e) {
-					errorLog.error("dateKYC coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
-				}
-				applicationsUnderProcessing.setKycDate(dateKYC);
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setKycDate(null);
-			}
-
-			try {
-				applicationsUnderProcessing.setIsWcDone(outputs[14].toString());
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setIsWcDone(null);
-			}
-
-			try {
-				applicationsUnderProcessing.setWcUrl(outputs[15].toString());
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setWcUrl(null);
-			}
-			try {
-				applicationsUnderProcessing.setWcStatus(outputs[16].toString());
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setWcStatus(null);
-			}
-			try {
-				applicationsUnderProcessing.setWcDoneBy(outputs[17].toString());
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setWcDoneBy(null);
-			}
-			String dateWCUnderProcessing = null;
-			try {
-				dateWCUnderProcessing = outputs[18].toString();
-
-				Date wcDate = new Date();
-				try {
-					wcDate = dateFormatUnderProcessing.parse(dateWCUnderProcessing);
-				} catch (ParseException e) {
-					errorLog.error("wcDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
-				}
-				applicationsUnderProcessing.setWcDate(wcDate);
-
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setWcDate(null);
-			}
-			try {
-				applicationsUnderProcessing.setIsCcDone(outputs[19].toString());
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setIsCcDone(null);
-			}
-
-			try {
-				applicationsUnderProcessing.setCcUrl(outputs[20].toString());
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setCcUrl(null);
-			}
-			try {
-				applicationsUnderProcessing.setCcStatus(outputs[21].toString());
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setCcStatus(null);
-			}
-			try {
-				applicationsUnderProcessing.setCcDoneBy(outputs[22].toString());
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setCcDoneBy(null);
-			}
-
-			String dateCCUnderProcessing = null;
-			try {
-				dateCCUnderProcessing = outputs[23].toString();
-
-				Date ccDate = new Date();
-				try {
-					ccDate = dateFormatUnderProcessing.parse(dateCCUnderProcessing);
-				} catch (ParseException e) {
-					errorLog.error("ccDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
-				}
-				applicationsUnderProcessing.setCcDate(ccDate);
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setCcDate(null);
-			}
-
-			try {
-				applicationsUnderProcessing.setIsIcDone(outputs[24].toString());
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setIsIcDone(null);
-			}
-			try {
-				applicationsUnderProcessing.setIcUrl(outputs[25].toString());
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setIcUrl(null);
-			}
-
-			try {
-				applicationsUnderProcessing.setIcStatus(outputs[26].toString());
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setIcStatus(null);
-			}
-
-			try {
-				applicationsUnderProcessing.setIcDoneBy(outputs[27].toString());
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setIcDoneBy(null);
-			}
-
-			String dateICUnderProcessing = null;
-			try {
-				dateICUnderProcessing = outputs[28].toString();
-
-				Date icDate = new Date();
-				try {
-					icDate = dateFormatUnderProcessing.parse(dateICUnderProcessing);
-				} catch (ParseException e) {
-					errorLog.error("icDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
-				}
-				applicationsUnderProcessing.setIcDate(icDate);
-			} catch (NullPointerException e) {
-				applicationsUnderProcessing.setIcDate(null);
-			}
-
-			listApplicationsUnderProcessing.add(k, applicationsUnderProcessing);
-			k++;
-			complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessing);
-			complianceResponse.setData(complianceApps);
+			listApplicationsUnderProcessing.add(applicationsUnderProcessing);	
 		}
-		//listOfComplianceApps.add(complianceApps);
-		//complianceResponse.setData(complianceApps);
-		debugLog.debug(
-				"complianceResponse : " + complianceResponse.toString());
+		
+		
+		detailsByUnderProcessingMobCheck = complianceDao.getDetailsByUnderProcessingDefaultMobCheck();
+
+		for (Object objectMobCheck : detailsByUnderProcessingMobCheck) {
+			ComplianceApps.ApplicationsUnderProcessing applicationsUnderProcessing2 = complianceApps.new ApplicationsUnderProcessing();
+			Object[] outputsMobCheck = (Object[]) objectMobCheck;
+
+			applicationsUnderProcessing2.setRefNo(outputsMobCheck[0].toString());
+
+
+			if (outputsMobCheck[1] != null)
+					applicationsUnderProcessing2.setIsAppLocked(outputsMobCheck[1].toString());
+
+			if (outputsMobCheck[2] != null)
+					applicationsUnderProcessing2.setLockedBy(outputsMobCheck[2].toString());
+
+			if (outputsMobCheck[3] != null)
+					applicationsUnderProcessing2.setIsKycDone(outputsMobCheck[3].toString());
+
+				if (outputsMobCheck[4] != null)
+					applicationsUnderProcessing2.setKycStatus(outputsMobCheck[4].toString());
+
+				if (outputsMobCheck[5] != null)
+					applicationsUnderProcessing2.setKycUrl(outputsMobCheck[5].toString());
+
+				if (outputsMobCheck[6] != null)
+					applicationsUnderProcessing2.setKycDoneBy(outputsMobCheck[6].toString());
+
+				SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
+
+				String dateKYCUnderProcessing = null;
+				if (outputsMobCheck[7] != null) {
+					dateKYCUnderProcessing = outputsMobCheck[7].toString();
+
+					Date dateKYC = new Date();
+					try {
+						dateKYC = dateFormatUnderProcessing.parse(dateKYCUnderProcessing);
+					} catch (ParseException e) {
+						errorLog.error("dateKYC coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
+								e);
+					}
+					applicationsUnderProcessing2.setKycDate(dateKYC);
+				}
+
+				if (outputsMobCheck[8] != null)
+					applicationsUnderProcessing2.setIsWcDone(outputsMobCheck[8].toString());
+
+				if (outputsMobCheck[9] != null)
+					applicationsUnderProcessing2.setWcUrl(outputsMobCheck[9].toString());
+
+				if (outputsMobCheck[10] != null)
+					applicationsUnderProcessing2.setWcStatus(outputsMobCheck[10].toString());
+
+				if (outputsMobCheck[11] != null)
+					applicationsUnderProcessing2.setWcDoneBy(outputsMobCheck[11].toString());
+
+				String dateWCUnderProcessing = null;
+				if (outputsMobCheck[12] != null) {
+					dateWCUnderProcessing = outputsMobCheck[12].toString();
+
+					Date wcDate = new Date();
+					try {
+						wcDate = dateFormatUnderProcessing.parse(dateWCUnderProcessing);
+					} catch (ParseException e) {
+						errorLog.error("wcDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
+								e);
+					}
+					applicationsUnderProcessing2.setWcDate(wcDate);
+				}
+
+				if (outputsMobCheck[13] != null)
+					applicationsUnderProcessing2.setIsCcDone(outputsMobCheck[13].toString());
+
+				if (outputsMobCheck[14] != null)
+					applicationsUnderProcessing2.setCcUrl(outputsMobCheck[14].toString());
+
+				if (outputsMobCheck[15] != null)
+					applicationsUnderProcessing2.setCcStatus(outputsMobCheck[15].toString());
+
+				if (outputsMobCheck[16] != null)
+					applicationsUnderProcessing2.setCcDoneBy(outputsMobCheck[16].toString());
+
+				String dateCCUnderProcessing = null;
+				if (outputsMobCheck[17] != null) {
+					dateCCUnderProcessing = outputsMobCheck[17].toString();
+
+					Date ccDate = new Date();
+					try {
+						ccDate = dateFormatUnderProcessing.parse(dateCCUnderProcessing);
+					} catch (ParseException e) {
+						errorLog.error("ccDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
+								e);
+					}
+					applicationsUnderProcessing2.setCcDate(ccDate);
+				}
+
+				if (outputsMobCheck[18] != null)
+					applicationsUnderProcessing2.setIsIcDone(outputsMobCheck[18].toString());
+
+				if (outputsMobCheck[19] != null)
+					applicationsUnderProcessing2.setIcUrl(outputsMobCheck[19].toString());
+
+				if (outputsMobCheck[20] != null)
+					applicationsUnderProcessing2.setIcStatus(outputsMobCheck[20].toString());
+
+				if (outputsMobCheck[21] != null)
+					applicationsUnderProcessing2.setIcDoneBy(outputsMobCheck[21].toString());
+
+				String dateICUnderProcessing = null;
+				if (outputsMobCheck[22] != null) {
+					dateICUnderProcessing = outputsMobCheck[22].toString();
+
+					Date icDate = new Date();
+					try {
+						icDate = dateFormatUnderProcessing.parse(dateICUnderProcessing);
+					} catch (ParseException e) {
+						errorLog.error("icDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
+								e);
+					}
+
+					applicationsUnderProcessing2.setIcDate(icDate);
+				}
+				listApplicationsUnderProcessingMobCheck.add(applicationsUnderProcessing2);
+			}
+
+		List<String> matchedValues = new ArrayList<String>();
+		
+		for(ApplicationsUnderProcessing applicationsUnderPrcsMob : listApplicationsUnderProcessingMobCheck){
+			
+			for(ApplicationsUnderProcessing applicationsUnderPrcs:listApplicationsUnderProcessing){
+				
+				if(StringUtils.trim(applicationsUnderPrcsMob.getRefNo()).equals(StringUtils.trim(applicationsUnderPrcs.getRefNo()))){
+					ApplicationsUnderProcessing finalApplicationsUnderProcessing = complianceApps.new ApplicationsUnderProcessing();	
+					finalApplicationsUnderProcessing.setRefNo(applicationsUnderPrcs.getRefNo());
+					finalApplicationsUnderProcessing.setRecordId(applicationsUnderPrcs.getRecordId());
+					finalApplicationsUnderProcessing.setAppStatus(applicationsUnderPrcs.getAppStatus());
+					finalApplicationsUnderProcessing.setAppSubmittedDate(applicationsUnderPrcs.getAppSubmittedDate());
+					finalApplicationsUnderProcessing.setCustomerName(applicationsUnderPrcs.getCustomerName());
+					finalApplicationsUnderProcessing.setRmName(applicationsUnderPrcs.getRmName());
+					finalApplicationsUnderProcessing.setIsAppLocked(applicationsUnderPrcsMob.getIsAppLocked());
+					finalApplicationsUnderProcessing.setLockedBy(applicationsUnderPrcsMob.getLockedBy());
+
+					finalApplicationsUnderProcessing.setIsKycDone(applicationsUnderPrcsMob.getIsKycDone());
+
+					finalApplicationsUnderProcessing.setKycStatus(applicationsUnderPrcsMob.getKycStatus());
+
+					finalApplicationsUnderProcessing.setKycUrl(applicationsUnderPrcsMob.getKycUrl());
+
+					finalApplicationsUnderProcessing.setKycDoneBy(applicationsUnderPrcsMob.getKycDoneBy());
+
+					finalApplicationsUnderProcessing.setKycDate(applicationsUnderPrcsMob.getKycDate());
+					finalApplicationsUnderProcessing.setIsWcDone(applicationsUnderPrcsMob.getIsWcDone());
+
+					finalApplicationsUnderProcessing.setWcUrl(applicationsUnderPrcsMob.getWcUrl());
+
+					
+					finalApplicationsUnderProcessing.setWcStatus(applicationsUnderPrcsMob.getWcStatus());
+
+					finalApplicationsUnderProcessing.setWcDoneBy(applicationsUnderPrcsMob.getWcDoneBy());
+
+					finalApplicationsUnderProcessing.setWcDate(applicationsUnderPrcsMob.getWcDate());
+
+					finalApplicationsUnderProcessing.setIsCcDone(applicationsUnderPrcsMob.getIsCcDone());
+
+					finalApplicationsUnderProcessing.setCcUrl(applicationsUnderPrcsMob.getCcUrl());
+
+					finalApplicationsUnderProcessing.setCcStatus(applicationsUnderPrcsMob.getCcStatus());
+
+					finalApplicationsUnderProcessing.setCcDoneBy(applicationsUnderPrcsMob.getCcDoneBy());
+
+					finalApplicationsUnderProcessing.setCcDate(applicationsUnderPrcsMob.getCcDate());
+
+					finalApplicationsUnderProcessing.setIsIcDone(applicationsUnderPrcsMob.getIsIcDone());
+
+					finalApplicationsUnderProcessing.setIcUrl(applicationsUnderPrcsMob.getIcUrl());
+
+					finalApplicationsUnderProcessing.setIcStatus(applicationsUnderPrcsMob.getIcStatus());
+
+					finalApplicationsUnderProcessing.setIcDoneBy(applicationsUnderPrcsMob.getIcDoneBy());
+
+					finalApplicationsUnderProcessing.setIcDate(applicationsUnderPrcsMob.getIcDate());
+					
+					listApplicationsUnderProcessingMobFinal.add(finalApplicationsUnderProcessing);
+					matchedValues.add(finalApplicationsUnderProcessing.getRefNo());
+					Collections.sort(listApplicationsUnderProcessingMobFinal);
+					complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessingMobFinal);
+					complianceResponse.setData(complianceApps);
+				}
+			}
+		}
+		
+		for(ApplicationsUnderProcessing applicationsUnderPrcs:listApplicationsUnderProcessing){
+			
+			if(!matchedValues.contains(applicationsUnderPrcs.getRefNo())){
+				listApplicationsUnderProcessingMobFinal.add(applicationsUnderPrcs);
+				Collections.sort(listApplicationsUnderProcessingMobFinal);
+				complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessingMobFinal);
+				complianceResponse.setData(complianceApps);
+			}
+		}
+		debugLog.debug("complianceResponse : " + complianceResponse.toString());
 		return complianceResponse;
 	}
 
 	public ComplianceResponse getDetailsByName(String name, String appStatus) {
 
 		ComplianceResponse complianceResponse = new ComplianceResponse();
-		
-		ComplianceApps complianceApps = new ComplianceApps();
 
-		//List<ComplianceApps> listOfComplianceApps = new ArrayList<ComplianceApps>();
+		ComplianceApps complianceApps = new ComplianceApps();
 
 		List<Object> detailsByAccountRejected = new ArrayList<Object>();
 
@@ -353,11 +378,17 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 		List<Object> detailsByUnderProcessing = new ArrayList<Object>();
 
+		List<Object> detailsByUnderProcessingMobCheck = new ArrayList<Object>();
+
 		List<AccountsRejected> listAccountsRejected = new ArrayList<AccountsRejected>();
 
 		List<AccountsCreated> listAccountsCreated = new ArrayList<AccountsCreated>();
 
 		List<ApplicationsUnderProcessing> listApplicationsUnderProcessing = new ArrayList<ApplicationsUnderProcessing>();
+
+		List<ApplicationsUnderProcessing> listApplicationsUnderProcessingMobCheck = new ArrayList<ApplicationsUnderProcessing>();
+		
+		List<ApplicationsUnderProcessing> listApplicationsUnderProcessingMobFinal = new ArrayList<ApplicationsUnderProcessing>();
 
 		int j = 0;
 
@@ -393,9 +424,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 				listAccountsRejected.add(j, accountsRejected);
 				j++;
 				complianceApps.setAccountsRejected(listAccountsRejected);
-				
+
 			}
-			//listOfComplianceApps.add(complianceApps);
 		}
 		int h = 0;
 		if (appStatus.equalsIgnoreCase("ACCOUNT OPENED")) {
@@ -441,16 +471,14 @@ public class ComplianceServiceImpl implements ComplianceService {
 				h++;
 				complianceApps.setAccountsCreated(listAccountsCreated);
 			}
-			//listOfComplianceApps.add(complianceApps);
 		}
 		int k = 0;
 		if (appStatus.equalsIgnoreCase("Under Processing")) {
+
 			detailsByUnderProcessing = (List<Object>) complianceDao.getDetailsByUnderProcessingName(name);
 
 			for (Object object : detailsByUnderProcessing) {
-
 				ComplianceApps.ApplicationsUnderProcessing applicationsUnderProcessing = complianceApps.new ApplicationsUnderProcessing();
-
 				Object[] outputs = (Object[]) object;
 
 				applicationsUnderProcessing.setRefNo(outputs[0].toString());
@@ -469,197 +497,227 @@ public class ComplianceServiceImpl implements ComplianceService {
 				try {
 					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 				} catch (ParseException e) {
-					errorLog.error("dateSubmitted coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
+					errorLog.error("dateSubmitted coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl", e);
 				}
 
 				applicationsUnderProcessing.setAppSubmittedDate(dateSubmitted);
 				applicationsUnderProcessing.setAppStatus(outputs[6].toString());
 
-				try {
-					applicationsUnderProcessing.setIsAppLocked(outputs[7].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIsAppLocked(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setLockedBy(outputs[8].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setLockedBy(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setIsKycDone(outputs[9].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIsKycDone(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setKycStatus(outputs[10].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setKycStatus(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setKycUrl(outputs[11].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setKycUrl(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setKycDoneBy(outputs[12].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setKycDoneBy(null);
-				}
-
-				SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
-
-				String dateKYCUnderProcessing = null;
-
-				try {
-					dateKYCUnderProcessing = outputs[13].toString();
-
-					Date dateKYC = new Date();
-					try {
-						dateKYC = dateFormatUnderProcessing.parse(dateKYCUnderProcessing);
-					} catch (ParseException e) {
-						errorLog.error("dateKYC coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
-					}
-					applicationsUnderProcessing.setKycDate(dateKYC);
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setKycDate(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setIsWcDone(outputs[14].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIsWcDone(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setWcUrl(outputs[15].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setWcUrl(null);
-				}
-				try {
-					applicationsUnderProcessing.setWcStatus(outputs[16].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setWcStatus(null);
-				}
-				try {
-					applicationsUnderProcessing.setWcDoneBy(outputs[17].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setWcDoneBy(null);
-				}
-				String dateWCUnderProcessing = null;
-				try {
-					dateWCUnderProcessing = outputs[18].toString();
-
-					Date wcDate = new Date();
-					try {
-						wcDate = dateFormatUnderProcessing.parse(dateWCUnderProcessing);
-					} catch (ParseException e) {
-						errorLog.error("wcDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
-					}
-					applicationsUnderProcessing.setWcDate(wcDate);
-
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setWcDate(null);
-				}
-				try {
-					applicationsUnderProcessing.setIsCcDone(outputs[19].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIsCcDone(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setCcUrl(outputs[20].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setCcUrl(null);
-				}
-				try {
-					applicationsUnderProcessing.setCcStatus(outputs[21].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setCcStatus(null);
-				}
-				try {
-					applicationsUnderProcessing.setCcDoneBy(outputs[22].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setCcDoneBy(null);
-				}
-
-				String dateCCUnderProcessing = null;
-				try {
-					dateCCUnderProcessing = outputs[23].toString();
-
-					Date ccDate = new Date();
-					try {
-						ccDate = dateFormatUnderProcessing.parse(dateCCUnderProcessing);
-					} catch (ParseException e) {
-						errorLog.error("ccDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
-					}
-					applicationsUnderProcessing.setCcDate(ccDate);
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setCcDate(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setIsIcDone(outputs[24].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIsIcDone(null);
-				}
-				try {
-					applicationsUnderProcessing.setIcUrl(outputs[25].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIcUrl(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setIcStatus(outputs[26].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIcStatus(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setIcDoneBy(outputs[27].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIcDoneBy(null);
-				}
-
-				String dateICUnderProcessing = null;
-				try {
-					dateICUnderProcessing = outputs[28].toString();
-
-					Date icDate = new Date();
-					try {
-						icDate = dateFormatUnderProcessing.parse(dateICUnderProcessing);
-					} catch (ParseException e) {
-						errorLog.error("icDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
-					}
-					applicationsUnderProcessing.setIcDate(icDate);
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIcDate(null);
-				}
-
-				listApplicationsUnderProcessing.add(k, applicationsUnderProcessing);
-				k++;
-				complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessing);
-				
+				listApplicationsUnderProcessing.add(applicationsUnderProcessing);	
 			}
-			//listOfComplianceApps.add(complianceApps);
+			
+			
+			detailsByUnderProcessingMobCheck = complianceDao.getDetailsByUnderProcessingNameMobCheck(name);
+
+			for (Object objectMobCheck : detailsByUnderProcessingMobCheck) {
+				ComplianceApps.ApplicationsUnderProcessing applicationsUnderProcessing2 = complianceApps.new ApplicationsUnderProcessing();
+				Object[] outputsMobCheck = (Object[]) objectMobCheck;
+
+				applicationsUnderProcessing2.setRefNo(outputsMobCheck[0].toString());
+
+
+				if (outputsMobCheck[1] != null)
+						applicationsUnderProcessing2.setIsAppLocked(outputsMobCheck[1].toString());
+
+				if (outputsMobCheck[2] != null)
+						applicationsUnderProcessing2.setLockedBy(outputsMobCheck[2].toString());
+
+				if (outputsMobCheck[3] != null)
+						applicationsUnderProcessing2.setIsKycDone(outputsMobCheck[3].toString());
+
+					if (outputsMobCheck[4] != null)
+						applicationsUnderProcessing2.setKycStatus(outputsMobCheck[4].toString());
+
+					if (outputsMobCheck[5] != null)
+						applicationsUnderProcessing2.setKycUrl(outputsMobCheck[5].toString());
+
+					if (outputsMobCheck[6] != null)
+						applicationsUnderProcessing2.setKycDoneBy(outputsMobCheck[6].toString());
+
+					SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
+
+					String dateKYCUnderProcessing = null;
+					if (outputsMobCheck[7] != null) {
+						dateKYCUnderProcessing = outputsMobCheck[7].toString();
+
+						Date dateKYC = new Date();
+						try {
+							dateKYC = dateFormatUnderProcessing.parse(dateKYCUnderProcessing);
+						} catch (ParseException e) {
+							errorLog.error("dateKYC coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
+									e);
+						}
+						applicationsUnderProcessing2.setKycDate(dateKYC);
+					}
+
+					if (outputsMobCheck[8] != null)
+						applicationsUnderProcessing2.setIsWcDone(outputsMobCheck[8].toString());
+
+					if (outputsMobCheck[9] != null)
+						applicationsUnderProcessing2.setWcUrl(outputsMobCheck[9].toString());
+
+					if (outputsMobCheck[10] != null)
+						applicationsUnderProcessing2.setWcStatus(outputsMobCheck[10].toString());
+
+					if (outputsMobCheck[11] != null)
+						applicationsUnderProcessing2.setWcDoneBy(outputsMobCheck[11].toString());
+
+					String dateWCUnderProcessing = null;
+					if (outputsMobCheck[12] != null) {
+						dateWCUnderProcessing = outputsMobCheck[12].toString();
+
+						Date wcDate = new Date();
+						try {
+							wcDate = dateFormatUnderProcessing.parse(dateWCUnderProcessing);
+						} catch (ParseException e) {
+							errorLog.error("wcDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
+									e);
+						}
+						applicationsUnderProcessing2.setWcDate(wcDate);
+					}
+
+					if (outputsMobCheck[13] != null)
+						applicationsUnderProcessing2.setIsCcDone(outputsMobCheck[13].toString());
+
+					if (outputsMobCheck[14] != null)
+						applicationsUnderProcessing2.setCcUrl(outputsMobCheck[14].toString());
+
+					if (outputsMobCheck[15] != null)
+						applicationsUnderProcessing2.setCcStatus(outputsMobCheck[15].toString());
+
+					if (outputsMobCheck[16] != null)
+						applicationsUnderProcessing2.setCcDoneBy(outputsMobCheck[16].toString());
+
+					String dateCCUnderProcessing = null;
+					if (outputsMobCheck[17] != null) {
+						dateCCUnderProcessing = outputsMobCheck[17].toString();
+
+						Date ccDate = new Date();
+						try {
+							ccDate = dateFormatUnderProcessing.parse(dateCCUnderProcessing);
+						} catch (ParseException e) {
+							errorLog.error("ccDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
+									e);
+						}
+						applicationsUnderProcessing2.setCcDate(ccDate);
+					}
+
+					if (outputsMobCheck[18] != null)
+						applicationsUnderProcessing2.setIsIcDone(outputsMobCheck[18].toString());
+
+					if (outputsMobCheck[19] != null)
+						applicationsUnderProcessing2.setIcUrl(outputsMobCheck[19].toString());
+
+					if (outputsMobCheck[20] != null)
+						applicationsUnderProcessing2.setIcStatus(outputsMobCheck[20].toString());
+
+					if (outputsMobCheck[21] != null)
+						applicationsUnderProcessing2.setIcDoneBy(outputsMobCheck[21].toString());
+
+					String dateICUnderProcessing = null;
+					if (outputsMobCheck[22] != null) {
+						dateICUnderProcessing = outputsMobCheck[22].toString();
+
+						Date icDate = new Date();
+						try {
+							icDate = dateFormatUnderProcessing.parse(dateICUnderProcessing);
+						} catch (ParseException e) {
+							errorLog.error("icDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
+									e);
+						}
+
+						applicationsUnderProcessing2.setIcDate(icDate);
+					}
+					listApplicationsUnderProcessingMobCheck.add(applicationsUnderProcessing2);
+				}
+
+			List<String> matchedValues = new ArrayList<String>();
+			
+			for(ApplicationsUnderProcessing applicationsUnderPrcsMob : listApplicationsUnderProcessingMobCheck){
+				
+				for(ApplicationsUnderProcessing applicationsUnderPrcs:listApplicationsUnderProcessing){
+					
+					if(StringUtils.trim(applicationsUnderPrcsMob.getRefNo()).equals(StringUtils.trim(applicationsUnderPrcs.getRefNo()))){
+						ApplicationsUnderProcessing finalApplicationsUnderProcessing = complianceApps.new ApplicationsUnderProcessing();	
+						finalApplicationsUnderProcessing.setRefNo(applicationsUnderPrcs.getRefNo());
+						finalApplicationsUnderProcessing.setRecordId(applicationsUnderPrcs.getRecordId());
+						finalApplicationsUnderProcessing.setAppStatus(applicationsUnderPrcs.getAppStatus());
+						finalApplicationsUnderProcessing.setAppSubmittedDate(applicationsUnderPrcs.getAppSubmittedDate());
+						finalApplicationsUnderProcessing.setCustomerName(applicationsUnderPrcs.getCustomerName());
+						finalApplicationsUnderProcessing.setRmName(applicationsUnderPrcs.getRmName());
+						finalApplicationsUnderProcessing.setIsAppLocked(applicationsUnderPrcsMob.getIsAppLocked());
+						finalApplicationsUnderProcessing.setLockedBy(applicationsUnderPrcsMob.getLockedBy());
+
+						finalApplicationsUnderProcessing.setIsKycDone(applicationsUnderPrcsMob.getIsKycDone());
+
+						finalApplicationsUnderProcessing.setKycStatus(applicationsUnderPrcsMob.getKycStatus());
+
+						finalApplicationsUnderProcessing.setKycUrl(applicationsUnderPrcsMob.getKycUrl());
+
+						finalApplicationsUnderProcessing.setKycDoneBy(applicationsUnderPrcsMob.getKycDoneBy());
+
+						finalApplicationsUnderProcessing.setKycDate(applicationsUnderPrcsMob.getKycDate());
+						finalApplicationsUnderProcessing.setIsWcDone(applicationsUnderPrcsMob.getIsWcDone());
+
+						finalApplicationsUnderProcessing.setWcUrl(applicationsUnderPrcsMob.getWcUrl());
+
+						
+						finalApplicationsUnderProcessing.setWcStatus(applicationsUnderPrcsMob.getWcStatus());
+
+						finalApplicationsUnderProcessing.setWcDoneBy(applicationsUnderPrcsMob.getWcDoneBy());
+
+						finalApplicationsUnderProcessing.setWcDate(applicationsUnderPrcsMob.getWcDate());
+
+						finalApplicationsUnderProcessing.setIsCcDone(applicationsUnderPrcsMob.getIsCcDone());
+
+						finalApplicationsUnderProcessing.setCcUrl(applicationsUnderPrcsMob.getCcUrl());
+
+						finalApplicationsUnderProcessing.setCcStatus(applicationsUnderPrcsMob.getCcStatus());
+
+						finalApplicationsUnderProcessing.setCcDoneBy(applicationsUnderPrcsMob.getCcDoneBy());
+
+						finalApplicationsUnderProcessing.setCcDate(applicationsUnderPrcsMob.getCcDate());
+
+						finalApplicationsUnderProcessing.setIsIcDone(applicationsUnderPrcsMob.getIsIcDone());
+
+						finalApplicationsUnderProcessing.setIcUrl(applicationsUnderPrcsMob.getIcUrl());
+
+						finalApplicationsUnderProcessing.setIcStatus(applicationsUnderPrcsMob.getIcStatus());
+
+						finalApplicationsUnderProcessing.setIcDoneBy(applicationsUnderPrcsMob.getIcDoneBy());
+
+						finalApplicationsUnderProcessing.setIcDate(applicationsUnderPrcsMob.getIcDate());
+						
+						listApplicationsUnderProcessingMobFinal.add(finalApplicationsUnderProcessing);
+						matchedValues.add(finalApplicationsUnderProcessing.getRefNo());
+						Collections.sort(listApplicationsUnderProcessingMobFinal);
+						complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessingMobFinal);
+						//complianceResponse.setData(complianceApps);
+					}
+				}
+			}
+			
+			for(ApplicationsUnderProcessing applicationsUnderPrcs:listApplicationsUnderProcessing){
+				
+				if(!matchedValues.contains(applicationsUnderPrcs.getRefNo())){
+					listApplicationsUnderProcessingMobFinal.add(applicationsUnderPrcs);
+					Collections.sort(listApplicationsUnderProcessingMobFinal);
+					complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessingMobFinal);
+					//complianceResponse.setData(complianceApps);
+				}
+			}
+
 		}
 		complianceResponse.setData(complianceApps);
-		debugLog.debug(
-				"complianceResponse  : " + complianceResponse.toString());
+		debugLog.debug("complianceResponse  : " + complianceResponse.toString());
 		return complianceResponse;
 	}
 
 	public ComplianceResponse getDetailsByDates(Date startDate, Date endDate, String appStatus) {
 
 		ComplianceResponse complianceResponse = new ComplianceResponse();
-		
-		ComplianceApps complianceApps = new ComplianceApps();
 
-		//List<ComplianceApps> listOfComplianceApps = new ArrayList<ComplianceApps>();
+		ComplianceApps complianceApps = new ComplianceApps();
 
 		List<Object> detailsByAccountRejected = new ArrayList<Object>();
 
@@ -667,11 +725,17 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 		List<Object> detailsByUnderProcessing = new ArrayList<Object>();
 
+		List<Object> detailsByUnderProcessingMobCheck = new ArrayList<Object>();
+
 		List<AccountsRejected> listAccountsRejected = new ArrayList<AccountsRejected>();
 
 		List<AccountsCreated> listAccountsCreated = new ArrayList<AccountsCreated>();
 
 		List<ApplicationsUnderProcessing> listApplicationsUnderProcessing = new ArrayList<ApplicationsUnderProcessing>();
+
+		List<ApplicationsUnderProcessing> listApplicationsUnderProcessingMobCheck = new ArrayList<ApplicationsUnderProcessing>();
+		
+		List<ApplicationsUnderProcessing> listApplicationsUnderProcessingMobFinal = new ArrayList<ApplicationsUnderProcessing>();
 
 		if (appStatus.equalsIgnoreCase("ACCOUNT REJECTED")) {
 			detailsByAccountRejected = (List<Object>) complianceDao.getDetailsByAccountRejectedDates(startDate,
@@ -709,7 +773,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 				listAccountsRejected.add(j, accountsRejected);
 				j++;
 				complianceApps.setAccountsRejected(listAccountsRejected);
-				
+
 			}
 		}
 		int h = 0;
@@ -756,19 +820,17 @@ public class ComplianceServiceImpl implements ComplianceService {
 				listAccountsCreated.add(h, accountsCreated);
 				h++;
 				complianceApps.setAccountsCreated(listAccountsCreated);
-				
+
 			}
-			//listOfComplianceApps.add(complianceApps);
 		}
 		int k = 0;
 		if (appStatus.equalsIgnoreCase("Under Processing")) {
+
 			detailsByUnderProcessing = (List<Object>) complianceDao.getDetailsByUnderProcessingDates(startDate,
 					endDate);
 
 			for (Object object : detailsByUnderProcessing) {
-
 				ComplianceApps.ApplicationsUnderProcessing applicationsUnderProcessing = complianceApps.new ApplicationsUnderProcessing();
-
 				Object[] outputs = (Object[]) object;
 
 				applicationsUnderProcessing.setRefNo(outputs[0].toString());
@@ -787,198 +849,227 @@ public class ComplianceServiceImpl implements ComplianceService {
 				try {
 					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 				} catch (ParseException e) {
-					errorLog.error("dateSubmitted coud not be parsed in getDetailsByDates(),ComplianceServiceImpl", e);
+					errorLog.error("dateSubmitted coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl", e);
 				}
 
 				applicationsUnderProcessing.setAppSubmittedDate(dateSubmitted);
 				applicationsUnderProcessing.setAppStatus(outputs[6].toString());
 
-				try {
-					applicationsUnderProcessing.setIsAppLocked(outputs[7].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIsAppLocked(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setLockedBy(outputs[8].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setLockedBy(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setIsKycDone(outputs[9].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIsKycDone(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setKycStatus(outputs[10].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setKycStatus(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setKycUrl(outputs[11].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setKycUrl(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setKycDoneBy(outputs[12].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setKycDoneBy(null);
-				}
-
-				SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
-
-				String dateKYCUnderProcessing = null;
-
-				try {
-					dateKYCUnderProcessing = outputs[13].toString();
-
-					Date dateKYC = new Date();
-					try {
-						dateKYC = dateFormatUnderProcessing.parse(dateKYCUnderProcessing);
-					} catch (ParseException e) {
-						errorLog.error("dateKYC coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
-					}
-					applicationsUnderProcessing.setKycDate(dateKYC);
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setKycDate(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setIsWcDone(outputs[14].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIsWcDone(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setWcUrl(outputs[15].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setWcUrl(null);
-				}
-				try {
-					applicationsUnderProcessing.setWcStatus(outputs[16].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setWcStatus(null);
-				}
-				try {
-					applicationsUnderProcessing.setWcDoneBy(outputs[17].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setWcDoneBy(null);
-				}
-				String dateWCUnderProcessing = null;
-				try {
-					dateWCUnderProcessing = outputs[18].toString();
-
-					Date wcDate = new Date();
-					try {
-						wcDate = dateFormatUnderProcessing.parse(dateWCUnderProcessing);
-					} catch (ParseException e) {
-						errorLog.error("wcDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
-					}
-					applicationsUnderProcessing.setWcDate(wcDate);
-
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setWcDate(null);
-				}
-				try {
-					applicationsUnderProcessing.setIsCcDone(outputs[19].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIsCcDone(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setCcUrl(outputs[20].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setCcUrl(null);
-				}
-				try {
-					applicationsUnderProcessing.setCcStatus(outputs[21].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setCcStatus(null);
-				}
-				try {
-					applicationsUnderProcessing.setCcDoneBy(outputs[22].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setCcDoneBy(null);
-				}
-
-				String dateCCUnderProcessing = null;
-				try {
-					dateCCUnderProcessing = outputs[23].toString();
-
-					Date ccDate = new Date();
-					try {
-						ccDate = dateFormatUnderProcessing.parse(dateCCUnderProcessing);
-					} catch (ParseException e) {
-						errorLog.error("ccDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
-					}
-					applicationsUnderProcessing.setCcDate(ccDate);
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setCcDate(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setIsIcDone(outputs[24].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIsIcDone(null);
-				}
-				try {
-					applicationsUnderProcessing.setIcUrl(outputs[25].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIcUrl(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setIcStatus(outputs[26].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIcStatus(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setIcDoneBy(outputs[27].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIcDoneBy(null);
-				}
-
-				String dateICUnderProcessing = null;
-				try {
-					dateICUnderProcessing = outputs[28].toString();
-
-					Date icDate = new Date();
-					try {
-						icDate = dateFormatUnderProcessing.parse(dateICUnderProcessing);
-					} catch (ParseException e) {
-						errorLog.error("icDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
-					}
-					applicationsUnderProcessing.setIcDate(icDate);
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIcDate(null);
-				}
-
-				listApplicationsUnderProcessing.add(k, applicationsUnderProcessing);
-				k++;
-				complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessing);
-				
+				listApplicationsUnderProcessing.add(applicationsUnderProcessing);	
 			}
-			//listOfComplianceApps.add(complianceApps);
+			
+			
+			detailsByUnderProcessingMobCheck = complianceDao.getDetailsByUnderProcessingDatesMobCheck(startDate, endDate);
+
+			for (Object objectMobCheck : detailsByUnderProcessingMobCheck) {
+				ComplianceApps.ApplicationsUnderProcessing applicationsUnderProcessing2 = complianceApps.new ApplicationsUnderProcessing();
+				Object[] outputsMobCheck = (Object[]) objectMobCheck;
+
+				applicationsUnderProcessing2.setRefNo(outputsMobCheck[0].toString());
+
+
+				if (outputsMobCheck[1] != null)
+						applicationsUnderProcessing2.setIsAppLocked(outputsMobCheck[1].toString());
+
+				if (outputsMobCheck[2] != null)
+						applicationsUnderProcessing2.setLockedBy(outputsMobCheck[2].toString());
+
+				if (outputsMobCheck[3] != null)
+						applicationsUnderProcessing2.setIsKycDone(outputsMobCheck[3].toString());
+
+					if (outputsMobCheck[4] != null)
+						applicationsUnderProcessing2.setKycStatus(outputsMobCheck[4].toString());
+
+					if (outputsMobCheck[5] != null)
+						applicationsUnderProcessing2.setKycUrl(outputsMobCheck[5].toString());
+
+					if (outputsMobCheck[6] != null)
+						applicationsUnderProcessing2.setKycDoneBy(outputsMobCheck[6].toString());
+
+					SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
+
+					String dateKYCUnderProcessing = null;
+					if (outputsMobCheck[7] != null) {
+						dateKYCUnderProcessing = outputsMobCheck[7].toString();
+
+						Date dateKYC = new Date();
+						try {
+							dateKYC = dateFormatUnderProcessing.parse(dateKYCUnderProcessing);
+						} catch (ParseException e) {
+							errorLog.error("dateKYC coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
+									e);
+						}
+						applicationsUnderProcessing2.setKycDate(dateKYC);
+					}
+
+					if (outputsMobCheck[8] != null)
+						applicationsUnderProcessing2.setIsWcDone(outputsMobCheck[8].toString());
+
+					if (outputsMobCheck[9] != null)
+						applicationsUnderProcessing2.setWcUrl(outputsMobCheck[9].toString());
+
+					if (outputsMobCheck[10] != null)
+						applicationsUnderProcessing2.setWcStatus(outputsMobCheck[10].toString());
+
+					if (outputsMobCheck[11] != null)
+						applicationsUnderProcessing2.setWcDoneBy(outputsMobCheck[11].toString());
+
+					String dateWCUnderProcessing = null;
+					if (outputsMobCheck[12] != null) {
+						dateWCUnderProcessing = outputsMobCheck[12].toString();
+
+						Date wcDate = new Date();
+						try {
+							wcDate = dateFormatUnderProcessing.parse(dateWCUnderProcessing);
+						} catch (ParseException e) {
+							errorLog.error("wcDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
+									e);
+						}
+						applicationsUnderProcessing2.setWcDate(wcDate);
+					}
+
+					if (outputsMobCheck[13] != null)
+						applicationsUnderProcessing2.setIsCcDone(outputsMobCheck[13].toString());
+
+					if (outputsMobCheck[14] != null)
+						applicationsUnderProcessing2.setCcUrl(outputsMobCheck[14].toString());
+
+					if (outputsMobCheck[15] != null)
+						applicationsUnderProcessing2.setCcStatus(outputsMobCheck[15].toString());
+
+					if (outputsMobCheck[16] != null)
+						applicationsUnderProcessing2.setCcDoneBy(outputsMobCheck[16].toString());
+
+					String dateCCUnderProcessing = null;
+					if (outputsMobCheck[17] != null) {
+						dateCCUnderProcessing = outputsMobCheck[17].toString();
+
+						Date ccDate = new Date();
+						try {
+							ccDate = dateFormatUnderProcessing.parse(dateCCUnderProcessing);
+						} catch (ParseException e) {
+							errorLog.error("ccDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
+									e);
+						}
+						applicationsUnderProcessing2.setCcDate(ccDate);
+					}
+
+					if (outputsMobCheck[18] != null)
+						applicationsUnderProcessing2.setIsIcDone(outputsMobCheck[18].toString());
+
+					if (outputsMobCheck[19] != null)
+						applicationsUnderProcessing2.setIcUrl(outputsMobCheck[19].toString());
+
+					if (outputsMobCheck[20] != null)
+						applicationsUnderProcessing2.setIcStatus(outputsMobCheck[20].toString());
+
+					if (outputsMobCheck[21] != null)
+						applicationsUnderProcessing2.setIcDoneBy(outputsMobCheck[21].toString());
+
+					String dateICUnderProcessing = null;
+					if (outputsMobCheck[22] != null) {
+						dateICUnderProcessing = outputsMobCheck[22].toString();
+
+						Date icDate = new Date();
+						try {
+							icDate = dateFormatUnderProcessing.parse(dateICUnderProcessing);
+						} catch (ParseException e) {
+							errorLog.error("icDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
+									e);
+						}
+
+						applicationsUnderProcessing2.setIcDate(icDate);
+					}
+					listApplicationsUnderProcessingMobCheck.add(applicationsUnderProcessing2);
+				}
+
+			List<String> matchedValues = new ArrayList<String>();
+			
+			for(ApplicationsUnderProcessing applicationsUnderPrcsMob : listApplicationsUnderProcessingMobCheck){
+				
+				for(ApplicationsUnderProcessing applicationsUnderPrcs:listApplicationsUnderProcessing){
+					
+					if(StringUtils.trim(applicationsUnderPrcsMob.getRefNo()).equals(StringUtils.trim(applicationsUnderPrcs.getRefNo()))){
+						ApplicationsUnderProcessing finalApplicationsUnderProcessing = complianceApps.new ApplicationsUnderProcessing();	
+						finalApplicationsUnderProcessing.setRefNo(applicationsUnderPrcs.getRefNo());
+						finalApplicationsUnderProcessing.setRecordId(applicationsUnderPrcs.getRecordId());
+						finalApplicationsUnderProcessing.setAppStatus(applicationsUnderPrcs.getAppStatus());
+						finalApplicationsUnderProcessing.setAppSubmittedDate(applicationsUnderPrcs.getAppSubmittedDate());
+						finalApplicationsUnderProcessing.setCustomerName(applicationsUnderPrcs.getCustomerName());
+						finalApplicationsUnderProcessing.setRmName(applicationsUnderPrcs.getRmName());
+						finalApplicationsUnderProcessing.setIsAppLocked(applicationsUnderPrcsMob.getIsAppLocked());
+						finalApplicationsUnderProcessing.setLockedBy(applicationsUnderPrcsMob.getLockedBy());
+
+						finalApplicationsUnderProcessing.setIsKycDone(applicationsUnderPrcsMob.getIsKycDone());
+
+						finalApplicationsUnderProcessing.setKycStatus(applicationsUnderPrcsMob.getKycStatus());
+
+						finalApplicationsUnderProcessing.setKycUrl(applicationsUnderPrcsMob.getKycUrl());
+
+						finalApplicationsUnderProcessing.setKycDoneBy(applicationsUnderPrcsMob.getKycDoneBy());
+
+						finalApplicationsUnderProcessing.setKycDate(applicationsUnderPrcsMob.getKycDate());
+						finalApplicationsUnderProcessing.setIsWcDone(applicationsUnderPrcsMob.getIsWcDone());
+
+						finalApplicationsUnderProcessing.setWcUrl(applicationsUnderPrcsMob.getWcUrl());
+
+						
+						finalApplicationsUnderProcessing.setWcStatus(applicationsUnderPrcsMob.getWcStatus());
+
+						finalApplicationsUnderProcessing.setWcDoneBy(applicationsUnderPrcsMob.getWcDoneBy());
+
+						finalApplicationsUnderProcessing.setWcDate(applicationsUnderPrcsMob.getWcDate());
+
+						finalApplicationsUnderProcessing.setIsCcDone(applicationsUnderPrcsMob.getIsCcDone());
+
+						finalApplicationsUnderProcessing.setCcUrl(applicationsUnderPrcsMob.getCcUrl());
+
+						finalApplicationsUnderProcessing.setCcStatus(applicationsUnderPrcsMob.getCcStatus());
+
+						finalApplicationsUnderProcessing.setCcDoneBy(applicationsUnderPrcsMob.getCcDoneBy());
+
+						finalApplicationsUnderProcessing.setCcDate(applicationsUnderPrcsMob.getCcDate());
+
+						finalApplicationsUnderProcessing.setIsIcDone(applicationsUnderPrcsMob.getIsIcDone());
+
+						finalApplicationsUnderProcessing.setIcUrl(applicationsUnderPrcsMob.getIcUrl());
+
+						finalApplicationsUnderProcessing.setIcStatus(applicationsUnderPrcsMob.getIcStatus());
+
+						finalApplicationsUnderProcessing.setIcDoneBy(applicationsUnderPrcsMob.getIcDoneBy());
+
+						finalApplicationsUnderProcessing.setIcDate(applicationsUnderPrcsMob.getIcDate());
+						
+						listApplicationsUnderProcessingMobFinal.add(finalApplicationsUnderProcessing);
+						matchedValues.add(finalApplicationsUnderProcessing.getRefNo());
+						Collections.sort(listApplicationsUnderProcessingMobFinal);
+						complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessingMobFinal);
+						//complianceResponse.setData(complianceApps);
+					}
+				}
+			}
+			
+			for(ApplicationsUnderProcessing applicationsUnderPrcs:listApplicationsUnderProcessing){
+				
+				if(!matchedValues.contains(applicationsUnderPrcs.getRefNo())){
+					listApplicationsUnderProcessingMobFinal.add(applicationsUnderPrcs);
+					Collections.sort(listApplicationsUnderProcessingMobFinal);
+					complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessingMobFinal);
+					//complianceResponse.setData(complianceApps);
+				}
+			}
 		}
-		
+
 		complianceResponse.setData(complianceApps);
-		debugLog.debug(
-				"complianceResponse :: " + complianceResponse.toString());
+		debugLog.debug("complianceResponse :: " + complianceResponse.toString());
 		return complianceResponse;
 	}
 
 	public ComplianceResponse getDetailsByAllCriteria(String name, Date startDate, Date endDate, String appStatus) {
 
 		ComplianceResponse complianceResponse = new ComplianceResponse();
-		
-		ComplianceApps complianceApps = new ComplianceApps();
 
-		//List<ComplianceApps> listOfComplianceApps = new ArrayList<ComplianceApps>();
+		ComplianceApps complianceApps = new ComplianceApps();
 
 		List<Object> detailsByAccountRejected = new ArrayList<Object>();
 
@@ -986,11 +1077,17 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 		List<Object> detailsByUnderProcessing = new ArrayList<Object>();
 
+		List<Object> detailsByUnderProcessingMobCheck = new ArrayList<Object>();
+
 		List<AccountsRejected> listAccountsRejected = new ArrayList<AccountsRejected>();
 
 		List<AccountsCreated> listAccountsCreated = new ArrayList<AccountsCreated>();
 
 		List<ApplicationsUnderProcessing> listApplicationsUnderProcessing = new ArrayList<ApplicationsUnderProcessing>();
+
+		List<ApplicationsUnderProcessing> listApplicationsUnderProcessingMobCheck = new ArrayList<ApplicationsUnderProcessing>();
+		
+		List<ApplicationsUnderProcessing> listApplicationsUnderProcessingMobFinal = new ArrayList<ApplicationsUnderProcessing>();
 
 		if (appStatus.equalsIgnoreCase("ACCOUNT REJECTED")) {
 			detailsByAccountRejected = (List<Object>) complianceDao.getDetailsByAccountRejectedAllCriteria(name,
@@ -1029,9 +1126,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 				listAccountsRejected.add(j, accountsRejected);
 				j++;
 				complianceApps.setAccountsRejected(listAccountsRejected);
-				
 			}
-			//listOfComplianceApps.add(complianceApps);
 		}
 		int h = 0;
 		if (appStatus.equalsIgnoreCase("ACCOUNT OPENED")) {
@@ -1079,18 +1174,17 @@ public class ComplianceServiceImpl implements ComplianceService {
 				listAccountsCreated.add(h, accountsCreated);
 				h++;
 				complianceApps.setAccountsCreated(listAccountsCreated);
-				
+
 			}
-			//listOfComplianceApps.add(complianceApps);
 		}
 		int k = 0;
 		if (appStatus.equalsIgnoreCase("Under Processing")) {
-			detailsByUnderProcessing = (List<Object>) complianceDao.getDetailsByUnderProcessingName(name);
+
+			detailsByUnderProcessing = (List<Object>) complianceDao.getDetailsByUnderProcessingAllCriteria(name,
+					startDate, endDate);
 
 			for (Object object : detailsByUnderProcessing) {
-
 				ComplianceApps.ApplicationsUnderProcessing applicationsUnderProcessing = complianceApps.new ApplicationsUnderProcessing();
-
 				Object[] outputs = (Object[]) object;
 
 				applicationsUnderProcessing.setRefNo(outputs[0].toString());
@@ -1109,187 +1203,222 @@ public class ComplianceServiceImpl implements ComplianceService {
 				try {
 					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 				} catch (ParseException e) {
-					errorLog.error(
-							"dateSubmitted coud not be parsed in getDetailsByAllCriteria(),ComplianceServiceImpl", e);
+					errorLog.error("dateSubmitted coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl", e);
 				}
 
 				applicationsUnderProcessing.setAppSubmittedDate(dateSubmitted);
 				applicationsUnderProcessing.setAppStatus(outputs[6].toString());
 
-				try {
-					applicationsUnderProcessing.setIsAppLocked(outputs[7].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIsAppLocked(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setLockedBy(outputs[8].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setLockedBy(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setIsKycDone(outputs[9].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIsKycDone(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setKycStatus(outputs[10].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setKycStatus(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setKycUrl(outputs[11].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setKycUrl(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setKycDoneBy(outputs[12].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setKycDoneBy(null);
-				}
-
-				SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
-
-				String dateKYCUnderProcessing = null;
-
-				try {
-					dateKYCUnderProcessing = outputs[13].toString();
-
-					Date dateKYC = new Date();
-					try {
-						dateKYC = dateFormatUnderProcessing.parse(dateKYCUnderProcessing);
-					} catch (ParseException e) {
-						errorLog.error("dateKYC coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
-					}
-					applicationsUnderProcessing.setKycDate(dateKYC);
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setKycDate(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setIsWcDone(outputs[14].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIsWcDone(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setWcUrl(outputs[15].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setWcUrl(null);
-				}
-				try {
-					applicationsUnderProcessing.setWcStatus(outputs[16].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setWcStatus(null);
-				}
-				try {
-					applicationsUnderProcessing.setWcDoneBy(outputs[17].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setWcDoneBy(null);
-				}
-				String dateWCUnderProcessing = null;
-				try {
-					dateWCUnderProcessing = outputs[18].toString();
-
-					Date wcDate = new Date();
-					try {
-						wcDate = dateFormatUnderProcessing.parse(dateWCUnderProcessing);
-					} catch (ParseException e) {
-						errorLog.error("wcDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
-					}
-					applicationsUnderProcessing.setWcDate(wcDate);
-
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setWcDate(null);
-				}
-				try {
-					applicationsUnderProcessing.setIsCcDone(outputs[19].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIsCcDone(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setCcUrl(outputs[20].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setCcUrl(null);
-				}
-				try {
-					applicationsUnderProcessing.setCcStatus(outputs[21].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setCcStatus(null);
-				}
-				try {
-					applicationsUnderProcessing.setCcDoneBy(outputs[22].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setCcDoneBy(null);
-				}
-
-				String dateCCUnderProcessing = null;
-				try {
-					dateCCUnderProcessing = outputs[23].toString();
-
-					Date ccDate = new Date();
-					try {
-						ccDate = dateFormatUnderProcessing.parse(dateCCUnderProcessing);
-					} catch (ParseException e) {
-						errorLog.error("ccDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
-					}
-					applicationsUnderProcessing.setCcDate(ccDate);
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setCcDate(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setIsIcDone(outputs[24].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIsIcDone(null);
-				}
-				try {
-					applicationsUnderProcessing.setIcUrl(outputs[25].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIcUrl(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setIcStatus(outputs[26].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIcStatus(null);
-				}
-
-				try {
-					applicationsUnderProcessing.setIcDoneBy(outputs[27].toString());
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIcDoneBy(null);
-				}
-
-				String dateICUnderProcessing = null;
-				try {
-					dateICUnderProcessing = outputs[28].toString();
-
-					Date icDate = new Date();
-					try {
-						icDate = dateFormatUnderProcessing.parse(dateICUnderProcessing);
-					} catch (ParseException e) {
-						errorLog.error("icDate coud not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
-					}
-					applicationsUnderProcessing.setIcDate(icDate);
-				} catch (NullPointerException e) {
-					applicationsUnderProcessing.setIcDate(null);
-				}
-
-				listApplicationsUnderProcessing.add(k, applicationsUnderProcessing);
-				k++;
-				complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessing);
+				listApplicationsUnderProcessing.add(applicationsUnderProcessing);	
 			}
-			//listOfComplianceApps.add(complianceApps);
+			
+			
+			detailsByUnderProcessingMobCheck = complianceDao.getDetailsByUnderProcessingAllCriteriaMobCheck(name,
+					startDate, endDate);
+
+			for (Object objectMobCheck : detailsByUnderProcessingMobCheck) {
+				ComplianceApps.ApplicationsUnderProcessing applicationsUnderProcessing2 = complianceApps.new ApplicationsUnderProcessing();
+				Object[] outputsMobCheck = (Object[]) objectMobCheck;
+
+				applicationsUnderProcessing2.setRefNo(outputsMobCheck[0].toString());
+
+
+				if (outputsMobCheck[1] != null)
+						applicationsUnderProcessing2.setIsAppLocked(outputsMobCheck[1].toString());
+
+				if (outputsMobCheck[2] != null)
+						applicationsUnderProcessing2.setLockedBy(outputsMobCheck[2].toString());
+
+				if (outputsMobCheck[3] != null)
+						applicationsUnderProcessing2.setIsKycDone(outputsMobCheck[3].toString());
+
+					if (outputsMobCheck[4] != null)
+						applicationsUnderProcessing2.setKycStatus(outputsMobCheck[4].toString());
+
+					if (outputsMobCheck[5] != null)
+						applicationsUnderProcessing2.setKycUrl(outputsMobCheck[5].toString());
+
+					if (outputsMobCheck[6] != null)
+						applicationsUnderProcessing2.setKycDoneBy(outputsMobCheck[6].toString());
+
+					SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
+
+					String dateKYCUnderProcessing = null;
+					if (outputsMobCheck[7] != null) {
+						dateKYCUnderProcessing = outputsMobCheck[7].toString();
+
+						Date dateKYC = new Date();
+						try {
+							dateKYC = dateFormatUnderProcessing.parse(dateKYCUnderProcessing);
+						} catch (ParseException e) {
+							errorLog.error("dateKYC coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
+									e);
+						}
+						applicationsUnderProcessing2.setKycDate(dateKYC);
+					}
+
+					if (outputsMobCheck[8] != null)
+						applicationsUnderProcessing2.setIsWcDone(outputsMobCheck[8].toString());
+
+					if (outputsMobCheck[9] != null)
+						applicationsUnderProcessing2.setWcUrl(outputsMobCheck[9].toString());
+
+					if (outputsMobCheck[10] != null)
+						applicationsUnderProcessing2.setWcStatus(outputsMobCheck[10].toString());
+
+					if (outputsMobCheck[11] != null)
+						applicationsUnderProcessing2.setWcDoneBy(outputsMobCheck[11].toString());
+
+					String dateWCUnderProcessing = null;
+					if (outputsMobCheck[12] != null) {
+						dateWCUnderProcessing = outputsMobCheck[12].toString();
+
+						Date wcDate = new Date();
+						try {
+							wcDate = dateFormatUnderProcessing.parse(dateWCUnderProcessing);
+						} catch (ParseException e) {
+							errorLog.error("wcDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
+									e);
+						}
+						applicationsUnderProcessing2.setWcDate(wcDate);
+					}
+
+					if (outputsMobCheck[13] != null)
+						applicationsUnderProcessing2.setIsCcDone(outputsMobCheck[13].toString());
+
+					if (outputsMobCheck[14] != null)
+						applicationsUnderProcessing2.setCcUrl(outputsMobCheck[14].toString());
+
+					if (outputsMobCheck[15] != null)
+						applicationsUnderProcessing2.setCcStatus(outputsMobCheck[15].toString());
+
+					if (outputsMobCheck[16] != null)
+						applicationsUnderProcessing2.setCcDoneBy(outputsMobCheck[16].toString());
+
+					String dateCCUnderProcessing = null;
+					if (outputsMobCheck[17] != null) {
+						dateCCUnderProcessing = outputsMobCheck[17].toString();
+
+						Date ccDate = new Date();
+						try {
+							ccDate = dateFormatUnderProcessing.parse(dateCCUnderProcessing);
+						} catch (ParseException e) {
+							errorLog.error("ccDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
+									e);
+						}
+						applicationsUnderProcessing2.setCcDate(ccDate);
+					}
+
+					if (outputsMobCheck[18] != null)
+						applicationsUnderProcessing2.setIsIcDone(outputsMobCheck[18].toString());
+
+					if (outputsMobCheck[19] != null)
+						applicationsUnderProcessing2.setIcUrl(outputsMobCheck[19].toString());
+
+					if (outputsMobCheck[20] != null)
+						applicationsUnderProcessing2.setIcStatus(outputsMobCheck[20].toString());
+
+					if (outputsMobCheck[21] != null)
+						applicationsUnderProcessing2.setIcDoneBy(outputsMobCheck[21].toString());
+
+					String dateICUnderProcessing = null;
+					if (outputsMobCheck[22] != null) {
+						dateICUnderProcessing = outputsMobCheck[22].toString();
+
+						Date icDate = new Date();
+						try {
+							icDate = dateFormatUnderProcessing.parse(dateICUnderProcessing);
+						} catch (ParseException e) {
+							errorLog.error("icDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
+									e);
+						}
+
+						applicationsUnderProcessing2.setIcDate(icDate);
+					}
+					listApplicationsUnderProcessingMobCheck.add(applicationsUnderProcessing2);
+				}
+
+			List<String> matchedValues = new ArrayList<String>();
+			
+			for(ApplicationsUnderProcessing applicationsUnderPrcsMob : listApplicationsUnderProcessingMobCheck){
+				
+				for(ApplicationsUnderProcessing applicationsUnderPrcs:listApplicationsUnderProcessing){
+					
+					if(StringUtils.trim(applicationsUnderPrcsMob.getRefNo()).equals(StringUtils.trim(applicationsUnderPrcs.getRefNo()))){
+						ApplicationsUnderProcessing finalApplicationsUnderProcessing = complianceApps.new ApplicationsUnderProcessing();	
+						finalApplicationsUnderProcessing.setRefNo(applicationsUnderPrcs.getRefNo());
+						finalApplicationsUnderProcessing.setRecordId(applicationsUnderPrcs.getRecordId());
+						finalApplicationsUnderProcessing.setAppStatus(applicationsUnderPrcs.getAppStatus());
+						finalApplicationsUnderProcessing.setAppSubmittedDate(applicationsUnderPrcs.getAppSubmittedDate());
+						finalApplicationsUnderProcessing.setCustomerName(applicationsUnderPrcs.getCustomerName());
+						finalApplicationsUnderProcessing.setRmName(applicationsUnderPrcs.getRmName());
+						finalApplicationsUnderProcessing.setIsAppLocked(applicationsUnderPrcsMob.getIsAppLocked());
+						finalApplicationsUnderProcessing.setLockedBy(applicationsUnderPrcsMob.getLockedBy());
+
+						finalApplicationsUnderProcessing.setIsKycDone(applicationsUnderPrcsMob.getIsKycDone());
+
+						finalApplicationsUnderProcessing.setKycStatus(applicationsUnderPrcsMob.getKycStatus());
+
+						finalApplicationsUnderProcessing.setKycUrl(applicationsUnderPrcsMob.getKycUrl());
+
+						finalApplicationsUnderProcessing.setKycDoneBy(applicationsUnderPrcsMob.getKycDoneBy());
+
+						finalApplicationsUnderProcessing.setKycDate(applicationsUnderPrcsMob.getKycDate());
+						finalApplicationsUnderProcessing.setIsWcDone(applicationsUnderPrcsMob.getIsWcDone());
+
+						finalApplicationsUnderProcessing.setWcUrl(applicationsUnderPrcsMob.getWcUrl());
+
+						
+						finalApplicationsUnderProcessing.setWcStatus(applicationsUnderPrcsMob.getWcStatus());
+
+						finalApplicationsUnderProcessing.setWcDoneBy(applicationsUnderPrcsMob.getWcDoneBy());
+
+						finalApplicationsUnderProcessing.setWcDate(applicationsUnderPrcsMob.getWcDate());
+
+						finalApplicationsUnderProcessing.setIsCcDone(applicationsUnderPrcsMob.getIsCcDone());
+
+						finalApplicationsUnderProcessing.setCcUrl(applicationsUnderPrcsMob.getCcUrl());
+
+						finalApplicationsUnderProcessing.setCcStatus(applicationsUnderPrcsMob.getCcStatus());
+
+						finalApplicationsUnderProcessing.setCcDoneBy(applicationsUnderPrcsMob.getCcDoneBy());
+
+						finalApplicationsUnderProcessing.setCcDate(applicationsUnderPrcsMob.getCcDate());
+
+						finalApplicationsUnderProcessing.setIsIcDone(applicationsUnderPrcsMob.getIsIcDone());
+
+						finalApplicationsUnderProcessing.setIcUrl(applicationsUnderPrcsMob.getIcUrl());
+
+						finalApplicationsUnderProcessing.setIcStatus(applicationsUnderPrcsMob.getIcStatus());
+
+						finalApplicationsUnderProcessing.setIcDoneBy(applicationsUnderPrcsMob.getIcDoneBy());
+
+						finalApplicationsUnderProcessing.setIcDate(applicationsUnderPrcsMob.getIcDate());
+						
+						listApplicationsUnderProcessingMobFinal.add(finalApplicationsUnderProcessing);
+						matchedValues.add(finalApplicationsUnderProcessing.getRefNo());
+						Collections.sort(listApplicationsUnderProcessingMobFinal);
+						complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessingMobFinal);
+						//complianceResponse.setData(complianceApps);
+					}
+				}
+			}
+			
+			for(ApplicationsUnderProcessing applicationsUnderPrcs:listApplicationsUnderProcessing){
+				
+				if(!matchedValues.contains(applicationsUnderPrcs.getRefNo())){
+					listApplicationsUnderProcessingMobFinal.add(applicationsUnderPrcs);
+					Collections.sort(listApplicationsUnderProcessingMobFinal);
+					complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessingMobFinal);
+					//complianceResponse.setData(complianceApps);
+				}
+			}
+
 		}
+		
+		//complianceApps.setApplicationsUnderProcessing(listApplicationsUnderProcessing);
 		complianceResponse.setData(complianceApps);
-		debugLog.debug("complianceResponse :: "
-				+ complianceResponse.toString());
+		debugLog.debug("complianceResponse : " + complianceResponse.toString());
 		return complianceResponse;
 	}
 }

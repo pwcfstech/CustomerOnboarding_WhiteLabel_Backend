@@ -35,7 +35,7 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 		query.setParameter("custType", "Primary");
 		query.setParameter("startDate", today30);
 		query.setParameter("endDate", today);
-		query.setParameter("appStatus", "ACCOUNT REJECTED");
+		query.setParameter("appStatus", "Rejected Application");
 		query.setParameter("appStatus1", "KYC Pending");
 		
 		List<Object> detailsByAccountRejectedDefault = query.getResultList();
@@ -75,24 +75,43 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 	public List<Object> getDetailsByUnderProcessingDefault() {
 
 		Query query = getEntityManager()
-				.createQuery("select ar.id,marri1.recordId,rm.rmName,apd.firstName,apd.lastName,ar.modifiedDate,ar.appStatus,"
-						+ "mac.isAppLocked,mac.lockedBy,mac.kycDone,mac.kycStatus,mac.kycUrl,mac.kycDoneBy,mac.kycDate, "
-						+ "mac.wcDone,mac.wcStatus,mac.wcUrl,mac.wcDoneBy,mac.wcDate, "
-						+ "mac.ccDone,mac.ccStatus,mac.ccUrl,mac.ccDoneBy,mac.ccDate, "
-						+ "mac.icDone,mac.icStatus,mac.icUrl,mac.icDoneBy,mac.icDate "
-						+ "from MobRmAppRefId ar, ApplicantPersonalDetails apd,MobAppRefRecordId marri1,RMDetails rm,MobApplCheck mac "
-						+ "where ar.id=apd.id AND ar.id=marri1.id AND ar.rmUsedId=rm.id AND ar.id=mac.id " 
+				.createQuery("select ar.id,marri1.recordId,rm.rmName,apd.firstName,apd.lastName,ar.modifiedDate,ar.appStatus "
+						+ "from MobRmAppRefId ar, ApplicantPersonalDetails apd,MobAppRefRecordId marri1,RMDetails rm "
+						+ "where ar.id=apd.id AND ar.id=marri1.id AND ar.rmUsedId=rm.id " 
 						+ "AND ar.appStatus=:appStatus AND apd.customerType =:custType "
 						+ "AND marri1.createdDate=(select max(marri2.createdDate) from MobAppRefRecordId marri2 "
-						+ "where marri2.id = marri1.id) AND ar.appStatus not in :appStatus1 " 
+						+ "where marri2.id = marri1.id) AND ar.appStatus not in :appStatus1 "
 						+ "order by ar.modifiedDate ASC");
-
+		
 		query.setParameter("custType", "Primary");
 		query.setParameter("appStatus", "Under Processing");
 		query.setParameter("appStatus1", "KYC Pending");
 		
 		List<Object> detailsByUnderProcessingDefault = query.getResultList();
+		
+		return detailsByUnderProcessingDefault; 
+	}
+	
+	public List<Object> getDetailsByUnderProcessingDefaultMobCheck() {
 
+		Query query = getEntityManager()
+				.createQuery("select mac.id,mac.isAppLocked,mac.lockedBy, "
+						+ "mac.kycDone,mac.kycStatus,mac.kycUrl,mac.kycDoneBy,mac.kycDate, "
+						+ "mac.wcDone,mac.wcStatus,mac.wcUrl,mac.wcDoneBy,mac.wcDate, "
+						+ "mac.ccDone,mac.ccStatus,mac.ccUrl,mac.ccDoneBy,mac.ccDate, "
+						+ "mac.icDone,mac.icStatus,mac.icUrl,mac.icDoneBy,mac.icDate "
+						+ "from MobRmAppRefId ar,ApplicantPersonalDetails apd,MobApplCheck mac " 
+						+ "where ar.id=apd.id and ar.id=mac.id " 
+						+ "AND ar.appStatus=:appStatus AND apd.customerType =:custType "
+						+ "AND ar.appStatus not in :appStatus1 " 
+						+ "order by ar.modifiedDate ASC");
+		
+		query.setParameter("custType", "Primary");
+		query.setParameter("appStatus", "Under Processing");
+		query.setParameter("appStatus1", "KYC Pending");
+		
+		List<Object> detailsByUnderProcessingDefault = query.getResultList();
+		
 		return detailsByUnderProcessingDefault; 
 	}
 
@@ -143,17 +162,37 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 	public List<Object> getDetailsByUnderProcessingName(String name) {
 
 		Query query = getEntityManager()
-				.createQuery("select ar.id,marri1.recordId,rm.rmName,apd.firstName,apd.lastName,ar.modifiedDate,ar.appStatus,"
-						+ "mac.isAppLocked,mac.lockedBy,mac.kycDone,mac.kycStatus,mac.kycUrl,mac.kycDoneBy,mac.kycDate, "
-						+ "mac.wcDone,mac.wcStatus,mac.wcUrl,mac.wcDoneBy,mac.wcDate, "
-						+ "mac.ccDone,mac.ccStatus,mac.ccUrl,mac.ccDoneBy,mac.ccDate, "
-						+ "mac.icDone,mac.icStatus,mac.icUrl,mac.icDoneBy,mac.icDate "
-						+ "from MobRmAppRefId ar, ApplicantPersonalDetails apd,MobAppRefRecordId marri1,RMDetails rm,MobApplCheck mac "
-						+ "where ar.id=apd.id AND ar.id=marri1.id AND ar.rmUsedId=rm.id AND ar.id=mac.id " 
+				.createQuery("select ar.id,marri1.recordId,rm.rmName,apd.firstName,apd.lastName,ar.modifiedDate,ar.appStatus "
+						+ "from MobRmAppRefId ar, ApplicantPersonalDetails apd,MobAppRefRecordId marri1,RMDetails rm "
+						+ "where ar.id=apd.id AND ar.id=marri1.id AND ar.rmUsedId=rm.id " 
 						+ "AND ar.appStatus=:appStatus AND apd.customerType =:custType "
 						+ "AND (lower(apd.firstName) || ' ' || lower(apd.lastName)) like lower(:name) "
 						+ "AND marri1.createdDate=(select max(marri2.createdDate) from MobAppRefRecordId marri2 "
 						+ "where marri2.id = marri1.id) AND ar.appStatus not in :appStatus1 "
+						+ "order by ar.modifiedDate desc");
+
+		query.setParameter("appStatus", "Under Processing");
+		query.setParameter("name", "%" + name + "%");
+		query.setParameter("custType", "Primary");
+		query.setParameter("appStatus1", "KYC Pending");
+		
+		List<Object> detailsByUnderProcessingName = query.getResultList();
+
+		return detailsByUnderProcessingName;
+	}
+	
+	public List<Object> getDetailsByUnderProcessingNameMobCheck(String name) {
+
+		Query query = getEntityManager()
+				.createQuery("select mac.id,mac.isAppLocked,mac.lockedBy,mac.kycDone,mac.kycStatus,mac.kycUrl,mac.kycDoneBy,mac.kycDate, "
+						+ "mac.wcDone,mac.wcStatus,mac.wcUrl,mac.wcDoneBy,mac.wcDate, "
+						+ "mac.ccDone,mac.ccStatus,mac.ccUrl,mac.ccDoneBy,mac.ccDate, "
+						+ "mac.icDone,mac.icStatus,mac.icUrl,mac.icDoneBy,mac.icDate "
+						+ "from MobRmAppRefId ar, ApplicantPersonalDetails apd,MobApplCheck mac "
+						+ "where ar.id=apd.id and ar.id=mac.id " 
+						+ "AND ar.appStatus=:appStatus AND apd.customerType =:custType "
+						+ "AND (lower(apd.firstName) || ' ' || lower(apd.lastName)) like lower(:name) "
+						+ "AND ar.appStatus not in :appStatus1 "
 						+ "order by ar.modifiedDate desc");
 
 		query.setParameter("appStatus", "Under Processing");
@@ -191,7 +230,7 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 		Query query = getEntityManager()
 				.createQuery("select ar.id,marri1.recordId,rm.rmName,apd.firstName,apd.lastName,ar.accountNumber,ar.modifiedDate "
 						+ "from MobRmAppRefId ar, ApplicantPersonalDetails apd,MobAppRefRecordId marri1,RMDetails rm "
-						+ "where ar.id=apd.id AND ar.id=marri1.id " + "AND ar.appStatus=:appStatus "
+						+ "where ar.id=apd.id AND ar.id=marri1.id AND ar.appStatus=:appStatus "
 						+ "AND ar.modifiedDate between :startDate and :endDate  AND ar.rmUsedId=rm.id "
 						+ "AND marri1.createdDate=(select max(marri2.createdDate) from MobAppRefRecordId marri2 "
 						+ "where marri2.id = marri1.id) AND ar.appStatus not in :appStatus1 "
@@ -210,17 +249,37 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 	
 	public List<Object> getDetailsByUnderProcessingDates(Date startDate, Date endDate) {
 		Query query = getEntityManager()
-				.createQuery("select ar.id,marri1.recordId,rm.rmName,apd.firstName,apd.lastName,ar.modifiedDate,ar.appStatus,"
-						+ "mac.isAppLocked,mac.lockedBy,mac.kycDone,mac.kycStatus,mac.kycUrl,mac.kycDoneBy,mac.kycDate, "
-						+ "mac.wcDone,mac.wcStatus,mac.wcUrl,mac.wcDoneBy,mac.wcDate, "
-						+ "mac.ccDone,mac.ccStatus,mac.ccUrl,mac.ccDoneBy,mac.ccDate, "
-						+ "mac.icDone,mac.icStatus,mac.icUrl,mac.icDoneBy,mac.icDate "
-						+ "from MobRmAppRefId ar, ApplicantPersonalDetails apd,MobAppRefRecordId marri1,RMDetails rm,MobApplCheck mac "
-						+ "where ar.id=apd.id AND ar.id=marri1.id AND ar.rmUsedId=rm.id AND ar.id=mac.id " 
+				.createQuery("select ar.id,marri1.recordId,rm.rmName,apd.firstName,apd.lastName,ar.modifiedDate,ar.appStatus "
+						+ "from MobRmAppRefId ar, ApplicantPersonalDetails apd,MobAppRefRecordId marri1,RMDetails rm "
+						+ "where ar.id=apd.id AND ar.id=marri1.id AND ar.rmUsedId=rm.id " 
 						+ "AND ar.appStatus=:appStatus AND apd.customerType =:custType "
 						+ "AND ar.modifiedDate between :startDate and :endDate "
 						+ "AND marri1.createdDate=(select max(marri2.createdDate) from MobAppRefRecordId marri2 "
 						+ "where marri2.id = marri1.id) AND ar.appStatus not in :appStatus1 "  
+						+ "order by ar.modifiedDate desc");
+
+		query.setParameter("appStatus", "Under Processing");
+		query.setParameter("custType", "Primary");
+		query.setParameter("startDate", startDate);
+		query.setParameter("endDate", endDate);
+		query.setParameter("appStatus1", "KYC Pending");
+		
+		List<Object> getDetailsByUnderProcessingDates = query.getResultList();
+
+		return getDetailsByUnderProcessingDates;
+	}
+	
+	public List<Object> getDetailsByUnderProcessingDatesMobCheck(Date startDate, Date endDate) {
+		Query query = getEntityManager()
+				.createQuery("select mac.id,mac.isAppLocked,mac.lockedBy,mac.kycDone,mac.kycStatus,mac.kycUrl,mac.kycDoneBy,mac.kycDate, "
+						+ "mac.wcDone,mac.wcStatus,mac.wcUrl,mac.wcDoneBy,mac.wcDate, "
+						+ "mac.ccDone,mac.ccStatus,mac.ccUrl,mac.ccDoneBy,mac.ccDate, "
+						+ "mac.icDone,mac.icStatus,mac.icUrl,mac.icDoneBy,mac.icDate "
+						+ "from MobRmAppRefId ar, ApplicantPersonalDetails apd,MobApplCheck mac "
+						+ "where ar.id=apd.id and ar.id=mac.id " 
+						+ "AND ar.appStatus=:appStatus AND apd.customerType =:custType "
+						+ "AND ar.modifiedDate between :startDate and :endDate "
+						+ "AND ar.appStatus not in :appStatus1 "  
 						+ "order by ar.modifiedDate desc");
 
 		query.setParameter("appStatus", "Under Processing");
@@ -287,18 +346,41 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 	public List<Object> getDetailsByUnderProcessingAllCriteria(String name, Date startDate, Date endDate) {
 
 		Query query = getEntityManager()
-				.createQuery("select ar.id,marri1.recordId,rm.rmName,apd.firstName,apd.lastName,ar.modifiedDate,ar.appStatus,"
-						+ "mac.isAppLocked,mac.lockedBy,mac.kycDone,mac.kycStatus,mac.kycUrl,mac.kycDoneBy,mac.kycDate, "
-						+ "mac.wcDone,mac.wcStatus,mac.wcUrl,mac.wcDoneBy,mac.wcDate, "
-						+ "mac.ccDone,mac.ccStatus,mac.ccUrl,mac.ccDoneBy,mac.ccDate, "
-						+ "mac.icDone,mac.icStatus,mac.icUrl,mac.icDoneBy,mac.icDate "
-						+ "from MobRmAppRefId ar, ApplicantPersonalDetails apd,MobAppRefRecordId marri1,RMDetails rm,MobApplCheck mac "
-						+ "where ar.id=apd.id AND ar.id=marri1.id AND ar.rmUsedId=rm.id AND ar.id=mac.id " 
+				.createQuery("select ar.id,marri1.recordId,rm.rmName,apd.firstName,apd.lastName,ar.modifiedDate,ar.appStatus "
+						+ "from MobRmAppRefId ar, ApplicantPersonalDetails apd,MobAppRefRecordId marri1,RMDetails rm "
+						+ "where ar.id=apd.id AND ar.id=marri1.id AND ar.rmUsedId=rm.id " 
 						+ "AND ar.appStatus=:appStatus AND apd.customerType =:custType "
 						+ "AND ar.modifiedDate between :startDate and :endDate "
 						+ "AND (lower(apd.firstName) || ' ' || lower(apd.lastName)) like lower(:name) "
 						+ "AND marri1.createdDate=(select max(marri2.createdDate) from MobAppRefRecordId marri2 "
 						+ "where marri2.id = marri1.id) AND ar.appStatus not in :appStatus1 "
+						+ "order by ar.modifiedDate desc");
+
+		query.setParameter("appStatus", "Under Processing");
+		query.setParameter("custType", "Primary");
+		query.setParameter("startDate", startDate);
+		query.setParameter("endDate", endDate);
+		query.setParameter("name", "%" + name + "%");
+		query.setParameter("appStatus1", "KYC Pending");
+
+		List<Object> detailsByUnderProcessingAllCriteria = query.getResultList();
+
+		return detailsByUnderProcessingAllCriteria;
+	}
+
+	public List<Object> getDetailsByUnderProcessingAllCriteriaMobCheck(String name, Date startDate, Date endDate) {
+
+		Query query = getEntityManager()
+				.createQuery("select mac.id,mac.isAppLocked,mac.lockedBy,mac.kycDone,mac.kycStatus,mac.kycUrl,mac.kycDoneBy,mac.kycDate, "
+						+ "mac.wcDone,mac.wcStatus,mac.wcUrl,mac.wcDoneBy,mac.wcDate, "
+						+ "mac.ccDone,mac.ccStatus,mac.ccUrl,mac.ccDoneBy,mac.ccDate, "
+						+ "mac.icDone,mac.icStatus,mac.icUrl,mac.icDoneBy,mac.icDate "
+						+ "from MobRmAppRefId ar, ApplicantPersonalDetails apd,MobApplCheck mac "
+						+ "where ar.id=apd.id AND ar.id=mac.id " 
+						+ "AND ar.appStatus=:appStatus AND apd.customerType =:custType "
+						+ "AND ar.modifiedDate between :startDate and :endDate "
+						+ "AND (lower(apd.firstName) || ' ' || lower(apd.lastName)) like lower(:name) "
+						+ "AND ar.appStatus not in :appStatus1 "
 						+ "order by ar.modifiedDate desc");
 
 		query.setParameter("appStatus", "Under Processing");
@@ -332,13 +414,6 @@ public class ComplianceJpaDAOImpl extends BaseJpaDAOImpl<Long, ApplicationRefere
 			}
 			else{
 				System.out.println("No record found to update : updateErrorMessage()");
-				
-				System.out.println("inserting new row to save the error : updateErrorMessage()");
-				mobApplCheckComment.setCreatedBy(mobApplCheckComment.getModifiedBy());
-				mobApplCheckComment.setCreatedDate(new Date());
-				mobApplCheckComment.setModifiedDate(new Date());
-				getEntityManager().persist(mobApplCheckComment);
-				getEntityManager().flush();
 			}
 		}
 		System.out.println("Exit : updateErrorMessage()");

@@ -244,7 +244,7 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 		+ "order by apd.id DESC";*/
 		String queryString = "select apd.firstName,apd.lastName "
 				+ "from ApplicationReference ar, ApplicantPersonalDetails apd "
-				+ "WHERE lower(ar.appStatus) = lower(:as) AND ar.rmUserId=:rmID AND ar.id=apd.id "
+				+ "WHERE lower(ar.appStatus) = lower(:as) AND ar.rmUserId=:rmID AND ar.id=apd.id AND apd.customerType =:custType "
 				+ "order by ar.updatedTime desc";
 		/*Query query = getEntityManager().createQuery("select apd.firstName,apd.lastName"
 				+ " from ApplicationReference ar, ApplicantPersonalDetails apd "
@@ -255,6 +255,7 @@ public class DashBoardJpaDaoImpl extends BaseJpaDAOImpl<String, ApplicationRefer
 
 		query.setParameter("as", "Require Attention");
 		query.setParameter("rmID", rmId);
+		query.setParameter("custType", "Primary");
 
 		List<Object> listOfNames = query.getResultList();
 

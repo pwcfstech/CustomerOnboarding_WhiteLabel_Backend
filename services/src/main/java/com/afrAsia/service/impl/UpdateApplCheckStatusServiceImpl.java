@@ -15,6 +15,7 @@ import javax.persistence.NoResultException;
 import javax.xml.bind.DatatypeConverter;
 
 import org.apache.log4j.Logger;
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.afrAsia.dao.UpdateApplCheckStatusDAO;
@@ -39,6 +40,10 @@ public class UpdateApplCheckStatusServiceImpl implements UpdateApplCheckStatusSe
 	final static Logger infoLog = Logger.getLogger("infoLogger");
 	final static Logger errorLog = Logger.getLogger("errorLogger");
 
+	private static final String COMPDOCS_CC_PATH = "./Afrasia_Docs/complianceDocs/CC/";
+	private static final String COMPDOCS_IC_PATH = "./Afrasia_Docs/complianceDocs/IC/";
+	private static final String COMPDOCS_WC_PATH = "./Afrasia_Docs/complianceDocs/WC/";
+	private static final String COMPDOCS_KYC_PATH = "./Afrasia_Docs/complianceDocs/KYC/";
 	private static final String COMPDOCS_PATH = "./Afrasia_Docs/complianceDocs/";
 	
 	UpdateApplCheckStatusDAO updateApplCheckStatusDAO;
@@ -60,119 +65,232 @@ public class UpdateApplCheckStatusServiceImpl implements UpdateApplCheckStatusSe
 		ApplCheckStatusResponse applCheckStatusResponse = new ApplCheckStatusResponse();
 		Data applCheckStatusReqData = applCheckStatusReq.getData();
 
-		MobApplCheck mobApplCheck = new MobApplCheck();
-		mobApplCheck.setRecordId(applCheckStatusReqData.getRecordId());
-		mobApplCheck.setId(applCheckStatusReqData.getRefId());
 		
-		MobApplCheckComments mobApplCheckComments = new MobApplCheckComments();
+		
+		
+		/*mobApplCheckComments.setId(applCheckStatusReqData.getRefId());
+		mobApplCheckComments.setRecordId(applCheckStatusReqData.getRecordId());*/
+		
+		
 
 		String directory = null;
 		String filename = null;
+		String finalPath = null;
 		StringBuffer directoryBuffer = new StringBuffer();
 		StringBuffer filenameBuffer = new StringBuffer();
+		StringBuffer finalBuffer = new StringBuffer();
 		String date = new SimpleDateFormat("dd-MM-yyyy_hh-mm").format(new Date());
-		mobApplCheck.setCcDone(false);
-		mobApplCheck.setIcDone(false);
-		mobApplCheck.setWcDone(false);
-		mobApplCheck.setKycDone(false);
-		List<Checks> checkList = applCheckStatusReqData.getChecks();
-		if(checkList!=null && checkList.size()>0)
+		//mobApplCheck.setCcDone(false);
+		//mobApplCheck.setIcDone(false);
+		//mobApplCheck.setWcDone(false);
+		//mobApplCheck.setKycDone(false);
+		MobRmAppRefId mobRmAppRefId = updateApplCheckStatusDAO.getMobAppRefId(applCheckStatusReqData.getRefId());
+		//mobRmAppRefId.setId(applCheckStatusReqData.getRefId());
+		if(applCheckStatusReqData.getAppStatus()!=null && !"".equals(applCheckStatusReqData.getAppStatus()))
 		{
-			for(Checks checks:checkList)
+			mobRmAppRefId.setAppStatus(applCheckStatusReqData.getAppStatus());
+			updateApplCheckStatusDAO.updateAppStatus(mobRmAppRefId);
+		}
+		List<Checks> checkList = applCheckStatusReqData.getChecks();
+		try{
+			MobApplCheck mobApplCheck=updateApplCheckStatusDAO.getApplCheckStatus(applCheckStatusReqData.getRecordId());
+			
+			if(checkList!=null && checkList.size()>0)
 			{
-				if("CC".equals(checks.getCheckType()))
+				for(Checks checks:checkList)
 				{
-					mobApplCheck.setCcStatus(checks.getStatus());
-					mobApplCheck.setCcDone(true);
-					mobApplCheck.setCcDoneBy(checks.getUserId());
-					mobApplCheck.setCcDate(new Date());
-					mobApplCheckComments.setCcComment(checks.getComment());
-					directory = directoryBuffer.append(COMPDOCS_PATH).append(applCheckStatusReqData.getRefId())+"_"+applCheckStatusReqData.getRecordId().toString();
-					filename = filenameBuffer.append("CC_"+date+".pdf").toString();
-					mobApplCheck.setCcUrl(directory + "/" + filename);
-				}
-				if("IC".equals(checks.getCheckType()))
-				{
-					mobApplCheck.setIcStatus(checks.getStatus());
-					mobApplCheck.setIcDone(true);
-					mobApplCheck.setIcDoneBy(checks.getUserId());
-					mobApplCheck.setIcDate(new Date());
-					mobApplCheckComments.setIcComment(checks.getComment());
-					directory = directoryBuffer.append(COMPDOCS_PATH).append(applCheckStatusReqData.getRefId())+"_"+applCheckStatusReqData.getRecordId().toString();
-					filename = filenameBuffer.append("IC_"+date+".pdf").toString();
-					mobApplCheck.setIcUrl(directory + "/" + filename);
-				}
-				if("WC".equals(checks.getCheckType()))
-				{
-					mobApplCheck.setWcStatus(checks.getStatus());
-					mobApplCheck.setWcDone(true);
-					mobApplCheck.setWcDoneBy(checks.getUserId());
-					mobApplCheck.setWcDate(new Date());
-					mobApplCheckComments.setWcComment(checks.getComment());
-					directory = directoryBuffer.append(COMPDOCS_PATH).append(applCheckStatusReqData.getRefId())+"_"+applCheckStatusReqData.getRecordId().toString();
-					filename = filenameBuffer.append("WC_"+date+".pdf").toString();
-					mobApplCheck.setWcUrl(directory + "/" + filename);
-				}
-				if("KYC".equals(checks.getCheckType()))
-				{
-					mobApplCheck.setKycStatus(checks.getStatus());
-					mobApplCheck.setKycDone(true);
-					mobApplCheck.setKycDoneBy(checks.getUserId());
-					mobApplCheck.setKycDate(new Date());
-					mobApplCheckComments.setKycComment(checks.getComment());
-					directory = directoryBuffer.append(COMPDOCS_PATH).append(applCheckStatusReqData.getRefId()+"_"+applCheckStatusReqData.getRecordId()).toString();
-					filename = filenameBuffer.append("KYC_"+date+".pdf").toString();
-					mobApplCheck.setKycUrl(directory + "/" + filename);
-				}
-				
-				try {
-					createPdf(directory,filename,checks.getScreenshots());
-				} catch (IOException e) {
-					errorLog.error("IOException in uploading comments screenshots", e);
-					MsgHeader msgHeader = new MsgHeader();
-					Error error = new MsgHeader().new Error();
-					error.setCd("002");
-					error.setCustomCode("ERR002");
-					error.setRsn("Server error : "+e);
-					msgHeader.setError(error);
-					applCheckStatusResponse.setMsgHeader(msgHeader);
-					data.setSuccess("0");
-					applCheckStatusResponse.setData(data);
-				} catch (DocumentException e) {
-					errorLog.error("DocumentException in uploading comments screenshots", e);
-					MsgHeader msgHeader = new MsgHeader();
-					Error error = new MsgHeader().new Error();
-					error.setCd("002");
-					error.setCustomCode("ERR002");
-					error.setRsn("Server error : "+e);
-					msgHeader.setError(error);
-					applCheckStatusResponse.setMsgHeader(msgHeader);
-					data.setSuccess("0");
-					applCheckStatusResponse.setData(data);
+					if("CC".equals(checks.getCheckType()))
+					{
+						mobApplCheck.setCcStatus(checks.getStatus());
+						mobApplCheck.setCcDone(true);
+						mobApplCheck.setCcDoneBy(checks.getUserId());
+						mobApplCheck.setCcDate(new Date());
+						/*mobApplCheckComments.setCcComment(checks.getComment());
+						mobApplCheckComments.setCcCommentBy(checks.getUserId());
+						mobApplCheckComments.setCcDate(new Date());*/
+						directory = directoryBuffer.append(COMPDOCS_CC_PATH).append(applCheckStatusReqData.getRefId()).append("_").append(applCheckStatusReqData.getRecordId().toString()).toString();
+						filename = filenameBuffer.append("CC_").append(date).append(".pdf").toString();
+						finalPath = finalBuffer.append(COMPDOCS_PATH).append(applCheckStatusReqData.getRefId()).append("_").append("CC.pdf").toString();
+						mobApplCheck.setCcUrl(finalPath);
+					}
+					if("IC".equals(checks.getCheckType()))
+					{
+						mobApplCheck.setIcStatus(checks.getStatus());
+						mobApplCheck.setIcDone(true);
+						mobApplCheck.setIcDoneBy(checks.getUserId());
+						mobApplCheck.setIcDate(new Date());
+						/*mobApplCheckComments.setIcComment(checks.getComment());
+						mobApplCheckComments.setIcCommentBy(checks.getUserId());
+						mobApplCheckComments.setIcDate(new Date());*/
+						directory = directoryBuffer.append(COMPDOCS_IC_PATH).append(applCheckStatusReqData.getRefId()).append("_").append(applCheckStatusReqData.getRecordId().toString()).toString();
+						filename = filenameBuffer.append("IC_").append(date).append(".pdf").toString();
+						finalPath = finalBuffer.append(COMPDOCS_PATH).append(applCheckStatusReqData.getRefId()).append("_").append("IC.pdf").toString();
+						mobApplCheck.setIcUrl(finalPath);
+					}
+					if("WC".equals(checks.getCheckType()))
+					{
+						mobApplCheck.setWcStatus(checks.getStatus());
+						mobApplCheck.setWcDone(true);
+						mobApplCheck.setWcDoneBy(checks.getUserId());
+						mobApplCheck.setWcDate(new Date());
+						/*mobApplCheckComments.setWcComment(checks.getComment());
+						mobApplCheckComments.setWcCommentBy(checks.getUserId());
+						mobApplCheckComments.setWcDate(new Date());*/
+						directory = directoryBuffer.append(COMPDOCS_WC_PATH).append(applCheckStatusReqData.getRefId()).append("_").append(applCheckStatusReqData.getRecordId().toString()).toString();
+						filename = filenameBuffer.append("WC_").append(date).append(".pdf").toString();
+						finalPath = finalBuffer.append(COMPDOCS_PATH).append(applCheckStatusReqData.getRefId()).append("_").append("WC.pdf").toString();
+						mobApplCheck.setWcUrl(finalPath);
+					}
+					if("KYC".equals(checks.getCheckType()))
+					{
+						mobApplCheck.setKycStatus(checks.getStatus());
+						mobApplCheck.setKycDone(true);
+						mobApplCheck.setKycDoneBy(checks.getUserId());
+						mobApplCheck.setKycDate(new Date());
+						/*mobApplCheckComments.setKycComment(checks.getComment());
+						mobApplCheckComments.setKycCommentBy(checks.getUserId());
+						mobApplCheckComments.setKycDate(new Date());*/
+						directory = directoryBuffer.append(COMPDOCS_KYC_PATH).append(applCheckStatusReqData.getRefId()).append("_").append(applCheckStatusReqData.getRecordId().toString()).toString();
+						filename = filenameBuffer.append("KYC_").append(date).append(".pdf").toString();
+						finalPath = finalBuffer.append(COMPDOCS_PATH).append(applCheckStatusReqData.getRefId()).append("_").append("KYC.pdf").toString();
+						mobApplCheck.setKycUrl(finalPath);
+					}
+					
+					if (checks.getScreenshots()!=null && checks.getScreenshots().size()>0)
+					{
+						try {
+							createPdf(directory,filename,checks.getScreenshots(),finalPath);
+						} catch (IOException e) {
+							errorLog.error("IOException in uploading comments screenshots", e);
+							MsgHeader msgHeader = new MsgHeader();
+							Error error = new MsgHeader().new Error();
+							error.setCd("002");
+							error.setCustomCode("ERR002");
+							error.setRsn("Server error : "+e);
+							msgHeader.setError(error);
+							applCheckStatusResponse.setMsgHeader(msgHeader);
+							data.setSuccess("0");
+							applCheckStatusResponse.setData(data);
+						} catch (DocumentException e) {
+							errorLog.error("DocumentException in uploading comments screenshots", e);
+							MsgHeader msgHeader = new MsgHeader();
+							Error error = new MsgHeader().new Error();
+							error.setCd("002");
+							error.setCustomCode("ERR002");
+							error.setRsn("Server error : "+e);
+							msgHeader.setError(error);
+							applCheckStatusResponse.setMsgHeader(msgHeader);
+							data.setSuccess("0");
+							applCheckStatusResponse.setData(data);
+						}
+					}
 				}
 			}
-		}
-		MobRmAppRefId mobRmAppRefId = new MobRmAppRefId();
-		mobRmAppRefId.setId(applCheckStatusReqData.getRefId());
-		mobRmAppRefId.setAppStatus(applCheckStatusReqData.getAppStatus());
-		
-		mobApplCheckComments.setCompId(applCheckStatusReqData.getCompId());
-		mobApplCheckComments.setCompComment(applCheckStatusReqData.getCompComment());
-		mobApplCheck.setModifiedBy(applCheckStatusReqData.getCompId());
-		mobApplCheck.setModifiedDate(new Date());
-		try{
-			updateApplCheckStatusDAO.getApplCheckStatus(applCheckStatusReqData.getRecordId());
+			
+			mobApplCheck.setModifiedBy(applCheckStatusReqData.getCompId());
+			mobApplCheck.setModifiedDate(new Date());
 			updateApplCheckStatusDAO.updateApplCheckStatus(mobApplCheck);
+			data.setCcUrl(mobApplCheck.getCcUrl());
+			data.setIcUrl(mobApplCheck.getIcUrl());
+			data.setWcUrl(mobApplCheck.getWcUrl());
+			data.setKycUrl(mobApplCheck.getKycUrl());
+			
+			try{
+				MobApplCheckComments mobApplCheckComments = updateApplCheckStatusDAO.getApplCheckComm(applCheckStatusReqData.getRecordId());
+				mobApplCheckComments.setCompId(applCheckStatusReqData.getCompId());
+				mobApplCheckComments.setCompComment(applCheckStatusReqData.getCompComment());
+				mobApplCheckComments.setCompDate(new Date());
+				mobApplCheckComments.setModifiedBy(applCheckStatusReqData.getCompId());
+				mobApplCheckComments.setModifiedDate(new Date());
+				if(checkList!=null && checkList.size()>0)
+				{
+					for(Checks checks:checkList)
+					{
+						if("CC".equals(checks.getCheckType()))
+						{
+							mobApplCheckComments.setCcComment(checks.getComment());
+							mobApplCheckComments.setCcCommentBy(checks.getUserId());
+							mobApplCheckComments.setCcDate(new Date());
+						}
+						if("IC".equals(checks.getCheckType()))
+						{
+							mobApplCheckComments.setIcComment(checks.getComment());
+							mobApplCheckComments.setIcCommentBy(checks.getUserId());
+							mobApplCheckComments.setIcDate(new Date());
+						}
+						if("WC".equals(checks.getCheckType()))
+						{
+							mobApplCheckComments.setWcComment(checks.getComment());
+							mobApplCheckComments.setWcCommentBy(checks.getUserId());
+							mobApplCheckComments.setWcDate(new Date());
+						}
+						if("KYC".equals(checks.getCheckType()))
+						{
+							mobApplCheckComments.setKycComment(checks.getComment());
+							mobApplCheckComments.setKycCommentBy(checks.getUserId());
+							mobApplCheckComments.setKycDate(new Date());
+						}
+					}
+				}
+				updateApplCheckStatusDAO.updateMobApplCheckComm(mobApplCheckComments);
+			}
+			catch(NoResultException e)
+			{
+				MobApplCheckComments mobApplCheckComments = new MobApplCheckComments();
+				mobApplCheckComments.setId(applCheckStatusReqData.getRefId());
+				mobApplCheckComments.setRecordId(applCheckStatusReqData.getRecordId());
+				mobApplCheckComments.setCreatedBy(applCheckStatusReqData.getCompId());
+				mobApplCheckComments.setCreatedDate(new Date());
+				mobApplCheckComments.setCompId(applCheckStatusReqData.getCompId());
+				mobApplCheckComments.setCompComment(applCheckStatusReqData.getCompComment());
+				mobApplCheckComments.setCompDate(new Date());
+				mobApplCheckComments.setModifiedBy(applCheckStatusReqData.getCompId());
+				mobApplCheckComments.setModifiedDate(new Date());
+				if(checkList!=null && checkList.size()>0)
+				{
+					for(Checks checks:checkList)
+					{
+						if("CC".equals(checks.getCheckType()))
+						{
+							mobApplCheckComments.setCcComment(checks.getComment());
+							mobApplCheckComments.setCcCommentBy(checks.getUserId());
+							mobApplCheckComments.setCcDate(new Date());
+						}
+						if("IC".equals(checks.getCheckType()))
+						{
+							mobApplCheckComments.setIcComment(checks.getComment());
+							mobApplCheckComments.setIcCommentBy(checks.getUserId());
+							mobApplCheckComments.setIcDate(new Date());
+						}
+						if("WC".equals(checks.getCheckType()))
+						{
+							mobApplCheckComments.setWcComment(checks.getComment());
+							mobApplCheckComments.setWcCommentBy(checks.getUserId());
+							mobApplCheckComments.setWcDate(new Date());
+						}
+						if("KYC".equals(checks.getCheckType()))
+						{
+							mobApplCheckComments.setKycComment(checks.getComment());
+							mobApplCheckComments.setKycCommentBy(checks.getUserId());
+							mobApplCheckComments.setKycDate(new Date());
+						}
+					}
+				}
+				updateApplCheckStatusDAO.storeApplCheckComm(mobApplCheckComments);
+			}
 		}
 		catch(NoResultException e)
 		{
-			mobApplCheck.setCreatedBy(applCheckStatusReqData.getCompId());
-			mobApplCheck.setCreatedDate(new Date());
-			updateApplCheckStatusDAO.storeApplCheckStatus(mobApplCheck);
+			errorLog.error("No record exists for RecordId:"+applCheckStatusReqData.getRecordId()+"in MobApplCheck");
+			MsgHeader msgHdr = new MsgHeader();
+			Error err = new MsgHeader().new Error();
+			err.setRsn("No record exists for RecordId:"+applCheckStatusReqData.getRecordId()+"in MobApplCheck");
+			err.setCd("404");
+			err.setCustomCode("NoResultException");
+			msgHdr.setError(err);
+			applCheckStatusResponse.setMsgHeader(msgHdr);
+			return applCheckStatusResponse;
 		}
-		
-		updateApplCheckStatusDAO.updateAppStatus(mobRmAppRefId);
-		updateApplCheckStatusDAO.updateMobApplCheckComm(mobApplCheckComments);
 		
 		data.setSuccess("1");
 		applCheckStatusResponse.setData(data);
@@ -180,7 +298,7 @@ public class UpdateApplCheckStatusServiceImpl implements UpdateApplCheckStatusSe
 	}
 	
 	
-	public void createPdf(String dest, String fileName, List<String> IMAGES) throws IOException, DocumentException {
+	public void createPdf(String dest, String fileName, List<String> IMAGES, String finalPath) throws IOException, DocumentException {
 		File directoryObj = new File(dest);
 		if (!directoryObj.exists()) {
 			directoryObj.mkdirs();
@@ -201,5 +319,17 @@ public class UpdateApplCheckStatusServiceImpl implements UpdateApplCheckStatusSe
 	        document.add(img);
 	    }
 	    document.close();
+		    PDFMergerUtility mergePdf = new PDFMergerUtility(); 
+		    //String folder ="pdf"; 
+		    File _folder = new File(dest); 
+		    File[] filesInFolder; filesInFolder = _folder.listFiles(); 
+		    for (File string : filesInFolder) 
+		    { 
+		    	mergePdf.addSource(string);	
+		    } 
+		    mergePdf.setDestinationFileName(finalPath); 
+		    mergePdf.mergeDocuments(null); 
+	    
+
 	}
 }

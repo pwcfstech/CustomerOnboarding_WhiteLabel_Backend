@@ -157,4 +157,10 @@
 	<bean id="lockApplicationService" class="com.afrAsia.service.impl.LockApplicationServiceImpl">
 		<property name="lockApplicationDAO" ref="lockApplicationJpaDao" />
 	</bean>
+	
+	<bean id="accountCreationSOAPService" class="com.afrAsia.service.impl.AccountCreationSOAPServiceImpl">
+		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" /> 
+		<property name="complianceDao" ref="complianceJpaDao" />
+		<property name="kycService" ref="kycService" /> 
+	</bean>
 </beans>						

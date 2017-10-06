@@ -819,8 +819,9 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		//3. save all details of main tables into their history tables								
 
 		populateHistoryTables(appId);
-		
-		accountCreateDao.storeIntoMobApplCheckHist(appId,recordId);
+		accountCreateDao.updateRecordIdInMobApplCheck(appId, recordId);
+		accountCreateDao.updateCommentInMobApplCheckComments(accountCreationRequest);
+		accountCreateDao.storeIntoMobApplCheckHist(appId,recordIdFromRequest);
 		
 		infoLog.info("All the history tables have been saved with the new entries from the main tables");
 		

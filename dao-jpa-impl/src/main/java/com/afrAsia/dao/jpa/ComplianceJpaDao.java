@@ -34,5 +34,11 @@ public interface ComplianceJpaDao extends ComplianceDao, BaseJpaDAO<Long, Applic
 	public List<Object> getDetailsByUnderProcessingAllCriteria(String name, Date startDate, Date endDate);
 
 	public void updateErrorMessage(MobApplCheckComments mobApplCheckComment);
+	
+	public List<Object> getDetailsByUnderProcessingNameMobCheck(String name);
+	
+	public List<Object> getDetailsByUnderProcessingDatesMobCheck(Date startDate, Date endDate);
+	
+	public List<Object> getDetailsByUnderProcessingAllCriteriaMobCheck(String name, Date startDate, Date endDate);
 
 }

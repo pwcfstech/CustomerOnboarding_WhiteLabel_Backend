@@ -109,11 +109,11 @@ public class UpdateApplCheckStatusRestService {
 			Data applCheckStatusData = applCheckStatusReq.getData();
 			debugLog.debug(" applCheckStatusData in validateRequest(),UpdateApplCheckStatusRestService.java : "+applCheckStatusData);
 
-			String applCheckStatusDataValidated = validateApplCheckStatusDetails(applCheckStatusData);
+			/*String applCheckStatusDataValidated = validateApplCheckStatusDetails(applCheckStatusData);
 			if (!applCheckStatusDataValidated.equalsIgnoreCase("Success")) {
 				errorLog.error(" applCheckStatusDataValidated is not equal to success in validateRequest(),UpdateApplCheckStatusRestService.java");
 				return applCheckStatusDataValidated;
-			}
+			}*/
 			
 			List<Data.Checks> checks = applCheckStatusReq.getData().getChecks();
 			debugLog.debug(" checks in validateRequest(),UpdateApplCheckStatusRestService.java : "+checks);
@@ -133,7 +133,7 @@ public class UpdateApplCheckStatusRestService {
 		}
 	}
 	
-	private String validateApplCheckStatusDetails(Data applCheckStatusData) {
+	/*private String validateApplCheckStatusDetails(Data applCheckStatusData) {
 
 		if (!CommonUtils.checkNullorBlank(applCheckStatusData.getAppStatus())) {
 			errorLog.error(" Error in app Status  in validateapplCheckStatusDetails(),UpdateApplCheckStatusRestService.java ::"
@@ -155,7 +155,7 @@ public class UpdateApplCheckStatusRestService {
 		}
 		infoLog.info("validateApplCheckStatusDetails returned Success");
 		return ("Success");
-	}
+	}*/
 	
 	private String validateApplChecks(List<Data.Checks> applChecks) {
 		for(Data.Checks check : applChecks)
@@ -172,12 +172,12 @@ public class UpdateApplCheckStatusRestService {
 				return (" Error in Comment in validateApplChecks(),UpdateApplCheckStatusRestService.java ::"
 						+ CommonUtils.checkNullorBlank(check.getComment()));
 			}
-			if (check.getScreenshots()==null || check.getScreenshots().size()==0) {
+			/*if (check.getScreenshots()==null || check.getScreenshots().size()==0) {
 				errorLog.error(" Error in Screenshots  in validateApplChecks(),UpdateApplCheckStatusRestService.java ::"
 						+ check.getScreenshots());
 				return (" Error in Check Screenshots  in validateApplChecks(),UpdateApplCheckStatusRestService.java ::"
 						+ check.getScreenshots());
-			}
+			}*/
 			if (!CommonUtils.checkNullorBlank(check.getStatus())) {
 				errorLog.error(" Error in Status  in validateApplChecks(),UpdateApplCheckStatusRestService.java ::"
 						+ CommonUtils.checkNullorBlank(check.getStatus()));

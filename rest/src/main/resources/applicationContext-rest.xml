@@ -132,10 +132,9 @@
 		<property name="lockApplicationService" ref="lockApplicationService" />
 	</bean>
 	
-<!-- 	Commented by Avisha -->
-	<!-- <bean id="accountCreateSoapWebService" class="com.afrAsia.rest.AccountCreateSoapWebService" >
+	<bean id="accountCreateSoapWebService" class="com.afrAsia.rest.AccountCreateSoapWebService" >
 		<property name="accountCreationSOAPService" ref="accountCreationSOAPService" />
-	</bean> -->
+	</bean>
 	
 	
 	<!-- <bean id="dtdpsSoapService" class="com.afrAsia.soap.DTDPSSoapService" >

@@ -630,16 +630,15 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 
 	public void updateCommentInMobApplCheckComments(AccountCreationRequest accountCreationRequest) {
 		// update MobApplicationCompStatus	
-				Query query = getEntityManager().createQuery("update MobApplCheckComments ma set ma.rmId=:rmId,ma.rmComment=:rmComment,"
-						+ "ma.createdBy=:createdBy,ma.createdDate=:createdDate,ma.modifiedBy=:modifiedBy,ma.modifiedDate=:modifieddate "
+				Query query = getEntityManager().createQuery("update MobApplCheckComments ma set ma.rmId=:rmId,ma.rmComment=:rmComment,ma.rmDate=:rmDate,"
+						+ "ma.modifiedBy=:modifiedBy,ma.modifiedDate=:modifieddate "
 						+ "where ma.id =:appId and ma.recordId=:recordId");
 				
 				query.setParameter("rmId", accountCreationRequest.getData().getRmId());
 				query.setParameter("rmComment", accountCreationRequest.getData().getComment());
-				query.setParameter("createdBy", accountCreationRequest.getData().getRmId());
-				query.setParameter("createdDate", new Date());
+				query.setParameter("rmDate", new Date());
 				query.setParameter("modifiedBy", accountCreationRequest.getData().getRmId());
-				query.setParameter("modifiedDate", new Date());
+				query.setParameter("modifieddate", new Date());
 				query.setParameter("appId", accountCreationRequest.getData().getAppRefNo());
 				query.setParameter("recordId", accountCreationRequest.getData().getRecordId());
 				

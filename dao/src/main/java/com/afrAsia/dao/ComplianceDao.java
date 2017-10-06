@@ -12,6 +12,8 @@ public interface ComplianceDao {
 	public List<Object> getDetailsByAccountOpenedDefault();
 
 	public List<Object> getDetailsByUnderProcessingDefault();
+	
+	public List<Object> getDetailsByUnderProcessingDefaultMobCheck();
 
 	public List<Object> getDetailsByAccountRejectedName(String name);
 
@@ -32,5 +34,11 @@ public interface ComplianceDao {
 	public List<Object> getDetailsByUnderProcessingAllCriteria(String name, Date startDate, Date endDate);
 
 	public void updateErrorMessage(MobApplCheckComments mobApplCheckComment);
+	
+	public List<Object> getDetailsByUnderProcessingNameMobCheck(String name);
+	
+	public List<Object> getDetailsByUnderProcessingDatesMobCheck(Date startDate, Date endDate);
+	
+	public List<Object> getDetailsByUnderProcessingAllCriteriaMobCheck(String name, Date startDate, Date endDate);
 	
 }

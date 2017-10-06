@@ -183,7 +183,7 @@ public class ComplianceApps implements Serializable {
 
 	}
 
-	public class ApplicationsUnderProcessing implements Serializable {
+	public class ApplicationsUnderProcessing implements Serializable,Comparable<ApplicationsUnderProcessing> {
 
 		private static final long serialVersionUID = 1L;
 
@@ -483,6 +483,9 @@ public class ComplianceApps implements Serializable {
 					+ ccUrl + ", ccDoneBy=" + ccDoneBy + ", ccDate=" + ccDate + ", isIcDone=" + isIcDone + ", icStatus="
 					+ icStatus + ", icUrl=" + icUrl + ", icDoneBy=" + icDoneBy + ", icDate=" + icDate + "]";
 		}
-
+		
+		public int compareTo(ApplicationsUnderProcessing o) {
+		    return getAppSubmittedDate().compareTo(o.getAppSubmittedDate());
+		  }
 	}
 }
