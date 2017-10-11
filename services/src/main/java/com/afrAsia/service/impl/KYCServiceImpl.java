@@ -56,8 +56,14 @@ public class KYCServiceImpl implements KYCService {
 	private static final String STATUS_UNDER_PROCESSING = "Under Processing";
 	private static final String SIG_PATH = "./Afrasia_Docs/Signature/";
 	private static final String DMSDOCS_PATH = "./Afrasia_Docs/dmsdocs/";
-	private static final String SIG_SHARED_PATH = "./Afrasia_Docs/Signature/";
-	private static final String DMSDOCS_SHARED_PATH = "./Afrasia_Docs/dmsdocs/";
+	private static final String SIG_DEST_PATH = "./Afrasia_Docs_Flex/Signature/";
+	private static final String DMSDOCS_DEST_PATH = "./Afrasia_Docs_Flex/dmsdocs/";
+	
+	/*private static final String SIG_PATH = "./Afrasia_Docs_RmApp/Signature/";
+	private static final String DMSDOCS_PATH = "./Afrasia_Docs_RmApp/dmsdocs/";
+	private static final String SIG_DEST_PATH = "./Afrasia_Docs/Signature/";
+	private static final String DMSDOCS_DEST_PATH = "./Afrasia_Docs/dmsdocs/";*/
+	
 
 	private UploadKYCJpaDAO uploadKYCDao;
 	private ApplicationDetailsJpaDAO applicationDetailsDAO;
@@ -127,7 +133,7 @@ public class KYCServiceImpl implements KYCService {
 				String filename = null;
 
 				if (SIGNATURE.equals(docId)) {
-					sharedPath = sharedPathBuffer.append(SIG_SHARED_PATH).append(applicantId).toString();
+					sharedPath = sharedPathBuffer.append(SIG_PATH).append(applicantId).toString();
 					directory = directoryBuffer.append(SIG_PATH).append(applicantId).toString();
 					startsWith = filenameBuffer.append(appId).append("_").append(applicantId).append("_").append(firstName).append("_").append(lastName).append("_").append(docId).append("_").toString();
 					filename = filenameBuffer.append(date).append(".jpg").toString();
@@ -135,7 +141,7 @@ public class KYCServiceImpl implements KYCService {
 					this.cleanDirectory(ignorePrevious, directory);
 					this.writeImage(image, directory, filename, "jpg", startsWith);
 				} else {
-					sharedPath = sharedPathBuffer.append(DMSDOCS_SHARED_PATH).append(applicantId).toString();
+					sharedPath = sharedPathBuffer.append(DMSDOCS_PATH).append(applicantId).toString();
 					directory = directoryBuffer.append(DMSDOCS_PATH).append(applicantId).toString();
 					startsWith = filenameBuffer.append(appId).append("_").append(applicantId).append("_").append(firstName).append("_").append(lastName).append("_").append(docId).append("_").toString();
 					filename = filenameBuffer.append(date).append(".pdf").toString();
@@ -469,15 +475,15 @@ public class KYCServiceImpl implements KYCService {
 		StringBuffer dmsdocSsharedPathBuffer = new StringBuffer();
 		StringBuffer sigSharedPathBuffer = new StringBuffer();
 
-		String sourceDmsdocsDirectoryName = dmsdocsDirectoryBuffer.append(DMSDOCS_PATH).append(appId).toString();
-		String sourceSigDirectoryName = sigDirectoryBuffer.append(SIG_PATH).append(appId).toString();
+		String sourceDmsdocsDirectoryName = dmsdocsDirectoryBuffer.append(DMSDOCS_PATH).append(applicantId).toString();
+		String sourceSigDirectoryName = sigDirectoryBuffer.append(SIG_PATH).append(applicantId).toString();
 		
 		dmsdocsDirectoryBuffer = new StringBuffer();
 		sigDirectoryBuffer =  new StringBuffer();
 		String destDmsdocsDirectoryName = dmsdocsDirectoryBuffer.append(DMSDOCS_PATH).append(cif).toString();
 		String desteSigDirectoryName = sigDirectoryBuffer.append(SIG_PATH).append(cif).toString();
-		String dmsdocsSharedPath = dmsdocSsharedPathBuffer.append(DMSDOCS_SHARED_PATH).append(cif).toString();
-		String sigSharedPath = sigSharedPathBuffer.append(SIG_SHARED_PATH).append(cif).toString();
+		String dmsdocsSharedPath = dmsdocSsharedPathBuffer.append(DMSDOCS_DEST_PATH).append(cif).toString();
+		String sigSharedPath = sigSharedPathBuffer.append(SIG_DEST_PATH).append(cif).toString();
 		
 		
 		File destDmsdocsDirectory = new File(destDmsdocsDirectoryName);

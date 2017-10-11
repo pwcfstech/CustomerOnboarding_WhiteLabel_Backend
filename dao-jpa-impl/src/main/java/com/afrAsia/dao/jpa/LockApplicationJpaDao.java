@@ -8,6 +8,6 @@ import com.afrAsia.entities.transactions.MobApplCheck;
 public interface LockApplicationJpaDao extends LockApplicationDAO {
 	
 	public void storeApplCheckStatus(MobApplCheck mobApplCheck);
-	public MobApplCheck getApplCheckStatus(MobApplCheck mobApplCheck) throws NoResultException;
+	public MobApplCheck getApplCheckStatus(Long id, Long recordId) throws NoResultException;
 	public void updateApplCheckStatus(MobApplCheck mobApplCheck);
 }

@@ -328,7 +328,7 @@ public class AccountCreationRestService {
 		}
 					// Check for Statement delivery type
 				
-					if((age>=18 && !CommonUtils.checkNullorBlank(accountCreationData.getPrimaryApplicantDetail().getCustomerCIF())) || (age<18 && !CommonUtils.checkNullorBlank(accountCreationData.getGuardianDetail().getCustomerCIF())))
+					if((age>18 && !CommonUtils.checkNullorBlank(accountCreationData.getPrimaryApplicantDetail().getCustomerCIF())) || (age<=18 && !CommonUtils.checkNullorBlank(accountCreationData.getGuardianDetail().getCustomerCIF())))
 					{
 						if (accountCreationData.getAccountDetails().getStmtDeliveryPo()) {
 							if (!CommonUtils.checkNullorBlank(accountCreationData.getAccountDetails().getStmtAddr1())
@@ -488,7 +488,7 @@ public class AccountCreationRestService {
 			return (customerType + ":Error in Nationality");
 		}
 		
-		if(!CommonUtils.checkNullorBlank(applicant.getCustomerCIF()) && age>=18)
+		if(!CommonUtils.checkNullorBlank(applicant.getCustomerCIF()) && age>18)
 		{
 			if (!CommonUtils.checkNullorBlank(applicant.getEmail()) || applicant.getEmail().length() > 255) {
 				errorLog.error(customerType + " : Error in Email in validateApplicant(),AccountCreationRestService.java");
@@ -506,7 +506,7 @@ public class AccountCreationRestService {
 			}
 		}
 
-		if (age >= 18) {
+		if (age > 18) {
 			if (!CommonUtils.checkNullorBlank(applicant.getMaritialStatus())
 					|| applicant.getMaritialStatus().length() > 1) {
 				errorLog.error(customerType + " : Error in Maritial Status in validateApplicant(),AccountCreationRestService.java");
@@ -529,7 +529,7 @@ public class AccountCreationRestService {
 		
 		if(!CommonUtils.checkNullorBlank(applicant.getCustomerCIF()))
 		{
-			if (age >= 18) {
+			if (age > 18) {
 				if (!CommonUtils.checkNullorBlank(applicant.getPermAddr1()) || applicant.getPermAddr1().length() > 105) {
 					errorLog.error(customerType + ":Error in Perm Address 1 in validateApplicant(),AccountCreationRestService.java");
 					return (customerType + ":Error in Perm Address 1");
@@ -670,7 +670,7 @@ public class AccountCreationRestService {
 				}
 			}
 	
-			if (age >= 18) {
+			if (age > 18) {
 				if (applicant.getNetMonthlyIncome() < 0) {
 					errorLog.error(customerType + ":Error in Net Monthly Income in validateApplicant(),AccountCreationRestService.java");
 					return (customerType + ":Error in Net Monthly Income");
@@ -686,7 +686,7 @@ public class AccountCreationRestService {
 					return (customerType + ":Error in SSN");
 				}
 			}
-			if (applicant.getResidencyStatus().equals("NON_RES") && age >= 18) {
+			if (applicant.getResidencyStatus().equals("NON_RES") && age > 18) {
 				if (!CommonUtils.checkNullorBlank(applicant.getoAddr1()) || applicant.getoAddr1().length() > 105) {
 					errorLog.error(customerType + ":Error in Overseas Address 1 in validateApplicant(),AccountCreationRestService.java");
 					return (customerType + ":Error in Overseas Address 1");
@@ -726,7 +726,7 @@ public class AccountCreationRestService {
 		}
 		infoLog.info(customerType +" : age in validateApplicant(),AccountCreationRestService.java at line 657 is : "+age);
 		// Check if guardian details are correct.
-		if (age < 18 && !customerType.equalsIgnoreCase("Guardian")) {
+		if (age <= 18 && !customerType.equalsIgnoreCase("Guardian")) {
 			if (guardian == null) {
 				errorLog.error(customerType + ":The customer is a minor. Please enter guardian details in validateApplicant(),AccountCreationRestService.java");
 				return (customerType + ":The customer is a minor. Please enter guardian details.");

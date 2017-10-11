@@ -58,7 +58,6 @@ public class AuthenticationRestService
 	public Response login(String loginStringRequest)
 	{
 		infoLog.info(" Entered in login Service ");
-		debugLog.debug(" loginStringRequest in login Service is :: "+loginStringRequest);
 		LoginResponse response = null;
 		try
 		{
@@ -92,7 +91,6 @@ public class AuthenticationRestService
 	public Response logout(String logoutStringRequest, @HeaderParam("Authorization") String authToken)
 	{
 		infoLog.info(" Entered in logout Service ");
-		debugLog.debug(" logoutStringRequest in logout Service is : "+logoutStringRequest);
 		LogoutResponse response = null;
 		try
 		{

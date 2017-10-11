@@ -32,6 +32,7 @@ import com.afrAsia.service.UpdateApplCheckStatusService;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 public class UpdateApplCheckStatusServiceImpl implements UpdateApplCheckStatusService {
@@ -196,7 +197,7 @@ public class UpdateApplCheckStatusServiceImpl implements UpdateApplCheckStatusSe
 			data.setKycUrl(mobApplCheck.getKycUrl());
 			
 			try{
-				MobApplCheckComments mobApplCheckComments = updateApplCheckStatusDAO.getApplCheckComm(applCheckStatusReqData.getRecordId());
+				MobApplCheckComments mobApplCheckComments = updateApplCheckStatusDAO.getApplCheckComm(applCheckStatusReqData.getRefId(),applCheckStatusReqData.getRecordId());
 				mobApplCheckComments.setCompId(applCheckStatusReqData.getCompId());
 				mobApplCheckComments.setCompComment(applCheckStatusReqData.getCompComment());
 				mobApplCheckComments.setCompDate(new Date());
@@ -313,9 +314,10 @@ public class UpdateApplCheckStatusServiceImpl implements UpdateApplCheckStatusSe
 	    	imageBytes = DatatypeConverter.parseBase64Binary(image);
 	    	imageStream = new ByteArrayInputStream(imageBytes);
 	    	img = Image.getInstance(ImageIO.read(imageStream),null);
-	        document.setPageSize(img);
+	        //document.setPageSize(img);
 	        document.newPage();
-	        img.setAbsolutePosition(0, 0);
+	        //img.setAbsolutePosition(0, 0);
+	        document.add(new Paragraph(new Date().toString()));
 	        document.add(img);
 	    }
 	    document.close();

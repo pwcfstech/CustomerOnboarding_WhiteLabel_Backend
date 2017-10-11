@@ -10,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.entities.jpa.MsgHeader;
@@ -27,6 +28,10 @@ import com.ofss.fcubs.gw.ws.CreateCustomerSOAPConstants;
 
 @Path("{version}")
 public class AccountCreateSoapWebService implements CreateCustomerSOAPConstants{
+	
+	final static Logger debugLog = Logger.getLogger("debugLogger");
+	final static Logger infoLog = Logger.getLogger("infoLogger");
+	final static Logger errorLog = Logger.getLogger("errorLogger");
 	private AccountCreationSOAPService accountCreationSOAPService;
 	
 
@@ -43,7 +48,7 @@ public class AccountCreateSoapWebService implements CreateCustomerSOAPConstants{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createAccountSOAPDetails(ApplicationDetailsReq applicationDetailsReq) {
 	
-		System.out.println("here in SOAP service call for create account Service");
+		infoLog.info("here in SOAP service call for create account Service");
 		MsgHeader msgHeader= new MsgHeader();
 		try{
 			if(validateRequest(applicationDetailsReq)){
@@ -65,7 +70,7 @@ public class AccountCreateSoapWebService implements CreateCustomerSOAPConstants{
 				
 				ApplicationDetailsResp applicationDetailsResp = getApplicationDetailsResp(createAccount, appId, recordId, userId);
 				
-				
+				//sendEmails(accountCreationRequest,accountCreationResponse);
 				if (applicationDetailsResp!=null) {
 					return Response.ok(applicationDetailsResp, MediaType.APPLICATION_JSON).build();
 				}

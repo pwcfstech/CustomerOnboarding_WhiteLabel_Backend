@@ -42,26 +42,29 @@ public class LockApplicationServiceImpl implements LockApplicationService {
 
 		LockApplicationResponse lockApplicationResponse=new LockApplicationResponse();
 		Data data = new LockApplicationResponse().new Data();
-		MobApplCheck mobApplCheck = new MobApplCheck();
-		mobApplCheck.setId(lockApplicationRequest.getData().getRefId());
-		mobApplCheck.setRecordId(lockApplicationRequest.getData().getRecordId());
-		mobApplCheck.setLockedBy(lockApplicationRequest.getData().getUserId());
-		mobApplCheck.setIsAppLocked(lockApplicationRequest.getData().getLockApp());
-		mobApplCheck.setKycDone(false);
-		mobApplCheck.setCcDone(false);
-		mobApplCheck.setIcDone(false);
-		mobApplCheck.setWcDone(false);
-		mobApplCheck.setCreatedBy(lockApplicationRequest.getData().getUserId());
-		mobApplCheck.setCreatedDate(new Date());
-		mobApplCheck.setModifiedBy(lockApplicationRequest.getData().getUserId());
-		mobApplCheck.setModifiedDate(new Date());
-
 		try{
-			lockApplicationDAO.getApplCheckStatus(mobApplCheck);
+			MobApplCheck mobApplCheck = lockApplicationDAO.getApplCheckStatus(lockApplicationRequest.getData().getRefId(),lockApplicationRequest.getData().getRecordId());
+			mobApplCheck.setLockedBy(lockApplicationRequest.getData().getUserId());
+			mobApplCheck.setIsAppLocked(lockApplicationRequest.getData().getLockApp());
+			mobApplCheck.setModifiedBy(lockApplicationRequest.getData().getUserId());
+			mobApplCheck.setModifiedDate(new Date());
 			lockApplicationDAO.updateApplCheckStatus(mobApplCheck);
 		}
 		catch(NoResultException e)
 		{
+			MobApplCheck mobApplCheck = new MobApplCheck();
+			mobApplCheck.setId(lockApplicationRequest.getData().getRefId());
+			mobApplCheck.setRecordId(lockApplicationRequest.getData().getRecordId());
+			mobApplCheck.setLockedBy(lockApplicationRequest.getData().getUserId());
+			mobApplCheck.setIsAppLocked(lockApplicationRequest.getData().getLockApp());
+			mobApplCheck.setKycDone(false);
+			mobApplCheck.setCcDone(false);
+			mobApplCheck.setIcDone(false);
+			mobApplCheck.setWcDone(false);
+			mobApplCheck.setCreatedBy(lockApplicationRequest.getData().getUserId());
+			mobApplCheck.setCreatedDate(new Date());
+			mobApplCheck.setModifiedBy(lockApplicationRequest.getData().getUserId());
+			mobApplCheck.setModifiedDate(new Date());
 			lockApplicationDAO.storeApplCheckStatus(mobApplCheck);
 		}
 		 

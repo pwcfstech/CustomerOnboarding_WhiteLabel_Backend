@@ -15,7 +15,7 @@ public interface UpdateApplCheckStatusJpaDao extends UpdateApplCheckStatusDAO {
 	public void updateApplCheckStatus(MobApplCheck mobApplCheck);
 	public void updateAppStatus(MobRmAppRefId mobRmAppRefId);
 	public MobApplCheckComments storeApplCheckComm(MobApplCheckComments mobApplCheckComments);
-	public MobApplCheckComments getApplCheckComm(Long recordId);
+	public MobApplCheckComments getApplCheckComm(Long refId, Long recordId);
 	public void updateMobApplCheckComm(MobApplCheckComments mobApplCheckComments);
 	public MobRmAppRefId getMobAppRefId(Long refId);
 }

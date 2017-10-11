@@ -566,7 +566,7 @@ public class AccountCreationServiceImpl implements AccountCreationService {
 		mobApplicantPersonalDetail=accountCreateDao.storeMobApplicantPersonalDetail(mobApplicantPersonalDetail);
 		infoLog.info("MOB_APPLICANT_PERSONAL_DETAILS has been stored");
 		
-		if(age >= 18){
+		if(age > 18){
 			mobApplicantPersonalDetail.setIsMinor(false);
 		}
 		else{

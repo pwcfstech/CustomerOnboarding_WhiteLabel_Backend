@@ -209,11 +209,11 @@ public class ComplianceServiceImpl implements ComplianceService {
 				if (outputsMobCheck[8] != null)
 					applicationsUnderProcessing2.setIsWcDone(outputsMobCheck[8].toString());
 
-				if (outputsMobCheck[9] != null)
-					applicationsUnderProcessing2.setWcUrl(outputsMobCheck[9].toString());
-
 				if (outputsMobCheck[10] != null)
-					applicationsUnderProcessing2.setWcStatus(outputsMobCheck[10].toString());
+					applicationsUnderProcessing2.setWcUrl(outputsMobCheck[10].toString());
+
+				if (outputsMobCheck[9] != null)
+					applicationsUnderProcessing2.setWcStatus(outputsMobCheck[9].toString());
 
 				if (outputsMobCheck[11] != null)
 					applicationsUnderProcessing2.setWcDoneBy(outputsMobCheck[11].toString());
@@ -235,11 +235,11 @@ public class ComplianceServiceImpl implements ComplianceService {
 				if (outputsMobCheck[13] != null)
 					applicationsUnderProcessing2.setIsCcDone(outputsMobCheck[13].toString());
 
-				if (outputsMobCheck[14] != null)
-					applicationsUnderProcessing2.setCcUrl(outputsMobCheck[14].toString());
-
 				if (outputsMobCheck[15] != null)
-					applicationsUnderProcessing2.setCcStatus(outputsMobCheck[15].toString());
+					applicationsUnderProcessing2.setCcUrl(outputsMobCheck[15].toString());
+
+				if (outputsMobCheck[14] != null)
+					applicationsUnderProcessing2.setCcStatus(outputsMobCheck[14].toString());
 
 				if (outputsMobCheck[16] != null)
 					applicationsUnderProcessing2.setCcDoneBy(outputsMobCheck[16].toString());
@@ -261,11 +261,11 @@ public class ComplianceServiceImpl implements ComplianceService {
 				if (outputsMobCheck[18] != null)
 					applicationsUnderProcessing2.setIsIcDone(outputsMobCheck[18].toString());
 
-				if (outputsMobCheck[19] != null)
-					applicationsUnderProcessing2.setIcUrl(outputsMobCheck[19].toString());
-
 				if (outputsMobCheck[20] != null)
-					applicationsUnderProcessing2.setIcStatus(outputsMobCheck[20].toString());
+					applicationsUnderProcessing2.setIcUrl(outputsMobCheck[20].toString());
+
+				if (outputsMobCheck[19] != null)
+					applicationsUnderProcessing2.setIcStatus(outputsMobCheck[19].toString());
 
 				if (outputsMobCheck[21] != null)
 					applicationsUnderProcessing2.setIcDoneBy(outputsMobCheck[21].toString());

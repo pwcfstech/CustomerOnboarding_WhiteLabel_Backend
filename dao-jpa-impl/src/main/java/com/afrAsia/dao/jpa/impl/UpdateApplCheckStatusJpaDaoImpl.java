@@ -77,10 +77,11 @@ public class UpdateApplCheckStatusJpaDaoImpl extends BaseJpaDAOImpl<String, MobA
 	}
 
 
-	public MobApplCheckComments getApplCheckComm(Long recordId) {
+	public MobApplCheckComments getApplCheckComm(Long refId, Long recordId) {
 
 		Query query = getEntityManager()
-				.createQuery("FROM MobApplCheckComments mac WHERE mac.recordId=:recordId");
+				.createQuery("FROM MobApplCheckComments mac WHERE mac.id =:id and mac.recordId=:recordId");
+		query.setParameter("id", refId);
 		query.setParameter("recordId", recordId);
 		return (MobApplCheckComments) query.getSingleResult();
 	}
@@ -88,7 +89,7 @@ public class UpdateApplCheckStatusJpaDaoImpl extends BaseJpaDAOImpl<String, MobA
 	public void updateMobApplCheckComm(MobApplCheckComments mobApplCheckComments) {
 		String queryString = "UPDATE MobApplCheckComments s SET s.compId=:compId, s.compComment=:compComment,"+
 							" s.icComment=:icComment, s.kycComment=:kycComment, s.wcComment=:wcComment,"+
-							" s.ccComment=:ccComment where s.id =:appRefId";
+							" s.ccComment=:ccComment where s.id =:appRefId and s.recordId=:recordId";
 		Query query = getEntityManager().createQuery(queryString);
 		query.setParameter("compId", mobApplCheckComments.getCompId());
 		query.setParameter("compComment", mobApplCheckComments.getCompComment());
@@ -97,6 +98,7 @@ public class UpdateApplCheckStatusJpaDaoImpl extends BaseJpaDAOImpl<String, MobA
 		query.setParameter("wcComment", mobApplCheckComments.getWcComment());
 		query.setParameter("ccComment", mobApplCheckComments.getCcComment());
 		query.setParameter("appRefId", mobApplCheckComments.getId());
+		query.setParameter("recordId", mobApplCheckComments.getRecordId());
 		query.executeUpdate();
 	}
 	
