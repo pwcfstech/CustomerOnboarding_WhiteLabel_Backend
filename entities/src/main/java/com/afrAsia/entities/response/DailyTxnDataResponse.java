@@ -218,10 +218,10 @@ public class DailyTxnDataResponse implements Serializable
 		
 	}
 	
-	public static void main(String[] args)
+	/*public static void main(String[] args)
 	{
 		System.out.println(appendZeros("Hello", 7));
-	}
+	}*/
     
     
 }

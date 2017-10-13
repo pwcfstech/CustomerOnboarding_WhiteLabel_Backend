@@ -177,7 +177,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		String clientSecret = passwordEncoder.encode(loginDataRequest.getPassword());
 		String userType = loginDataRequest.getUserType();
 		
-		if (tryLdapConnection(loginDataRequest.getUserId(), loginDataRequest.getPassword())) {
+		if (tryLdapConnection(loginDataRequest.getUserId(), loginDataRequest.getPassword(), userType)) {
 			ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(userId); 
 			infoLog.info("clientDetails in login(),AuthenticationServiceImpl is : "+clientDetails);
 			RMDetails rmDetails;
@@ -189,7 +189,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			{
 				rmDetails = customClientDetailsService.saveClientDetail(userId, userType,"rest_api", clientSecret, 
 						"standard_client", "client_credentials", null, "ROLE_USER", 
-						7200, 7200, null, null);	
+						14400, 14400, null, null);	
 			}
 			else{
 				token = getTokenDetails(userId, clientSecret, "client_credentials");
@@ -289,80 +289,105 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		return token;
 	}
 
-	private boolean tryLdapConnection(String username, String password) throws Exception {
+	private boolean tryLdapConnection(String username, String password, String userType) throws Exception {
 		try {
-			Hashtable<String, String> env = new Hashtable<String, String>();
+		Hashtable<String, String> env = new Hashtable<String, String>();
+		String usernameAuth = "afrasiabank\\" +username;
+		env.put(Context.INITIAL_CONTEXT_FACTORY, contextFactory);
+		env.put(Context.PROVIDER_URL, url);
+		env.put(Context.SECURITY_AUTHENTICATION, authenticationType);
+		env.put(Context.SECURITY_PRINCIPAL, usernameAuth);
+		env.put(Context.SECURITY_CREDENTIALS, password);
 
-			String usernameAuth = "afrasiabank\\" + username;
-			env.put(Context.INITIAL_CONTEXT_FACTORY, contextFactory);
-			env.put(Context.PROVIDER_URL, url);
-			env.put(Context.SECURITY_AUTHENTICATION, authenticationType);
-			env.put(Context.SECURITY_PRINCIPAL, usernameAuth);
-			env.put(Context.SECURITY_CREDENTIALS, password);
+		LdapContext ctx = new InitialLdapContext(env, null);
+		ctx.setRequestControls(null);
 
-			LdapContext ctx = new InitialLdapContext(env, null);
-			ctx.setRequestControls(null);
-
-			NamingEnumeration<?> namingEnum = ctx.search("ou=AfrasiaBank Users,dc=afrasiabank,DC=local",
-					"(memberOf=CN=G-RMMobile,OU=Groups,OU=AfrasiaBank Users,DC=afrasiabank,DC=local)",
+		NamingEnumeration<?> namingEnum = null;
+		if("RM".equalsIgnoreCase(userType))
+		{
+			namingEnum = ctx.search("ou=AfrasiaBank Users,dc=afrasiabank,DC=local",
+				"(memberOf=CN=G-RMMobile,OU=Groups,OU=AfrasiaBank Users,DC=afrasiabank,DC=local)",
+				getSearchControls());
+		}
+		else
+		{
+			namingEnum = ctx.search("ou=AfrasiaBank Users,dc=afrasiabank,DC=local",
+					"(memberOf=CN=G-BackOfficeMobile,OU=Groups,OU=AfrasiaBank Users,DC=afrasiabank,DC=local)",
 					getSearchControls());
+		}
+		
+		while (namingEnum != null && namingEnum.hasMoreElements()) {
+			SearchResult result = (SearchResult) namingEnum.next();
+			Attributes attrs = result.getAttributes();
+			String usernameLdap = attrs.get("sAMAccountName").toString();
+			usernameLdap = usernameLdap.substring(16);
+			String name = attrs.get("cn").toString();
+			String mail = null;
+			
+			if(attrs.get("mail")!=null)
+			{
+				mail=attrs.get("mail").toString();
+			}
+					
 
-			while (namingEnum != null && namingEnum.hasMoreElements()) {
-				SearchResult result = (SearchResult) namingEnum.next();
-				Attributes attrs = result.getAttributes();
-				String usernameLdap =  attrs.get("sAMAccountName").toString();
-		        usernameLdap =  usernameLdap.substring(16);
- 				String name = attrs.get("cn").toString();
-				String mail = null;
-				if(attrs.get("mail")!=null)
+			if (username.toUpperCase().contains(usernameLdap.toUpperCase())) {
+				debugLog.debug("Name matched" + name + "Mail" + mail);
+				name = name.substring(4);
+				
+				if(mail!=null)
 				{
-					mail = attrs.get("mail").toString();
+					mail = mail.substring(6);
 				}
-
-				if (username.contains(usernameLdap)) {
-					System.out.println("Name matched" + name + "Mail" + mail);
-					name = name.substring(4);
-					if(mail!=null)
-					{
-						mail = mail.substring(6);
-					}
-
-					/*
-					 * Start: Code Added by Avisha to add RM's email ID, Mob No
-					 * and flex ID on 05/09
-					 */
-					RMDetails rmDetails = new RMDetails();
-					rmDetails.setId(username);
-					rmDetails.setRmName(name);
-					rmDetails.setRmEmailId(mail);
-					List<RMDetails> rmDetailsLst = rmDetailsDAO.getRMDetailListByRMId(username);
-					infoLog.info("RM Name matched" + username);
-					infoLog.info("RMDetailsList siz: " + rmDetailsLst.size());
-					if (rmDetailsLst != null && rmDetailsLst.size() != 0) {
-						rmDetails.setModifiedBy(username);
-						rmDetails.setModifiedDate(new Date(System.currentTimeMillis()));
-						rmDetailsDAO.updateRmDetails(rmDetails);
-					} else {
-						rmDetails.setCreatedBy(username);
-						rmDetails.setCreatedDate(new Date(System.currentTimeMillis()));
-						rmDetailsDAO.saveRmDetails(rmDetails);
-					}
-					/*
-					 * End: Code Added by Avisha to add RM's email ID, Mob No
-					 * and flex ID on 05/09
-					 */
+				
+				 /*Start: Code Added by Avisha to add RM's email ID, Mob No
+				 and flex ID on 05/09*/
+				 
+				RMDetails rmDetails = new RMDetails();
+				rmDetails.setId(username);
+				rmDetails.setRmName(name);
+				rmDetails.setRmEmailId(mail);
+				List<RMDetails> rmDetailsLst = rmDetailsDAO.getRMDetailListByRMId(username);
+				infoLog.info("RMDetailsList siz: " + rmDetailsLst.size());
+				if (rmDetailsLst != null && rmDetailsLst.size() != 0) {
+					rmDetails.setModifiedBy(username);
+					rmDetails.setModifiedDate(new Date(System.currentTimeMillis()));
+					rmDetailsDAO.updateRmDetails(rmDetails);
+				} else {
+					rmDetails.setCreatedBy(username);
+					rmDetails.setCreatedDate(new Date(System.currentTimeMillis()));
+					rmDetailsDAO.saveRmDetails(rmDetails);
+				}
+				
+				 /*End: Code Added by Avisha to add RM's email ID, Mob No
+				 and flex ID on 05/09*/
+				 
 
 				return true;
 
-				}
 			}
-		} catch (Exception e) {
-			errorLog.error("LDAP EXCEPTION" , e);
-			//e.printStackTrace();
-			throw e;
 		}
+	} catch (Exception e) {
+		errorLog.error("LDAP EXCEPTION", e);
 		throw new Exception();
 	}
+	throw new Exception();
+	/*RMDetails rmDetails = new RMDetails();
+	rmDetails.setId(username);
+	rmDetails.setRmName("RM");
+	//rmDetails.setRmEmailId(mail);
+	List<RMDetails> rmDetailsLst = rmDetailsDAO.getRMDetailListByRMId(username);
+	infoLog.info("RMDetailsList siz: " + rmDetailsLst.size());
+	if (rmDetailsLst != null && rmDetailsLst.size() != 0) {
+		rmDetails.setModifiedBy(username);
+		rmDetails.setModifiedDate(new Date(System.currentTimeMillis()));
+		rmDetailsDAO.updateRmDetails(rmDetails);
+	} else {
+		rmDetails.setCreatedBy(username);
+		rmDetails.setCreatedDate(new Date(System.currentTimeMillis()));
+		rmDetailsDAO.saveRmDetails(rmDetails);
+	}
+	return true;*/
+}
 
 	private SearchControls getSearchControls() {
 		SearchControls searchControls = new SearchControls();

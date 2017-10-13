@@ -106,7 +106,7 @@
 		<property name="tokenStore" ref="tokenStore" />
 		<property name="supportRefreshToken" value="true" />
 		<property name="clientDetailsService" ref="clientDetails" />
-		<property name="accessTokenValiditySeconds" value="7200" />
+		<property name="accessTokenValiditySeconds" value="14400" />
 	</bean>
 
 	<bean id="clientDetails"
@@ -148,6 +148,8 @@
 	
 	<bean id="updateApplCheckStatusService" class="com.afrAsia.service.impl.UpdateApplCheckStatusServiceImpl">
 		<property name="updateApplCheckStatusDAO" ref="updateApplCheckStatusJpaDao" />
+		<property name="rmDetailsDAO" ref="rmDetailsDAO" />
+		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" /> 
 	</bean>
 	
 	<bean id="updateCifOrShortnameService" class="com.afrAsia.service.impl.UpdateCifOrShortnameServiceImpl">
@@ -161,6 +163,7 @@
 	<bean id="accountCreationSOAPService" class="com.afrAsia.service.impl.AccountCreationSOAPServiceImpl">
 		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" /> 
 		<property name="complianceDao" ref="complianceJpaDao" />
-		<property name="kycService" ref="kycService" /> 
+		<property name="kycService" ref="kycService" />
+		<property name="rmDetailsDAO" ref="rmDetailsDAO" /> 
 	</bean>
 </beans>						

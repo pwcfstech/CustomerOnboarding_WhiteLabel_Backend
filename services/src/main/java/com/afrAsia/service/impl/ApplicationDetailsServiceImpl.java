@@ -77,6 +77,10 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				{
 					data.setPendingRMSince(mobRmAppRefId.getModifiedDate().getTime());
 				}
+				if(mobRmAppRefId.getAccountNumber()!=null)
+				{
+					accountDetails.setAccountNumber(mobRmAppRefId.getAccountNumber());
+				}
 			} else {
 				errorLog.error("The application number does not exist. Please check again");
 				Error err = new MsgHeader().new Error();

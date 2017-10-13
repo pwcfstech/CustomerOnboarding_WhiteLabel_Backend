@@ -122,6 +122,7 @@
 	
 <bean id="updateApplCheckStatusRestService" class="com.afrAsia.rest.UpdateApplCheckStatusRestService" >
 		<property name="updateApplCheckStatusService" ref="updateApplCheckStatusService" />
+		<property name="afrAsiaMailConfig" ref="mailConfig" />
 	</bean>
 	
 	<bean id="updateCifOrShortnameRestService" class="com.afrAsia.rest.UpdateCifOrShortnameRestService" >
@@ -134,6 +135,7 @@
 	
 	<bean id="accountCreateSoapWebService" class="com.afrAsia.rest.AccountCreateSoapWebService" >
 		<property name="accountCreationSOAPService" ref="accountCreationSOAPService" />
+		<property name="afrAsiaMailConfig" ref="mailConfig" />
 	</bean>
 	
 	

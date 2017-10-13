@@ -4,6 +4,7 @@ import javax.persistence.NoResultException;
 
 import com.afrAsia.entities.transactions.MobApplCheck;
 import com.afrAsia.entities.transactions.MobApplCheckComments;
+import com.afrAsia.entities.transactions.MobApplicantPersonalDetail;
 import com.afrAsia.entities.transactions.MobRmAppRefId;
 
 public interface UpdateApplCheckStatusDAO {

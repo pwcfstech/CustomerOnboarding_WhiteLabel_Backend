@@ -1,7 +1,10 @@
 package com.afrAsia.rest;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.naming.NamingException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -13,12 +16,18 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.afrAsia.CommonUtils;
+import com.afrAsia.Utils.AfrAsiaEmailUtility;
+import com.afrAsia.Utils.AfrAsiaMailConfig;
 import com.afrAsia.dao.UpdateApplCheckStatusDAO;
 import com.afrAsia.entities.jpa.MsgHeader;
 import com.afrAsia.entities.jpa.MsgHeader.Error;
+import com.afrAsia.entities.masters.RMDetails;
+import com.afrAsia.entities.request.AccountCreationRequest;
 import com.afrAsia.entities.request.ApplCheckStatusReq;
 import com.afrAsia.entities.request.ApplCheckStatusReq.Data;
+import com.afrAsia.entities.response.AccountCreateResponse;
 import com.afrAsia.entities.response.ApplCheckStatusResponse;
+import com.afrAsia.entities.transactions.MobApplicantPersonalDetail;
 import com.afrAsia.service.UpdateApplCheckStatusService;
 
 
@@ -34,6 +43,17 @@ public class UpdateApplCheckStatusRestService {
 	private UpdateApplCheckStatusService updateApplCheckStatusService;
 
 	private UpdateApplCheckStatusDAO updateApplCheckStatusDAO; 
+	
+	private AfrAsiaMailConfig afrAsiaMailConfig;
+	
+	public AfrAsiaMailConfig getAfrAsiaMailConfig() {
+		return afrAsiaMailConfig;
+	}
+
+	public void setAfrAsiaMailConfig(AfrAsiaMailConfig afrAsiaMailConfig) {
+		this.afrAsiaMailConfig = afrAsiaMailConfig;
+	}
+
 	
 	public UpdateApplCheckStatusService getUpdateApplCheckStatusService() {
 		return updateApplCheckStatusService;
@@ -64,6 +84,8 @@ public class UpdateApplCheckStatusRestService {
 			String checkStatusRequest = validateRequest(applCheckStatusReq);
 			if (checkStatusRequest.equals("Success")) {
 				applCheckStatusResponse = updateApplCheckStatusService.updateApplCheckStatus(applCheckStatusReq);
+				
+				sendEmails(applCheckStatusReq,applCheckStatusResponse);
 				
 				if (applCheckStatusResponse!=null) {
 					return Response.ok(applCheckStatusResponse, MediaType.APPLICATION_JSON).build();
@@ -196,4 +218,69 @@ public class UpdateApplCheckStatusRestService {
 
 	}
 
+public void sendEmails(ApplCheckStatusReq applCheckStatusReq, ApplCheckStatusResponse applCheckStatusResponse){
+		
+		String host = afrAsiaMailConfig.getMailhost();
+		String port = afrAsiaMailConfig.getMailport();
+		String mailFrom = afrAsiaMailConfig.getMailFrom();
+		String password = afrAsiaMailConfig.getMailPassword();
+		String smtpAuthRequired=afrAsiaMailConfig.getSmtpAuthRequired();
+		String smtpAuthstarttls=afrAsiaMailConfig.getSmtpAuthRequired();
+		String subject="Welcome to AfrAsia";
+		
+		infoLog.info("Mail Port" + port);
+		infoLog.info("Host is:"+host);
+		
+		Data applCheckStatusData = applCheckStatusReq.getData();
+		String primApplicantName = "";
+		MobApplicantPersonalDetail mobApplicantPersonalDetail = null;
+		if(updateApplCheckStatusService.getApplPersonalDetails(applCheckStatusData.getRefId())!=null)
+		{
+			mobApplicantPersonalDetail=updateApplCheckStatusService.getApplPersonalDetails(applCheckStatusData.getRefId());
+			primApplicantName = mobApplicantPersonalDetail.getFirstName()+mobApplicantPersonalDetail.getLastName();
+		}
+		String rmName = "";
+		String toAddrRM = "";
+		
+
+		RMDetails rmDetails = updateApplCheckStatusService.getRMDetails(applCheckStatusData.getRefId());
+		if(rmDetails!=null)
+		{
+			rmName=rmDetails.getRmName();
+			toAddrRM=rmDetails.getRmEmailId();
+		}
+		
+		String messageToRM="";
+		
+		if("Require Attention".equals(applCheckStatusData.getAppStatus()))	
+		{
+			messageToRM="Dear "+rmName+"," + "\n" + "\n" +
+				"The application for applicant "+primApplicantName+"["+applCheckStatusData.getRefId()+"]"+" has been sent back to you as it requires some modifications to be done."+ "\n" + "\n" +
+				"Kind regards," + "\n" + 
+
+				"AfrAsia Bank";
+		}
+		else if("Rejected Application".equals(applCheckStatusData.getAppStatus()))	
+		{
+			messageToRM="Dear "+rmName+"," + "\n" + "\n" +
+				"The application for applicant "+primApplicantName+"["+applCheckStatusData.getRefId()+"]"+" has been rejected."+ "\n" + "\n" +
+				"Kind regards," + "\n" + 
+
+				"AfrAsia Bank";
+		}
+		
+		try {
+			AfrAsiaEmailUtility.sendEmail(host, port, mailFrom, password, toAddrRM, subject, messageToRM, smtpAuthRequired, smtpAuthstarttls);
+			infoLog.info("RM EMail sent success");
+		} catch (MessagingException e) {
+			errorLog.error("MessagingException found in sendEmails(),AccountCreationRestService.java: ",e);
+		} catch (IOException e) {
+			errorLog.error("IOException found in sendEmails(),AccountCreationRestService.java: ",e);
+		} catch (NamingException e) {
+			errorLog.error("NamingException found in sendEmails(),AccountCreationRestService.java: ",e);
+		} catch (Exception e) {
+			errorLog.error("Exception found in sendEmails(),AccountCreationRestService.java : ",e);
+		}
+		
+	}
 }

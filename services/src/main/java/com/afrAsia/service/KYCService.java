@@ -19,5 +19,5 @@ public interface KYCService {
 	 * @return 
 	 */
 	KYCResponse uploadKYC(KYCDataRequest kycDataRequest, InputStream image);   
-	void copyKYCFiles(Long appId, Long applicantId, Long cif, Long recordNo, String rmId) throws IOException;
+	void copyKYCFiles(Long appId, Long applicantId, Long cif, Long recordNo, String rmId, Boolean isMinor) throws IOException;
 }

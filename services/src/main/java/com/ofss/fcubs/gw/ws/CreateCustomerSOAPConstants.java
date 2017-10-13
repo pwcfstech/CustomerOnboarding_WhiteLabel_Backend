@@ -114,7 +114,7 @@ public interface CreateCustomerSOAPConstants {
 		 static final String  TDS_TYPE ="INDIVIDUA";
 		 static final String  SUBSECT ="S95";
 		 
-		 static final String  ACCOUNT_CREATED ="ACCOUNT CREATED";
+		 static final String  ACCOUNT_OPENED ="ACCOUNT OPENED";
 		 static final String  UNDER_PROCESSING ="UNDER_PROCESSING";
 		 
 		 static final String  CRS_TIN_1 ="CRS_TIN_1";

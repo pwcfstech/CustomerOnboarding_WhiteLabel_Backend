@@ -17,7 +17,6 @@ import com.afrAsia.entities.transactions.MobApplicantEmploymentDtl;
 import com.afrAsia.entities.transactions.MobApplicantKycDocuments;
 import com.afrAsia.entities.transactions.MobApplicantPersonalDetail;
 import com.afrAsia.entities.transactions.MobApplicantRecordId;
-import com.afrAsia.entities.transactions.MobComments;
 import com.afrAsia.entities.transactions.MobRmAppRefId;
 
 public class ApplicationDetailsDaoImpl extends BaseJpaDAOImpl<Long, MobRmAppRefId> implements ApplicationDetailsJpaDAO {

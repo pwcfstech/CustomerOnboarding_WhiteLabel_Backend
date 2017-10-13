@@ -13,6 +13,8 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.apache.log4j.Logger;
+
 import com.afrAsia.entities.request.AccountCreationDetails;
 import com.afrAsia.entities.request.MobCreateCustomerSOAPRequest;
 import com.afrAsia.entities.transactions.MobAccountAdditionalDetail;
@@ -34,10 +36,13 @@ import com.ofss.fcubs.service.fcubsaccservice.UDFDETAILSType2;
 
 
 public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
+	 final static Logger debugLog = Logger.getLogger("debugLogger");
+		final static Logger infoLog = Logger.getLogger("infoLogger");
+		final static Logger errorLog = Logger.getLogger("errorLogger");
 	static SecureRandom rnd = new SecureRandom();
 	
 	public Map<String,Object> createAfrAsiaAccount(String userId,Map<String, AccountCreationDetails> accountDtlsMap) throws DatatypeConfigurationException	{
-		System.out.println("===> createAfrAsiaAccount start ");
+		infoLog.info("===> createAfrAsiaAccount start ");
 		//============================================================================================================
 		
 		AccountCreationDetails accountCreationDetails = accountDtlsMap.get(INDV_APPLICANT);
@@ -330,14 +335,14 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 	  Gson gson = new Gson();
 	  String requestMsgJson = gson.toJson(requestMsg);
 	 
-	  System.out.println(" requestMsgJson : "+requestMsgJson);
+	  debugLog.debug(" requestMsgJson : "+requestMsgJson);
 	  
 	  CREATECUSTACCFSFSRES createCustAccFSRes = callCreateAccountSOAP(requestMsg);
 	  
 	  String json2 = gson.toJson(createCustAccFSRes);
 		
-		System.out.println("END of CreateAccount SOAP call");
-		System.out.println("Got response from CreateAccount: "+json2);
+		infoLog.info("END of CreateAccount SOAP call");
+		debugLog.debug("Got response from CreateAccount: "+json2);
 	  
 	  
 	  Map<String, Object> result = new HashMap<String, Object>();
@@ -368,7 +373,7 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		  result.put(ERROR, createCustAccFSRes.getFCUBSBODY().getFCUBSERRORRESP());
 	  }
 	  //======================================================================================
-	  System.out.println("===> createAfrAsiaAccount end ");
+	  infoLog.info("===> createAfrAsiaAccount end ");
 	  return result;
   }
 	
@@ -592,17 +597,17 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		String firstName = mobCreateCustomerSOAPRequest.getMobApplicantPersonalDetail().getFirstName();
 		String middleName = mobCreateCustomerSOAPRequest.getMobApplicantPersonalDetail().getMiddleName();
 		String lastName = mobCreateCustomerSOAPRequest.getMobApplicantPersonalDetail().getLastName();
-		System.out.println(firstName);
-		System.out.println(lastName);
-		System.out.println(middleName);
+		debugLog.debug("firstName: "+firstName);
+		debugLog.debug("lastName: "+lastName);
+		debugLog.debug("middleName: "+middleName);
 		String fullName = "";
 				String 	frName= firstName != null ? firstName : BLANK;
 				String 	midName =	  middleName != null ? " " +middleName : BLANK ;
 				String 	lstName	=  lastName != null ? " "+lastName : BLANK ;
 				fullName = 	frName + midName + lstName;
-		System.out.println(fullName);
+		debugLog.debug("fullName: "+fullName);
 		fullName = substractChar(limit, fullName);
-		System.out.println(fullName);
+		debugLog.debug("fullName: "+fullName);
 		return fullName;
 	}
 	

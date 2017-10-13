@@ -24,13 +24,13 @@ public class Client {
 	    });
 	}
 
-	public static void main(String[] args) throws Exception {
+	/*public static void main(String[] args) throws Exception {
 		URL url = new URL("http://localhost:8090/DigitalTransaction?wsdl");
 		QName qname = new QName("http://ubi.com", "DTDPSSoapServiceService");
 
 		Service service = Service.create(url, qname);
 		IDTDPSSoapService rs = service.getPort(IDTDPSSoapService.class);
 		System.out.println(rs.getDigitalTransaction("", "", "", ""));
-	}
+	}*/
 
 }

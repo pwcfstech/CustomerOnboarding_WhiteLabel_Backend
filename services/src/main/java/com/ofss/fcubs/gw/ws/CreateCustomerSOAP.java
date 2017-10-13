@@ -14,6 +14,9 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.BindingProvider;
+
+import org.apache.log4j.Logger;
+
 import com.afrAsia.entities.request.MobCreateCustomerSOAPRequest;
 import com.afrAsia.entities.transactions.MainTableCompositePK;
 import com.afrAsia.entities.transactions.MobAccountAdditionalDetail;
@@ -41,11 +44,13 @@ import com.ofss.fcubs.service.fcubscustomerservice.UDFDETAILSType2;
 import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 
  public class CreateCustomerSOAP implements CreateCustomerSOAPConstants {
-	
+	 final static Logger debugLog = Logger.getLogger("debugLogger");
+		final static Logger infoLog = Logger.getLogger("infoLogger");
+		final static Logger errorLog = Logger.getLogger("errorLogger");
     static SecureRandom rnd = new SecureRandom();
 	
-    public Map<String,Object> createAfrAsiaCustomer(String userId,MobCreateCustomerSOAPRequest mobCreateCustomerSOAPRequest,MobCreateCustomerSOAPRequest mobApplicantGuardianDetails) throws DatatypeConfigurationException	{
-		System.out.println("===> createAfrAsiaCustomer start ");
+    public Map<String,Object> createAfrAsiaCustomer(String userId,MobCreateCustomerSOAPRequest mobCreateCustomerSOAPRequest,MobCreateCustomerSOAPRequest mobApplicantGuardianDetails) throws Exception	{
+		infoLog.info("===> createAfrAsiaCustomer start ");
 		
 		String firstName = getFirstName(mobCreateCustomerSOAPRequest);
 		String middleName = getMiddleName(mobCreateCustomerSOAPRequest);
@@ -153,7 +158,7 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 			String lName = lastName != null ? lastName : BLANK;
 			String sName = fName + lName;
 			sName = substractChar(17, sName);
-			System.out.println("sName:"+sName);
+			debugLog.debug("sName:"+sName);
 			customerFT.setSNAME(sName);
 		}
 		
@@ -283,6 +288,7 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 		// <fcub:PPTISSDT>?</fcub:PPTISSDT> Issue date (same as above)  yyyy-mm-dd	|MOB_APPLICANT_PERSONAL_DETAILS	Date in yyyy-mm-dd format						
 		// newly added
 		if( null != passportNo && !passportNo.isEmpty()){	
+			custpersonal.setPPTNO(passportNo);
 			/*SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			Date passportIssueDate = null ;
 			try {
@@ -618,12 +624,12 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 	  CREATECUSTOMERFSFSREQ.FCUBSBODY bodyValue = new CREATECUSTOMERFSFSREQ.FCUBSBODY();
 	  bodyValue.setCustomerFull(customerFT);
 	  requestMsg.setFCUBSBODY(bodyValue);
-	  System.out.println("===> createAfrAsiaCustomer bodyValue setting done " + bodyValue);
+	  debugLog.debug("===> createAfrAsiaCustomer bodyValue setting done " + bodyValue);
 	  //===============================================
 	  Gson gson = new Gson();  
 		//  requestMsg
 		  String requestMsgJson = gson.toJson(requestMsg);
-		  System.out.println("requestMsgJson :" + requestMsgJson);
+		  debugLog.debug("requestMsgJson :" + requestMsgJson);
 	//===================================================  
 	  Map<String,Object> result= null;	  
 	  try{
@@ -657,24 +663,24 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 			}
 			else{
 				
-				System.out.println("No response from Service call . Got Exception!");
+				infoLog.info("No response from Service call . Got Exception!");
 			}
 			
 			String json2 = gson.toJson(responseData);
 			
-			System.out.println("END");
-			System.out.println("Got response from CreateCustomer: "+json2);
+			infoLog.info("END");
+			debugLog.debug("Got response from CreateCustomer: "+json2);
 			
-			System.out.println("Map MSGSTAT : "+result.get(MSGSTAT));
+			debugLog.debug("Map MSGSTAT : "+result.get(MSGSTAT));
 			//System.out.println("Map ERROR_JSON : "+result.get("ERROR_JSON"));
 			//System.out.println("Map WARNING_JSON : "+result.get("WARNING_JSON"));
 		  
 	  } catch (Exception ex){
-		  System.out.println("callCreateCustomerSOAP :"+ ex.getMessage());
-		  ex.printStackTrace();
+		  errorLog.error("callCreateCustomerSOAP :", ex);
+		throw ex;
 	  }
 	  
-	  System.out.println("===> createAfrAsiaCustomer end ");
+	  infoLog.info("===> createAfrAsiaCustomer end ");
 	  return result;
   }
 
@@ -695,26 +701,26 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 		//  ((BindingProvider)fCUBSCustomerServiceSEI).getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 10000);
 		  
 		  if( null != cREATECUSTOMERFSFSRES){
-			  System.out.println(" cREATECUSTOMERFSFSRES : "+ cREATECUSTOMERFSFSRES);
+			  debugLog.debug(" cREATECUSTOMERFSFSRES : "+ cREATECUSTOMERFSFSRES);
 			  
 			if(null !=  cREATECUSTOMERFSFSRES.getFCUBSHEADER()){
-				 System.out.println(" cREATECUSTOMERFSFSRES.getFCUBSHEADER : "+ cREATECUSTOMERFSFSRES.getFCUBSHEADER().getMSGID());
-				 System.out.println(" cREATECUSTOMERFSFSRES.getFCUBSHEADER : "+ cREATECUSTOMERFSFSRES.getFCUBSHEADER().getMSGSTAT());
+				debugLog.debug(" cREATECUSTOMERFSFSRES.getFCUBSHEADER : "+ cREATECUSTOMERFSFSRES.getFCUBSHEADER().getMSGID());
+				debugLog.debug(" cREATECUSTOMERFSFSRES.getFCUBSHEADER : "+ cREATECUSTOMERFSFSRES.getFCUBSHEADER().getMSGSTAT());
 			}
 			
 			if(null !=  cREATECUSTOMERFSFSRES.getFCUBSBODY()){
-				 System.out.println("getFCUBSBODY"+cREATECUSTOMERFSFSRES.getFCUBSBODY().toString());
+				debugLog.debug("getFCUBSBODY"+cREATECUSTOMERFSFSRES.getFCUBSBODY().toString());
 				 if( null != cREATECUSTOMERFSFSRES.getFCUBSBODY().getFCUBSERRORRESP() &&
 						 cREATECUSTOMERFSFSRES.getFCUBSBODY().getFCUBSERRORRESP().size() != 0 ){
 					 
-					 System.out.println("cREATECUSTOMERFSFSRES.getFCUBSBODY().getFCUBSERRORRESP"+ 
+					 debugLog.debug("cREATECUSTOMERFSFSRES.getFCUBSBODY().getFCUBSERRORRESP"+ 
 							 cREATECUSTOMERFSFSRES.getFCUBSBODY().getFCUBSERRORRESP().get(0).getERROR().get(0).getECODE());
-					 System.out.println("cREATECUSTOMERFSFSRES.getFCUBSBODY().getFCUBSERRORRESP"+ 
+					 debugLog.debug("cREATECUSTOMERFSFSRES.getFCUBSBODY().getFCUBSERRORRESP"+ 
 							 cREATECUSTOMERFSFSRES.getFCUBSBODY().getFCUBSERRORRESP().get(0).getERROR().get(0).getEDESC());
 				 }
 				if( null != cREATECUSTOMERFSFSRES.getFCUBSBODY().getCustomerFull()){
-					 System.out.println("cREATECUSTOMERFSFSRES.getFCUBSBODY().getCustomerFull() :" + cREATECUSTOMERFSFSRES.getFCUBSBODY().getCustomerFull());
-					System.out.println(" cREATECUSTOMERFSFSRES.getFCUBSBODY=> CUSTNO : "+ cREATECUSTOMERFSFSRES.getFCUBSBODY().getCustomerFull().getCUSTNO());
+					debugLog.debug("cREATECUSTOMERFSFSRES.getFCUBSBODY().getCustomerFull() :" + cREATECUSTOMERFSFSRES.getFCUBSBODY().getCustomerFull());
+					debugLog.debug(" cREATECUSTOMERFSFSRES.getFCUBSBODY=> CUSTNO : "+ cREATECUSTOMERFSFSRES.getFCUBSBODY().getCustomerFull().getCUSTNO());
 				}
 			}
 		  }
@@ -1321,17 +1327,17 @@ import com.ofss.fcubs.service.fcubscustomerservice.WARNINGType;
 		String firstName = mobCreateCustomerSOAPRequest.getMobApplicantPersonalDetail().getFirstName();
 		String middleName = mobCreateCustomerSOAPRequest.getMobApplicantPersonalDetail().getMiddleName();
 		String lastName = mobCreateCustomerSOAPRequest.getMobApplicantPersonalDetail().getLastName();
-		System.out.println(firstName);
-		System.out.println(lastName);
-		System.out.println(middleName);
+		debugLog.debug("firstName"+firstName);
+		debugLog.debug("lastName"+lastName);
+		debugLog.debug("middleName"+middleName);
 		String fullName = "";
 				String 	frName= firstName != null ? firstName : BLANK;
 				String 	midName =	  middleName != null ? " " +middleName : BLANK ;
 				String 	lstName	=  lastName != null ? " "+lastName : BLANK ;
 				fullName = 	frName + midName + lstName;
-		System.out.println(fullName);
+		debugLog.debug("fullName"+fullName);
 		fullName = substractChar(MAX_NAME_CHAR, fullName);
-		System.out.println(fullName);
+		debugLog.debug("fullName"+fullName);
 		return fullName;
 	}
 

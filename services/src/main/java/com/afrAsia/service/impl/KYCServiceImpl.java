@@ -467,8 +467,8 @@ public class KYCServiceImpl implements KYCService {
 	 * @throws IOException
 	 */
 	@Transactional(readOnly = false, rollbackFor = {Exception.class})
-	public void copyKYCFiles(Long appId, Long applicantId, Long cif, Long recordNo, String rmId) throws IOException {
-		System.out.println("appId : " + appId + ", applicantId : " + applicantId);
+	public void copyKYCFiles(Long appId, Long applicantId, Long cif, Long recordNo, String rmId, Boolean isMinor) throws IOException {
+		debugLog.debug("appId : " + appId + ", applicantId : " + applicantId);
 		
 		StringBuffer dmsdocsDirectoryBuffer = new StringBuffer();
 		StringBuffer sigDirectoryBuffer = new StringBuffer();
@@ -508,50 +508,56 @@ public class KYCServiceImpl implements KYCService {
 		String filename = null;
 		String docId = null;
 
-		for (File dmsdocsFile : dmsdocsfList) {
-			System.out.println(dmsdocsFile.getName());
-			// AppId_ApplicantId_FN_LN_DocumentId_Date(DD-MM-YYY)_Time(HH-MM).pdf
-			// <DocumentId>_<Date in DDMMYYYY>
-			docId = dmsdocsFile.getName().split("_")[4];
-			filename = new StringBuffer().append(docId).append("_").append(date).append(".pdf").toString();
-			destFile = new File(destDmsdocsDirectoryName + "/" + filename);
-			this.copyFile(dmsdocsFile, destFile);
-
-			kycDocs = new MobApplicantKycDocuments();
-			kycDocs.setId(new KycTableCompositePK());
-			kycDocs.getId().setId(appId);
-			kycDocs.getId().setApplicantId(applicantId);
-			kycDocs.getId().setDocId(docId);
-			kycDocs.setRecordId(recordNo);
-			kycDocs.setDocUrl(dmsdocsSharedPath + "/" + filename);
-			kycDocs.setCreatedBy(rmId);
-			kycDocs.setCreatedDate(now);
-			kycDocs.setModifiedBy(rmId);
-			kycDocs.setModifiedDate(now);
-
-			uploadKYCDao.saveKYCDocLocation(kycDocs);
+		if(dmsdocsfList!=null && dmsdocsfList.length>0)
+		{
+			for (File dmsdocsFile : dmsdocsfList) {
+				debugLog.debug("dmsdocsFileName: "+dmsdocsFile.getName());
+				// AppId_ApplicantId_FN_LN_DocumentId_Date(DD-MM-YYY)_Time(HH-MM).pdf
+				// <DocumentId>_<Date in DDMMYYYY>
+				docId = dmsdocsFile.getName().split("_")[4];
+				filename = new StringBuffer().append(docId).append("_").append(date).append(".pdf").toString();
+				destFile = new File(destDmsdocsDirectoryName + "/" + filename);
+				this.copyFile(dmsdocsFile, destFile);
+	
+				kycDocs = new MobApplicantKycDocuments();
+				kycDocs.setId(new KycTableCompositePK());
+				kycDocs.getId().setId(appId);
+				kycDocs.getId().setApplicantId(applicantId);
+				kycDocs.getId().setDocId(docId);
+				kycDocs.setRecordId(recordNo);
+				kycDocs.setDocUrl(dmsdocsSharedPath + "/" + filename);
+				kycDocs.setCreatedBy(rmId);
+				kycDocs.setCreatedDate(now);
+				kycDocs.setModifiedBy(rmId);
+				kycDocs.setModifiedDate(now);
+	
+				uploadKYCDao.saveKYCDocLocation(kycDocs);
+			}
 		}
-
-		for (File sigFile : sigfList) {
-			// AppId_ApplicantId_FN_LN_DocumentId_Date(DD-MM-YYY)_Time(HH-MM).jpg
-			// CIF_Sig_<Date in DDMMYYY>
-			filename = new StringBuffer().append(cif).append("_Sig_").append(date).append(".jpg").toString();
-			destFile = new File(desteSigDirectoryName + "/" + filename);
-			this.copyFile(sigFile, destFile);
-
-			kycDocs = new MobApplicantKycDocuments();
-			kycDocs.setId(new KycTableCompositePK());
-			kycDocs.getId().setId(appId);
-			kycDocs.getId().setApplicantId(applicantId);
-			kycDocs.getId().setDocId(SIGNATURE);
-			kycDocs.setRecordId(recordNo);
-			kycDocs.setDocUrl(sigSharedPath + "/" + filename);
-			kycDocs.setCreatedBy(rmId);
-			kycDocs.setCreatedDate(now);
-			kycDocs.setModifiedBy(rmId);
-			kycDocs.setModifiedDate(now);
-
-			uploadKYCDao.saveKYCDocLocation(kycDocs);
+				
+		if(!isMinor || (sigfList!=null && sigfList.length>0))
+		{
+			for (File sigFile : sigfList) {
+				// AppId_ApplicantId_FN_LN_DocumentId_Date(DD-MM-YYY)_Time(HH-MM).jpg
+				// CIF_Sig_<Date in DDMMYYY>
+				filename = new StringBuffer().append(cif).append("_Sig_").append(date).append(".jpg").toString();
+				destFile = new File(desteSigDirectoryName + "/" + filename);
+				this.copyFile(sigFile, destFile);
+	
+				kycDocs = new MobApplicantKycDocuments();
+				kycDocs.setId(new KycTableCompositePK());
+				kycDocs.getId().setId(appId);
+				kycDocs.getId().setApplicantId(applicantId);
+				kycDocs.getId().setDocId(SIGNATURE);
+				kycDocs.setRecordId(recordNo);
+				kycDocs.setDocUrl(sigSharedPath + "/" + filename);
+				kycDocs.setCreatedBy(rmId);
+				kycDocs.setCreatedDate(now);
+				kycDocs.setModifiedBy(rmId);
+				kycDocs.setModifiedDate(now);
+	
+				uploadKYCDao.saveKYCDocLocation(kycDocs);
+			}
 		}
 	}
 	
@@ -563,7 +569,7 @@ public class KYCServiceImpl implements KYCService {
 	private void copyFile(File sourceFile, File destFile) throws IOException {
 		InputStream inStream = null;
 		OutputStream outStream = null;
-		System.out.println("Enter : copyFile() sourceFile : "+sourceFile.getName()+", destFile : "+destFile.getName());
+		debugLog.debug("Enter : copyFile() sourceFile : "+sourceFile.getName()+", destFile : "+destFile.getName());
 		try {
 			inStream = new FileInputStream(sourceFile);
 			outStream = new FileOutputStream(destFile);
@@ -573,12 +579,12 @@ public class KYCServiceImpl implements KYCService {
 			while ((length = inStream.read(buffer)) > 0) {
 				outStream.write(buffer, 0, length);
 			}
-			System.out.println("File is copied successful!");
+			infoLog.info("File is copied successful!");
 		} finally {
 			if (null != inStream) inStream.close();
 			if (null != outStream) outStream.close();
 		}
-		System.out.println("Exit copyFile()");
+		infoLog.info("Exit copyFile()");
 	}
 
 

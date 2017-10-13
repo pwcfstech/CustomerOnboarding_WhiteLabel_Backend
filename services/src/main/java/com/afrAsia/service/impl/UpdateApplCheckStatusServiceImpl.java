@@ -18,19 +18,27 @@ import org.apache.log4j.Logger;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.afrAsia.dao.ApplicationDetailsDao;
+import com.afrAsia.dao.RMDetailsDao;
 import com.afrAsia.dao.UpdateApplCheckStatusDAO;
+import com.afrAsia.dao.jpa.ApplicationDetailsJpaDAO;
 import com.afrAsia.entities.jpa.MsgHeader;
 import com.afrAsia.entities.jpa.MsgHeader.Error;
+import com.afrAsia.entities.masters.RMDetails;
 import com.afrAsia.entities.request.ApplCheckStatusReq;
 import com.afrAsia.entities.request.ApplCheckStatusReq.Data;
 import com.afrAsia.entities.request.ApplCheckStatusReq.Data.Checks;
 import com.afrAsia.entities.response.ApplCheckStatusResponse;
+import com.afrAsia.entities.transactions.MobAccountDetail;
 import com.afrAsia.entities.transactions.MobApplCheck;
 import com.afrAsia.entities.transactions.MobApplCheckComments;
+import com.afrAsia.entities.transactions.MobApplicantPersonalDetail;
 import com.afrAsia.entities.transactions.MobRmAppRefId;
 import com.afrAsia.service.UpdateApplCheckStatusService;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -47,32 +55,43 @@ public class UpdateApplCheckStatusServiceImpl implements UpdateApplCheckStatusSe
 	private static final String COMPDOCS_KYC_PATH = "./Afrasia_Docs/complianceDocs/KYC/";
 	private static final String COMPDOCS_PATH = "./Afrasia_Docs/complianceDocs/";
 	
-	UpdateApplCheckStatusDAO updateApplCheckStatusDAO;
-
+	private UpdateApplCheckStatusDAO updateApplCheckStatusDAO;
+	private RMDetailsDao rmDetailsDAO;
+	private ApplicationDetailsJpaDAO applicationDetailsDAO;
+	
 	public UpdateApplCheckStatusDAO getUpdateApplCheckStatusDAO() {
 		return updateApplCheckStatusDAO;
 	}
-
 
 	public void setUpdateApplCheckStatusDAO(UpdateApplCheckStatusDAO updateApplCheckStatusDAO) {
 		this.updateApplCheckStatusDAO = updateApplCheckStatusDAO;
 	}
 
+	public ApplicationDetailsJpaDAO getApplicationDetailsDAO() {
+		return applicationDetailsDAO;
+	}
 
+	public void setApplicationDetailsDAO(ApplicationDetailsJpaDAO applicationDetailsDAO) {
+		this.applicationDetailsDAO = applicationDetailsDAO;
+	}
+
+	public RMDetailsDao getRmDetailsDAO() {
+		return rmDetailsDAO;
+	}
+
+	public void setRmDetailsDAO(RMDetailsDao rmDetailsDAO) {
+		this.rmDetailsDAO = rmDetailsDAO;
+	}
+	
 	@Transactional(readOnly = false, rollbackFor = {Exception.class})
 	public ApplCheckStatusResponse updateApplCheckStatus(ApplCheckStatusReq applCheckStatusReq) {
 		
 		ApplCheckStatusResponse.Data data = new ApplCheckStatusResponse().new Data();
 		ApplCheckStatusResponse applCheckStatusResponse = new ApplCheckStatusResponse();
 		Data applCheckStatusReqData = applCheckStatusReq.getData();
-
-		
-		
 		
 		/*mobApplCheckComments.setId(applCheckStatusReqData.getRefId());
 		mobApplCheckComments.setRecordId(applCheckStatusReqData.getRecordId());*/
-		
-		
 
 		String directory = null;
 		String filename = null;
@@ -112,7 +131,10 @@ public class UpdateApplCheckStatusServiceImpl implements UpdateApplCheckStatusSe
 						directory = directoryBuffer.append(COMPDOCS_CC_PATH).append(applCheckStatusReqData.getRefId()).append("_").append(applCheckStatusReqData.getRecordId().toString()).toString();
 						filename = filenameBuffer.append("CC_").append(date).append(".pdf").toString();
 						finalPath = finalBuffer.append(COMPDOCS_PATH).append(applCheckStatusReqData.getRefId()).append("_").append("CC.pdf").toString();
-						mobApplCheck.setCcUrl(finalPath);
+						if (checks.getScreenshots()!=null && checks.getScreenshots().size()>0)
+						{
+							mobApplCheck.setCcUrl(finalPath);
+						}
 					}
 					if("IC".equals(checks.getCheckType()))
 					{
@@ -126,7 +148,10 @@ public class UpdateApplCheckStatusServiceImpl implements UpdateApplCheckStatusSe
 						directory = directoryBuffer.append(COMPDOCS_IC_PATH).append(applCheckStatusReqData.getRefId()).append("_").append(applCheckStatusReqData.getRecordId().toString()).toString();
 						filename = filenameBuffer.append("IC_").append(date).append(".pdf").toString();
 						finalPath = finalBuffer.append(COMPDOCS_PATH).append(applCheckStatusReqData.getRefId()).append("_").append("IC.pdf").toString();
-						mobApplCheck.setIcUrl(finalPath);
+						if (checks.getScreenshots()!=null && checks.getScreenshots().size()>0)
+						{
+							mobApplCheck.setIcUrl(finalPath);
+						}
 					}
 					if("WC".equals(checks.getCheckType()))
 					{
@@ -140,7 +165,10 @@ public class UpdateApplCheckStatusServiceImpl implements UpdateApplCheckStatusSe
 						directory = directoryBuffer.append(COMPDOCS_WC_PATH).append(applCheckStatusReqData.getRefId()).append("_").append(applCheckStatusReqData.getRecordId().toString()).toString();
 						filename = filenameBuffer.append("WC_").append(date).append(".pdf").toString();
 						finalPath = finalBuffer.append(COMPDOCS_PATH).append(applCheckStatusReqData.getRefId()).append("_").append("WC.pdf").toString();
-						mobApplCheck.setWcUrl(finalPath);
+						if (checks.getScreenshots()!=null && checks.getScreenshots().size()>0)
+						{
+							mobApplCheck.setWcUrl(finalPath);
+						}
 					}
 					if("KYC".equals(checks.getCheckType()))
 					{
@@ -154,7 +182,10 @@ public class UpdateApplCheckStatusServiceImpl implements UpdateApplCheckStatusSe
 						directory = directoryBuffer.append(COMPDOCS_KYC_PATH).append(applCheckStatusReqData.getRefId()).append("_").append(applCheckStatusReqData.getRecordId().toString()).toString();
 						filename = filenameBuffer.append("KYC_").append(date).append(".pdf").toString();
 						finalPath = finalBuffer.append(COMPDOCS_PATH).append(applCheckStatusReqData.getRefId()).append("_").append("KYC.pdf").toString();
-						mobApplCheck.setKycUrl(finalPath);
+						if (checks.getScreenshots()!=null && checks.getScreenshots().size()>0)
+						{
+							mobApplCheck.setKycUrl(finalPath);
+						}
 					}
 					
 					if (checks.getScreenshots()!=null && checks.getScreenshots().size()>0)
@@ -307,7 +338,7 @@ public class UpdateApplCheckStatusServiceImpl implements UpdateApplCheckStatusSe
 		byte[] imageBytes = DatatypeConverter.parseBase64Binary(IMAGES.get(0));
 		InputStream imageStream = new ByteArrayInputStream(imageBytes);
 	    Image img = Image.getInstance(ImageIO.read(imageStream),null);
-	    Document document = new Document(img);
+	    Document document = new Document();
 	    PdfWriter.getInstance(document, new FileOutputStream(dest + "/" + fileName));
 	    document.open();
 	    for (String image : IMAGES) {
@@ -317,7 +348,9 @@ public class UpdateApplCheckStatusServiceImpl implements UpdateApplCheckStatusSe
 	        //document.setPageSize(img);
 	        document.newPage();
 	        //img.setAbsolutePosition(0, 0);
-	        document.add(new Paragraph(new Date().toString()));
+	        Font f=new Font(FontFamily.TIMES_ROMAN,10.0f);
+	        Paragraph p=new Paragraph(new Date().toString(),f);
+	        document.add(p);
 	        document.add(img);
 	    }
 	    document.close();
@@ -331,7 +364,29 @@ public class UpdateApplCheckStatusServiceImpl implements UpdateApplCheckStatusSe
 		    } 
 		    mergePdf.setDestinationFileName(finalPath); 
 		    mergePdf.mergeDocuments(null); 
-	    
-
 	}
+	
+	@Transactional(readOnly = false, rollbackFor = {Exception.class}) 
+	public RMDetails getRMDetails(Long refId){
+		MobRmAppRefId mobRmAppRefId = updateApplCheckStatusDAO.getMobAppRefId(refId);
+		RMDetails rmDetails=null;
+		try{
+    	rmDetails = rmDetailsDAO.getRMDetailByRMId(mobRmAppRefId.getRmUsedId());
+    	debugLog.debug(" rmDetails ::  "+rmDetails);
+		}catch(NullPointerException e){
+		errorLog.error(" rmDetails is null ",e);	
+		}
+    	return rmDetails;
+    }
+	
+	@Transactional(readOnly = false, rollbackFor = {Exception.class}) 
+	public MobApplicantPersonalDetail getApplPersonalDetails(Long refId){
+		MobAccountDetail mobAccountDetail = applicationDetailsDAO.getMobAccountDetails(refId);
+		MobApplicantPersonalDetail mobApplicantPersonalDetail = null;
+		if(mobAccountDetail!=null)
+		{
+			mobApplicantPersonalDetail=applicationDetailsDAO.getMobApplicantPersonalDetails(refId, mobAccountDetail.getIndvApplicantRefNo());
+		}
+		return mobApplicantPersonalDetail;
+    }
 }
