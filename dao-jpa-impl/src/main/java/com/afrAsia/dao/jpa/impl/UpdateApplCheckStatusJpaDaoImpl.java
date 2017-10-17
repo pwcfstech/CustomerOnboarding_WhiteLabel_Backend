@@ -7,7 +7,6 @@ import com.afrAsia.dao.jpa.UpdateApplCheckStatusJpaDao;
 import com.afrAsia.entities.transactions.MobAppRefRecordId;
 import com.afrAsia.entities.transactions.MobApplCheck;
 import com.afrAsia.entities.transactions.MobApplCheckComments;
-import com.afrAsia.entities.transactions.MobApplicantPersonalDetail;
 import com.afrAsia.entities.transactions.MobRmAppRefId;
 
 public class UpdateApplCheckStatusJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRecordId> implements UpdateApplCheckStatusJpaDao {

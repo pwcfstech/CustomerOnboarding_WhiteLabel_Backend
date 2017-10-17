@@ -222,18 +222,20 @@ public class AccountCreateSoapWebService implements CreateCustomerSOAPConstants{
 				"Kind regards," + "\n" + 
 
 				"AfrAsia Bank Team";
-		
-		try {
-			AfrAsiaEmailUtility.sendEmail(host, port, mailFrom, password, primApplEmail, subjectClient, messageToClient, smtpAuthRequired, smtpAuthstarttls);
-			infoLog.info("Customer EMail sent success");
-		} catch (MessagingException e) {
-			errorLog.error("MessagingException found in sendEmails(),AccountCreationRestService.java: ",e);
-		} catch (IOException e) {
-			errorLog.error("IOException found in sendEmails(),AccountCreationRestService.java: ",e);
-		} catch (NamingException e) {
-			errorLog.error("NamingException found in sendEmails(),AccountCreationRestService.java: ",e);
-		} catch (Exception e) {
-			errorLog.error("Exception found in sendEmails(),AccountCreationRestService.java : ",e);
+		if(primApplEmail!=null && !"".equals(primApplEmail))
+		{
+			try {
+				AfrAsiaEmailUtility.sendEmail(host, port, mailFrom, password, primApplEmail, subjectClient, messageToClient, smtpAuthRequired, smtpAuthstarttls);
+				infoLog.info("Customer EMail sent success");
+			} catch (MessagingException e) {
+				errorLog.error("MessagingException found in sendEmails(),AccountCreationRestService.java: ",e);
+			} catch (IOException e) {
+				errorLog.error("IOException found in sendEmails(),AccountCreationRestService.java: ",e);
+			} catch (NamingException e) {
+				errorLog.error("NamingException found in sendEmails(),AccountCreationRestService.java: ",e);
+			} catch (Exception e) {
+				errorLog.error("Exception found in sendEmails(),AccountCreationRestService.java : ",e);
+			}
 		}
 		
 		String toAddrRM = "";

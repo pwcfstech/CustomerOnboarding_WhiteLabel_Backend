@@ -43,7 +43,7 @@ public class LockApplicationServiceImpl implements LockApplicationService {
 		LockApplicationResponse lockApplicationResponse=new LockApplicationResponse();
 		Data data = new LockApplicationResponse().new Data();
 		try{
-			MobApplCheck mobApplCheck = lockApplicationDAO.getApplCheckStatus(lockApplicationRequest.getData().getRefId(),lockApplicationRequest.getData().getRecordId());
+			MobApplCheck mobApplCheck = lockApplicationDAO.getApplCheckStatus(lockApplicationRequest.getData().getRefId());
 			mobApplCheck.setLockedBy(lockApplicationRequest.getData().getUserId());
 			mobApplCheck.setIsAppLocked(lockApplicationRequest.getData().getLockApp());
 			mobApplCheck.setModifiedBy(lockApplicationRequest.getData().getUserId());

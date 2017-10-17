@@ -254,7 +254,7 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 				+ "ma.custCif=:custcif,ma.dob=:dob1,ma.email=:email1,ma.existingCustomer=:existingcustomer,ma.firstName=:firstname,"
 				+ "ma.isEmployee=:isemployee,ma.lastName=:lastname,ma.maidenName=:maidenname,ma.maritalStatus=:maritalstatus,ma.middleName=:middlename,"
 				+ "ma.modifiedBy=:modifiedby,ma.modifiedDate=:modifieddate,ma.nationality=:nationality1,ma.nic=:nic1,ma.otherBank1=:otherbank1,"
-				+ "ma.otherBank2=:otherbank2,ma.otherBank3=:otherbank3,ma.passportExpiryDate=:passportExpirydate,"
+				+ "ma.otherBank2=:otherbank2,ma.otherBank3=:otherbank3,ma.passportIssueDate=:passportIssueDate,ma.passportExpiryDate=:passportExpirydate,"
 				+ "ma.passportNo=:passportno,ma.residencyStatus=:residencystatus,ma.title=:title1,ma.customerType=:customertype,"
 				+ "ma.isMinor=:isminor,ma.sex=:sex,ma.isHnwi=:isHnwi,ma.signatoryType=:signatoryType,ma.isProxyHolder=:isProxyHolder " 
 				+ "where ma.id.id =:appid and ma.id.applicantId=:applicantId");
@@ -279,6 +279,7 @@ public class AccountCreateJpaDaoImpl extends BaseJpaDAOImpl<String, MobAppRefRec
 		query2.setParameter("otherbank1", applicant.getOtherBank1());
 		query2.setParameter("otherbank2", applicant.getOtherBank2());
 		query2.setParameter("otherbank3", applicant.getOtherBank3());
+		query2.setParameter("passportIssueDate", applicant.getPassportIssDate());
 		query2.setParameter("passportExpirydate", applicant.getPassportExpDate());
 		query2.setParameter("passportno", applicant.getPassportNo());
 		query2.setParameter("residencystatus", applicant.getResidencyStatus());
