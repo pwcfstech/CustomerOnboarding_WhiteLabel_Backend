@@ -51,6 +51,7 @@
 		<class>com.afrAsia.entities.jpa.AuthRule</class>
 		<class>com.afrAsia.entities.jpa.OAuthAccessToken</class>
 		<class>com.afrAsia.entities.jpa.OauthAuthorization</class>
+		<class>com.afrAsia.entities.jpa.OAuthRefreshToken</class>
 		<!-- product related classes -->
 
 		<class>com.afrAsia.entities.jpa.Product</class>

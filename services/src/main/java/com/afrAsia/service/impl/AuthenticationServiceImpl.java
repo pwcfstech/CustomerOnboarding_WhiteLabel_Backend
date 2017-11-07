@@ -188,7 +188,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			if (clientDetails == null)
 			{
 				rmDetails = customClientDetailsService.saveClientDetail(userId, userType,"rest_api", clientSecret, 
-						"standard_client", "client_credentials", null, "ROLE_USER", 
+						"standard_client", "client_credentials,password,refresh_token", null, "ROLE_USER", 
 						14400, 14400, null, null);	
 			}
 			else{
@@ -224,6 +224,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			responseData.setoAuthToken(token.getValue());
 			responseData.setRmName(rmDetails.getRmName());
 			responseData.setSuccess("true");
+			
+			if (token.getRefreshToken() != null)
+			{
+				responseData.setRefreshToken(token.getRefreshToken().getValue());
+			}
+			
+			
 			response.setData(responseData);
 			infoLog.info("response in login(),AuthenticationServiceImpl : " + response);
 			return response;
@@ -253,25 +260,41 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		return response;
 	}
 
-	public GenericResponse checkSession() {
-		// Map<String, String> requestParameters = new HashMap<String,
-		// String>();
-		// requestParameters.put("client_id", rmId);
-		// requestParameters.put("grant_type", grantType);
-		// requestParameters.put("client_secret", password);
-		//
-		// ClientCredentialsTokenGranter tokenGranter = new
-		// ClientCredentialsTokenGranter(tokenServices,
-		// customClientDetailsService, oAuth2RequestFactory);
-		// ClientDetails clientDetails =
-		// customClientDetailsService.loadClientByClientId(rmId);
-		// TokenRequest request =
-		// oAuth2RequestFactory.createTokenRequest(requestParameters,
-		// clientDetails);
-		//
-		// tokenServices.refreshAccessToken(refreshTokenValue, request);\
-
-		return null;
+	@Transactional(readOnly = false, rollbackFor = {Exception.class})
+	public LoginResponse checkSession(LoginRequest loginRequest) 
+	{
+		LoginResponse response = new LoginResponse();
+		LoginDataResponse responseData = new LoginDataResponse();
+		
+		LoginDataRequest loginDataRequest = loginRequest.getData();
+		String userId = loginDataRequest.getUserId();
+		
+		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(userId); 
+		infoLog.info("clientDetails in login(),AuthenticationServiceImpl is : "+clientDetails);
+		
+		String encryptedPassword = clientDetails.getClientSecret();
+	
+		Map<String, String> requestParameters = new HashMap<String, String>();
+		requestParameters.put("client_id", userId);
+		requestParameters.put("grant_type", "refresh_token");
+		requestParameters.put("client_secret", encryptedPassword);
+		
+		infoLog.info("clientDetails in getTokenDetails(),AuthenticationServiceImpl is : "+clientDetails);
+		TokenRequest request  = oAuth2RequestFactory.createTokenRequest(requestParameters, clientDetails);
+	
+		tokenServices.setReuseRefreshToken(false);
+		tokenServices.setSupportRefreshToken(true);
+		OAuth2AccessToken accessToken = tokenServices.refreshAccessToken(loginDataRequest.getRefreshToken(), request);
+		
+		if (accessToken != null)
+		{
+			responseData.setoAuthToken(accessToken.getValue());
+			responseData.setRefreshToken(accessToken.getRefreshToken() == null ? null : accessToken.getRefreshToken().getValue());
+		}
+		
+		response.setData(responseData);
+		
+		return response;
 	}
 
 	private OAuth2AccessToken getTokenDetails(String rmId, String password, String grantType) {
@@ -282,6 +305,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 		ClientCredentialsTokenGranter tokenGranter = new ClientCredentialsTokenGranter(tokenServices,
 				customClientDetailsService, oAuth2RequestFactory);
+		tokenGranter.setAllowRefresh(true);
 		ClientDetails clientDetails = customClientDetailsService.loadClientByClientId(rmId);
 		TokenRequest request = oAuth2RequestFactory.createTokenRequest(requestParameters, clientDetails);
 		OAuth2AccessToken token = tokenGranter.grant(grantType, request);
@@ -346,6 +370,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				rmDetails.setId(username);
 				rmDetails.setRmName(name);
 				rmDetails.setRmEmailId(mail);
+				rmDetails.setUserGroup(userType.toUpperCase());
 				List<RMDetails> rmDetailsLst = rmDetailsDAO.getRMDetailListByRMId(username);
 				infoLog.info("RMDetailsList siz: " + rmDetailsLst.size());
 				if (rmDetailsLst != null && rmDetailsLst.size() != 0) {
@@ -374,7 +399,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	/*RMDetails rmDetails = new RMDetails();
 	rmDetails.setId(username);
 	rmDetails.setRmName("RM");
-	//rmDetails.setRmEmailId(mail);
+	rmDetails.setUserGroup(userType.toUpperCase());
 	List<RMDetails> rmDetailsLst = rmDetailsDAO.getRMDetailListByRMId(username);
 	infoLog.info("RMDetailsList siz: " + rmDetailsLst.size());
 	if (rmDetailsLst != null && rmDetailsLst.size() != 0) {

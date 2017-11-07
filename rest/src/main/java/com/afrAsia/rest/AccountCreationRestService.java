@@ -91,7 +91,7 @@ public class AccountCreationRestService {
 					sendEmails(accountCreationRequest,accountCreationResponse);
 
 					//sendEmailToCustomer(accountCreationRequest,accountCreationResponse);
-					//sendSMSToCustomer(accountCreationRequest,accountCreationResponse);
+					sendSMSToCustomer(accountCreationRequest,accountCreationResponse);
 
 				} else {
 					if (accountCreationRequest.getData().getRecordId() != null) {
@@ -747,21 +747,31 @@ public class AccountCreationRestService {
 		String host = afrAsiaMailConfig.getMailhost();
 		String port = afrAsiaMailConfig.getMailport();
 		String mailFrom = afrAsiaMailConfig.getMailFrom();
+		String username = "afrasiabank\\" +afrAsiaMailConfig.getUsername();
 		String password = afrAsiaMailConfig.getMailPassword();
 		String smtpAuthRequired=afrAsiaMailConfig.getSmtpAuthRequired();
 		String smtpAuthstarttls=afrAsiaMailConfig.getSmtpAuthRequired();
 		String subject="Welcome to AfrAsia";
+		String rmSubject = "New Account Opening Application";
 		
 		infoLog.info("Mail Port" + port);
 		infoLog.info("Host is:"+host);
 		
 		Data accountCreationData = accountCreationRequest.getData();
-		String primApplicantName = accountCreationData.getPrimaryApplicantDetail().getFirstName();
-		String toAddrClient = accountCreationData.getPrimaryApplicantDetail().getEmail();
+		String primApplicantName = accountCreationData.getPrimaryApplicantDetail().getFirstName()+" "+accountCreationData.getPrimaryApplicantDetail().getLastName();
+		String title = accountCreationData.getPrimaryApplicantDetail().getTitle();
+		String toAddrClient = "";
 		String rmName = "";
 		String toAddrRM = "";
 		
-
+		if(accountCreationData.getGuardianDetail()!=null)
+		{
+			toAddrClient = accountCreationData.getGuardianDetail().getEmail();
+		}
+		else
+		{
+			toAddrClient = accountCreationData.getPrimaryApplicantDetail().getEmail();
+		}
 		RMDetails rmDetails = accountCreationService.getRMDetails(accountCreationData.getRmId());
 		if(rmDetails!=null)
 		{
@@ -775,80 +785,102 @@ public class AccountCreationRestService {
 		if(accountCreationResponse.getData().getRefNo()!=null)
 		{
 			refNo=accountCreationResponse.getData().getRefNo().toString();
+		
+			String messageToClient="Dear "+title+" "+primApplicantName+"," + "<br>" + "<br>" +
+				"Welcome to AfrAsia Bank and thank you for choosing us as your banking partner. Your application is currently under process with application number "+refNo+". We shall update you as soon as your account is opened."+ "<br>" +
+				"In the meantime, we invite you to browse our website www.afrasiabank.com for a detailed overview of our banking solutions, and our pioneering rewards programme, AfrAsia XtraMiles."+ "<br>" +
+				"We remain at your disposal should you wish to discuss about your financial aspirations and how we can be of more relevance to you."+ "<br>" +
+				"Thank you for your trust and we hope that our team measures up to your expectations."+ "<br>" + "<br>" +
+				"Kind regards," + "<br>" + 
+
+				"Manager ("+rmName+")";
+
+			String messageToRM="Dear "+rmName+"," + "<br>" + "<br>" +
+					"The application for "+title+" "+primApplicantName+", reference "+refNo+" has been successfully submitted and is under review."+ "<br>" + "<br>" +
+					"Kind regards," + "<br>" + 
+	
+					"AfrAsia Bank";
+	
+			debugLog.debug("host :: "+host+","+" port :: "+port+","+" mailFrom :: "+mailFrom+","+" password :: "+password+","
+					+" smtpAuthRequired :: "+smtpAuthRequired+","+" smtpAuthstarttls :: "+smtpAuthstarttls+","+" subject :: "+subject
+					+" accountCreationData :: "+accountCreationData+" refNo :: "+refNo+" rmName :: "+rmName+","
+					+" messageToClient :: "+messageToClient+","+"messageToRM :: "+messageToRM);
+			
+			if(toAddrClient!=null && !"".equals(toAddrClient))
+			{
+				try {
+					AfrAsiaEmailUtility.sendEmail(host, port, mailFrom, username, password, toAddrClient, subject, messageToClient, smtpAuthRequired, smtpAuthstarttls);
+					infoLog.info("Customer EMail sent success");
+				} catch (MessagingException e) {
+					errorLog.error("MessagingException found in sendEmails(),AccountCreationRestService.java: ",e);
+				} catch (IOException e) {
+					errorLog.error("IOException found in sendEmails(),AccountCreationRestService.java: ",e);
+				} catch (NamingException e) {
+					errorLog.error("NamingException found in sendEmails(),AccountCreationRestService.java: ",e);
+				} catch (Exception e) {
+					errorLog.error("Exception found in sendEmails(),AccountCreationRestService.java : ",e);
+				}
+			}
+			
+			
+			try {
+				AfrAsiaEmailUtility.sendEmail(host, port, mailFrom, username, password, toAddrRM, rmSubject, messageToRM, smtpAuthRequired, smtpAuthstarttls);
+				infoLog.info("RM EMail sent success");
+			} catch (MessagingException e) {
+				errorLog.error("MessagingException found in sendEmails(),AccountCreationRestService.java: ",e);
+			} catch (IOException e) {
+				errorLog.error("IOException found in sendEmails(),AccountCreationRestService.java: ",e);
+			} catch (NamingException e) {
+				errorLog.error("NamingException found in sendEmails(),AccountCreationRestService.java: ",e);
+			} catch (Exception e) {
+				errorLog.error("Exception found in sendEmails(),AccountCreationRestService.java : ",e);
+			}
 		}
-				
-		String messageToClient="Dear "+primApplicantName+"," + "\n" + "\n" +
-				"Welcome to AfrAsia Bank and thank you for choosing us as your banking partner. Your application is currently under process with application number "+refNo+". We shall update you as soon as your account is opened."+ "\n" +
-				"In the meantime, we invite you to browse our website www.afrasiabank.com for a detailed overview of our banking solutions, and our pioneering rewards programme, AfrAsia XtraMiles."+ "\n" +
-				"We remain at your disposal should you wish to discuss about your financial aspirations and how we can be of more relevance to you."+ "\n" +
-				"Thank you for your trust and we hope that our team measures up to your expectations."+ "\n" + "\n" +
-				"Kind regards," + "\n" + 
-
-				"Relationship manager ("+rmName+")";
-
-		String messageToRM="Dear "+rmName+"," + "\n" + "\n" +
-				"The application for applicant "+primApplicantName+"["+refNo+"]"+" has been successfuly submitted and is under review."+ "\n" + "\n" +
-				"Kind regards," + "\n" + 
-
-				"AfrAsia Bank";
-
-		debugLog.debug("host :: "+host+","+" port :: "+port+","+" mailFrom :: "+mailFrom+","+" password :: "+password+","
-				+" smtpAuthRequired :: "+smtpAuthRequired+","+" smtpAuthstarttls :: "+smtpAuthstarttls+","+" subject :: "+subject
-				+" accountCreationData :: "+accountCreationData+" refNo :: "+refNo+" rmName :: "+rmName+","
-				+" messageToClient :: "+messageToClient+","+"messageToRM :: "+messageToRM);
-		
-		try {
-			AfrAsiaEmailUtility.sendEmail(host, port, mailFrom, password, toAddrClient, subject, messageToClient, smtpAuthRequired, smtpAuthstarttls);
-			infoLog.info("Customer EMail sent success");
-		} catch (MessagingException e) {
-			errorLog.error("MessagingException found in sendEmails(),AccountCreationRestService.java: ",e);
-		} catch (IOException e) {
-			errorLog.error("IOException found in sendEmails(),AccountCreationRestService.java: ",e);
-		} catch (NamingException e) {
-			errorLog.error("NamingException found in sendEmails(),AccountCreationRestService.java: ",e);
-		} catch (Exception e) {
-			errorLog.error("Exception found in sendEmails(),AccountCreationRestService.java : ",e);
-		}
-		
-		
-		try {
-			AfrAsiaEmailUtility.sendEmail(host, port, mailFrom, password, toAddrRM, subject, messageToRM, smtpAuthRequired, smtpAuthstarttls);
-			infoLog.info("RM EMail sent success");
-		} catch (MessagingException e) {
-			errorLog.error("MessagingException found in sendEmails(),AccountCreationRestService.java: ",e);
-		} catch (IOException e) {
-			errorLog.error("IOException found in sendEmails(),AccountCreationRestService.java: ",e);
-		} catch (NamingException e) {
-			errorLog.error("NamingException found in sendEmails(),AccountCreationRestService.java: ",e);
-		} catch (Exception e) {
-			errorLog.error("Exception found in sendEmails(),AccountCreationRestService.java : ",e);
-		}
-		
 	}
 
 	public void sendSMSToCustomer(AccountCreationRequest accountCreationRequest, AccountCreateResponse accountCreationResponse){
-		String primApplicantName = accountCreationRequest.getData().getPrimaryApplicantDetail().getFirstName();
-		String smsContent = "Dear "+primApplicantName+", thank you for your interest in AfrAsia Bank. "
+		String title = accountCreationRequest.getData().getPrimaryApplicantDetail().getTitle();
+		String primApplicantName = accountCreationRequest.getData().getPrimaryApplicantDetail().getFirstName()+" "+accountCreationRequest.getData().getPrimaryApplicantDetail().getLastName();
+		String smsContent = "Dear "+title+" "+primApplicantName+", thank you for your interest in AfrAsia Bank. "
 				+ "Your application is currently under process with application number" 
 				+ accountCreationResponse.getData().getRefNo() 
 				+ ".We shall update you as soon as your account is opened. Regards, AfrAsia Bank Team";
-		String mobNo = accountCreationRequest.getData().getPrimaryApplicantDetail().getMobNoCountryCode().toString()+accountCreationRequest.getData().getPrimaryApplicantDetail().getMobNo().toString();
-		String url = "http://41.212.214.205:81/cgi-bin/BMP_SendTextMsg?"
-				+ "UserName=afrasia1&PassWord=4fr4s14&UserData="
-				+ smsContent
-				+ "&Concatenated=0&SenderId=23052581818&Deferred=false&Number="
-				+ mobNo
-				+ "&Dsr=false";
 		
-		debugLog.debug("primApplicantName  :: "+primApplicantName+"smsContent  :: "+smsContent+
-				"mobNo  :: "+mobNo+"url  :: "+url);
-		try {
-			AfrAsiaSMSUtility.sendSMS(url);
-			infoLog.info("SMS sent success");
-		}  catch (IOException e) {
-			errorLog.error("IOException found .java : ",e);
-		}	catch (Exception e) {
-			errorLog.error("Exception found .java : ",e);
+		
+		
+		Long cc= 0L;
+		Long mobNo = 0L;
+		if(accountCreationRequest.getData().getGuardianDetail()!=null)
+		{
+			cc = accountCreationRequest.getData().getGuardianDetail().getMobNoCountryCode();
+			mobNo = accountCreationRequest.getData().getGuardianDetail().getMobNo();
+		}
+		else
+		{
+			cc = accountCreationRequest.getData().getPrimaryApplicantDetail().getMobNoCountryCode();
+			mobNo = accountCreationRequest.getData().getPrimaryApplicantDetail().getMobNo();
+		}
+		if(cc!=null && cc!=0L && mobNo!=null && mobNo!=0L && accountCreationResponse.getData().getRefNo()!=null && !"".equals(accountCreationResponse.getData().getRefNo()))
+		{
+			String mobNoString = cc.toString()+mobNo.toString();
+			//String mobNo = accountCreationRequest.getData().getPrimaryApplicantDetail().getMobNoCountryCode().toString()+accountCreationRequest.getData().getPrimaryApplicantDetail().getMobNo().toString();
+			String url = "http://41.212.214.205:81/cgi-bin/BMP_SendTextMsg?"
+					+ "UserName=afrasia1&PassWord=4fr4s14&UserData="
+					+ smsContent
+					+ "&Concatenated=0&SenderId=23052581818&Deferred=false&Number="
+					+ mobNoString
+					+ "&Dsr=false";
+			
+			debugLog.debug("primApplicantName  :: "+primApplicantName+"smsContent  :: "+smsContent+
+					"mobNo  :: "+mobNoString+"url  :: "+url);
+			try {
+				AfrAsiaSMSUtility.sendSMS(url);
+				infoLog.info("SMS sent success");
+			}  catch (IOException e) {
+				errorLog.error("IOException found .java : ",e);
+			}	catch (Exception e) {
+				errorLog.error("Exception found .java : ",e);
+			}
 		}
 	}	
 }

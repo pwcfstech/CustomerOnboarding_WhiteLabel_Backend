@@ -1,10 +1,15 @@
 package com.afrAsia.authenticate.impl;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpOutputMessage;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpResponse;
@@ -12,6 +17,11 @@ import org.springframework.security.oauth2.provider.error.OAuth2ExceptionRendere
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.ServletWebRequest;
 
+import com.afrAsia.entities.jpa.MsgHeader;
+import com.afrAsia.entities.response.Data;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+// TODO: Auto-generated Javadoc
 /**
  * The Class CustomOAuth2ExceptionRenderer.
  * 
@@ -33,7 +43,7 @@ public class CustomOAuth2ExceptionRenderer implements OAuth2ExceptionRenderer
         {
             return;
         }
-        HttpOutputMessage outputMessage = createHttpOutputMessage(webRequest);
+        ServletServerHttpResponse outputMessage = createHttpOutputMessage(webRequest);
         if (responseEntity instanceof ResponseEntity && outputMessage instanceof ServerHttpResponse)
         {
             ((ServerHttpResponse) outputMessage).setStatusCode(((ResponseEntity<?>) responseEntity).getStatusCode());
@@ -44,68 +54,53 @@ public class CustomOAuth2ExceptionRenderer implements OAuth2ExceptionRenderer
             // flush headers
             outputMessage.getBody();
         }
-//        else
-//        {
-//            ((ServerHttpResponse) outputMessage).getHeaders().setContentType(MediaType.APPLICATION_JSON);
-//            OneGroupExceptionCode moveInExceptionCode = null;
-//            if (responseEntity.getBody().toString().contains(OAuth2Exception.ACCESS_DENIED))
-//            {
-//                moveInExceptionCode = AuthorizationExceptionCode.USER_ACCESS_DENIED;
-//            }
-//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.INVALID_TOKEN))
-//            {
-//                moveInExceptionCode = AuthorizationExceptionCode.INVALID_TOKEN;
-//            }
-//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.INSUFFICIENT_SCOPE))
-//            {
-//                moveInExceptionCode = AuthorizationExceptionCode.INSUFFICIENT_SCOPE;
-//            }
-//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.INVALID_CLIENT))
-//            {
-//                moveInExceptionCode = AuthorizationExceptionCode.INVALID_CLIENT;
-//            }
-//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.INVALID_GRANT))
-//            {
-//                moveInExceptionCode = AuthorizationExceptionCode.INVALID_GRANT;
-//            }
-//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.INVALID_REQUEST))
-//            {
-//                moveInExceptionCode = AuthorizationExceptionCode.INVALID_REQUEST;
-//            }
-//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.INVALID_SCOPE))
-//            {
-//                moveInExceptionCode = AuthorizationExceptionCode.INVALID_SCOPE;
-//            }
-//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.REDIRECT_URI_MISMATCH))
-//            {
-//                moveInExceptionCode = AuthorizationExceptionCode.REDIRECT_URI_MISMATCH;
-//            }
-//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.UNAUTHORIZED_CLIENT))
-//            {
-//                moveInExceptionCode = AuthorizationExceptionCode.UNAUTHORIZED_CLIENT;
-//            }
-//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.UNSUPPORTED_GRANT_TYPE))
-//            {
-//                moveInExceptionCode = AuthorizationExceptionCode.UNSUPPORTED_GRANT_TYPE;
-//            }
-//            else if (responseEntity.getBody().toString().contains(OAuth2Exception.UNSUPPORTED_RESPONSE_TYPE))
-//            {
-//                moveInExceptionCode = AuthorizationExceptionCode.UNSUPPORTED_RESPONSE_TYPE;
-//            }
-//            else if (responseEntity.getBody().toString().contains(UNAUTHORIZED))
-//            {
-//                moveInExceptionCode = AuthorizationExceptionCode.UNAUTHORIZED_CLIENT;
-//            }
-//            else if (responseEntity.getBody().toString().contains("authentication_unavailable"))
-//            {
-//                moveInExceptionCode = GeneralExceptionCode.SERVICE_UNAVAILABLE;
-//            }
-//            else
-//            {
-//                moveInExceptionCode = AuthorizationExceptionCode.AUTHORIZATION_ERROR;
-//            }
-//            generateOutputMessage(responseEntity, moveInExceptionCode, outputMessage);
-//        }
+        else
+        {
+        	MsgHeader hdr = new MsgHeader();
+        	MsgHeader.Error error = hdr.new Error();
+        	hdr.setError(error);
+        	Data data = new Data();
+        	
+        	String errorDescription = null;
+        	
+        		errorDescription = body.toString();
+        		((ServerHttpResponse) outputMessage).getHeaders().setContentType(MediaType.APPLICATION_JSON);
+        		
+        		if (errorDescription.contains("Access token expired"))
+        		{
+        			error.setCd("401");
+        			error.setCustomCode("401");
+        			error.setRsn("token_expired");
+        		}
+        		else if(errorDescription.contains("Invalid access token"))
+        		{
+        			error.setCd("401");
+        			error.setCustomCode("401");
+        			error.setRsn("invalid_token");
+        		}
+        		else
+        		{
+        			error.setCd("401");
+        			error.setCustomCode("401");
+        			error.setRsn("oauth_exception");
+        		}
+        		
+        		HashMap<String, Object> response = new HashMap<String, Object>();
+        		response.put("msgHdr", hdr);
+        		response.put("data", data);
+        		
+        		ObjectMapper mapper = new ObjectMapper();
+        		String responseString = mapper.writeValueAsString(response);
+        		
+        		outputMessage.getBody().write(responseString.getBytes("UTF-8"));
+        		
+        	
+           
+           
+//            generateOutputMessage(responseEntity, outputMessage);
+        }
+        
+        System.out.println(body.getClass());
 
     }
 
@@ -118,9 +113,13 @@ public class CustomOAuth2ExceptionRenderer implements OAuth2ExceptionRenderer
      * @throws Exception
      *             the exception
      */
-    private HttpOutputMessage createHttpOutputMessage(NativeWebRequest webRequest) throws Exception
+    private ServletServerHttpResponse createHttpOutputMessage(NativeWebRequest webRequest) throws Exception
     {
         HttpServletResponse servletResponse = (HttpServletResponse) webRequest.getNativeResponse();
+        servletResponse.addHeader("Access-Control-Allow-Origin", "*");
+        servletResponse.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
+        servletResponse.addHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept");
+        servletResponse.addHeader("Access-Control-Max-Age", "1728000");
         debugLog.debug("servletResponse :: "+servletResponse);
         return new ServletServerHttpResponse(servletResponse);
     }
@@ -139,13 +138,9 @@ public class CustomOAuth2ExceptionRenderer implements OAuth2ExceptionRenderer
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
-//    private void generateOutputMessage(HttpEntity<?> responseEntity, OneGroupExceptionCode moveInExceptionCode, HttpOutputMessage outputMessage) throws UnsupportedEncodingException, IOException
-//    {
-//        WSResult result = new WSResult(String.valueOf(moveInExceptionCode.getCode()), moveInExceptionCode.getExceptionMessage(), true);
-//        WSResponse response = new WSResponse(result);
-//        String jsonOutput = Utils.getJsonString(response);
-//        ((ServerHttpResponse) outputMessage).setStatusCode(((ResponseEntity<?>) responseEntity).getStatusCode());
-//        ((ServerHttpResponse) outputMessage).getBody().write(jsonOutput.getBytes("UTF8"));
-//    }
+    private void generateOutputMessage(HttpEntity<?> responseEntity, HttpOutputMessage outputMessage) throws UnsupportedEncodingException, IOException
+    {
+        ((ServerHttpResponse) outputMessage).setStatusCode(((ResponseEntity<?>) responseEntity).getStatusCode());
+    }
 
 }

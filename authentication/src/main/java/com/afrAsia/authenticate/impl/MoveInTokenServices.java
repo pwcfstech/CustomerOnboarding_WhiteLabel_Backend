@@ -148,4 +148,13 @@ public class MoveInTokenServices extends DefaultTokenServices
             throw new MoveInOAuth2Exception("Error reading auth token!");
         }
     }
+    
+    @Override
+    public void setSupportRefreshToken(boolean supportRefreshToken) 
+    {
+    	// TODO Auto-generated method stub
+    	super.setSupportRefreshToken(supportRefreshToken);
+    }
+    
+    
 }

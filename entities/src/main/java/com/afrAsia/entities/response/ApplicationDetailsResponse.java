@@ -250,6 +250,7 @@ public class ApplicationDetailsResponse implements Serializable {
 			private Boolean isProxyRequired;//Added by Avisha on 25/09 for issues
 			private String rmComment;//Added by Avisha on 26/09 as asked by client
 			private String ibOption;//Added by Avisha on 27/09 as asked by client
+			private Date accModifiedDate;//Added by Avisha on 30/10 as asked by client
 			
 			public String getAccount() {
 				return account;
@@ -531,6 +532,14 @@ public class ApplicationDetailsResponse implements Serializable {
 				this.ibOption = ibOption;
 			}
 
+			public Date getAccModifiedDate() {
+				return accModifiedDate;
+			}
+
+			public void setAccModifiedDate(Date accModifiedDate) {
+				this.accModifiedDate = accModifiedDate;
+			}
+
 			@Override
 			public String toString() {
 				return "AccountDetails [account=" + account + ", accountType=" + accountType + ", accountNumber="
@@ -546,7 +555,7 @@ public class ApplicationDetailsResponse implements Serializable {
 						+ authEmail1 + ", authEmail2=" + authEmail2 + ", authEmail3=" + authEmail3
 						+ ", optCallBackServices=" + optCallBackServices + ", nomineeInfo=" + nomineeInfo
 						+ ", minNoSignatures=" + minNoSignatures + ", operatingInst=" + operatingInst
-						+ ", isProxyRequired=" + isProxyRequired + ", rmComment=" + rmComment + ", ibOption=" + ibOption
+						+ ", isProxyRequired=" + isProxyRequired + ", rmComment=" + rmComment + ", ibOption=" + ibOption +", accModifiedDate="+accModifiedDate
 						+ "]";
 			}
 

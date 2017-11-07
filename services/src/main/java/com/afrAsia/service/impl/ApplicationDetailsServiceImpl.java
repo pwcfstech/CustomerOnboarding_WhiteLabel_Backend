@@ -173,6 +173,7 @@ public class ApplicationDetailsServiceImpl implements ApplicationDetailsService 
 				accountDetails.setMinNoSignatures(mobAccountDetail.getMinNoSignatures());
 				accountDetails.setOperatingInst(mobAccountDetail.getOperatingInst());
 				accountDetails.setIsProxyRequired(mobAccountDetail.getIsProxyRequired());
+				accountDetails.setAccModifiedDate(mobAccountDetail.getModifiedDate());
 				debugLog.debug("accountDetails " + accountDetails.toString());
 				debugLog.debug("mobAccountDetail " + mobAccountDetail.toString());
 			} else {

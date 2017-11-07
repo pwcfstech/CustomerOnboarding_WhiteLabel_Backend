@@ -21,7 +21,7 @@ import javax.naming.NamingException;
 
 
 public class AfrAsiaEmailUtility {
-	public static void sendEmail(String host, String port, final String userName, final String password,
+	public static void sendEmail(String host, String port, String mailFrom, final String userName, final String password,
 			String toAddress, String subject, String message,String smtpAuthRequired,String smtpAuthstarttls)
 					throws AddressException, MessagingException, IOException, NamingException {
 
@@ -60,7 +60,7 @@ public class AfrAsiaEmailUtility {
 
 		
 
-		msg.setFrom(new InternetAddress(userName));
+		msg.setFrom(new InternetAddress(mailFrom));
 		InternetAddress[] toAddresses = { new InternetAddress(toAddress) };
 		msg.setRecipients(Message.RecipientType.TO, toAddresses);
 		msg.setSubject(subject);

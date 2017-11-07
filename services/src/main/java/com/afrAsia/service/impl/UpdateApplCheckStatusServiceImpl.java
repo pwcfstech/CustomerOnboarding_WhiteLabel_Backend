@@ -18,7 +18,6 @@ import org.apache.log4j.Logger;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.afrAsia.dao.ApplicationDetailsDao;
 import com.afrAsia.dao.RMDetailsDao;
 import com.afrAsia.dao.UpdateApplCheckStatusDAO;
 import com.afrAsia.dao.jpa.ApplicationDetailsJpaDAO;

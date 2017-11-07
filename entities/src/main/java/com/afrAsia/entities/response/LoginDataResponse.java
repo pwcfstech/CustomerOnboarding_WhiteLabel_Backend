@@ -10,8 +10,15 @@ public class LoginDataResponse
 	private String success;
 	private String rmName;
 	private String oAuthToken;
-	private long lastLoginTime;
+	private Long lastLoginTime;
+	private String refreshToken;
 	
+	public String getRefreshToken() {
+		return refreshToken;
+	}
+	public void setRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
+	}
 	public String getSuccess() {
 		return success;
 	}
@@ -30,7 +37,7 @@ public class LoginDataResponse
 	public void setoAuthToken(String oAuthToken) {
 		this.oAuthToken = oAuthToken;
 	}
-	public long getLastLoginTime() {
+	public Long getLastLoginTime() {
 		return lastLoginTime;
 	}
 	public void setLastLoginTime(long lastLoginTime) {

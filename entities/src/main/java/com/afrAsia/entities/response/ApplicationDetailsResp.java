@@ -153,6 +153,7 @@ public class ApplicationDetailsResp implements Serializable {
 		private String accNo;
 		private Object soapErrorMsg;
 		private Object otherErrorMsg;
+		private String ibanNo;
 
 		boolean isAccountCreated() {
 			return isAccountCreated;
@@ -177,6 +178,12 @@ public class ApplicationDetailsResp implements Serializable {
 		}
 		public void setOtherErrorMsg(Object otherErrorMsg) {
 			this.otherErrorMsg = otherErrorMsg;
+		}
+		public String getIbanNo() {
+			return ibanNo;
+		}
+		public void setIbanNo(String ibanNo) {
+			this.ibanNo = ibanNo;
 		}
 		
 	}

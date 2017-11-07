@@ -79,6 +79,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 		Map<String,Object> returnValue = new HashMap<String, Object>();
 		Map<String,AccountCreationDetails> accountDtlsMap = new HashMap<String, AccountCreationDetails>();
 		MobAccountDetail mobAccountDetails = applicationDetailsDAO.getMobAccountDetails(appId);	
+	
 		// ==================================SET accountDtlsMap ===================================
 
 		//======== INDV_APPLICANT_REF_NO ===============//
@@ -118,14 +119,16 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 		setAccDataRefDetails(JOINT5_GUARDIAN, accountDtlsMap, mobAccountDetails.getJoint5GuardianRefNo(),appId);		
 		//===========================================================================	
 
+		RMDetails compDetails = rmDetailsDAO.getRMDetailByRMId(userId);
+		
 		for( String key : accountDtlsMap.keySet()){
 
 			AccountCreationDetails accountCreationDetails = accountDtlsMap.get(key);
-
+			
 			if( null == accountCreationDetails){
 				continue;
 			}
-
+			RMDetails rmDetails = rmDetailsDAO.getRMDetailByRMId(accountCreationDetails.getMobCreateCustomerSOAPRequest().getMobRmAppRefId().getRmUsedId());
 			// if cif exist
 			if( accountCreationDetails.isCifExist()){
 				String cif = accountCreationDetails.getCif();
@@ -143,12 +146,13 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 
 			// for new cif creation
 			CreateCustomerSOAP createCustomerStub = new CreateCustomerSOAP();
+			
 			try {
 				// if minor account
 				if(accountCreationDetails.isMinor()){
 					String guardianName = accountCreationDetails.getGuardianName();
 					AccountCreationDetails accountCreationDetailsGrdn = accountDtlsMap.get(guardianName);
-
+					
 					// if no data for guardian
 					if( null == accountCreationDetailsGrdn){
 						infoLog.info("No data found for guardian :"+ guardianName +" of junior Applicant :"+ key);
@@ -158,7 +162,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 					Map<String,Object> responseMap = null;
 					if(!accountCreationDetailsGrdn.isCifExist()){
 						infoLog.info("guardian create start"+accountCreationDetails.isCifExist());
-						responseMap = createCustomerStub.createAfrAsiaCustomer(userId,accountCreationDetailsGrdn.getMobCreateCustomerSOAPRequest() , null);
+						responseMap = createCustomerStub.createAfrAsiaCustomer(userId,accountCreationDetailsGrdn.getMobCreateCustomerSOAPRequest() , null, rmDetails ,compDetails.getFlex_Id());
 						infoLog.info("guardian create end");
 						/*Map<String,Object> responseMap = new HashMap<String, Object>();
 					responseMap.put("MSGSTAT", "SUCCESS");
@@ -191,7 +195,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 							accountDtlsMap.get(guardianName).setSoapResWarning(responseMap.get(WARNING));
 						}
 						// on success create junior account
-						Map<String,Object> jnrAccntResponseMap  = createCustomerStub.createAfrAsiaCustomer(userId,accountCreationDetails.getMobCreateCustomerSOAPRequest() , accountCreationDetailsGrdn.getMobCreateCustomerSOAPRequest());	
+						Map<String,Object> jnrAccntResponseMap  = createCustomerStub.createAfrAsiaCustomer(userId,accountCreationDetails.getMobCreateCustomerSOAPRequest() , accountCreationDetailsGrdn.getMobCreateCustomerSOAPRequest(),rmDetails,compDetails.getFlex_Id());	
 						/*Map<String,Object> jnrAccntResponseMap = new HashMap<String, Object>();
 						jnrAccntResponseMap.put("MSGSTAT", "SUCCESS");
 						jnrAccntResponseMap.put("CUSTNO", "0002");
@@ -229,7 +233,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 					}
 				}
 				else{
-					Map<String,Object> accntResponseMap = createCustomerStub.createAfrAsiaCustomer(userId,accountCreationDetails.getMobCreateCustomerSOAPRequest() , null);
+					Map<String,Object> accntResponseMap = createCustomerStub.createAfrAsiaCustomer(userId,accountCreationDetails.getMobCreateCustomerSOAPRequest() , null,rmDetails,compDetails.getFlex_Id());
 					/*Map<String,Object> accntResponseMap = new HashMap<String, Object>();
 					accntResponseMap.put("MSGSTAT", "SUCCESS");
 					accntResponseMap.put("CUSTNO", "0003");
@@ -292,7 +296,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 			else{
 				CreateAccountSOAP createAccountSOAP = new CreateAccountSOAP();
 				try {
-					createAfrAsiaAccount = createAccountSOAP.createAfrAsiaAccount(userId, accountDtlsMap);
+					createAfrAsiaAccount = createAccountSOAP.createAfrAsiaAccount(userId, accountDtlsMap,compDetails.getFlex_Id());
 					/*createAfrAsiaAccount = new HashMap<String, Object>();
 				createAfrAsiaAccount.put(ACCNO, "00009");
 				createAfrAsiaAccount.put(MSGSTAT, SUCCESS); */

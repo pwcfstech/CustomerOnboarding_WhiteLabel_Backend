@@ -99,6 +99,7 @@
         <property name="mailhost" value="${mailhost}"/>    
         <property name="mailport" value="${mailport}"/>
         <property name="mailFrom" value="${mailFrom}"/>
+        <property name="username" value="${username}"/>
         <property name="mailPassword" value="${mailPassword}"/>
         <property name="smtpAuthRequired" value="${smtpAuthRequired}"/>
         <property name="smtpAuthstarttls" value="smtpAuthstarttls"/>

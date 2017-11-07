@@ -1,7 +1,9 @@
 package com.ofss.fcubs.gw.ws;
 
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,7 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -41,11 +46,12 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		final static Logger errorLog = Logger.getLogger("errorLogger");
 	static SecureRandom rnd = new SecureRandom();
 	
-	public Map<String,Object> createAfrAsiaAccount(String userId,Map<String, AccountCreationDetails> accountDtlsMap) throws DatatypeConfigurationException	{
+	public Map<String,Object> createAfrAsiaAccount(String userId,Map<String, AccountCreationDetails> accountDtlsMap, String flexID) throws DatatypeConfigurationException	{
 		infoLog.info("===> createAfrAsiaAccount start ");
 		//============================================================================================================
 		
 		AccountCreationDetails accountCreationDetails = accountDtlsMap.get(INDV_APPLICANT);
+		AccountCreationDetails accountCreationDetailsGrdn = accountDtlsMap.get(INDV_GUARDIAN);
 		MobCreateCustomerSOAPRequest mobCreateCustomerSOAPRequest = accountCreationDetails.getMobCreateCustomerSOAPRequest();
 		
 		MobApplicantPersonalDetail mobApplicantPersonalDetail = mobCreateCustomerSOAPRequest.getMobApplicantPersonalDetail();
@@ -54,7 +60,7 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		
 		// set the header value
 				//-------------- header start-------------------
-				FCUBSHEADERType headerValue = getSOAPRequestHeader();
+				FCUBSHEADERType headerValue = getSOAPRequestHeader(flexID);
 				
 				//-------------- header end-------------------
 		
@@ -90,7 +96,11 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		//   <fcub:ADESC>?</fcub:ADESC> 
 		/*String fullName2 = getFullName(mobCreateCustomerSOAPRequest,0);
 		custAccFullType.setADESC(fullName2);*/
-		custAccFullType.setADESC("New Account");
+		String nameTitle = mobCreateCustomerSOAPRequest.getMobApplicantPersonalDetail().getTitle();
+		String fName = mobCreateCustomerSOAPRequest.getMobApplicantPersonalDetail().getFirstName();
+		String lName = mobCreateCustomerSOAPRequest.getMobApplicantPersonalDetail().getLastName();
+		String name = (nameTitle!=null?nameTitle:"")+" "+(fName!=null?fName:"")+" "+(lName!=null?lName:"");
+		//custAccFullType.setADESC(name);
 		
 		// - S - Single, J -Joint | ACCOUNT_CATEGORY	| MOB_ACCOUNT_DETAILS	| 1
 		// <fcub:ACCTYPE>?</fcub:ACCTYPE> 
@@ -102,40 +112,103 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		
 		// <fcub:ADDR1>?</fcub:ADDR1> mailing address (either send data or blank)
 		//  MAIL_ADDR1	MOB_APPLICANT_COMM_DETAILS
-		//String mailAddr1 = CheckNull(mobApplicantCommDetail.getMailAddr1());
-		//custAccFullType.setADDR1(mailAddr1);
+		MobCreateCustomerSOAPRequest mobApplicantGuardianDetails =null;
+		if(accountCreationDetailsGrdn!=null)
+		{
+			mobApplicantGuardianDetails=accountCreationDetailsGrdn.getMobCreateCustomerSOAPRequest();
+		}
+		String mailAddr1 = null;
+		String mailAddr2 = null;
+		String mailAddr3 = null;
+		String mailCity = null;
+		String mailCountry = null;
+		if( null != mobApplicantGuardianDetails){
+			 mailAddr1 = mobApplicantGuardianDetails.getMobApplicantCommDetail().getMailAddr1();
+			 mailAddr2 = mobApplicantGuardianDetails.getMobApplicantCommDetail().getMailAddr2();
+			 mailAddr3 = mobApplicantGuardianDetails.getMobApplicantCommDetail().getMailAddr3();
+			 mailCity = mobApplicantGuardianDetails.getMobApplicantCommDetail().getMailCity();
+			 mailCountry = mobApplicantGuardianDetails.getMobApplicantCommDetail().getMailCountry();
+		}
+		else{
+			 mailAddr1 = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getMailAddr1();
+			 mailAddr2 = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getMailAddr2();
+			 mailAddr3 = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getMailAddr3();
+			 mailCity = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getMailCity();
+			 mailCountry = mobCreateCustomerSOAPRequest.getMobApplicantCommDetail().getMailCountry();
+		}
+		mailAddr1 = CheckNull(mailAddr1);
+		custAccFullType.setADDR1(mailAddr1);
 		
 		// <fcub:ADDR2>?</fcub:ADDR2>
 		//  MAIL_ADDR2	MOB_APPLICANT_COMM_DETAILS
-		//String mailAddr2 = CheckNull(mobApplicantCommDetail.getMailAddr2());
-		//custAccFullType.setADDR2(mailAddr2);
+		mailAddr2 = CheckNull(mailAddr2);
+		custAccFullType.setADDR2(mailAddr2);
 		
 		// <fcub:ADDR3>?</fcub:ADDR3>
 		//  MAIL_ADDR3	MOB_APPLICANT_COMM_DETAILS
-		//String mailAddr3 = CheckNull(mobApplicantCommDetail.getMailAddr3());
+		mailAddr3 = CheckNull(mailAddr3);
 		//custAccFullType.setADDR3(mailAddr3);
+		
+		if(null==custAccFullType.getADDR2()|| BLANK.equals(custAccFullType.getADDR2()))
+		{
+			custAccFullType.setADDR2(mailAddr3);
+		}
+		else
+		{
+			custAccFullType.setADDR3(mailAddr3);
+		}
 		
 		//     <fcub:ADDR4>?</fcub:ADDR4>
 		//  MAIL_CITY	MOB_APPLICANT_COMM_DETAILS
-		//String mailCity = CheckNull(mobApplicantCommDetail.getMailCity());
+		mailCity = CheckNull(mailCity);
+		mailCountry = CheckNull(mailCountry);
+		if(!BLANK.equals(mailCity) && MUR.equals(mailCountry))
+		{
+			mailCity = mailCity+","+MAURITIUS;
+		}
 		//custAccFullType.setADDR4(mailCity);
+		
+		if(null==custAccFullType.getADDR2()|| BLANK.equals(custAccFullType.getADDR2()))
+		{
+			custAccFullType.setADDR2(mailCity);
+		}
+		else if(null==custAccFullType.getADDR3()|| BLANK.equals(custAccFullType.getADDR3()))
+		{
+			custAccFullType.setADDR3(mailCity);
+		}
+		else
+		{
+			custAccFullType.setADDR4(mailCity);
+		}
+		
+		
+		custAccFullType.setCOUNTRY(mailCountry);//Added by Avisha
+		
+		custAccFullType.setCOUNTRYCODE(MUR);//Added by Avisha
 		
 		// blank, (if IBANRQD - Y, it will be autogenerated). This will be 
 		// returned in the response for createAccount
 		//custAccFullType.setIBANACNO(BLANK);
 		
 		// OTH    <fcub:LOC>?</fcub:LOC> 
-		//custAccFullType.setLOC(DEFAULT_LOC);
+		custAccFullType.setLOC(DEFAULT_LOC);
 		
 		// <fcub:MEDIA>?</fcub:MEDIA> 	
 		custAccFullType.setMEDIA(DEFAULT_MEDIA);
 		
 		// Indicated if Cheque book is requires	Defaults to Y	1 (Y/N)
 		// <fcub:CHQBOOK>?</fcub:CHQBOOK>
-		custAccFullType.setCHQBOOK(Y);
+		if(ACCOUNT_CLASS_CURRENT_CHQ_BOOK.equals(accountType))
+		{
+			custAccFullType.setCHQBOOK(Y);
+		}
+		else
+		{
+			custAccFullType.setCHQBOOK(N);
+		}
 		//  <fcub:CHKNAME1>?</fcub:CHKNAME1> - ignore  // new added
 		// error before add : - Cheque Book name is Not Entered Please check!
-		custAccFullType.setCHKNAME1(fullName);
+		//custAccFullType.setCHKNAME1(fullName);
 		
 		// Y <fcub:IBANRQD>?</fcub:IBANRQD>
 		custAccFullType.setIBANRQD(Y);
@@ -146,7 +219,7 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		
 		// This is for the signature for the account. Pass Y if it needs to be replicated from CIF 
 		//   <fcub:REPL_CUST_SIG>?</fcub:REPL_CUST_SIG>
-		custAccFullType.setREPLCUSTSIG(Y);
+		custAccFullType.setREPLCUSTSIG(N);
 		
 		// There can be maximum 5 joint holders
 		List<CustAccFullType.Jointholders> jointholders = custAccFullType.getJointholders();
@@ -172,6 +245,7 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		jointAccKeys.add(JOINT4_APPLICANT);
 		jointAccKeys.add(JOINT5_APPLICANT);
 		
+		List<String> jointHolderNames = new ArrayList<String>();
 		for( String key: accountDtlsMap.keySet()){
 			if(jointAccKeys.contains(key)){
 				
@@ -186,6 +260,10 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 					if(null != mobApplicantPersonalDetail2 && !mobApplicantPersonalDetail2.getIsProxyHolder()){
 						CustAccFullType.Jointholders jointholder = new CustAccFullType.Jointholders();
 						
+						String title = accountCreationDetails2.getMobCreateCustomerSOAPRequest().getMobApplicantPersonalDetail().getTitle();
+						String firstName = accountCreationDetails2.getMobCreateCustomerSOAPRequest().getMobApplicantPersonalDetail().getFirstName();
+						String lastName = accountCreationDetails2.getMobCreateCustomerSOAPRequest().getMobApplicantPersonalDetail().getLastName();
+						jointHolderNames.add(title+" "+firstName+" "+lastName);
 						jointholder.setJNTHLDCDE(mobApplicantPersonalDetail2.getCustCif());
 						String fullName3 = getFullName(accountCreationDetails2.getMobCreateCustomerSOAPRequest(), MAX_NAME_CHAR);
 						jointholder.setJNTHLDDESC(fullName3);
@@ -198,7 +276,23 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 			}
 		}
 		
-		
+		StringBuffer aDesc = new StringBuffer();
+		//StringBuffer chkName = new StringBuffer();
+		if(null!=jointHolderNames && jointHolderNames.size()>0)
+		{
+			for(String jointHolderName:jointHolderNames)
+			{
+				//chkName = chkName.append(jointHolderName).append('\n');
+				aDesc = aDesc.append(" AND ").append(jointHolderName);
+			}
+		}
+		String finalDesc = aDesc.toString();
+		//String finalChkName = chkName.toString();
+		custAccFullType.setADESC(name+(null!=finalDesc?finalDesc:BLANK));
+		if(ACCOUNT_CLASS_CURRENT_CHQ_BOOK.equals(accountType))
+		{
+			custAccFullType.setCHKNAME1(substractChar(MAX_NAME_CHAR2,name+(null!=finalDesc?finalDesc:BLANK)));
+		}
 		//  This is for creating cheque book | <fcub:Cust-Acc-Check>
 		 CustAccFullType.CustAccCheck custAccCheck = new CustAccFullType.CustAccCheck();
 		
@@ -223,6 +317,11 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		 GregorianCalendar gcal = new GregorianCalendar();
 		 gcal.setTime(date);
 		 XMLGregorianCalendar ordDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gcal);
+		 /*ordDate.setYear(gcal.get(GregorianCalendar.YEAR));
+		 ordDate.setMonth(gcal.get(GregorianCalendar.MONTH));
+		 ordDate.setDay(gcal.get(GregorianCalendar.DAY_OF_MONTH));*/
+		 ordDate.setMillisecond(DatatypeConstants.FIELD_UNDEFINED);
+		 ordDate.setTimezone(DatatypeConstants.FIELD_UNDEFINED);
 		 custAccCheck.setORDERDATE(ordDate);
 		 
 		 // Principal Applicant FN LN |    <fcub:ORDER_DETAILS>?</fcub:ORDER_DETAILS>
@@ -278,9 +377,9 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 								  relationship = RELATIONSHIP_JAO;
 							  }
 						 }					 
-						 else if(key.equalsIgnoreCase(INDV_APPLICANT)){
+						 /*else if(key.equalsIgnoreCase(INDV_APPLICANT)){
 							 relationship = RELATIONSHIP_PRIMARY;
-						 }
+						 }*/
 				  }
 				 
 				
@@ -291,7 +390,10 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 				  linkedentities.setDESCP(mobApplicantPDtl.getFirstName() + " " + mobApplicantPDtl.getLastName());
 				  
 				//========= set linkedentities ==================
-				  custAccFullType.setLinkedentities(linkedentities);
+				  if(null!=relationship && !BLANK.equals(relationship))
+				  {
+					  custAccFullType.setLinkedentities(linkedentities);
+				  }
 			}
 			
 	 }
@@ -337,6 +439,22 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 	 
 	  debugLog.debug(" requestMsgJson : "+requestMsgJson);
 	  
+	  try
+	  {
+		  JAXBContext context = JAXBContext.newInstance(CREATECUSTACCFSFSREQ.class);
+		  Marshaller marshaller = context.createMarshaller();
+		  StringWriter sw = new StringWriter();
+		  marshaller.marshal(requestMsg, sw);
+		  
+	
+		  String xmlString = sw.toString();
+		  debugLog.debug(xmlString);
+	  }
+	  catch (Exception e)
+	  {
+		  e.printStackTrace();
+	  }
+	  
 	  CREATECUSTACCFSFSRES createCustAccFSRes = callCreateAccountSOAP(requestMsg);
 	  
 	  String json2 = gson.toJson(createCustAccFSRes);
@@ -352,10 +470,15 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 			  if(null != msgstat  && msgstat.value().equalsIgnoreCase(SUCCESS)){
 				  if( null != createCustAccFSRes.getFCUBSBODY().getCustAccountFull()){
 					  String accNumber = createCustAccFSRes.getFCUBSBODY().getCustAccountFull().getACC();
+					  String ibanNo = createCustAccFSRes.getFCUBSBODY().getCustAccountFull().getIBANACNO();
 					  if( null != accNumber && !accNumber.isEmpty()){
 						  
 						  result.put(ACCNO, accNumber);
 						  result.put(MSGSTAT,  msgstat.value());
+						  if(null!=ibanNo && !ibanNo.isEmpty())
+						  {
+							  result.put(IBANNO, ibanNo);
+						  }
 					  }
 					  else{
 						  result.put(ACCNO, null);
@@ -392,7 +515,7 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		In MOB_APPLICANT_PERSONAL_DETAILS, if IS_HNWI = true value should be R_HNWI else it should be R_PRIV*/
 		Map<String,String> misMap = new HashMap<String,String>();
 		boolean isEmployee = mobCreateCustomerSOAPRequest.getMobApplicantPersonalDetail().isEmployee();
-		boolean isHnwi = false;//mobCreateCustomerSOAPRequest.getMobApplicantPersonalDetail().getIsHNWI();
+		boolean isHnwi = mobCreateCustomerSOAPRequest.getMobApplicantPersonalDetail().getIsHnwi();
 		if(isEmployee)
 		{
 			misMap.put("CUST_SEGM", CUST_SEGM_EMP); //misMap.put("CUST_SEGM", "R_STAFF");
@@ -557,7 +680,7 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		   return sb.toString();
 		}
 
-	private FCUBSHEADERType getSOAPRequestHeader() {
+	private FCUBSHEADERType getSOAPRequestHeader(String flexID) {
 		
 		FCUBSHEADERType headerValue = new FCUBSHEADERType();
 		// set source String value {  <fcub:SOURCE>?</fcub:SOURCE> => constant value, to be created for Pwc } 
@@ -576,7 +699,8 @@ public class CreateAccountSOAP  implements CreateCustomerSOAPConstants {
 		
 		// set correlid String value  <fcub:USERID>?</fcub:USERID> - user id of compliance member who initiated the request
 		//  Flex id of compliance  who created the request | Login user id | Max: 12
-		headerValue.setUSERID(DEFAULT_USERID); 
+		//headerValue.setUSERID(DEFAULT_USERID); 
+		headerValue.setUSERID(flexID);
 		
 		// set branch String value  <fcub:BRANCH>?</fcub:BRANCH> - 001 | Default value - 001
 		headerValue.setBRANCH(DEFAULT_BRANCH);

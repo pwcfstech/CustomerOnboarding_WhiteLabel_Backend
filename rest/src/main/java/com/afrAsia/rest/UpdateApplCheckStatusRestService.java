@@ -221,6 +221,7 @@ public void sendEmails(ApplCheckStatusReq applCheckStatusReq, ApplCheckStatusRes
 		String host = afrAsiaMailConfig.getMailhost();
 		String port = afrAsiaMailConfig.getMailport();
 		String mailFrom = afrAsiaMailConfig.getMailFrom();
+		String username = "afrasiabank\\" +afrAsiaMailConfig.getUsername();
 		String password = afrAsiaMailConfig.getMailPassword();
 		String smtpAuthRequired=afrAsiaMailConfig.getSmtpAuthRequired();
 		String smtpAuthstarttls=afrAsiaMailConfig.getSmtpAuthRequired();
@@ -268,7 +269,7 @@ public void sendEmails(ApplCheckStatusReq applCheckStatusReq, ApplCheckStatusRes
 		}
 		
 		try {
-			AfrAsiaEmailUtility.sendEmail(host, port, mailFrom, password, toAddrRM, subject, messageToRM, smtpAuthRequired, smtpAuthstarttls);
+			AfrAsiaEmailUtility.sendEmail(host, port, mailFrom, username, password, toAddrRM, subject, messageToRM, smtpAuthRequired, smtpAuthstarttls);
 			infoLog.info("RM EMail sent success");
 		} catch (MessagingException e) {
 			errorLog.error("MessagingException found in sendEmails(),AccountCreationRestService.java: ",e);

@@ -1,7 +1,7 @@
 package com.afrAsia.rest;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -53,15 +53,24 @@ public class AuthenticationRestService
 
 	@POST
 	@Path("/login")
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response login(String loginStringRequest)
+	public Response login(@FormParam("userId") String userId,@FormParam("password") String password,@FormParam("deviceId") String deviceId,
+			@FormParam("ipAddress") String ipAddress,@FormParam("userType") String userType)
 	{
 		infoLog.info(" Entered in login Service ");
 		LoginResponse response = null;
 		try
 		{
-			LoginRequest loginRequest = CommonUtils.jsonStringToObject(loginStringRequest, LoginRequest.class);
+			//LoginRequest loginRequest = CommonUtils.jsonStringToObject(loginStringRequest, LoginRequest.class);
+			LoginDataRequest loginDataRequest = new LoginDataRequest();
+			loginDataRequest.setUserId(userId);
+			loginDataRequest.setPassword(password);
+			loginDataRequest.setDeviceId(deviceId);
+			loginDataRequest.setIpAddress(ipAddress);
+			loginDataRequest.setUserType(userType);
+			LoginRequest loginRequest = new LoginRequest();
+			loginRequest.setData(loginDataRequest);
 			response = authenticationService.login(loginRequest);
 		}
 		catch (Exception e)
@@ -118,22 +127,39 @@ public class AuthenticationRestService
 		return Response.ok(response).build();
 	}
 	
-	@GET
+	@POST
 	@Path("/checkSession")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response checkSession()
+	public Response checkSession(String checkSessionRequest)
 	{
-		infoLog.info(" in checkSession Service ");
+		infoLog.info(" chekSession in checkSession(),AuthenticationRestService is : "+checkSessionRequest);
+		LoginResponse response = null;
 		try
 		{
 			
+			LoginRequest loginRequest = CommonUtils.jsonStringToObject(checkSessionRequest, LoginRequest.class);
+			infoLog.info("Value of checkSession request::" + loginRequest.toString());
+			response = authenticationService.checkSession(loginRequest);
 		}
 		catch (Exception e)
 		{
+			//AfrAsiaLogger.infoLog("in catch of rest ====== ");
+			e.printStackTrace();
+			errorLog.error("error in  checkSession(),AuthenticationRestService is :", e);
+			MessageHeader msgHeader = new MessageHeader();
+			RequestError error = new RequestError();
+			error.setCd("401");
+			error.setCustomCode("ERR401");
+			error.setRsn("Login failed.");
+			msgHeader.setError(error);
 			
+			response = new LoginResponse();
+			response.setMsgHeader(msgHeader);
+			response.setData(null);
+			return Response.status(Status.FORBIDDEN).entity(response).build();
 		}
-		
-		return Response.ok().build();
+		infoLog.info(" response in checkSession(),AuthenticationRestService is : "+response);
+		return Response.ok(response).build();
 	}
 	
 	public static void main(String[] args) throws JsonProcessingException

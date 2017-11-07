@@ -262,6 +262,7 @@
 	<sec:http pattern="/v*/login" security="none"></sec:http>
 	<sec:http pattern="/v*/appversion" security="none"></sec:http>
 	<sec:http pattern="/v*/lockApplication" security="none"></sec:http>
+	<sec:http pattern="/v*/checkSession" security="none"></sec:http>
 	<!-- sec:http pattern="/v*/sign_in" security="none"></sec:http>
 
 	<sec:http pattern="/**/add_user_admin_role" security="none"></sec:http>

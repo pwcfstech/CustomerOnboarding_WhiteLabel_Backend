@@ -56,7 +56,7 @@ public interface CreateCustomerSOAPConstants {
 		 
 		 static final String RELATIONSHIP_PROXY = "PROXY";
 		 static final String RELATIONSHIP_PRIMARY = "Primary";
-		 static final String RELATIONSHIP_LEGALGUARDIAN = "LegalGuardian";
+		 static final String RELATIONSHIP_LEGALGUARDIAN = "LG";
 		 static final String RELATIONSHIP_JOO = "JOO";
 		 static final String RELATIONSHIP_JAO = "JAO";
 		 static final String MOP_J = "J";
@@ -68,6 +68,7 @@ public interface CreateCustomerSOAPConstants {
 		 static final String FAILURE = "FAILURE";
 		 static final String MSGSTAT = "MSGSTAT";
 		 static final String ACCNO = "ACCNO";
+		 static final String IBANNO = "IBANNO";
 		 static final String WARNING = "WARNING";
 		 static final String ERROR = "ERROR";
 		 static final String CUSTNO = "CUSTNO";
@@ -124,5 +125,8 @@ public interface CreateCustomerSOAPConstants {
 		 static final String  FIRST_HEAR_ABOUT_AFRASIA = "FIRST_HEAR_ABOUT_AFRASIA";
 		 static final String  LEISURE_PREFERENCE = "LEISURE_PREFERENCE";
 		 static final String  PRIMARY = "PRIMARY";
+		 
+		 static final String MAURITIUS="MAURITIUS";
+		 static final String ACCOUNT_CLASS_CURRENT_CHQ_BOOK="310";
 
 }

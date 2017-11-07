@@ -74,7 +74,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 			accountsRejected.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
 
-			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+			/*SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
 			String dateSubmittedDate = outputs[5].toString();
 
@@ -83,9 +83,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 				dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 			} catch (ParseException e) {
 				errorLog.error("dateSubmitted coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl");
-			}
+			}*/
 
-			accountsRejected.setAppSubmittedDate(dateSubmitted);
+			accountsRejected.setAppSubmittedDate((Date) outputs[5]);
 
 			listAccountsRejected.add(accountsRejected);
 			complianceApps.setAccountsRejected(listAccountsRejected);
@@ -111,7 +111,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 			if (outputs[5] != null)
 				accountsCreated.setAccountNumber(outputs[5].toString());
 
-			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+			/*SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
 			String dateSubmittedDate = outputs[6].toString();
 
@@ -120,9 +120,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 				dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 			} catch (ParseException e) {
 				errorLog.error("dateSubmitted coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl", e);
-			}
+			}*/
 
-			accountsCreated.setAppSubmittedDate(dateSubmitted);
+			accountsCreated.setAppSubmittedDate((Date) outputs[6]);
 
 			listAccountsCreated.add(accountsCreated);
 			complianceApps.setAccountsCreated(listAccountsCreated);
@@ -145,7 +145,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 			applicationsUnderProcessing.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
 
-			SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+			/*SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
 			String dateSubmittedDate = outputs[5].toString();
 
@@ -154,9 +154,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 				dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 			} catch (ParseException e) {
 				errorLog.error("dateSubmitted coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl", e);
-			}
+			}*/
 
-			applicationsUnderProcessing.setAppSubmittedDate(dateSubmitted);
+			applicationsUnderProcessing.setAppSubmittedDate((Date) outputs[5]);
 			applicationsUnderProcessing.setAppStatus(outputs[6].toString());
 
 			listApplicationsUnderProcessing.add(applicationsUnderProcessing);	
@@ -190,11 +190,11 @@ public class ComplianceServiceImpl implements ComplianceService {
 				if (outputsMobCheck[6] != null)
 					applicationsUnderProcessing2.setKycDoneBy(outputsMobCheck[6].toString());
 
-				SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
+				/*SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
 
-				String dateKYCUnderProcessing = null;
+				String dateKYCUnderProcessing = null;*/
 				if (outputsMobCheck[7] != null) {
-					dateKYCUnderProcessing = outputsMobCheck[7].toString();
+					/*dateKYCUnderProcessing = outputsMobCheck[7].toString();
 
 					Date dateKYC = new Date();
 					try {
@@ -202,8 +202,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 					} catch (ParseException e) {
 						errorLog.error("dateKYC coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
 								e);
-					}
-					applicationsUnderProcessing2.setKycDate(dateKYC);
+					}*/
+					applicationsUnderProcessing2.setKycDate((Date) outputsMobCheck[7]);
 				}
 
 				if (outputsMobCheck[8] != null)
@@ -220,7 +220,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 				String dateWCUnderProcessing = null;
 				if (outputsMobCheck[12] != null) {
-					dateWCUnderProcessing = outputsMobCheck[12].toString();
+					/*dateWCUnderProcessing = outputsMobCheck[12].toString();
 
 					Date wcDate = new Date();
 					try {
@@ -228,8 +228,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 					} catch (ParseException e) {
 						errorLog.error("wcDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
 								e);
-					}
-					applicationsUnderProcessing2.setWcDate(wcDate);
+					}*/
+					applicationsUnderProcessing2.setWcDate((Date) outputsMobCheck[12]);
 				}
 
 				if (outputsMobCheck[13] != null)
@@ -246,7 +246,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 				String dateCCUnderProcessing = null;
 				if (outputsMobCheck[17] != null) {
-					dateCCUnderProcessing = outputsMobCheck[17].toString();
+					/*dateCCUnderProcessing = outputsMobCheck[17].toString();
 
 					Date ccDate = new Date();
 					try {
@@ -254,8 +254,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 					} catch (ParseException e) {
 						errorLog.error("ccDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
 								e);
-					}
-					applicationsUnderProcessing2.setCcDate(ccDate);
+					}*/
+					applicationsUnderProcessing2.setCcDate((Date) outputsMobCheck[17]);
 				}
 
 				if (outputsMobCheck[18] != null)
@@ -272,7 +272,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 				String dateICUnderProcessing = null;
 				if (outputsMobCheck[22] != null) {
-					dateICUnderProcessing = outputsMobCheck[22].toString();
+					/*dateICUnderProcessing = outputsMobCheck[22].toString();
 
 					Date icDate = new Date();
 					try {
@@ -280,9 +280,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 					} catch (ParseException e) {
 						errorLog.error("icDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
 								e);
-					}
+					}*/
 
-					applicationsUnderProcessing2.setIcDate(icDate);
+					applicationsUnderProcessing2.setIcDate((Date) outputsMobCheck[22]);
 				}
 				listApplicationsUnderProcessingMobCheck.add(applicationsUnderProcessing2);
 			}
@@ -409,7 +409,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 				accountsRejected.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
 
-				SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+				/*SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
 				String dateSubmittedDate = outputs[5].toString();
 
@@ -418,9 +418,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 				} catch (ParseException e) {
 					errorLog.error("dateSubmitted coud not be parsed in getDetailsByName(),ComplianceServiceImpl");
-				}
+				}*/
 
-				accountsRejected.setAppSubmittedDate(dateSubmitted);
+				accountsRejected.setAppSubmittedDate((Date) outputs[5]);
 				listAccountsRejected.add(j, accountsRejected);
 				j++;
 				complianceApps.setAccountsRejected(listAccountsRejected);
@@ -455,7 +455,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 					errorLog.error("AccountNumber is Null in getDetailsByName(),ComplianceServiceImpl", e);
 				}
 
-				SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+				/*SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
 				String dateSubmittedDate = outputs[6].toString();
 
@@ -464,9 +464,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 				} catch (ParseException e) {
 					errorLog.error("dateSubmitted could not be parsed in getDetailsByName(),ComplianceServiceImpl", e);
-				}
+				}*/
 
-				accountsCreated.setAppSubmittedDate(dateSubmitted);
+				accountsCreated.setAppSubmittedDate((Date) outputs[6]);
 				listAccountsCreated.add(h, accountsCreated);
 				h++;
 				complianceApps.setAccountsCreated(listAccountsCreated);
@@ -489,7 +489,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 				applicationsUnderProcessing.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
 
-				SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+				/*SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
 				String dateSubmittedDate = outputs[5].toString();
 
@@ -498,9 +498,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 				} catch (ParseException e) {
 					errorLog.error("dateSubmitted coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl", e);
-				}
+				}*/
 
-				applicationsUnderProcessing.setAppSubmittedDate(dateSubmitted);
+				applicationsUnderProcessing.setAppSubmittedDate((Date) outputs[5]);
 				applicationsUnderProcessing.setAppStatus(outputs[6].toString());
 
 				listApplicationsUnderProcessing.add(applicationsUnderProcessing);	
@@ -534,11 +534,11 @@ public class ComplianceServiceImpl implements ComplianceService {
 					if (outputsMobCheck[6] != null)
 						applicationsUnderProcessing2.setKycDoneBy(outputsMobCheck[6].toString());
 
-					SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
+					/*SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
 
-					String dateKYCUnderProcessing = null;
+					String dateKYCUnderProcessing = null;*/
 					if (outputsMobCheck[7] != null) {
-						dateKYCUnderProcessing = outputsMobCheck[7].toString();
+						/*dateKYCUnderProcessing = outputsMobCheck[7].toString();
 
 						Date dateKYC = new Date();
 						try {
@@ -546,8 +546,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 						} catch (ParseException e) {
 							errorLog.error("dateKYC coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
 									e);
-						}
-						applicationsUnderProcessing2.setKycDate(dateKYC);
+						}*/
+						applicationsUnderProcessing2.setKycDate((Date) outputsMobCheck[7]);
 					}
 
 					if (outputsMobCheck[8] != null)
@@ -564,7 +564,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 					String dateWCUnderProcessing = null;
 					if (outputsMobCheck[12] != null) {
-						dateWCUnderProcessing = outputsMobCheck[12].toString();
+						/*dateWCUnderProcessing = outputsMobCheck[12].toString();
 
 						Date wcDate = new Date();
 						try {
@@ -572,8 +572,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 						} catch (ParseException e) {
 							errorLog.error("wcDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
 									e);
-						}
-						applicationsUnderProcessing2.setWcDate(wcDate);
+						}*/
+						applicationsUnderProcessing2.setWcDate((Date) outputsMobCheck[12]);
 					}
 
 					if (outputsMobCheck[13] != null)
@@ -590,7 +590,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 					String dateCCUnderProcessing = null;
 					if (outputsMobCheck[17] != null) {
-						dateCCUnderProcessing = outputsMobCheck[17].toString();
+						/*dateCCUnderProcessing = outputsMobCheck[17].toString();
 
 						Date ccDate = new Date();
 						try {
@@ -598,8 +598,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 						} catch (ParseException e) {
 							errorLog.error("ccDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
 									e);
-						}
-						applicationsUnderProcessing2.setCcDate(ccDate);
+						}*/
+						applicationsUnderProcessing2.setCcDate((Date) outputsMobCheck[17]);
 					}
 
 					if (outputsMobCheck[18] != null)
@@ -616,7 +616,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 					String dateICUnderProcessing = null;
 					if (outputsMobCheck[22] != null) {
-						dateICUnderProcessing = outputsMobCheck[22].toString();
+						/*dateICUnderProcessing = outputsMobCheck[22].toString();
 
 						Date icDate = new Date();
 						try {
@@ -624,9 +624,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 						} catch (ParseException e) {
 							errorLog.error("icDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
 									e);
-						}
+						}*/
 
-						applicationsUnderProcessing2.setIcDate(icDate);
+						applicationsUnderProcessing2.setIcDate((Date) outputsMobCheck[22]);
 					}
 					listApplicationsUnderProcessingMobCheck.add(applicationsUnderProcessing2);
 				}
@@ -757,7 +757,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 				accountsRejected.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
 
-				SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+				/*SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
 				String dateSubmittedDate = outputs[5].toString();
 
@@ -766,9 +766,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 				} catch (ParseException e) {
 					errorLog.error("dateSubmitted coud not be parsed in getDetailsByDates(),ComplianceServiceImpl");
-				}
+				}*/
 
-				accountsRejected.setAppSubmittedDate(dateSubmitted);
+				accountsRejected.setAppSubmittedDate((Date) outputs[5]);
 
 				listAccountsRejected.add(j, accountsRejected);
 				j++;
@@ -804,7 +804,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 					errorLog.error("AccountNumber is Null in getDetailsByDates(),ComplianceServiceImpl", e);
 				}
 
-				SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+				/*SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
 				String dateSubmittedDate = outputs[6].toString();
 
@@ -813,9 +813,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 				} catch (ParseException e) {
 					errorLog.error("dateSubmitted coud not be parsed in getDetailsByDates(),ComplianceServiceImpl", e);
-				}
+				}*/
 
-				accountsCreated.setAppSubmittedDate(dateSubmitted);
+				accountsCreated.setAppSubmittedDate((Date) outputs[6]);
 
 				listAccountsCreated.add(h, accountsCreated);
 				h++;
@@ -841,7 +841,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 				applicationsUnderProcessing.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
 
-				SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+				/*SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
 				String dateSubmittedDate = outputs[5].toString();
 
@@ -850,9 +850,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 				} catch (ParseException e) {
 					errorLog.error("dateSubmitted coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl", e);
-				}
+				}*/
 
-				applicationsUnderProcessing.setAppSubmittedDate(dateSubmitted);
+				applicationsUnderProcessing.setAppSubmittedDate((Date) outputs[5]);
 				applicationsUnderProcessing.setAppStatus(outputs[6].toString());
 
 				listApplicationsUnderProcessing.add(applicationsUnderProcessing);	
@@ -886,11 +886,11 @@ public class ComplianceServiceImpl implements ComplianceService {
 					if (outputsMobCheck[6] != null)
 						applicationsUnderProcessing2.setKycDoneBy(outputsMobCheck[6].toString());
 
-					SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
+					/*SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
 
-					String dateKYCUnderProcessing = null;
+					String dateKYCUnderProcessing = null;*/
 					if (outputsMobCheck[7] != null) {
-						dateKYCUnderProcessing = outputsMobCheck[7].toString();
+						/*dateKYCUnderProcessing = outputsMobCheck[7].toString();
 
 						Date dateKYC = new Date();
 						try {
@@ -898,8 +898,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 						} catch (ParseException e) {
 							errorLog.error("dateKYC coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
 									e);
-						}
-						applicationsUnderProcessing2.setKycDate(dateKYC);
+						}*/
+						applicationsUnderProcessing2.setKycDate((Date) outputsMobCheck[7]);
 					}
 
 					if (outputsMobCheck[8] != null)
@@ -916,7 +916,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 					String dateWCUnderProcessing = null;
 					if (outputsMobCheck[12] != null) {
-						dateWCUnderProcessing = outputsMobCheck[12].toString();
+						/*dateWCUnderProcessing = outputsMobCheck[12].toString();
 
 						Date wcDate = new Date();
 						try {
@@ -924,8 +924,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 						} catch (ParseException e) {
 							errorLog.error("wcDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
 									e);
-						}
-						applicationsUnderProcessing2.setWcDate(wcDate);
+						}*/
+						applicationsUnderProcessing2.setWcDate((Date) outputsMobCheck[12]);
 					}
 
 					if (outputsMobCheck[13] != null)
@@ -942,7 +942,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 					String dateCCUnderProcessing = null;
 					if (outputsMobCheck[17] != null) {
-						dateCCUnderProcessing = outputsMobCheck[17].toString();
+						/*dateCCUnderProcessing = outputsMobCheck[17].toString();
 
 						Date ccDate = new Date();
 						try {
@@ -950,8 +950,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 						} catch (ParseException e) {
 							errorLog.error("ccDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
 									e);
-						}
-						applicationsUnderProcessing2.setCcDate(ccDate);
+						}*/
+						applicationsUnderProcessing2.setCcDate((Date) outputsMobCheck[17]);
 					}
 
 					if (outputsMobCheck[18] != null)
@@ -968,7 +968,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 					String dateICUnderProcessing = null;
 					if (outputsMobCheck[22] != null) {
-						dateICUnderProcessing = outputsMobCheck[22].toString();
+						/*dateICUnderProcessing = outputsMobCheck[22].toString();
 
 						Date icDate = new Date();
 						try {
@@ -976,9 +976,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 						} catch (ParseException e) {
 							errorLog.error("icDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
 									e);
-						}
+						}*/
 
-						applicationsUnderProcessing2.setIcDate(icDate);
+						applicationsUnderProcessing2.setIcDate((Date) outputsMobCheck[22]);
 					}
 					listApplicationsUnderProcessingMobCheck.add(applicationsUnderProcessing2);
 				}
@@ -1109,7 +1109,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 				accountsRejected.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
 
-				SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+				/*SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
 				String dateSubmittedDate = outputs[5].toString();
 
@@ -1119,9 +1119,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 				} catch (ParseException e) {
 					errorLog.error(
 							"dateSubmitted coud not be parsed in getDetailsByAllCriteria(),ComplianceServiceImpl");
-				}
+				}*/
 
-				accountsRejected.setAppSubmittedDate(dateSubmitted);
+				accountsRejected.setAppSubmittedDate((Date) outputs[5]);
 
 				listAccountsRejected.add(j, accountsRejected);
 				j++;
@@ -1157,7 +1157,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 					errorLog.error("AccountNumber is Null in getDetailsByAllCriteria(),ComplianceServiceImpl", e);
 				}
 
-				SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+				/*SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
 				String dateSubmittedDate = outputs[6].toString();
 
@@ -1167,9 +1167,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 				} catch (ParseException e) {
 					errorLog.error(
 							"dateSubmitted coud not be parsed in getDetailsByAllCriteria(),ComplianceServiceImpl", e);
-				}
+				}*/
 
-				accountsCreated.setAppSubmittedDate(dateSubmitted);
+				accountsCreated.setAppSubmittedDate((Date) outputs[6]);
 
 				listAccountsCreated.add(h, accountsCreated);
 				h++;
@@ -1195,7 +1195,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 				applicationsUnderProcessing.setCustomerName(outputs[3].toString() + " " + outputs[4].toString());
 
-				SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
+				/*SimpleDateFormat dateFormatSubmittedDate = new SimpleDateFormat("yyyy-MM-dd");
 
 				String dateSubmittedDate = outputs[5].toString();
 
@@ -1204,9 +1204,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 					dateSubmitted = dateFormatSubmittedDate.parse(dateSubmittedDate);
 				} catch (ParseException e) {
 					errorLog.error("dateSubmitted coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl", e);
-				}
+				}*/
 
-				applicationsUnderProcessing.setAppSubmittedDate(dateSubmitted);
+				applicationsUnderProcessing.setAppSubmittedDate((Date) outputs[5]);
 				applicationsUnderProcessing.setAppStatus(outputs[6].toString());
 
 				listApplicationsUnderProcessing.add(applicationsUnderProcessing);	
@@ -1241,11 +1241,11 @@ public class ComplianceServiceImpl implements ComplianceService {
 					if (outputsMobCheck[6] != null)
 						applicationsUnderProcessing2.setKycDoneBy(outputsMobCheck[6].toString());
 
-					SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
+					/*SimpleDateFormat dateFormatUnderProcessing = new SimpleDateFormat("yyyy-MM-dd");
 
-					String dateKYCUnderProcessing = null;
+					String dateKYCUnderProcessing = null;*/
 					if (outputsMobCheck[7] != null) {
-						dateKYCUnderProcessing = outputsMobCheck[7].toString();
+						/*dateKYCUnderProcessing = outputsMobCheck[7].toString();
 
 						Date dateKYC = new Date();
 						try {
@@ -1253,8 +1253,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 						} catch (ParseException e) {
 							errorLog.error("dateKYC coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
 									e);
-						}
-						applicationsUnderProcessing2.setKycDate(dateKYC);
+						}*/
+						applicationsUnderProcessing2.setKycDate((Date) outputsMobCheck[7]);
 					}
 
 					if (outputsMobCheck[8] != null)
@@ -1271,7 +1271,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 					String dateWCUnderProcessing = null;
 					if (outputsMobCheck[12] != null) {
-						dateWCUnderProcessing = outputsMobCheck[12].toString();
+						/*dateWCUnderProcessing = outputsMobCheck[12].toString();
 
 						Date wcDate = new Date();
 						try {
@@ -1279,8 +1279,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 						} catch (ParseException e) {
 							errorLog.error("wcDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
 									e);
-						}
-						applicationsUnderProcessing2.setWcDate(wcDate);
+						}*/
+						applicationsUnderProcessing2.setWcDate((Date) outputsMobCheck[12]);
 					}
 
 					if (outputsMobCheck[13] != null)
@@ -1297,7 +1297,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 					String dateCCUnderProcessing = null;
 					if (outputsMobCheck[17] != null) {
-						dateCCUnderProcessing = outputsMobCheck[17].toString();
+						/*dateCCUnderProcessing = outputsMobCheck[17].toString();
 
 						Date ccDate = new Date();
 						try {
@@ -1305,8 +1305,8 @@ public class ComplianceServiceImpl implements ComplianceService {
 						} catch (ParseException e) {
 							errorLog.error("ccDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
 									e);
-						}
-						applicationsUnderProcessing2.setCcDate(ccDate);
+						}*/
+						applicationsUnderProcessing2.setCcDate((Date) outputsMobCheck[17]);
 					}
 
 					if (outputsMobCheck[18] != null)
@@ -1323,7 +1323,7 @@ public class ComplianceServiceImpl implements ComplianceService {
 
 					String dateICUnderProcessing = null;
 					if (outputsMobCheck[22] != null) {
-						dateICUnderProcessing = outputsMobCheck[22].toString();
+						/*dateICUnderProcessing = outputsMobCheck[22].toString();
 
 						Date icDate = new Date();
 						try {
@@ -1331,9 +1331,9 @@ public class ComplianceServiceImpl implements ComplianceService {
 						} catch (ParseException e) {
 							errorLog.error("icDate coud not be parsed in getDetailsByDefault(),ComplianceServiceImpl",
 									e);
-						}
+						}*/
 
-						applicationsUnderProcessing2.setIcDate(icDate);
+						applicationsUnderProcessing2.setIcDate((Date) outputsMobCheck[22]);
 					}
 					listApplicationsUnderProcessingMobCheck.add(applicationsUnderProcessing2);
 				}

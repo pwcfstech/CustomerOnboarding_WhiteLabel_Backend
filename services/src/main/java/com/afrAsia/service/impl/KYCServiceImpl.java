@@ -18,6 +18,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.afrAsia.dao.RMDetailsDao;
 import com.afrAsia.dao.jpa.ApplicationDetailsJpaDAO;
 import com.afrAsia.dao.jpa.DashBoardJpaDao;
 import com.afrAsia.dao.jpa.UploadKYCJpaDAO;
@@ -30,12 +31,16 @@ import com.afrAsia.entities.response.RequestError;
 import com.afrAsia.entities.transactions.KycTableCompositePK;
 import com.afrAsia.entities.transactions.MobApplicantKycDocuments;
 import com.afrAsia.entities.transactions.MobApplicantPersonalDetail;
+import com.afrAsia.entities.transactions.MobRmAppRefId;
 import com.afrAsia.service.KYCService;
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
@@ -68,6 +73,15 @@ public class KYCServiceImpl implements KYCService {
 	private UploadKYCJpaDAO uploadKYCDao;
 	private ApplicationDetailsJpaDAO applicationDetailsDAO;
 	private DashBoardJpaDao dashBoardDao;
+	private RMDetailsDao rmDetailsDAO;
+	
+	public RMDetailsDao getRmDetailsDAO() {
+		return rmDetailsDAO;
+	}
+
+	public void setRmDetailsDAO(RMDetailsDao rmDetailsDAO) {
+		this.rmDetailsDAO = rmDetailsDAO;
+	}
 
 	public void setDashBoardDao(DashBoardJpaDao dashBoardDao) {
 		this.dashBoardDao = dashBoardDao;
@@ -107,6 +121,8 @@ public class KYCServiceImpl implements KYCService {
 				String firstName = null;
 				String lastName = null;
 				
+				MobRmAppRefId mobRmAppRefId = applicationDetailsDAO.getApplicationDetails(appId);
+				String rmName = rmDetailsDAO.getRMDetailByRMId(mobRmAppRefId.getRmUsedId()).getRmName();
 				MobApplicantPersonalDetail mobApplicantPersonalDetail =  applicationDetailsDAO.getMobApplicantPersonalDetails(appId,applicantId);
 				if(null != mobApplicantPersonalDetail) {
 					firstName = mobApplicantPersonalDetail.getFirstName();
@@ -147,7 +163,7 @@ public class KYCServiceImpl implements KYCService {
 					filename = filenameBuffer.append(date).append(".pdf").toString();
 
 					this.cleanDirectory(ignorePrevious, directory);
-					this.writePDF(image, directory, filename, startsWith, isLastPage, noOfPages, currentPageNo,ignorePrevious);
+					this.writePDF(image, directory, filename, startsWith, isLastPage, noOfPages, currentPageNo,ignorePrevious,rmName);
 				}
 
 				MobApplicantKycDocuments kycDocs = new MobApplicantKycDocuments();
@@ -204,6 +220,54 @@ public class KYCServiceImpl implements KYCService {
 		return response;
 	}
 
+	@Transactional(readOnly = false, rollbackFor = {Exception.class})
+	public KYCResponse updateStatusOnly(KYCDataRequest kycDataRequest){
+		KYCResponse response = new KYCResponse();
+		KYCDataResponse data = new KYCDataResponse();
+		if (this.validateKycReqStatusUpdate(kycDataRequest)) {
+			try {
+				Long appId = kycDataRequest.getAppId();
+				String rmId = kycDataRequest.getRmId();
+				
+				Date now = new Date(); 
+				
+				ApplicationReference appRef = new ApplicationReference();
+				appRef.setId(appId);
+				appRef.setAppStatus(STATUS_UNDER_PROCESSING); 
+				appRef.setUpdatedBy(rmId);
+				appRef.setUpdatedTime(now); 
+				dashBoardDao.updateAppStatus(appRef);
+				data.setSuccess("1");
+			} catch (Exception e) {
+				errorLog.error("Error : updateStatusOnly()", e);
+				MessageHeader msgHeader = new MessageHeader();
+				RequestError error = new RequestError();
+				error.setCd("002");
+				error.setCustomCode("ERR002");
+				error.setRsn("Server error : "+e);
+				msgHeader.setError(error);
+				response.setMsgHeader(msgHeader);
+				data.setSuccess("0");
+			}
+		} else {
+			MessageHeader msgHeader = new MessageHeader();
+			RequestError error = new RequestError();
+			error.setCd("001");
+			error.setCustomCode("ERR001");
+			error.setRsn("Invalid request for KYC upload.");
+			msgHeader.setError(error);
+			response.setMsgHeader(msgHeader);
+			data.setSuccess("0");
+			errorLog.error("Invalid input data in updateStatusOnly()");
+		}
+
+		response.setData(data);
+		debugLog.debug("response : "+response);
+		return response;
+	
+		
+	}
+	
 	/**
 	 * @param ignorePrevious
 	 * @param directory
@@ -251,6 +315,19 @@ public class KYCServiceImpl implements KYCService {
 			
 		}
 		debugLog.debug("isValid : " + isValid + " kycDataRequest : " + kycDataRequest + " image : " + image);
+		return isValid;
+	}
+	
+	private boolean validateKycReqStatusUpdate(KYCDataRequest kycDataRequest) {
+		boolean isValid = false;
+		if (null != kycDataRequest.getAppId()
+				&& null != kycDataRequest.getRmId() 
+				&& !kycDataRequest.getRmId().isEmpty()) {
+			
+				isValid = true;
+			
+		}
+		debugLog.debug("isValid : " + isValid + " kycDataRequest : " + kycDataRequest);
 		return isValid;
 	}
 	
@@ -315,7 +392,7 @@ public class KYCServiceImpl implements KYCService {
 	 * @throws Exception
 	 */
 	private void writePDF(InputStream image, String directory, String filename, final String startsWith,
-			Boolean isLastPage, String noOfPages, String currentPageNo, Boolean ignorePrevious) throws Exception {
+			Boolean isLastPage, String noOfPages, String currentPageNo, Boolean ignorePrevious, String rmName) throws Exception {
 
 		File directoryObj = new File(directory);
 		boolean isNew = false;
@@ -377,7 +454,7 @@ public class KYCServiceImpl implements KYCService {
 		}
 
 		if (isNew) {
-			this.createNewPDF(image, directory, filename);
+			this.createNewPDF(image, directory, filename, rmName);
 		}
 
 	}
@@ -432,7 +509,7 @@ public class KYCServiceImpl implements KYCService {
 	 * @throws BadElementException
 	 * @throws IOException
 	 */
-	private void createNewPDF(InputStream image, String directory, String filename)	throws DocumentException, FileNotFoundException, BadElementException, IOException {
+	private void createNewPDF(InputStream image, String directory, String filename, String rmName)	throws DocumentException, FileNotFoundException, BadElementException, IOException {
 		Document document = null;
 		try {
 			document = new Document(PageSize.A4);
@@ -448,6 +525,9 @@ public class KYCServiceImpl implements KYCService {
 			}
 			debugLog.debug("img.getHeight() : " + img.getHeight() + "img.getWidth() : " + img.getWidth());
 			document.open();
+			Font f=new Font(FontFamily.TIMES_ROMAN,10.0f);
+	        Paragraph p=new Paragraph("RM Name: "+rmName+", Date: "+(new Date().toString())+", \"Original Sighted\""+'\n'+'\n'+'\n'+'\n'+'\n'+'\n'+'\n'+'\n'+'\n'+'\n',f);
+	        document.add(p);
 			document.add(img);
 		} finally {
 			if(null != document) {
@@ -472,18 +552,21 @@ public class KYCServiceImpl implements KYCService {
 		
 		StringBuffer dmsdocsDirectoryBuffer = new StringBuffer();
 		StringBuffer sigDirectoryBuffer = new StringBuffer();
-		StringBuffer dmsdocSsharedPathBuffer = new StringBuffer();
-		StringBuffer sigSharedPathBuffer = new StringBuffer();
+		//StringBuffer dmsdocSsharedPathBuffer = new StringBuffer();
+		//StringBuffer sigSharedPathBuffer = new StringBuffer();
 
 		String sourceDmsdocsDirectoryName = dmsdocsDirectoryBuffer.append(DMSDOCS_PATH).append(applicantId).toString();
 		String sourceSigDirectoryName = sigDirectoryBuffer.append(SIG_PATH).append(applicantId).toString();
 		
 		dmsdocsDirectoryBuffer = new StringBuffer();
 		sigDirectoryBuffer =  new StringBuffer();
-		String destDmsdocsDirectoryName = dmsdocsDirectoryBuffer.append(DMSDOCS_PATH).append(cif).toString();
+		/*String destDmsdocsDirectoryName = dmsdocsDirectoryBuffer.append(DMSDOCS_PATH).append(cif).toString();
 		String desteSigDirectoryName = sigDirectoryBuffer.append(SIG_PATH).append(cif).toString();
 		String dmsdocsSharedPath = dmsdocSsharedPathBuffer.append(DMSDOCS_DEST_PATH).append(cif).toString();
-		String sigSharedPath = sigSharedPathBuffer.append(SIG_DEST_PATH).append(cif).toString();
+		String sigSharedPath = sigSharedPathBuffer.append(SIG_DEST_PATH).append(cif).toString();*/
+		
+		String destDmsdocsDirectoryName = dmsdocsDirectoryBuffer.append(DMSDOCS_DEST_PATH).append(cif).toString();
+		String desteSigDirectoryName = sigDirectoryBuffer.append(SIG_DEST_PATH).append(cif).toString();
 		
 		
 		File destDmsdocsDirectory = new File(destDmsdocsDirectoryName);
@@ -525,7 +608,7 @@ public class KYCServiceImpl implements KYCService {
 				kycDocs.getId().setApplicantId(applicantId);
 				kycDocs.getId().setDocId(docId);
 				kycDocs.setRecordId(recordNo);
-				kycDocs.setDocUrl(dmsdocsSharedPath + "/" + filename);
+				kycDocs.setDocUrl(destDmsdocsDirectoryName + "/" + filename);
 				kycDocs.setCreatedBy(rmId);
 				kycDocs.setCreatedDate(now);
 				kycDocs.setModifiedBy(rmId);
@@ -535,7 +618,7 @@ public class KYCServiceImpl implements KYCService {
 			}
 		}
 				
-		if(!isMinor || (sigfList!=null && sigfList.length>0))
+		if(!isMinor && sigfList!=null && sigfList.length>0)
 		{
 			for (File sigFile : sigfList) {
 				// AppId_ApplicantId_FN_LN_DocumentId_Date(DD-MM-YYY)_Time(HH-MM).jpg
@@ -550,7 +633,7 @@ public class KYCServiceImpl implements KYCService {
 				kycDocs.getId().setApplicantId(applicantId);
 				kycDocs.getId().setDocId(SIGNATURE);
 				kycDocs.setRecordId(recordNo);
-				kycDocs.setDocUrl(sigSharedPath + "/" + filename);
+				kycDocs.setDocUrl(desteSigDirectoryName + "/" + filename);
 				kycDocs.setCreatedBy(rmId);
 				kycDocs.setCreatedDate(now);
 				kycDocs.setModifiedBy(rmId);
@@ -587,6 +670,7 @@ public class KYCServiceImpl implements KYCService {
 		infoLog.info("Exit copyFile()");
 	}
 
+	
 
 
 }

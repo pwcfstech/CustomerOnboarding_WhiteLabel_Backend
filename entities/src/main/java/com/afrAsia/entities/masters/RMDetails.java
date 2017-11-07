@@ -31,6 +31,9 @@ public class RMDetails extends BaseMaster  implements Serializable{
 	
 	@Column(name = "FLEX_ID")
 	private String flex_Id;
+	
+	@Column(name = "RM_CODE")
+	private String rmCode;
 
 	@Column(name = "CREATED_BY")
 	private String createdBy;
@@ -122,6 +125,14 @@ public class RMDetails extends BaseMaster  implements Serializable{
 
 	public void setFlex_Id(String flex_Id) {
 		this.flex_Id = flex_Id;
+	}
+
+	public String getRmCode() {
+		return rmCode;
+	}
+
+	public void setRmCode(String rmCode) {
+		this.rmCode = rmCode;
 	}
 
 	@Override

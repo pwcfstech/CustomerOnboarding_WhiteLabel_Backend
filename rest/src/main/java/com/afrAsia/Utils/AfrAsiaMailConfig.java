@@ -4,6 +4,7 @@ public class AfrAsiaMailConfig {
 	String mailhost;
 	String mailport;
 	String mailFrom;
+	String username;
 	String mailPassword;
 	String smtpAuthRequired;
 	String smtpAuthstarttls;
@@ -24,6 +25,12 @@ public class AfrAsiaMailConfig {
 	}
 	public void setMailFrom(String mailFrom) {
 		this.mailFrom = mailFrom;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getMailPassword() {
 		return mailPassword;

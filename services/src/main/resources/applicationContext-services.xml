@@ -94,7 +94,7 @@
 	</bean>
 
 	<bean id="tokenServices"
-		class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
+		class="com.afrAsia.authenticate.impl.MoveInTokenServices">
 		<property name="tokenStore" ref="tokenStore" />
 		<property name="supportRefreshToken" value="true" />
 		<property name="clientDetailsService" ref="clientDetails" />
@@ -132,6 +132,7 @@
 		<property name="uploadKYCDao" ref="uploadKYCJpaDao" /> 
 		<property name="applicationDetailsDAO" ref="applicationDetailsJpaDAO" /> 
 		<property name="dashBoardDao" ref="dashBoardJpaDao" /> 
+		<property name="rmDetailsDAO" ref="rmDetailsDAO" /> 
 	</bean>
 	
 	<bean id="kycDocDownloadService" class="com.afrAsia.service.impl.KycDocDownloadServiceImpl">

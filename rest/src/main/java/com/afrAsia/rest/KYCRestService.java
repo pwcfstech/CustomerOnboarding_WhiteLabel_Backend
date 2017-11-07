@@ -1,6 +1,7 @@
 package com.afrAsia.rest;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 import javax.ws.rs.Consumes;
@@ -91,11 +92,19 @@ public class KYCRestService {
 		infoLog.info("Enter : uploadKYC2");
 		debugLog.debug("kycRequest :uploadKYC2 :: "+kycRequest);
 		KYCResponse response = null;
+		InputStream image = null;
 		try {
-			if (null != kycRequest) {
-				byte[] imageBytes = DatatypeConverter.parseBase64Binary(kycRequest.getData().getImage());
-				InputStream image = new ByteArrayInputStream(imageBytes);
-				response = kycService.uploadKYC(kycRequest.getData(), image);
+			if (null != kycRequest && null!=kycRequest.getData()) {
+				if(null!=kycRequest.getData().getDocId() && "UpdateStatus".equalsIgnoreCase(kycRequest.getData().getDocId()))
+				{
+					response = kycService.updateStatusOnly(kycRequest.getData());
+				}
+				else
+				{
+					byte[] imageBytes = DatatypeConverter.parseBase64Binary(kycRequest.getData().getImage());
+					image = new ByteArrayInputStream(imageBytes);
+					response = kycService.uploadKYC(kycRequest.getData(), image);
+				}
 			} else {
 				response = new KYCResponse();
 				KYCDataResponse data = new KYCDataResponse();
@@ -125,6 +134,16 @@ public class KYCRestService {
 			response.setData(null);
 			infoLog.info("Exit : uploadKYC2()");
 			return Response.status(Status.FORBIDDEN).entity(response).build();
+		}
+		finally{
+			if(image!=null)
+			{
+				try {
+					image.close();
+				} catch (IOException e) {
+					errorLog.error("Error while closing inputStream",e);
+				}
+			}
 		}
 		infoLog.info("Exit : uploadKYC2");
 		debugLog.debug("response : uploadKYC2 :: "+response);

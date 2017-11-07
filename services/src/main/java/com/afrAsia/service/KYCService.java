@@ -18,6 +18,7 @@ public interface KYCService {
 	 * @param image 
 	 * @return 
 	 */
-	KYCResponse uploadKYC(KYCDataRequest kycDataRequest, InputStream image);   
+	KYCResponse uploadKYC(KYCDataRequest kycDataRequest, InputStream image);
+	KYCResponse updateStatusOnly(KYCDataRequest kycDataRequest);
 	void copyKYCFiles(Long appId, Long applicantId, Long cif, Long recordNo, String rmId, Boolean isMinor) throws IOException;
 }

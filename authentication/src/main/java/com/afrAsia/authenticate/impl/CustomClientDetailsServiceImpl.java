@@ -99,7 +99,7 @@ public class CustomClientDetailsServiceImpl implements CustomClientDetailsServic
 			int accessTokenValidity, int refreshTokenValidity, String additionalInformation, String autoApprove)
 	{
 
-		RMDetails rmDetails = rmDetailsDAO.getRMDetailById(clientId, clientType);
+		RMDetails rmDetails = rmDetailsDAO.getRMDetailById(clientId,clientType);
 		//rmDetails.getRmName();
 		//rmDetails.setId("1");
 		//        User client = userDAO.findById(Integer.valueOf(clientId));

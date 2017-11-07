@@ -5,12 +5,22 @@ package com.afrAsia.entities.request;
  * @author nyalfernandes
  *
  */
-public class LoginDataRequest {
+public class LoginDataRequest 
+{
 	private String userId;
 	private String password;
 	private String deviceId;
 	private String ipAddress;
 	private String userType;
+	private String refreshToken;
+
+	public String getRefreshToken() {
+		return refreshToken;
+	}
+
+	public void setRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
+	}
 
 	public String getUserId() {
 		return userId;

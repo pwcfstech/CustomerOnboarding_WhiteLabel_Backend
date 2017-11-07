@@ -9,6 +9,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.util.StringUtils;
 
 /**
  * Class <code>CustomOauthAuthorization</code> manages client details
@@ -197,7 +198,8 @@ public class CustomOauthAuthorization implements ClientDetails
     public Set<String> getAuthorizedGrantTypes()
     {
         Set<String> authorizedGarntTypes = new HashSet<String>();
-        authorizedGarntTypes.add(clientAuthorizedGrantType);
+        authorizedGarntTypes = StringUtils.commaDelimitedListToSet(clientAuthorizedGrantType);
+        //authorizedGarntTypes.add(clientAuthorizedGrantType);
         return authorizedGarntTypes;
     }
 
@@ -209,11 +211,13 @@ public class CustomOauthAuthorization implements ClientDetails
     public Collection<GrantedAuthority> getAuthorities()
     {
         Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        CustomGrantedAuthority grantedAuthority = new CustomGrantedAuthority();
-        grantedAuthority.setAuthority(clientGrantedAuthority);
-        authorities.add(grantedAuthority);
         
-        debugLog.debug("authorities :: "+authorities);
+        for (String clientGrantedAuthority : StringUtils.commaDelimitedListToSet(clientGrantedAuthority))
+        {
+	        CustomGrantedAuthority grantedAuthority = new CustomGrantedAuthority();
+	        grantedAuthority.setAuthority(clientGrantedAuthority);
+	        authorities.add(grantedAuthority);
+        }
         return authorities;
     }
 
