@@ -314,7 +314,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	private boolean tryLdapConnection(String username, String password, String userType) throws Exception {
-		try {
+		/*try {
 		Hashtable<String, String> env = new Hashtable<String, String>();
 		String usernameAuth = "afrasiabank\\" +username;
 		env.put(Context.INITIAL_CONTEXT_FACTORY, contextFactory);
@@ -363,8 +363,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 					mail = mail.substring(6);
 				}
 				
-				 /*Start: Code Added by Avisha to add RM's email ID, Mob No
-				 and flex ID on 05/09*/
+				 Start: Code Added by Avisha to add RM's email ID, Mob No
+				 and flex ID on 05/09
 				 
 				RMDetails rmDetails = new RMDetails();
 				rmDetails.setId(username);
@@ -383,8 +383,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 					rmDetailsDAO.saveRmDetails(rmDetails);
 				}
 				
-				 /*End: Code Added by Avisha to add RM's email ID, Mob No
-				 and flex ID on 05/09*/
+				 End: Code Added by Avisha to add RM's email ID, Mob No
+				 and flex ID on 05/09
 				 
 
 				return true;
@@ -395,8 +395,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		errorLog.error("LDAP EXCEPTION", e);
 		throw new Exception();
 	}
-	throw new Exception();
-	/*RMDetails rmDetails = new RMDetails();
+	throw new Exception();*/
+	RMDetails rmDetails = new RMDetails();
 	rmDetails.setId(username);
 	rmDetails.setRmName("RM");
 	rmDetails.setUserGroup(userType.toUpperCase());
@@ -411,7 +411,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		rmDetails.setCreatedDate(new Date(System.currentTimeMillis()));
 		rmDetailsDAO.saveRmDetails(rmDetails);
 	}
-	return true;*/
+	return true;
 }
 
 	private SearchControls getSearchControls() {

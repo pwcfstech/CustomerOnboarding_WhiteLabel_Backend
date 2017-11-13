@@ -162,13 +162,14 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 					Map<String,Object> responseMap = null;
 					if(!accountCreationDetailsGrdn.isCifExist()){
 						infoLog.info("guardian create start"+accountCreationDetails.isCifExist());
-						responseMap = createCustomerStub.createAfrAsiaCustomer(userId,accountCreationDetailsGrdn.getMobCreateCustomerSOAPRequest() , null, rmDetails ,compDetails.getFlex_Id());
+						//Commented by Avisha for White Label version
+						//responseMap = createCustomerStub.createAfrAsiaCustomer(userId,accountCreationDetailsGrdn.getMobCreateCustomerSOAPRequest() , null, rmDetails ,compDetails.getFlex_Id());
 						infoLog.info("guardian create end");
-						/*Map<String,Object> responseMap = new HashMap<String, Object>();
+						responseMap = new HashMap<String, Object>();
 					responseMap.put("MSGSTAT", "SUCCESS");
-					responseMap.put("CUSTNO", "0001");
+					responseMap.put("CUSTNO", accountCreationDetailsGrdn.getMobCreateCustomerSOAPRequest().getMobAccountDetail().getIndvGuardianRefNo());
 					responseMap.put("ERROR", BLANK);
-					responseMap.put("WARNING", BLANK);*/
+					responseMap.put("WARNING", BLANK);
 
 
 						if( null != responseMap && responseMap.get(MSGSTAT).toString().equals(SUCCESS)){
@@ -195,12 +196,13 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 							accountDtlsMap.get(guardianName).setSoapResWarning(responseMap.get(WARNING));
 						}
 						// on success create junior account
-						Map<String,Object> jnrAccntResponseMap  = createCustomerStub.createAfrAsiaCustomer(userId,accountCreationDetails.getMobCreateCustomerSOAPRequest() , accountCreationDetailsGrdn.getMobCreateCustomerSOAPRequest(),rmDetails,compDetails.getFlex_Id());	
-						/*Map<String,Object> jnrAccntResponseMap = new HashMap<String, Object>();
+						//Commented by Avisha for White Label version
+						//Map<String,Object> jnrAccntResponseMap  = createCustomerStub.createAfrAsiaCustomer(userId,accountCreationDetails.getMobCreateCustomerSOAPRequest() , accountCreationDetailsGrdn.getMobCreateCustomerSOAPRequest(),rmDetails,compDetails.getFlex_Id());	
+						Map<String,Object> jnrAccntResponseMap = new HashMap<String, Object>();
 						jnrAccntResponseMap.put("MSGSTAT", "SUCCESS");
-						jnrAccntResponseMap.put("CUSTNO", "0002");
+						jnrAccntResponseMap.put("CUSTNO", accountCreationDetails.getMobCreateCustomerSOAPRequest().getMobAccountDetail().getIndvApplicantRefNo());
 						jnrAccntResponseMap.put("ERROR", BLANK);
-						jnrAccntResponseMap.put("WARNING", BLANK);*/
+						jnrAccntResponseMap.put("WARNING", BLANK);
 
 						String jnrAccntCifNo = null;
 						if( null != jnrAccntResponseMap && jnrAccntResponseMap.get(MSGSTAT).toString().equals(SUCCESS)){
@@ -233,12 +235,13 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 					}
 				}
 				else{
-					Map<String,Object> accntResponseMap = createCustomerStub.createAfrAsiaCustomer(userId,accountCreationDetails.getMobCreateCustomerSOAPRequest() , null,rmDetails,compDetails.getFlex_Id());
-					/*Map<String,Object> accntResponseMap = new HashMap<String, Object>();
+					//Commented by Avisha for White Label version
+					//Map<String,Object> accntResponseMap = createCustomerStub.createAfrAsiaCustomer(userId,accountCreationDetails.getMobCreateCustomerSOAPRequest() , null,rmDetails,compDetails.getFlex_Id());
+					Map<String,Object> accntResponseMap = new HashMap<String, Object>();
 					accntResponseMap.put("MSGSTAT", "SUCCESS");
-					accntResponseMap.put("CUSTNO", "0003");
+					accntResponseMap.put("CUSTNO", accountCreationDetails.getMobCreateCustomerSOAPRequest().getMobAccountDetail().getIndvApplicantRefNo());
 					accntResponseMap.put("ERROR", BLANK);
-					accntResponseMap.put("WARNING", BLANK);*/
+					accntResponseMap.put("WARNING", BLANK);
 
 					String accntCifNo = null;
 
@@ -296,10 +299,11 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 			else{
 				CreateAccountSOAP createAccountSOAP = new CreateAccountSOAP();
 				try {
-					createAfrAsiaAccount = createAccountSOAP.createAfrAsiaAccount(userId, accountDtlsMap,compDetails.getFlex_Id());
-					/*createAfrAsiaAccount = new HashMap<String, Object>();
-				createAfrAsiaAccount.put(ACCNO, "00009");
-				createAfrAsiaAccount.put(MSGSTAT, SUCCESS); */
+					//Commented by Avisha for White Label version
+					//createAfrAsiaAccount = createAccountSOAP.createAfrAsiaAccount(userId, accountDtlsMap,compDetails.getFlex_Id());
+					createAfrAsiaAccount = new HashMap<String, Object>();
+				createAfrAsiaAccount.put(ACCNO, "000000000"+appId);
+				createAfrAsiaAccount.put(MSGSTAT, SUCCESS); 
 
 					String accNo = null;
 
