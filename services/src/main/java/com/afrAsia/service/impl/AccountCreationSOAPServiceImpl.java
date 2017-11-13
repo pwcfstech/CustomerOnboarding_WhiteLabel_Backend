@@ -167,7 +167,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 						infoLog.info("guardian create end");
 						responseMap = new HashMap<String, Object>();
 					responseMap.put("MSGSTAT", "SUCCESS");
-					responseMap.put("CUSTNO", accountCreationDetailsGrdn.getMobCreateCustomerSOAPRequest().getMobAccountDetail().getIndvGuardianRefNo());
+					responseMap.put("CUSTNO", "000000000"+accountCreationDetailsGrdn.getMobCreateCustomerSOAPRequest().getMobAccountDetail().getIndvGuardianRefNo());
 					responseMap.put("ERROR", BLANK);
 					responseMap.put("WARNING", BLANK);
 
@@ -200,7 +200,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 						//Map<String,Object> jnrAccntResponseMap  = createCustomerStub.createAfrAsiaCustomer(userId,accountCreationDetails.getMobCreateCustomerSOAPRequest() , accountCreationDetailsGrdn.getMobCreateCustomerSOAPRequest(),rmDetails,compDetails.getFlex_Id());	
 						Map<String,Object> jnrAccntResponseMap = new HashMap<String, Object>();
 						jnrAccntResponseMap.put("MSGSTAT", "SUCCESS");
-						jnrAccntResponseMap.put("CUSTNO", accountCreationDetails.getMobCreateCustomerSOAPRequest().getMobAccountDetail().getIndvApplicantRefNo());
+						jnrAccntResponseMap.put("CUSTNO", "000000000"+accountCreationDetails.getMobCreateCustomerSOAPRequest().getMobAccountDetail().getIndvApplicantRefNo());
 						jnrAccntResponseMap.put("ERROR", BLANK);
 						jnrAccntResponseMap.put("WARNING", BLANK);
 
@@ -239,7 +239,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 					//Map<String,Object> accntResponseMap = createCustomerStub.createAfrAsiaCustomer(userId,accountCreationDetails.getMobCreateCustomerSOAPRequest() , null,rmDetails,compDetails.getFlex_Id());
 					Map<String,Object> accntResponseMap = new HashMap<String, Object>();
 					accntResponseMap.put("MSGSTAT", "SUCCESS");
-					accntResponseMap.put("CUSTNO", accountCreationDetails.getMobCreateCustomerSOAPRequest().getMobAccountDetail().getIndvApplicantRefNo());
+					accntResponseMap.put("CUSTNO", "000000000"+accountCreationDetails.getMobCreateCustomerSOAPRequest().getMobAccountDetail().getIndvApplicantRefNo());
 					accntResponseMap.put("ERROR", BLANK);
 					accntResponseMap.put("WARNING", BLANK);
 
