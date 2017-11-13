@@ -90,8 +90,8 @@ public class AccountCreateSoapWebService implements CreateCustomerSOAPConstants{
 				
 				applicationDetailsResp = getApplicationDetailsResp(createAccount, appId, recordId, userId);
 				
-				sendEmails(createAccount,applicationDetailsResp);
-				sendSMSToCustomer(createAccount);
+				//sendEmails(createAccount,applicationDetailsResp);
+				//sendSMSToCustomer(createAccount);
 				if (applicationDetailsResp!=null) {
 					return Response.ok(applicationDetailsResp, MediaType.APPLICATION_JSON).build();
 				}

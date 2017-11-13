@@ -88,10 +88,9 @@ public class AccountCreationRestService {
 					infoLog.info("Entered in create account Service");					
 					accountCreationResponse = accountCreationService.createAccount(accountCreationRequest);
 
-					sendEmails(accountCreationRequest,accountCreationResponse);
+					//sendEmails(accountCreationRequest,accountCreationResponse);
 
-					//sendEmailToCustomer(accountCreationRequest,accountCreationResponse);
-					sendSMSToCustomer(accountCreationRequest,accountCreationResponse);
+					//sendSMSToCustomer(accountCreationRequest,accountCreationResponse);
 
 				} else {
 					if (accountCreationRequest.getData().getRecordId() != null) {

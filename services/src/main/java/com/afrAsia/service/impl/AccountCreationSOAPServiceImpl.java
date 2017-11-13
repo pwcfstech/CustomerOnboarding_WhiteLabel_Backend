@@ -119,7 +119,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 		setAccDataRefDetails(JOINT5_GUARDIAN, accountDtlsMap, mobAccountDetails.getJoint5GuardianRefNo(),appId);		
 		//===========================================================================	
 
-		RMDetails compDetails = rmDetailsDAO.getRMDetailByRMId(userId);
+		//RMDetails compDetails = rmDetailsDAO.getRMDetailByRMId(userId);
 		
 		for( String key : accountDtlsMap.keySet()){
 
@@ -128,7 +128,7 @@ public class AccountCreationSOAPServiceImpl implements AccountCreationSOAPServic
 			if( null == accountCreationDetails){
 				continue;
 			}
-			RMDetails rmDetails = rmDetailsDAO.getRMDetailByRMId(accountCreationDetails.getMobCreateCustomerSOAPRequest().getMobRmAppRefId().getRmUsedId());
+			//RMDetails rmDetails = rmDetailsDAO.getRMDetailByRMId(accountCreationDetails.getMobCreateCustomerSOAPRequest().getMobRmAppRefId().getRmUsedId());
 			// if cif exist
 			if( accountCreationDetails.isCifExist()){
 				String cif = accountCreationDetails.getCif();

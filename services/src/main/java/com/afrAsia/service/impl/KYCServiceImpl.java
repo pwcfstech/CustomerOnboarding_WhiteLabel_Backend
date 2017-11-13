@@ -59,15 +59,15 @@ public class KYCServiceImpl implements KYCService {
 	
 	private static final String SIGNATURE = "Signature";
 	private static final String STATUS_UNDER_PROCESSING = "Under Processing";
-	private static final String SIG_PATH = "./Afrasia_Docs/Signature/";
-	private static final String DMSDOCS_PATH = "./Afrasia_Docs/dmsdocs/";
-	private static final String SIG_DEST_PATH = "./Afrasia_Docs_Flex/Signature/";
-	private static final String DMSDOCS_DEST_PATH = "./Afrasia_Docs_Flex/dmsdocs/";
+	private static final String SIG_PATH = "./Bank_Docs/Signature/";
+	private static final String DMSDOCS_PATH = "./Bank_Docs/dmsdocs/";
+	private static final String SIG_DEST_PATH = "./Bank_Docs_Flex/Signature/";
+	private static final String DMSDOCS_DEST_PATH = "./Bank_Docs_Flex/dmsdocs/";
 	
-	/*private static final String SIG_PATH = "./Afrasia_Docs_RmApp/Signature/";
-	private static final String DMSDOCS_PATH = "./Afrasia_Docs_RmApp/dmsdocs/";
-	private static final String SIG_DEST_PATH = "./Afrasia_Docs/Signature/";
-	private static final String DMSDOCS_DEST_PATH = "./Afrasia_Docs/dmsdocs/";*/
+	/*private static final String SIG_PATH = "./Bank_Docs_RmApp/Signature/";
+	private static final String DMSDOCS_PATH = "./Bank_Docs_RmApp/dmsdocs/";
+	private static final String SIG_DEST_PATH = "./Bank_Docs/Signature/";
+	private static final String DMSDOCS_DEST_PATH = "./Bank_Docs/dmsdocs/";*/
 	
 
 	private UploadKYCJpaDAO uploadKYCDao;
@@ -717,8 +717,8 @@ public class KYCServiceImpl implements KYCService {
 //	/*private final String SIG_SHARED_PATH = "C:/Signature/";
 //	private final String DMSDOCS_SHARED_PATH = "C:/dmsdocs/";*/
 //	
-//	private final String SIG_SHARED_PATH = "C:/App_Share_IN/Afrasia_Docs/Signature/";
-//	private final String DMSDOCS_SHARED_PATH = "C:/App_Share_IN/Afrasia_Docs/dmsdocs/"; 
+//	private final String SIG_SHARED_PATH = "C:/App_Share_IN/Bank_Docs/Signature/";
+//	private final String DMSDOCS_SHARED_PATH = "C:/App_Share_IN/Bank_Docs/dmsdocs/"; 
 //
 //	private UploadKYCDao uploadKYCDao;
 //

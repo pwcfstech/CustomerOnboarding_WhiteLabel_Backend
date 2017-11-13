@@ -48,11 +48,11 @@ public class UpdateApplCheckStatusServiceImpl implements UpdateApplCheckStatusSe
 	final static Logger infoLog = Logger.getLogger("infoLogger");
 	final static Logger errorLog = Logger.getLogger("errorLogger");
 
-	private static final String COMPDOCS_CC_PATH = "./Afrasia_Docs/complianceDocs/CC/";
-	private static final String COMPDOCS_IC_PATH = "./Afrasia_Docs/complianceDocs/IC/";
-	private static final String COMPDOCS_WC_PATH = "./Afrasia_Docs/complianceDocs/WC/";
-	private static final String COMPDOCS_KYC_PATH = "./Afrasia_Docs/complianceDocs/KYC/";
-	private static final String COMPDOCS_PATH = "./Afrasia_Docs/complianceDocs/";
+	private static final String COMPDOCS_CC_PATH = "./Bank_Docs/complianceDocs/CC/";
+	private static final String COMPDOCS_IC_PATH = "./Bank_Docs/complianceDocs/IC/";
+	private static final String COMPDOCS_WC_PATH = "./Bank_Docs/complianceDocs/WC/";
+	private static final String COMPDOCS_KYC_PATH = "./Bank_Docs/complianceDocs/KYC/";
+	private static final String COMPDOCS_PATH = "./Bank_Docs/complianceDocs/";
 	
 	private UpdateApplCheckStatusDAO updateApplCheckStatusDAO;
 	private RMDetailsDao rmDetailsDAO;
